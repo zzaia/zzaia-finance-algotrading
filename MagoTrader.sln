@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagoTrader.Web", "MagoTrader.Web\MagoTrader.Web.csproj", "{430A0700-1A6F-4682-A0C2-2A0CF09FE484}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagoTrader", "MagoTrader\MagoTrader.csproj", "{303EBBDA-81CF-4226-945C-E803C54A4E16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagoTrader.Web", "MagoTrader.Web\MagoTrader.Web.csproj", "{430A0700-1A6F-4682-A0C2-2A0CF09FE484}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MagoTrader.Core", "MagoTrader.Core\MagoTrader.Core.csproj", "{FED4C7C2-18EB-49FD-B9CB-4D2CBED8EF35}"
 EndProject

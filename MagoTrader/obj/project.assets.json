@@ -1,36 +1,132 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.0": {}
+    ".NETCoreApp,Version=v3.0": {
+      "MagoTrader.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "compile": {
+          "bin/placeholder/MagoTrader.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MagoTrader.Core.dll": {}
+        }
+      },
+      "MagoTrader.Data/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "MagoTrader.Core": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MagoTrader.Data.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MagoTrader.Data.dll": {}
+        }
+      },
+      "MagoTrader.Services/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.0",
+        "dependencies": {
+          "MagoTrader.Core": "1.0.0",
+          "MagoTrader.Data": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/MagoTrader.Services.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MagoTrader.Services.dll": {}
+        }
+      },
+      "MagoTrader.Web/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.0",
+        "compile": {
+          "bin/placeholder/MagoTrader.Web.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/MagoTrader.Web.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "MagoTrader.Core/1.0.0": {
+      "type": "project",
+      "path": "../MagoTrader.Core/MagoTrader.Core.csproj",
+      "msbuildProject": "../MagoTrader.Core/MagoTrader.Core.csproj"
+    },
+    "MagoTrader.Data/1.0.0": {
+      "type": "project",
+      "path": "../MagoTrader.Data/MagoTrader.Data.csproj",
+      "msbuildProject": "../MagoTrader.Data/MagoTrader.Data.csproj"
+    },
+    "MagoTrader.Services/1.0.0": {
+      "type": "project",
+      "path": "../MagoTrader.Services/MagoTrader.Services.csproj",
+      "msbuildProject": "../MagoTrader.Services/MagoTrader.Services.csproj"
+    },
+    "MagoTrader.Web/1.0.0": {
+      "type": "project",
+      "path": "../MagoTrader.Web/MagoTrader.Web.csproj",
+      "msbuildProject": "../MagoTrader.Web/MagoTrader.Web.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.0": []
+    ".NETCoreApp,Version=v3.0": [
+      "MagoTrader.Core >= 1.0.0",
+      "MagoTrader.Data >= 1.0.0",
+      "MagoTrader.Services >= 1.0.0",
+      "MagoTrader.Web >= 1.0.0"
+    ]
   },
   "packageFolders": {
-    "/home/raphael/.nuget/packages/": {}
+    "C:\\Users\\Raphael\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/raphael/Git-Repo/MagoTrader/MagoTrader/MagoTrader.csproj",
+      "projectUniqueName": "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader\\MagoTrader.csproj",
       "projectName": "MagoTrader",
-      "projectPath": "/home/raphael/Git-Repo/MagoTrader/MagoTrader/MagoTrader.csproj",
-      "packagesPath": "/home/raphael/.nuget/packages/",
-      "outputPath": "/home/raphael/Git-Repo/MagoTrader/MagoTrader/obj/",
+      "projectPath": "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader\\MagoTrader.csproj",
+      "packagesPath": "C:\\Users\\Raphael\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "/home/raphael/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\Raphael\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp3.0": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Core\\MagoTrader.Core.csproj": {
+              "projectPath": "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Core\\MagoTrader.Core.csproj"
+            },
+            "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Data\\MagoTrader.Data.csproj": {
+              "projectPath": "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Data\\MagoTrader.Data.csproj"
+            },
+            "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Services\\MagoTrader.Services.csproj": {
+              "projectPath": "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Services\\MagoTrader.Services.csproj"
+            },
+            "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Web\\MagoTrader.Web.csproj": {
+              "projectPath": "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Web\\MagoTrader.Web.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -53,7 +149,19 @@
         "warn": true,
         "downloadDependencies": [
           {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[3.0.1, 3.0.1]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[3.0.1, 3.0.1]"
+          },
+          {
             "name": "Microsoft.NETCore.App.Ref",
+            "version": "[3.0.0, 3.0.0]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
             "version": "[3.0.0, 3.0.0]"
           }
         ],
@@ -62,7 +170,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.0.101/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
       }
     }
   }

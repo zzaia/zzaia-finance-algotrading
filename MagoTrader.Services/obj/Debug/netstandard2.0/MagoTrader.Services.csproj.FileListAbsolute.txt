@@ -1,0 +1,13 @@
+C:\Users\Raphael\Documents\repo\MagoTrader\MagoTrader.Services\bin\Debug\netstandard2.0\MagoTrader.Services.deps.json
+C:\Users\Raphael\Documents\repo\MagoTrader\MagoTrader.Services\bin\Debug\netstandard2.0\MagoTrader.Services.dll
+C:\Users\Raphael\Documents\repo\MagoTrader\MagoTrader.Services\bin\Debug\netstandard2.0\MagoTrader.Services.pdb
+C:\Users\Raphael\Documents\repo\MagoTrader\MagoTrader.Services\bin\Debug\netstandard2.0\MagoTrader.Core.dll
+C:\Users\Raphael\Documents\repo\MagoTrader\MagoTrader.Services\bin\Debug\netstandard2.0\MagoTrader.Data.dll
+C:\Users\Raphael\Documents\repo\MagoTrader\MagoTrader.Services\bin\Debug\netstandard2.0\MagoTrader.Core.pdb
+C:\Users\Raphael\Documents\repo\MagoTrader\MagoTrader.Services\bin\Debug\netstandard2.0\MagoTrader.Data.pdb
+C:\Users\Raphael\Documents\repo\MagoTrader\MagoTrader.Services\obj\Debug\netstandard2.0\MagoTrader.Services.csprojAssemblyReference.cache
+C:\Users\Raphael\Documents\repo\MagoTrader\MagoTrader.Services\obj\Debug\netstandard2.0\MagoTrader.Services.AssemblyInfoInputs.cache
+C:\Users\Raphael\Documents\repo\MagoTrader\MagoTrader.Services\obj\Debug\netstandard2.0\MagoTrader.Services.AssemblyInfo.cs
+C:\Users\Raphael\Documents\repo\MagoTrader\MagoTrader.Services\obj\Debug\netstandard2.0\MagoTrader.Services.csproj.CopyComplete
+C:\Users\Raphael\Documents\repo\MagoTrader\MagoTrader.Services\obj\Debug\netstandard2.0\MagoTrader.Services.dll
+C:\Users\Raphael\Documents\repo\MagoTrader\MagoTrader.Services\obj\Debug\netstandard2.0\MagoTrader.Services.pdb
