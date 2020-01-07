@@ -15,8 +15,9 @@ namespace MagoTrader.Core
                      -> TAKE_PROFIT_LIMIT: Trigger a limit order when "stopPrice" are crossed from below;
         ======================================================================================================= */
     HOLD,
-    MARKET_BUY,
+    LIMIT_BUY,
     LIMIT_SELL,
+    MARKET_BUY,
     MARKET_SELL,
     STOP_LOSS,
     TAKE_PROFIT,
