@@ -4,7 +4,6 @@ namespace MagoTrader.Core
 {
     public class TimeLog
     {
-  
         private DateTime _datetime;
         public DateTime CurrentDateTime{
             get { return _datetime; }
@@ -15,7 +14,12 @@ namespace MagoTrader.Core
         public Int32 CurrentTimestamp
         {
             get { return _timestamp ; }
-            set { _timestamp = this.CurrentDateTime; }
+            set { _timestamp = DateTimeToTimestamp(CurrentDateTime);}
+        }
+
+        public Int32 DateTimeToTimestamp(DateTime dt)
+        {
+            return Convert.ToInt32(new DateTimeOffset(dt).ToUnixTimeMilliseconds());
         }
 
     }
