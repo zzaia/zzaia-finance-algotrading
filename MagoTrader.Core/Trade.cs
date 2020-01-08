@@ -4,12 +4,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MagoTrader.Core
 {
-    public class Trade : TimeLog
+    public class Trade 
     {
         /*  ======================================================================================================================
             A trade object for use within trading environments 
             Args: -> ticker: The asset ticker, ex: BTC/USD;
-                  -> order_type: The type of order executed (0 = HOLD, 1=LIMIT_BUY, 2=MARKET_BUY, 3=LIMIT_SELL, 4=MARKET_SELL);
                   -> amount: The amount of ticker asset to be traded;
                   -> price: The price paid per asset unit in limit orders.
 
@@ -19,50 +18,45 @@ namespace MagoTrader.Core
             ====================================================================================================================== */
         
         [Required, StringLength(7)]
-        public readonly string Ticker;
+        public string Ticker { get;  }
         [Required]
-        public readonly OrderType Type;
+        public double Amount { get;  }
         [Required]
-        public readonly double Amount;
+        public double Price { get;  }
         [Required]
-        public readonly double Price;
-        [Required]
-        public readonly DateTime DateTimeFromCreation;
+        public Order Order { get;  }
+ 
         public Trade(string ticker, OrderType type, double amount, double price)
         {
             Ticker = ticker;
-            Type = type;
             Amount = amount;
             Price = price;
-            DateTimeFromCreation = CurrentDateTime;
-            Status = OrderStatus.CREATED;
+            Order = new Order(type);
         }
 
-        public OrderStatus Status { get; set; }
         public int Id { get; set; }
         public double Cost { get; set; }
         public double Fee { get; set; }
         public double Filled { get; set; }
         public double Remaining { get; set; }
-        public DateTime LastTradeDateTime { get; set; }
-        public DateTime LastDateTimeToBeValid { get; set; }
 
-        public bool IsPlaced { get { return Status == OrderStatus.PLACED; } }
-        public bool IsCreated { get { return Status == OrderStatus.CREATED; } }
-        public bool IsCanceled { get { return Status == OrderStatus.CANCELED; } }
-        public bool IsOpen { get { return Status == OrderStatus.OPEN; } }
-        public bool IsHold { get { return Type == OrderType.HOLD; } }
-        public bool IsBuy { get { return Type == OrderType.MARKET_BUY || Type == OrderType.LIMIT_BUY; } }
+        public bool IsPlaced { get { return Order.Status == OrderStatus.PLACED; } }
+        public bool IsCreated { get { return Order.Status == OrderStatus.CREATED; } }
+        public bool IsCanceled { get { return Order.Status == OrderStatus.CANCELED; } }
+        public bool IsOpen { get { return Order.Status == OrderStatus.OPEN; } }
+        public bool IsValid { get { return Order.IsValid; } }
+        public bool IsHold { get { return Order.Type == OrderType.HOLD; } }
+        public bool IsBuy { get { return Order.Type == OrderType.MARKET_BUY || Order.Type == OrderType.LIMIT_BUY; } }
         public bool IsSell
         {
             get
             {
-                return Type == OrderType.MARKET_SELL ||
-                    Type == OrderType.LIMIT_SELL ||
-                    Type == OrderType.STOP_LOSS ||
-                    Type == OrderType.STOP_LOSS_LIMIT ||
-                    Type == OrderType.TAKE_PROFIT ||
-                    Type == OrderType.TAKE_PROFIT_LIMIT;
+                return Order.Type == OrderType.MARKET_SELL ||
+                    Order.Type == OrderType.LIMIT_SELL ||
+                    Order.Type == OrderType.STOP_LOSS ||
+                    Order.Type == OrderType.STOP_LOSS_LIMIT ||
+                    Order.Type == OrderType.TAKE_PROFIT ||
+                    Order.Type == OrderType.TAKE_PROFIT_LIMIT;
             }
         }
 
@@ -70,10 +64,10 @@ namespace MagoTrader.Core
         {
             get
             {
-                return Type == OrderType.LIMIT_SELL ||
-                       Type == OrderType.LIMIT_BUY ||
-                       Type == OrderType.STOP_LOSS_LIMIT ||
-                       Type == OrderType.TAKE_PROFIT_LIMIT;
+                return Order.Type == OrderType.LIMIT_SELL ||
+                       Order.Type == OrderType.LIMIT_BUY ||
+                       Order.Type == OrderType.STOP_LOSS_LIMIT ||
+                       Order.Type == OrderType.TAKE_PROFIT_LIMIT;
             }
         }
 
@@ -81,27 +75,12 @@ namespace MagoTrader.Core
         {
             get
             {
-                return Type == OrderType.MARKET_SELL ||
-                       Type == OrderType.MARKET_BUY ||
-                       Type == OrderType.STOP_LOSS ||
-                       Type == OrderType.TAKE_PROFIT;
+                return Order.Type == OrderType.MARKET_SELL ||
+                       Order.Type == OrderType.MARKET_BUY ||
+                       Order.Type == OrderType.STOP_LOSS ||
+                       Order.Type == OrderType.TAKE_PROFIT;
             }
         }
-        public bool IsValid
-        // Returns, whether the placed order still time valid
-        {
-            get
-            {
-                if (LastDateTimeToBeValid != null)
-                {
-                    if(CurrentDateTime < LastDateTimeToBeValid ){
-                        return true;
-
-                    }
-                }
-                return true;
-            }
-        }
-
+       
     }
 }

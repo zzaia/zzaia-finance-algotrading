@@ -1,3 +1,5 @@
+﻿using System;
+
 namespace MagoTrader.Core
 {
     public enum OrderStatus
@@ -15,5 +17,5 @@ namespace MagoTrader.Core
     CANCELED,
     OPEN,
     CLOSED
-    }
+    } 
 }

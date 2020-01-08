@@ -9,15 +9,16 @@ namespace MagoTrader.Core
             get { return _datetime; }
             set { _datetime = DateTime.UtcNow; }
         }
-        
         private Int32 _timestamp;
         public Int32 CurrentTimestamp
         {
             get { return _timestamp ; }
             set { _timestamp = DateTimeToTimestamp(CurrentDateTime);}
         }
-
-        public Int32 DateTimeToTimestamp(DateTime dt)
+       // public Int32 ToTimestamp{
+       //     get{return Convert.ToInt32(new DateTimeOffset(_datetime).ToUnixTimeMilliseconds());}
+       // }
+        public static Int32 DateTimeToTimestamp(DateTime dt)
         {
             return Convert.ToInt32(new DateTimeOffset(dt).ToUnixTimeMilliseconds());
         }
