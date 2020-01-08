@@ -1,8 +1,8 @@
 using System;
 
-namespace MagoTrader.Core
+namespace MagoTrader.Core.Models
 {
-    public class TimeLog
+    public class TimeData
     {
         private DateTime _datetime;
         public DateTime CurrentDateTime{

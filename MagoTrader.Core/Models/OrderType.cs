@@ -1,4 +1,4 @@
-namespace MagoTrader.Core
+namespace MagoTrader.Core.Models
 {
     public enum OrderType
     {
@@ -7,8 +7,8 @@ namespace MagoTrader.Core
         Order Types: -> HOLD
                      -> LIMIT_BUY: Buy order at a given limit price, may not be completed; 
                      -> LIMIT_SELL: Sell order at a given limit price, may not be completed; 
-                     -> MARKET_BUY: Buy order immediately at current market price, can suffer price slippage;
-                     -> MARKET_SELL: Sell order immediately at current market price, can suffer slippage;
+                     -> MARKET_BUY: Buy order by amount immediately at current market price, can suffer price slippage;
+                     -> MARKET_SELL: Sell order by amount immediately at current market price, can suffer slippage;
                      -> STOP_LOSS: Trigger a market order when "stopPrice" are crossed from above;
                      -> TAKE_PROFIT: Trigger a market order when "stopPrice" are crossed from below;                     
                      -> STOP_LOSS_LIMIT: Trigger a limit order when "stopPrice" are crossed from above;

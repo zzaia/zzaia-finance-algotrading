@@ -16,29 +16,15 @@ namespace MagoTrader.Core
                     -> 'test': Check if it's valid but don't actually place it, [Binance Only][bool];
                     -> 'stopPrice' : Price in which the STOP_LOSS or TAKE_PROFIT type of trade will be triggered;
             ====================================================================================================================== */
-        
-        [Required, StringLength(7)]
-        public string Ticker { get;  }
-        [Required]
-        public double Amount { get;  }
-        [Required]
-        public double Price { get;  }
         [Required]
         public Order Order { get;  }
- 
-        public Trade(string ticker, OrderType type, double amount, double price)
+        public Trade(string ticker, OrderType type, double amount, double price, DateTime validity)//, DateTime validity = unknown)
         {
-            Ticker = ticker;
-            Amount = amount;
-            Price = price;
-            Order = new Order(type);
+
+            Order = new Order(type,validity);
         }
 
-        public int Id { get; set; }
-        public double Cost { get; set; }
-        public double Fee { get; set; }
-        public double Filled { get; set; }
-        public double Remaining { get; set; }
+        
 
         public bool IsPlaced { get { return Order.Status == OrderStatus.PLACED; } }
         public bool IsCreated { get { return Order.Status == OrderStatus.CREATED; } }

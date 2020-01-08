@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MagoTrader.Core
+namespace MagoTrader.Core.Models
 {
     public enum OrderStatus
     {
