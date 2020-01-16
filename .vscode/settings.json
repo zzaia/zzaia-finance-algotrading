@@ -1,3 +1,9 @@
 {
-    "vscode-corda.isCordaProject": false
+    "vscode-corda.isCordaProject": false,
+    "files.exclude": {
+        "**/.classpath": true,
+        "**/.project": true,
+        "**/.settings": true,
+        "**/.factorypath": true
+    }
 }

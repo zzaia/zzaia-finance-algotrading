@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/MagoTrader/MagoTrader.csproj",
+                "${workspaceFolder}/MagoTrader.Web/MagoTrader.Web.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/MagoTrader/MagoTrader.csproj",
+                "${workspaceFolder}/MagoTrader.Web/MagoTrader.Web.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/MagoTrader/MagoTrader.csproj",
+                "${workspaceFolder}/MagoTrader.Web/MagoTrader.Web.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

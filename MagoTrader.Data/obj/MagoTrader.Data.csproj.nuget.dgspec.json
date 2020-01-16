@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Data\\MagoTrader.Data.csproj": {}
+    "C:\\Users\\rapha\\repos\\MagoTrader\\MagoTrader.Data\\MagoTrader.Data.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Core\\MagoTrader.Core.csproj": {
+    "C:\\Users\\rapha\\repos\\MagoTrader\\MagoTrader.Core\\MagoTrader.Core.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Core\\MagoTrader.Core.csproj",
+        "projectUniqueName": "C:\\Users\\rapha\\repos\\MagoTrader\\MagoTrader.Core\\MagoTrader.Core.csproj",
         "projectName": "MagoTrader.Core",
-        "projectPath": "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Core\\MagoTrader.Core.csproj",
-        "packagesPath": "C:\\Users\\Raphael\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Core\\obj\\",
+        "projectPath": "C:\\Users\\rapha\\repos\\MagoTrader\\MagoTrader.Core\\MagoTrader.Core.csproj",
+        "packagesPath": "C:\\Users\\rapha\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\rapha\\repos\\MagoTrader\\MagoTrader.Core\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Raphael\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\rapha\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -46,6 +43,10 @@
               "target": "Package",
               "version": "[2.0.3, )",
               "autoReferenced": true
+            },
+            "System.ComponentModel.Annotations": {
+              "target": "Package",
+              "version": "[4.7.0, )"
             }
           },
           "imports": [
@@ -62,20 +63,17 @@
         }
       }
     },
-    "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Data\\MagoTrader.Data.csproj": {
+    "C:\\Users\\rapha\\repos\\MagoTrader\\MagoTrader.Data\\MagoTrader.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Data\\MagoTrader.Data.csproj",
+        "projectUniqueName": "C:\\Users\\rapha\\repos\\MagoTrader\\MagoTrader.Data\\MagoTrader.Data.csproj",
         "projectName": "MagoTrader.Data",
-        "projectPath": "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Data\\MagoTrader.Data.csproj",
-        "packagesPath": "C:\\Users\\Raphael\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Data\\obj\\",
+        "projectPath": "C:\\Users\\rapha\\repos\\MagoTrader\\MagoTrader.Data\\MagoTrader.Data.csproj",
+        "packagesPath": "C:\\Users\\rapha\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\rapha\\repos\\MagoTrader\\MagoTrader.Data\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Raphael\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\rapha\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -88,8 +86,8 @@
         "frameworks": {
           "netstandard2.0": {
             "projectReferences": {
-              "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Core\\MagoTrader.Core.csproj": {
-                "projectPath": "C:\\Users\\Raphael\\Documents\\repo\\MagoTrader\\MagoTrader.Core\\MagoTrader.Core.csproj"
+              "C:\\Users\\rapha\\repos\\MagoTrader\\MagoTrader.Core\\MagoTrader.Core.csproj": {
+                "projectPath": "C:\\Users\\rapha\\repos\\MagoTrader\\MagoTrader.Core\\MagoTrader.Core.csproj"
               }
             }
           }
@@ -103,6 +101,20 @@
       "frameworks": {
         "netstandard2.0": {
           "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.1, )"
+            },
             "NETStandard.Library": {
               "suppressParent": "All",
               "target": "Package",
