@@ -4,16 +4,15 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace MagoTrader.Data.Configurations
 {
-    public class MusicConfiguration : IEntityTypeConfiguration<Music>
+    public class OHLCVConfiguration : IEntityTypeConfiguration<OHLCV>
     {
-        public void Configure(EntityTypeBuilder<Music> builder)
+        public void Configure(EntityTypeBuilder<OHLCV> builder)
         {
             builder
                 .HasKey(m => m.Id);
 
             builder
-                .Pro
-                perty(m => m.Id)
+                .Property(m => m.Id)
                 .UseIdentityColumn();
                 
             builder
@@ -22,12 +21,12 @@ namespace MagoTrader.Data.Configurations
                 .HasMaxLength(50);
 
             builder
-                .HasOne(m => m.Artist)
+                .HasOne(m => m.DateTime)
                 .WithMany(a => a.Musics)
                 .HasForeignKey(m => m.ArtistId);
 
             builder
-                .ToTable("Musics");
+                .ToTable("OHLCV");
         }
     }
 }

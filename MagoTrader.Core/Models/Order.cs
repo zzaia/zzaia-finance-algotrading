@@ -22,9 +22,9 @@ namespace MagoTrader.Core.Models
         [Required]
         public int Id { get; set; }
         [Required]
-        public string Exchange{get; set;}
-        [Required, StringLength(7)]
-        public string Ticker { get; private set; }
+        public Exchange Exchange{get; set;}
+        [Required, StringLength(9)]
+        public Ticker Ticker { get; private set; }
         [Required]
         public OrderType Type { get; private set; }
         public double Amount { get; private set; }
