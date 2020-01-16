@@ -21,6 +21,8 @@ namespace MagoTrader.Core.Models
         private SortedList<DateTime, OrderStatus> _status;
         [Required]
         public int Id { get; set; }
+        [Required]
+        public string Exchange{get; set;}
         [Required, StringLength(7)]
         public string Ticker { get; private set; }
         [Required]
@@ -46,7 +48,7 @@ namespace MagoTrader.Core.Models
                 _status.Add(CurrentDateTime, value);
             }
         }
-        public Order(string ticker, OrderType type, double? amount = null, double? price = null, double? stopPrice = null, DateTime? validity = null)//, DateTime validity = default(DateTime))
+        public Order(string ticker, OrderType type, double amount, double price, double stopPrice, DateTime validity)//, DateTime validity = default(DateTime))
         {
             _status = new SortedList<DateTime, OrderStatus>();
             Ticker = ticker;
@@ -57,6 +59,7 @@ namespace MagoTrader.Core.Models
             StopPrice = stopPrice;
             Validity = validity;
         }
+        /*
         public bool IsValid
         // Returns, whether the placed order still time valid
         {
@@ -109,6 +112,6 @@ namespace MagoTrader.Core.Models
                        Order.Type == OrderType.TAKE_PROFIT;
             }
         }
-
+        */
     }
 }

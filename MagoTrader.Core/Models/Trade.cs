@@ -1,30 +1,22 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-
+using MagoTrader.Core.Models;
 
 namespace MagoTrader.Core
 {
     public class Trade 
     {
         /*  ======================================================================================================================
-            A trade object for use within trading environments 
-            Args: -> ticker: The asset ticker, ex: BTC/USD;
-                  -> amount: The amount of ticker asset to be traded;
-                  -> price: The price paid per asset unit in limit orders.
-
-            Params: -> 'validity': The period in which the trade will be consider valid [ms];
-                    -> 'test': Check if it's valid but don't actually place it, [Binance Only][bool];
-                    -> 'stopPrice' : Price in which the STOP_LOSS or TAKE_PROFIT type of trade will be triggered;
+           
             ====================================================================================================================== */
-        [Required]
-        public Order Order { get;  }
-        public Trade(string ticker, OrderType type, double amount, double price, DateTime validity)//, DateTime validity = unknown)
+        public Order Order;
+        public Order StopOrder;
+        public Trade(string ticker, OrderType type, double amount = null, double? price = null, double? stopPrice = null, DateTime? validity = null)//, DateTime validity = default(DateTime))
         {
 
-            Order = new Order(type,validity);
+            Orders = new Order(type,validity);
         }
-
-        
 
         public bool IsPlaced { get { return Order.Status == OrderStatus.PLACED; } }
         public bool IsCreated { get { return Order.Status == OrderStatus.CREATED; } }

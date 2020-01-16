@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace MagoTrader.Core.Models
 {
-    public interface ITradeService
+    public interface ITradeService : ITrade
     {
         Task ExecuteOrders(List<Order> orders);
         Task ExecuteOrder(Order orders);
