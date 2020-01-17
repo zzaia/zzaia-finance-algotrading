@@ -27,13 +27,13 @@ namespace MagoTrader.Core.Models
         public Ticker Ticker { get; private set; }
         [Required]
         public OrderType Type { get; private set; }
-        public double Amount { get; private set; }
-        public double Price { get; private set; }
-        public double StopPrice { get; private set; }
-        public DateTime Validity { get; private set; }
+        public double? Amount { get; private set; }
+        public Decimal? Price { get; private set; }
+        public Decimal? StopPrice { get; private set; }
+        public DateTime? Validity { get; private set; }
 
-        public double Cost { get; set; }
-        public double Fee { get; set; }
+        public Decimal Cost { get; set; }
+        public Decimal Fee { get; set; }
         public double Filled { get; set; }
         public double Remaining { get; set; }
 
@@ -48,7 +48,7 @@ namespace MagoTrader.Core.Models
                 _status.Add(CurrentDateTime, value);
             }
         }
-        public Order(string ticker, OrderType type, double amount, double price, double stopPrice, DateTime validity)//, DateTime validity = default(DateTime))
+        public Order(Ticker ticker, OrderType type, double? amount, Decimal? price, Decimal? stopPrice, DateTime? validity)//, DateTime validity = default(DateTime))
         {
             _status = new SortedList<DateTime, OrderStatus>();
             Ticker = ticker;
@@ -59,7 +59,7 @@ namespace MagoTrader.Core.Models
             StopPrice = stopPrice;
             Validity = validity;
         }
-        /*
+
         public bool IsValid
         // Returns, whether the placed order still time valid
         {
@@ -72,6 +72,7 @@ namespace MagoTrader.Core.Models
                 return false;
             }
         }
+        /*
         public bool IsPlaced { get { return Order.Status == OrderStatus.PLACED; } }
         public bool IsCreated { get { return Order.Status == OrderStatus.CREATED; } }
         public bool IsCanceled { get { return Order.Status == OrderStatus.CANCELED; } }

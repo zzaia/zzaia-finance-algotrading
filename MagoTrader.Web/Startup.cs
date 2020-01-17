@@ -6,10 +6,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MagoTrader.Web.Data;
+using MagoTrader.Core;
+using MagoTrader.Data;
 
 namespace MagoTrader.Web
 {
@@ -26,7 +29,14 @@ namespace MagoTrader.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddDbContextPool<MagoTraderDbContext>();
+            //------- DB Context configuration --------
+            services.AddDbContextPool<MagoTraderDbContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("MagoTraderSQLDB"));
+            });
+            services.AddScoped<IUnitOfWork, UnitOfWork>(); //It has all implemented data repositories inside;
+            //-----------------------------------------
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();

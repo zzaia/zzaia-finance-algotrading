@@ -4,7 +4,7 @@ namespace MagoTrader.Core.Models
 {
     public class Price
     {
-        public double Value{get; set;}
-        public int Precision{get; set;}
+        public int Id {get; set;}
+        public Decimal Value {get; set;}
     }
 }

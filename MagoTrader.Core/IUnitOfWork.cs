@@ -7,7 +7,8 @@ namespace MagoTrader.Core
     public interface IUnitOfWork : IDisposable
     {
         IOHLCVRepository OHLCV { get; }
-        IOrderRepository Order { get; }
+        IExchangeRepository Exchange { get; }
+        //IOrderRepository Order { get; }
         Task<int> CommitAsync();
     }
 }
