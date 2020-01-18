@@ -12,10 +12,9 @@ namespace MagoTrader.Core
             ====================================================================================================================== */
         public Order Order;
         public Order StopOrder;
-        public Trade(string ticker, OrderType type, double amount = null, double? price = null, double? stopPrice = null, DateTime? validity = null)//, DateTime validity = default(DateTime))
+        public Trade(Ticker ticker, OrderType type, double? amount = null, Decimal? price = null, Decimal? stopPrice = null, DateTime? validity = null)//, DateTime validity = default(DateTime))
         {
-
-            Orders = new Order(type,validity);
+            Order = new Order(ticker, type, amount, price, stopPrice, validity);
         }
 
         public bool IsPlaced { get { return Order.Status == OrderStatus.PLACED; } }
