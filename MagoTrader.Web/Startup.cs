@@ -13,6 +13,10 @@ using Microsoft.Extensions.Hosting;
 using MagoTrader.Web.Data;
 using MagoTrader.Core;
 using MagoTrader.Data;
+using MagoTrader.Core.Repositories;
+using MagoTrader.Exchange.MercadoBitcoin.Public;
+//using MagoTrader.Data.Repositories;
+//using MagoTrader.Exchange.Repositories;
 
 namespace MagoTrader.Web
 {
@@ -35,11 +39,13 @@ namespace MagoTrader.Web
                 options.UseSqlServer(Configuration.GetConnectionString("MagoTraderSQLDB"));
             });
             services.AddScoped<IUnitOfWork, UnitOfWork>(); //It has all implemented data repositories inside;
-            //-----------------------------------------
-
+            //-----------API Access------------------------------
+            services.AddHttpClient<IFetchDataService,FetchDataService>(client => {
+                client.BaseAddress = new Uri("https://www.mercadobitcoin.net/api/");
+            });
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddSingleton<WeatherForecastService>();
+            //services.AddScoped<IFetchDataService,FetchFakeDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

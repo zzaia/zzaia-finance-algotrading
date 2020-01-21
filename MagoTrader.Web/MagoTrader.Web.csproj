@@ -2,6 +2,7 @@
   <ItemGroup>
     <ProjectReference Include="..\MagoTrader.Core\MagoTrader.Core.csproj" />
     <ProjectReference Include="..\MagoTrader.Data\MagoTrader.Data.csproj" />
+    <ProjectReference Include="..\MagoTrader.Exchange\MagoTrader.Exchange.csproj" />
   </ItemGroup>
   
   <PropertyGroup>
