@@ -64,13 +64,6 @@ using Microsoft.JSInterop;
 #nullable disable
 #nullable restore
 #line 8 "C:\Users\rapha\repos\MagoTrader\MagoTrader.Web\_Imports.razor"
-using MagoTrader.Web;
-
-#line default
-#line hidden
-#nullable disable
-#nullable restore
-#line 9 "C:\Users\rapha\repos\MagoTrader\MagoTrader.Web\_Imports.razor"
 using MagoTrader.Web.Shared;
 
 #line default
