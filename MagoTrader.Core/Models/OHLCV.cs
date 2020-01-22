@@ -6,7 +6,7 @@ namespace MagoTrader.Core.Models
     public class OHLCV
     {
         public Exchange Exchange { get; set; }
-        public Ticker Ticker { get; set; }
+        public AssetTicker Ticker { get; set; }
         public DateTime DateTime { get; set; }
         public Decimal Open { get; set; }
         public Decimal High { get; set; }

@@ -46,6 +46,8 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Public
                 (await _httpClient.GetStreamAsync($"{ticker.ToString()}/day-summary/{dt.Year}/{dt.Month}/{dt.Day-1}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
             //Console.WriteLine($"{temp.opening}");
             return new OHLCV {
+                //Exchange = SupportedExchanges.MercadoBitcoin,
+                Ticker = ticker, 
                 DateTime = dt,
                 Open = temp.opening,
                 High = temp.highest,
