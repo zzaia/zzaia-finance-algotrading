@@ -1,6 +1,6 @@
 using System;
 
-namespace MagoTrader.Web.Data
+namespace MagoTrader.ServerApp.Data
 {
     public class WeatherForecast
     {

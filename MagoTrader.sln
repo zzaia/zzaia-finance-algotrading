@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagoTrader.Services", "Mago
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagoTrader.Exchange", "MagoTrader.Exchange\MagoTrader.Exchange.csproj", "{09B9F446-4981-4FD4-B648-1771BD4C9A7D}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagoTrader.ClientApp", "MagoTrader.ClientApp\MagoTrader.ClientApp.csproj", "{09B9F446-4981-4FD4-B648-1771BD4C9A7D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagoTrader.ServerApp", "MagoTrader.ServerApp\MagoTrader.ServerApp.csproj", "{09B9F446-4981-4FD4-B648-1771BD4C9A7D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

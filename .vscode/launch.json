@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (web)",
+            "name": "Blazor Server-Side",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/MagoTrader.Web/bin/Debug/netcoreapp3.1/MagoTrader.Web.dll",
+            "program": "${workspaceFolder}/MagoTrader.ServerApp/bin/Debug/netcoreapp3.1/MagoTrader.ServerApp.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/MagoTrader.Web",
+            "cwd": "${workspaceFolder}/MagoTrader.ServerApp",
             "stopAtEntry": false,
             "serverReadyAction": {
                 "action": "openExternally",

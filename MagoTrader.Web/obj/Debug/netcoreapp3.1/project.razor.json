@@ -62,14 +62,14 @@
       },
       {
         "Kind": "Components.Component",
-        "Name": "MagoTrader.Web.Pages.Index",
+        "Name": "MagoTrader.Web.Pages.Counter",
         "AssemblyName": "MagoTrader.Web",
         "Documentation": null,
         "TagOutputHint": null,
         "CaseSensitive": true,
         "TagMatchingRules": [
           {
-            "TagName": "Index",
+            "TagName": "Counter",
             "ParentTag": null,
             "TagStructure": 0,
             "Attributes": [],
@@ -81,19 +81,19 @@
         "Diagnostics": [],
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "MagoTrader.Web.Pages.Index"
+          "Common.TypeName": "MagoTrader.Web.Pages.Counter"
         }
       },
       {
         "Kind": "Components.Component",
-        "Name": "MagoTrader.Web.Pages.Index",
+        "Name": "MagoTrader.Web.Pages.Counter",
         "AssemblyName": "MagoTrader.Web",
         "Documentation": null,
         "TagOutputHint": null,
         "CaseSensitive": true,
         "TagMatchingRules": [
           {
-            "TagName": "MagoTrader.Web.Pages.Index",
+            "TagName": "MagoTrader.Web.Pages.Counter",
             "ParentTag": null,
             "TagStructure": 0,
             "Attributes": [],
@@ -105,7 +105,7 @@
         "Diagnostics": [],
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "MagoTrader.Web.Pages.Index",
+          "Common.TypeName": "MagoTrader.Web.Pages.Counter",
           "Components.NameMatch": "Components.FullyQualifiedNameMatch"
         }
       },
@@ -160,55 +160,6 @@
       },
       {
         "Kind": "Components.Component",
-        "Name": "MagoTrader.Web.Pages.Counter",
-        "AssemblyName": "MagoTrader.Web",
-        "Documentation": null,
-        "TagOutputHint": null,
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "Counter",
-            "ParentTag": null,
-            "TagStructure": 0,
-            "Attributes": [],
-            "Diagnostics": []
-          }
-        ],
-        "BoundAttributes": [],
-        "AllowedChildTags": [],
-        "Diagnostics": [],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "MagoTrader.Web.Pages.Counter"
-        }
-      },
-      {
-        "Kind": "Components.Component",
-        "Name": "MagoTrader.Web.Pages.Counter",
-        "AssemblyName": "MagoTrader.Web",
-        "Documentation": null,
-        "TagOutputHint": null,
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "MagoTrader.Web.Pages.Counter",
-            "ParentTag": null,
-            "TagStructure": 0,
-            "Attributes": [],
-            "Diagnostics": []
-          }
-        ],
-        "BoundAttributes": [],
-        "AllowedChildTags": [],
-        "Diagnostics": [],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "MagoTrader.Web.Pages.Counter",
-          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
-        }
-      },
-      {
-        "Kind": "Components.Component",
         "Name": "MagoTrader.Web.Pages.FetchData",
         "AssemblyName": "MagoTrader.Web",
         "Documentation": null,
@@ -253,6 +204,104 @@
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
           "Common.TypeName": "MagoTrader.Web.Pages.FetchData",
+          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
+        }
+      },
+      {
+        "Kind": "Components.Component",
+        "Name": "MagoTrader.Web.Pages.Index",
+        "AssemblyName": "MagoTrader.Web",
+        "Documentation": null,
+        "TagOutputHint": null,
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "Index",
+            "ParentTag": null,
+            "TagStructure": 0,
+            "Attributes": [],
+            "Diagnostics": []
+          }
+        ],
+        "BoundAttributes": [],
+        "AllowedChildTags": [],
+        "Diagnostics": [],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "MagoTrader.Web.Pages.Index"
+        }
+      },
+      {
+        "Kind": "Components.Component",
+        "Name": "MagoTrader.Web.Pages.Index",
+        "AssemblyName": "MagoTrader.Web",
+        "Documentation": null,
+        "TagOutputHint": null,
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "MagoTrader.Web.Pages.Index",
+            "ParentTag": null,
+            "TagStructure": 0,
+            "Attributes": [],
+            "Diagnostics": []
+          }
+        ],
+        "BoundAttributes": [],
+        "AllowedChildTags": [],
+        "Diagnostics": [],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "MagoTrader.Web.Pages.Index",
+          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
+        }
+      },
+      {
+        "Kind": "Components.Component",
+        "Name": "MagoTrader.Web.App",
+        "AssemblyName": "MagoTrader.Web",
+        "Documentation": null,
+        "TagOutputHint": null,
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "App",
+            "ParentTag": null,
+            "TagStructure": 0,
+            "Attributes": [],
+            "Diagnostics": []
+          }
+        ],
+        "BoundAttributes": [],
+        "AllowedChildTags": [],
+        "Diagnostics": [],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "MagoTrader.Web.App"
+        }
+      },
+      {
+        "Kind": "Components.Component",
+        "Name": "MagoTrader.Web.App",
+        "AssemblyName": "MagoTrader.Web",
+        "Documentation": null,
+        "TagOutputHint": null,
+        "CaseSensitive": true,
+        "TagMatchingRules": [
+          {
+            "TagName": "MagoTrader.Web.App",
+            "ParentTag": null,
+            "TagStructure": 0,
+            "Attributes": [],
+            "Diagnostics": []
+          }
+        ],
+        "BoundAttributes": [],
+        "AllowedChildTags": [],
+        "Diagnostics": [],
+        "Metadata": {
+          "Runtime.Name": "Components.IComponent",
+          "Common.TypeName": "MagoTrader.Web.App",
           "Components.NameMatch": "Components.FullyQualifiedNameMatch"
         }
       },
@@ -434,55 +483,6 @@
         "Metadata": {
           "Runtime.Name": "Components.IComponent",
           "Common.TypeName": "MagoTrader.Web.Shared.NavMenu",
-          "Components.NameMatch": "Components.FullyQualifiedNameMatch"
-        }
-      },
-      {
-        "Kind": "Components.Component",
-        "Name": "MagoTrader.Web.App",
-        "AssemblyName": "MagoTrader.Web",
-        "Documentation": null,
-        "TagOutputHint": null,
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "App",
-            "ParentTag": null,
-            "TagStructure": 0,
-            "Attributes": [],
-            "Diagnostics": []
-          }
-        ],
-        "BoundAttributes": [],
-        "AllowedChildTags": [],
-        "Diagnostics": [],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "MagoTrader.Web.App"
-        }
-      },
-      {
-        "Kind": "Components.Component",
-        "Name": "MagoTrader.Web.App",
-        "AssemblyName": "MagoTrader.Web",
-        "Documentation": null,
-        "TagOutputHint": null,
-        "CaseSensitive": true,
-        "TagMatchingRules": [
-          {
-            "TagName": "MagoTrader.Web.App",
-            "ParentTag": null,
-            "TagStructure": 0,
-            "Attributes": [],
-            "Diagnostics": []
-          }
-        ],
-        "BoundAttributes": [],
-        "AllowedChildTags": [],
-        "Diagnostics": [],
-        "Metadata": {
-          "Runtime.Name": "Components.IComponent",
-          "Common.TypeName": "MagoTrader.Web.App",
           "Components.NameMatch": "Components.FullyQualifiedNameMatch"
         }
       },
@@ -20999,11 +20999,6 @@
       "FilePath": "c:\\Users\\rapha\\repos\\MagoTrader\\MagoTrader.Web\\Pages\\Index.razor",
       "TargetPath": "Pages\\Index.razor",
       "FileKind": "component"
-    },
-    {
-      "FilePath": "c:\\Users\\rapha\\repos\\MagoTrader\\MagoTrader.Web\\Pages\\_Host.cshtml",
-      "TargetPath": "Pages\\_Host.cshtml",
-      "FileKind": "mvc"
     },
     {
       "FilePath": "c:\\Users\\rapha\\repos\\MagoTrader\\MagoTrader.Web\\Pages\\Error.razor",

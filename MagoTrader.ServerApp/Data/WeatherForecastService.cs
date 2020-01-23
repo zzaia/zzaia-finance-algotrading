@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MagoTrader.Web.Data
+namespace MagoTrader.ServerApp.Data
 {
     public class WeatherForecastService
     {
