@@ -73,6 +73,24 @@ namespace MagoTrader.Core.Models
             }
         }
         /*
+        public OAuthToken()
+        {
+            created_at = DateTimeOffset.Now;
+        }
+
+        public string access_token { get; set; }
+        public string token_type { get; set; }
+        public int? expires_in { get; set; }
+        public int? ext_expires_in { get; set; }
+        public DateTimeOffset created_at { get; set; }
+
+        public bool isExpired()
+        {
+            DateTimeOffset expires_at = this.created_at.AddSeconds(Convert.ToDouble(this.expires_in));
+            return DateTimeOffset.Now.CompareTo(expires_at) >= 0;
+        }
+
+        
         public bool IsPlaced { get { return Order.Status == OrderStatus.PLACED; } }
         public bool IsCreated { get { return Order.Status == OrderStatus.CREATED; } }
         public bool IsCanceled { get { return Order.Status == OrderStatus.CANCELED; } }
