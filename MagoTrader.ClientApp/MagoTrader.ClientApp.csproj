@@ -3,7 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <RazorLangVersion>3.0</RazorLangVersion>
+    <RootNamespace>MagoTrader.ClientApp</RootNamespace>
+    <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
   </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MagoTrader.Web\MagoTrader.Web.csproj" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Blazor" Version="3.1.0-preview4.19579.2" />

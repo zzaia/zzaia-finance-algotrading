@@ -5,6 +5,26 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Blazor Client-Side",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/MagoTrader.ClientApp/bin/Debug/netstandard2.1/MagoTrader.ClientApp.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/MagoTrader.ClientApp",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
             "name": "Blazor Server-Side",
             "type": "coreclr",
             "request": "launch",
@@ -23,12 +43,6 @@
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
             }
-        },
-        {
-            "name": ".NET Core Attach",
-            "type": "coreclr",
-            "request": "attach",
-            "processId": "${command:pickProcess}"
         }
     ]
 }

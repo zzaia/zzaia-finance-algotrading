@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 15.0.26124.0
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagoTrader.ServerApp", "MagoTrader.ServerApp\MagoTrader.ServerApp.csproj", "{09B9F446-4981-4FD4-B648-1771BD4C9A7D}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagoTrader.Web", "MagoTrader.Web\MagoTrader.Web.csproj", "{430A0700-1A6F-4682-A0C2-2A0CF09FE484}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagoTrader.Core", "MagoTrader.Core\MagoTrader.Core.csproj", "{B94E215B-1DAD-43C1-B8FC-6114F58458EE}"
@@ -15,8 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagoTrader.Exchange", "Mago
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagoTrader.ClientApp", "MagoTrader.ClientApp\MagoTrader.ClientApp.csproj", "{09B9F446-4981-4FD4-B648-1771BD4C9A7D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MagoTrader.ServerApp", "MagoTrader.ServerApp\MagoTrader.ServerApp.csproj", "{09B9F446-4981-4FD4-B648-1771BD4C9A7D}"
-EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
