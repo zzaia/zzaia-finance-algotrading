@@ -1,0 +1,6 @@
+{
+  "MercadoBitcoin": {
+    "PublicBaseAddress": "https://www.mercadobitcoin.net/api",
+    "PrivateBaseAddress": "https://www.mercadobitcoin.net/tapi/v3"
+  }
+}

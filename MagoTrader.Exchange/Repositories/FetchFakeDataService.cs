@@ -8,7 +8,7 @@ using MagoTrader.Core.Repositories;
 
 namespace MagoTrader.Exchange.Repositories
 {
-    public class FetchFakeDataService : IFetchDataService
+    public class FetchFakeDataService //: IFetchDataService
     {
         public Task<OHLCV[]> GetForecastAsync(DateTime startDate)
         {
