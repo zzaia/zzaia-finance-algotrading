@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MagoTrader.Exchange
 {
-    class ApiClient
+    public class ApiClient
     {
     }
 }
