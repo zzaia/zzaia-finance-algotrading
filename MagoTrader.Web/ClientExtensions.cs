@@ -1,7 +1,11 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Reflection;
+
 
 using MagoTrader.Exchange;
+using MagoTrader.Core.Exchange;
+using MagoTrader.Core.Models;
 
 namespace MagoTrader.Web
 {    
@@ -28,14 +32,33 @@ namespace MagoTrader.Web
                 throw new ArgumentNullException(nameof(apiOptions));
             }
 
-            services.Configure("KycApi", apiOptions);
+            var a = new ApiOptions();
+            apiOptions(a); 
             
-            services.AddHttpClient<ApiClient>(c =>
+            services.Configure($"{a.Name.ToString()}ApiClientOptions", apiOptions);     
+
+            switch(a.Name)
             {
-                c.DefaultRequestHeaders.Add("Accept", "application/json");
-                c.DefaultRequestHeaders.Add("User-Agent", "HttpClient-KycApiClient-3rz");
-            });
-            
+                case ExchangeName.MercadoBitcoin:
+                    if(a.Authentication is null)
+                    {
+                        services.AddHttpClient<Exchange.MercadoBitcoin.PublicApiClient>(c =>
+                        {
+                            c.DefaultRequestHeaders.Add("Accept", "application/json");
+                            c.DefaultRequestHeaders.Add("User-Agent", $"HttpClient-{a.Name.ToString()}ApiClient-MagoTrader");
+                        });
+                    }
+                    else
+                    {
+                        services.AddHttpClient<Exchange.MercadoBitcoin.PrivateApiClient>(c =>
+                        {
+                            c.DefaultRequestHeaders.Add("Accept", "application/json");
+                            c.DefaultRequestHeaders.Add("User-Agent", $"HttpClient-{a.Name.ToString()}ApiClient-MagoTrader");
+                        });
+                    }
+                    break;
+            }
+                       
             return services;
         }
     }

@@ -12,10 +12,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using MagoTrader.Core;
+using MagoTrader.Core.Models;
 using MagoTrader.Data;
 using MagoTrader.Core.Repositories;
+using MagoTrader.Exchange;
 using MagoTrader.Exchange.MercadoBitcoin.Public;
-
+using MagoTrader.Web;
 
 namespace MagoTrader.ServerApp
 {
@@ -40,11 +42,20 @@ namespace MagoTrader.ServerApp
             
             services.AddScoped<IUnitOfWork, UnitOfWork>(); //It has all implemented data repositories inside;
             
-            //-----------API Access------------------------------
+            //----------- Generic API Access-------------------
             services.AddHttpClient<IFetchDataService,FetchDataService>(client => {
                 client.BaseAddress = new Uri("https://www.mercadobitcoin.net/api/");
             });
-            
+
+            // Configure Exchange Client with ApiOptions
+            services.AddExchangeClient(apiOptions =>
+            {
+                apiOptions.Name = ExchangeName.MercadoBitcoin;
+                apiOptions.Authentication = "secret-key-from-key-vault"; 
+            });
+                
+
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
             //services.AddScoped<IFetchDataService,FetchFakeDataService>();

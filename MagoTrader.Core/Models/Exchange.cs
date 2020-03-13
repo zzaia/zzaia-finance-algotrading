@@ -7,9 +7,11 @@ namespace MagoTrader.Core.Models
     public class Exchange
     {
         [Required]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
+
         [Required]
-        public string Name { get; set; }
+        public ExchangeName Name { get; set; }
+
         [Required]
         public List<Ticker> Tickers { get; set; }
         public Exchange()

@@ -2,20 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 
+using MagoTrader.Core.Models;
+using MagoTrader.Core.Exchange;
+
 namespace MagoTrader.Exchange
 {
     public class ApiOptions
     {
-        public ApiOptions(string exchange)
+        public ExchangeName? Name { get; set; }
+        public object Authentication { get; set; }
+        public ApiOptions()
         {
-            switch(exchange)
-            {
-                case "MercadoBitcoin":
-                    PublicBaseAddress = new Uri("https://www.mercadobitcoin.net/api");
-                    PrivateBaseAddress = new Uri("https://www.mercadobitcoin.net/tapi/v3");
-                    break;
 
-            }
         }
 
         public Uri PublicBaseAddress { get; set; }

@@ -5,6 +5,7 @@
     <RazorLangVersion>3.0</RazorLangVersion>
     <RootNamespace>MagoTrader.ClientApp</RootNamespace>
     <BlazorLinkOnBuild>false</BlazorLinkOnBuild>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

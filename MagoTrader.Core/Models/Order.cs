@@ -6,7 +6,24 @@ using System.Linq;
 namespace MagoTrader.Core.Models
 {
 
-    public class Order : TimeData
+    public class Order
+    {
+        public Guid Id { get; set; }
+        public AssetTicker Ticker { get; private set; }
+        public Decimal? Price { get; private set; }
+        public double? Amount { get; private set; }
+        public OrderType Type { get; private set; }
+        public Order(AssetTicker ticker, OrderType type, double? amount, Decimal? price)
+        {
+            Ticker = ticker;
+            Type = type;
+            Amount = amount;
+            Price = price;
+        }
+    }
+
+
+    public class Order2 : TimeData
     {
         /*  ======================================================================================================================
             A Order object for use within trading object
@@ -48,7 +65,7 @@ namespace MagoTrader.Core.Models
                 _status.Add(CurrentDateTime, value);
             }
         }
-        public Order(Ticker ticker, OrderType type, double? amount, Decimal? price, Decimal? stopPrice, DateTime? validity)//, DateTime validity = default(DateTime))
+        public Order2(Ticker ticker, OrderType type, double? amount, Decimal? price, Decimal? stopPrice, DateTime? validity)//, DateTime validity = default(DateTime))
         {
             _status = new SortedList<DateTime, OrderStatus>();
             Ticker = ticker;
