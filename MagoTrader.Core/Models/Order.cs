@@ -6,7 +6,24 @@ using System.Linq;
 namespace MagoTrader.Core.Models
 {
 
-    public class Order : TimeData
+    public class Order
+    {
+        public Guid Id { get; set; }
+        public AssetTicker Ticker { get; private set; }
+        public Decimal? Price { get; private set; }
+        public double? Amount { get; private set; }
+        public OrderType Type { get; private set; }
+        public Order(AssetTicker ticker, OrderType type, double? amount, Decimal? price)
+        {
+            Ticker = ticker;
+            Type = type;
+            Amount = amount;
+            Price = price;
+        }
+    }
+
+
+    public class Order2 : TimeData
     {
         /*  ======================================================================================================================
             A Order object for use within trading object
@@ -48,7 +65,7 @@ namespace MagoTrader.Core.Models
                 _status.Add(CurrentDateTime, value);
             }
         }
-        public Order(Ticker ticker, OrderType type, double? amount, Decimal? price, Decimal? stopPrice, DateTime? validity)//, DateTime validity = default(DateTime))
+        public Order2(Ticker ticker, OrderType type, double? amount, Decimal? price, Decimal? stopPrice, DateTime? validity)//, DateTime validity = default(DateTime))
         {
             _status = new SortedList<DateTime, OrderStatus>();
             Ticker = ticker;
@@ -73,6 +90,24 @@ namespace MagoTrader.Core.Models
             }
         }
         /*
+        public OAuthToken()
+        {
+            created_at = DateTimeOffset.Now;
+        }
+
+        public string access_token { get; set; }
+        public string token_type { get; set; }
+        public int? expires_in { get; set; }
+        public int? ext_expires_in { get; set; }
+        public DateTimeOffset created_at { get; set; }
+
+        public bool isExpired()
+        {
+            DateTimeOffset expires_at = this.created_at.AddSeconds(Convert.ToDouble(this.expires_in));
+            return DateTimeOffset.Now.CompareTo(expires_at) >= 0;
+        }
+
+        
         public bool IsPlaced { get { return Order.Status == OrderStatus.PLACED; } }
         public bool IsCreated { get { return Order.Status == OrderStatus.CREATED; } }
         public bool IsCanceled { get { return Order.Status == OrderStatus.CANCELED; } }
