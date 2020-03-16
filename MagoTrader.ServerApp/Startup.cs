@@ -41,12 +41,12 @@ namespace MagoTrader.ServerApp
             });
             
             services.AddScoped<IUnitOfWork, UnitOfWork>(); //It has all implemented data repositories inside;
-            
+            /* 
             //----------- Generic API Access-------------------
             services.AddHttpClient<IFetchDataService,FetchDataService>(client => {
                 client.BaseAddress = new Uri("https://www.mercadobitcoin.net/api/");
             });
-
+            */
             // Configure Exchange Client with ApiOptions
             services.AddExchangeClient(apiOptions =>
             {

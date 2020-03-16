@@ -8,7 +8,7 @@ using MagoTrader.Core.Models;
 using MagoTrader.Core.Repositories;
 using MagoTrader.Exchange.MercadoBitcoin;
 
-namespace MagoTrader.Exchange.MercadoBitcoin.Public
+namespace MagoTrader.Services
 {
     public class FetchDataService : IFetchDataService
     {
@@ -62,12 +62,6 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Public
             return data;
         }
 
-        public async Task<Decimal[][]> FetchOrderBookAsync(AssetTicker ticker)
-        {
-            var temp = await JsonSerializer.DeserializeAsync<JsonDataFormat>
-                (await _httpClient.GetStreamAsync($"{ticker.ToString()}/orderbook/"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-            return temp.bids;        
-        }
 
         public async Task<Decimal> FetchLastPriceAsync(AssetTicker ticker)
         {

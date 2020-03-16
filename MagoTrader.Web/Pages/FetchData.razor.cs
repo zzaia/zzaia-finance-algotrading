@@ -17,7 +17,7 @@ namespace MagoTrader.Web.Pages
         [Inject]
         public IOHLCVRepository OHLCVRepository { get; set; }
         */
-        public OHLCV[] forecasts { get; set; }
+        protected OHLCV[] forecasts { get; set; }
         public Decimal[] prices { get; set; }
         protected override async Task OnInitializedAsync()
         {
