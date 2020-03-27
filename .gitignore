@@ -265,3 +265,26 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+wwwroot/upload/
+published/
+logs/
+kyc-api.txt
+log_*.txt
+# Any secret
+*.pem
+**/[Dd]rop/
+**/[Dd]rop.zip
+
+# SqLite
+*.ide
+*.ide-shm
+*.ide-wal
+
+# Nuget and .NET Core files 
+*.assets.cache
+*.csprojAssemblyReference.cache
+*.nuget.cache
+*.nuget.dgspec.json
+*.nuget.dgspec.json
+*.assets.json
+*.nuget.g.props
