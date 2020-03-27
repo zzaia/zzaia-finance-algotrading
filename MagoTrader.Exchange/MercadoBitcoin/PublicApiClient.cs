@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 
 using MagoTrader.Core.Exchange;
 using MagoTrader.Core.Models;
+
 using System.Text.Json;
 
 namespace MagoTrader.Exchange.MercadoBitcoin
@@ -40,7 +41,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin
             {
                 _logger.LogInformation($"Get {ticker.ToString()} day-summary OHLCV succeed.");
                 using var responseStream = await response.Content.ReadAsStreamAsync();
-                var OHLCVFromApi = await JsonSerializer.DeserializeAsync<ohlcv>(responseStream, _jsonOptions);
+                var OHLCVFromApi = await JsonSerializer.DeserializeAsync<OHLCVDTO>(responseStream, _jsonOptions);
                 return new OHLCV
                 {
                     Exchange = ExchangeName.MercadoBitcoin,
@@ -73,7 +74,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin
             {
                 _logger.LogInformation($"Get orderbook for {ticker.ToString()} succeed.");
                 using var responseStream = await response.Content.ReadAsStreamAsync();
-                var orderBookFromApi = await JsonSerializer.DeserializeAsync<orderbook>(responseStream, _jsonOptions);
+                var orderBookFromApi = await JsonSerializer.DeserializeAsync<OrderbookDTO>(responseStream, _jsonOptions);
                 return new OrderBook
                 {
                     Bids = orderBookFromApi.bids,
@@ -100,7 +101,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin
             {
                 _logger.LogInformation($"Get trades for {ticker.ToString()} succeed.");
                 using var responseStream = await response.Content.ReadAsStreamAsync();
-                var tradesFromApi = await JsonSerializer.DeserializeAsync<trade[]>(responseStream, _jsonOptions);
+                var tradesFromApi = await JsonSerializer.DeserializeAsync<TradeDTO[]>(responseStream, _jsonOptions);
                 var orders = new Order[tradesFromApi.Length];
                 int index = 0;
                 foreach(var trade in tradesFromApi)
@@ -121,8 +122,6 @@ namespace MagoTrader.Exchange.MercadoBitcoin
             }
 
         }
-
-
 
 
     }
