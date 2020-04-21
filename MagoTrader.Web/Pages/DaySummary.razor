@@ -1,11 +1,11 @@
-﻿@page "/fetchdata"
-@inherits FetchDataBase
+﻿@page "/day-summary"
+@inherits DaySummaryBase
 
 <h1>Cryptocurrency last 24h day summary </h1>
 
-<p>This component demonstrates fetching data from Mercado Bitcoin API.</p>
+<p>This component demonstrates fetching data from Exchange Public API.</p>
 
-@if (forecasts == null)
+@if (Forecasts == null)
 {
     <p><em>Loading...</em></p>
 }
@@ -23,7 +23,7 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var forecast in Forecasts)
             {
                 <tr>
                     <td>@forecast.Ticker.ToString()</td>
