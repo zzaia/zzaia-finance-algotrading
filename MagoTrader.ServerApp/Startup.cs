@@ -12,12 +12,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using MagoTrader.Core;
-using MagoTrader.Core.Models;
-using MagoTrader.Data;
 using MagoTrader.Core.Repositories;
+using MagoTrader.Services;
+using MagoTrader.Data;
 using MagoTrader.Exchange;
-using MagoTrader.Exchange.MercadoBitcoin.Public;
 using MagoTrader.Web;
+using MagoTrader.Core.Models;
+using MagoTrader.Core.Exchange;
 
 namespace MagoTrader.ServerApp
 {
@@ -41,24 +42,38 @@ namespace MagoTrader.ServerApp
             });
             
             services.AddScoped<IUnitOfWork, UnitOfWork>(); //It has all implemented data repositories inside;
-            /* 
+            /*
             //----------- Generic API Access-------------------
             services.AddHttpClient<IFetchDataService,FetchDataService>(client => {
                 client.BaseAddress = new Uri("https://www.mercadobitcoin.net/api/");
             });
             */
             // Configure Exchange Client with ApiOptions
-            services.AddExchangeClient(apiOptions =>
-            {
-                apiOptions.Name = ExchangeName.MercadoBitcoin;
-                apiOptions.Authentication = "secret-key-from-key-vault"; 
-            });
-                
+            services.AddExchangeClient(ExchangeNameEnum.MercadoBitcoin, 
+                privateApiOptions =>
+                {
+                    privateApiOptions.SecretKey = Configuration["KeyVault:MercadoBitcoin:Private:SecretKey"];
+                    privateApiOptions.ConnectionKey = Configuration["KeyVault:MercadoBitcoin:Private:ConnectionKey"];
+                },
+                tradeApiOptions =>
+                {
+                    tradeApiOptions.SecretKey = Configuration["KeyVault:MercadoBitcoin:Trade:SecretKey"];
+                    tradeApiOptions.ConnectionKey = Configuration["KeyVault:MercadoBitcoin:Trade:ConnectionKey"];
+                },
+                c =>
+                {
+                    c.DefaultRequestHeaders.Add("Accept", "application/json");
+                    c.DefaultRequestHeaders.Add("User-Agent", "HttpClient-MercadoBitcoinPublicApiClient-MagoTrader");
+                });
+            
 
+            //services.AddHttpClient();
 
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
             //services.AddScoped<IFetchDataService,FetchFakeDataService>();
+            services.AddScoped<IFetchDataService,FetchDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
