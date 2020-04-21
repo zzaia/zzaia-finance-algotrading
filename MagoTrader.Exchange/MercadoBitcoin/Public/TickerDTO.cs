@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MagoTrader.Exchange.MercadoBitcoin
+namespace MagoTrader.Exchange.MercadoBitcoin.Public
 {
     class TickerDTO
     {
@@ -13,5 +13,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin
         public Decimal buy { get; set; }
         public Decimal sell { get; set; }
         public string date { get; set; }
+        public string error { get; set; }
+
     }
 }

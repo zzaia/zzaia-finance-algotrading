@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MagoTrader.Exchange.MercadoBitcoin
+namespace MagoTrader.Exchange.MercadoBitcoin.Public
 {
     class OHLCVDTO
     {
@@ -15,5 +15,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin
         public Decimal quantity { get; set; }
         public Decimal amount { get; set; }
         public Decimal avg_price { get; set; }
+        public string error { get; set; }
+
     }
 }

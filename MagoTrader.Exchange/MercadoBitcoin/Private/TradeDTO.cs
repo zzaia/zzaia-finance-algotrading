@@ -4,6 +4,11 @@ using System.Text;
 
 namespace MagoTrader.Exchange.MercadoBitcoin
 {
+    class TradesDTO
+    {
+        public TradeDTO[] Trades { get; set; }
+        public string error { get; set; }
+    }
     class TradeDTO
     {
         public string dates { get; set; }
