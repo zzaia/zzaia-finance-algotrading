@@ -75,7 +75,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin
                     },
                     Markets = new List<Market>
                     {
-                        new Market(AssetTickerEnum.BCH, AssetTickerEnum.BRL),
+                        new Market(AssetTickerEnum.BTC, AssetTickerEnum.BRL),
                         new Market(AssetTickerEnum.BCH, AssetTickerEnum.BRL),
                         new Market(AssetTickerEnum.ETH, AssetTickerEnum.BRL),
                         new Market(AssetTickerEnum.LTC, AssetTickerEnum.BRL),
