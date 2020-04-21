@@ -1,0 +1,40 @@
+﻿@page "/day-summary"
+@inherits DaySummaryBase
+
+<h1>Cryptocurrency last 24h day summary </h1>
+
+<p>This component demonstrates fetching data from Exchange Public API.</p>
+
+@if (Forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ticker</th>
+                <th>Open</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Close</th>
+                <th>Volume</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in Forecasts)
+            {
+                <tr>
+                    <td>@forecast.Ticker.ToString()</td>
+                    <td>R$ @forecast.Open.ToString("N")</td>
+                    <td>R$ @forecast.High.ToString("N")</td>
+                    <td>R$ @forecast.Low.ToString("N")</td>
+                    <td>R$ @forecast.Close.ToString("N")</td>
+                    <td>@forecast.Volume.ToString("N")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

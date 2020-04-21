@@ -1,12 +1,13 @@
+using MagoTrader.Core.Exchange;
 using MagoTrader.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 //https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.metadata.builders.entitytypebuilder?view=efcore-3.1
 namespace MagoTrader.Data.Configurations
 {
-    public class ExchangeConfiguration : IEntityTypeConfiguration<Exchange>
+    public class ExchangeConfiguration : IEntityTypeConfiguration<IExchange>
     {
-        public void Configure(EntityTypeBuilder<Exchange> builder)
+        public void Configure(EntityTypeBuilder<IExchange> builder)
         {
             /*
             builder

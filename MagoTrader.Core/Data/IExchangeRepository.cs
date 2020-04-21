@@ -4,7 +4,7 @@ using MagoTrader.Core.Models;
 
 namespace MagoTrader.Core.Repositories
 {
-    public interface IExchangeRepository : IRepository<Exchange>
+    public interface IExchangeRepository //: IRepository<Exchange>
     {
         /*
         Task<IEnumerable<Exchange>> GetAllWithOrderAsync();

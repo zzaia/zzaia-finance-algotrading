@@ -4,10 +4,11 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using MagoTrader.Core.Models;
 using MagoTrader.Core.Repositories;
+using MagoTrader.Core.Exchange;
 
 namespace MagoTrader.Data.Repositories
 {
-    public class ExchangeRepository : Repository<Exchange>, IExchangeRepository
+    public class ExchangeRepository : Repository<IExchange>, IExchangeRepository
     {
         public ExchangeRepository(MagoTraderDbContext context) 
             : base(context)
