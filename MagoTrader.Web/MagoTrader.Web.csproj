@@ -20,6 +20,7 @@
     <ProjectReference Include="..\MagoTrader.Data\MagoTrader.Data.csproj" />
     <ProjectReference Include="..\MagoTrader.Services\MagoTrader.Services.csproj" />
     <ProjectReference Include="..\MagoTrader.Exchange\MagoTrader.Exchange.csproj" />
+    <ProjectReference Include="..\MagoTrader.Tests\MagoTrader.Tests.csproj" />
   </ItemGroup>
   
 </Project>
