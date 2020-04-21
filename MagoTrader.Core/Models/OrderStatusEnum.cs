@@ -2,7 +2,7 @@
 
 namespace MagoTrader.Core.Models
 {
-    public enum OrderStatus
+    public enum OrderStatusEnum
     {
     /* ====================================================================================
          A order status for use within trades

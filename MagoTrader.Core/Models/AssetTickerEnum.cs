@@ -2,11 +2,19 @@ using System;
 
 namespace MagoTrader.Core.Models
 {
-    public enum ExchangeName
+    public enum AssetTickerEnum
     {
     /*  ========================================================================================================
         ======================================================================================================= */
-    MercadoBitcoin
-    
+    USD,
+    BRL,
+    BTC,
+    BRZ,
+    ETH,
+    XRP,
+    LTC,
+    BCH,
+    EOS
+
     }
 }

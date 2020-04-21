@@ -9,11 +9,11 @@ namespace MagoTrader.Core.Models
     public class Order
     {
         public Guid Id { get; set; }
-        public AssetTicker Ticker { get; private set; }
+        public AssetTickerEnum Ticker { get; private set; }
         public Decimal? Price { get; private set; }
         public double? Amount { get; private set; }
-        public OrderType Type { get; private set; }
-        public Order(AssetTicker ticker, OrderType type, double? amount, Decimal? price)
+        public OrderTypeEnum Type { get; private set; }
+        public Order(AssetTickerEnum ticker, OrderTypeEnum type, double? amount, Decimal? price)
         {
             Ticker = ticker;
             Type = type;
@@ -22,28 +22,28 @@ namespace MagoTrader.Core.Models
         }
     }
 
-
+    /*
     public class Order2 : TimeData
     {
-        /*  ======================================================================================================================
-            A Order object for use within trading object
-            Args: -> Ticker: The asset ticker, ex: BTC/USD;
-                  -> Amount: The amount of ticker asset to be traded;
-                  -> Price: The price paid per asset unit in limit orders.
-                  -> Type: The type of order executed (0 = HOLD, 1=LIMIT_BUY, 2=MARKET_BUY, 3=LIMIT_SELL, 4=MARKET_SELL);
-                  -> Status : The order status, indicate 
-                  -> Validity: The period in which the trade will be consider valid [ms];
-                  -> StopPrice : Price in which the STOP_LOSS or TAKE_PROFIT type of trade will be triggered;
-        ====================================================================================================================== */
-        private SortedList<DateTime, OrderStatus> _status;
+       /*  ======================================================================================================================
+           A Order object for use within trading object
+           Args: -> Ticker: The asset ticker, ex: BTC/USD;
+                 -> Amount: The amount of ticker asset to be traded;
+                 -> Price: The price paid per asset unit in limit orders.
+                 -> Type: The type of order executed (0 = HOLD, 1=LIMIT_BUY, 2=MARKET_BUY, 3=LIMIT_SELL, 4=MARKET_SELL);
+                 -> Status : The order status, indicate 
+                 -> Validity: The period in which the trade will be consider valid [ms];
+                 -> StopPrice : Price in which the STOP_LOSS or TAKE_PROFIT type of trade will be triggered;
+       ====================================================================================================================== 
+        private SortedList<DateTime, OrderStatusEnum> _status;
         [Required]
         public int Id { get; set; }
         [Required]
         public Exchange Exchange{get; set;}
         [Required, StringLength(9)]
-        public Ticker Ticker { get; private set; }
+        public Market Ticker { get; private set; }
         [Required]
-        public OrderType Type { get; private set; }
+        public OrderTypeEnum Type { get; private set; }
         public double? Amount { get; private set; }
         public Decimal? Price { get; private set; }
         public Decimal? StopPrice { get; private set; }
@@ -54,7 +54,7 @@ namespace MagoTrader.Core.Models
         public double Filled { get; set; }
         public double Remaining { get; set; }
 
-        public OrderStatus Status
+        public OrderStatusEnum Status
         {
             get
             {
@@ -65,12 +65,12 @@ namespace MagoTrader.Core.Models
                 _status.Add(CurrentDateTime, value);
             }
         }
-        public Order2(Ticker ticker, OrderType type, double? amount, Decimal? price, Decimal? stopPrice, DateTime? validity)//, DateTime validity = default(DateTime))
+        public Order2(Market ticker, OrderTypeEnum type, double? amount, Decimal? price, Decimal? stopPrice, DateTime? validity)//, DateTime validity = default(DateTime))
         {
-            _status = new SortedList<DateTime, OrderStatus>();
+            _status = new SortedList<DateTime, OrderStatusEnum>();
             Ticker = ticker;
             Type = type;
-            Status = OrderStatus.CREATED;
+            Status = OrderStatusEnum.CREATED;
             Amount = amount;
             Price = price;
             StopPrice = stopPrice;
@@ -89,7 +89,7 @@ namespace MagoTrader.Core.Models
                 return false;
             }
         }
-        /*
+   
         public OAuthToken()
         {
             created_at = DateTimeOffset.Now;
@@ -148,6 +148,6 @@ namespace MagoTrader.Core.Models
                        Order.Type == OrderType.TAKE_PROFIT;
             }
         }
-        */
     }
+    */
 }

@@ -9,7 +9,7 @@ namespace MagoTrader.Core
     {
         /*  ======================================================================================================================
            
-            ====================================================================================================================== */
+            ====================================================================================================================== 
         public Order Order;
         public Order StopOrder;
         public Trade(Ticker ticker, OrderType type, double? amount = null, Decimal? price = null, Decimal? stopPrice = null, DateTime? validity = null)//, DateTime validity = default(DateTime))
@@ -58,6 +58,6 @@ namespace MagoTrader.Core
                        Order.Type == OrderType.TAKE_PROFIT;
             }
         }
-       
+       */
     }
 }

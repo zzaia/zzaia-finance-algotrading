@@ -1,6 +1,6 @@
 namespace MagoTrader.Core.Models
 {
-    public enum OrderType
+    public enum OrderTypeEnum
     {
     /*  ========================================================================================================
         A order type for use within trades 

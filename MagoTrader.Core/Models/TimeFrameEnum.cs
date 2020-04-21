@@ -2,19 +2,27 @@ using System;
 
 namespace MagoTrader.Core.Models
 {
-    public enum AssetTicker
+    public enum TimeFrameEnum
     {
     /*  ========================================================================================================
+        System Default TimeFrames
         ======================================================================================================= */
-    USD,
-    BRL,
-    BTC,
-    BRZ,
-    ETH,
-    XRP,
-    LTC,
-    BCH,
-    EOS
-
+        m1,
+        m3,
+        m5,
+        m15,
+        m30,
+        H1,
+        H2,
+        H4,
+        H6,
+        H8,
+        H12,
+        D1,
+        D3,
+        W1,
+        W2,
+        M1,
+        M2
     }
 }
