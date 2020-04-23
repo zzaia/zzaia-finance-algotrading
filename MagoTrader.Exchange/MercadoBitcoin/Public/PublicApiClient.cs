@@ -94,7 +94,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Public
                         Exchange = ExchangeNameEnum.MercadoBitcoin,
                         TimeFrame = new TimeFrame(TimeFrameEnum.D1),
                         Market = market,
-                        DateTimeOffset = DateTimeData.TimestampToDateTimeOffset(OHLCVFromApi.ticker.date),
+                        DateTimeOffset = DateTimeConvert.TimestampToDateTimeOffset(OHLCVFromApi.ticker.date,false),
                         Buy = Convert.ToDecimal(OHLCVFromApi.ticker.buy),
                         Sell = Convert.ToDecimal(OHLCVFromApi.ticker.sell),
                         High = Convert.ToDecimal(OHLCVFromApi.ticker.high),
