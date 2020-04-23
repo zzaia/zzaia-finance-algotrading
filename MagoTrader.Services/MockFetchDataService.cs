@@ -11,12 +11,12 @@ namespace MagoTrader.Services
 {
     public class MockFetchDataService : IFetchDataService
     {
-        public Task<OHLCV[]> GetDefaultDaySummaryAsync(DateTime startDate, ExchangeNameEnum exchangeName)
+        public Task<OHLCV[]> GetDefaultDaySummaryAsync(DateTimeOffset startDate, ExchangeNameEnum exchangeName)
         {
             var rng = new Random();
             return  Task.FromResult(Enumerable.Range(1, 5).Select(index => new OHLCV
             {
-                DateTime = startDate.AddDays(index),
+                DateTimeOffset = startDate.AddDays(index),
                 Open = rng.Next(100, 550000),
                 High = rng.Next(100, 550000),
                 Low = rng.Next(100, 550000),

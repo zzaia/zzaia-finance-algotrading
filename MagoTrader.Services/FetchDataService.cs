@@ -24,7 +24,7 @@ namespace MagoTrader.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _exchangeSelector = exchangeSelector ?? throw new ArgumentNullException(nameof(exchangeSelector));
         }
-        public async Task<OHLCV[]> GetDefaultDaySummaryAsync(DateTime dt, ExchangeNameEnum exchangeName)
+        public async Task<OHLCV[]> GetDefaultDaySummaryAsync(DateTimeOffset dt, ExchangeNameEnum exchangeName)
         {
             IExchange exchange = _exchangeSelector.GetByName(exchangeName);
             IPublicApiClient publicApiClient = exchange.Public;
