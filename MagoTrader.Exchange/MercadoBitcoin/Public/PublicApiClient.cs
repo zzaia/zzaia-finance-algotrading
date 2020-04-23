@@ -12,6 +12,7 @@ using MagoTrader.Core.Exchange;
 using MagoTrader.Core.Models;
 
 using System.Text.Json;
+using System.Globalization;
 
 namespace MagoTrader.Exchange.MercadoBitcoin.Public
 {
@@ -30,7 +31,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Public
             _jsonOptions = new JsonSerializerOptions() { PropertyNameCaseInsensitive = true };
         }
         
-        public async Task<OHLCV> GetDaySummaryOHLCVAsync(Market market, DateTime dt)
+        public async Task<OHLCV> GetDaySummaryOHLCVAsync(Market market, DateTimeOffset dt)
         {
             Uri requestUri = new Uri($"{market.Main.ToString()}/day-summary/{dt.Year}/{dt.Month}/{dt.Day}", UriKind.Relative);
             var response = await _client.GetAsync(requestUri);
@@ -47,7 +48,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Public
                         Exchange = ExchangeNameEnum.MercadoBitcoin,
                         TimeFrame = new TimeFrame(TimeFrameEnum.D1),
                         Market = market,
-                        DateTime = new DateTime(dt.Year, dt.Month, dt.Day),
+                        DateTimeOffset = new DateTime(dt.Year, dt.Month, dt.Day),
                         Open = OHLCVFromApi.opening,
                         High = OHLCVFromApi.highest,
                         Low = OHLCVFromApi.lowest,
@@ -84,7 +85,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Public
             if (response.IsSuccessStatusCode)
             {
                 using var responseStream = await response.Content.ReadAsStreamAsync();
-                var OHLCVFromApi = await JsonSerializer.DeserializeAsync<TickerDTO>(responseStream, _jsonOptions);
+                var OHLCVFromApi = await JsonSerializer.DeserializeAsync<TickerDataDTO>(responseStream, _jsonOptions);
                 if (String.IsNullOrEmpty(OHLCVFromApi.error))
                 {
                     _logger.LogInformation($"Get {market.Main.ToString()} last 24h OHLCV succeed.");
@@ -93,12 +94,13 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Public
                         Exchange = ExchangeNameEnum.MercadoBitcoin,
                         TimeFrame = new TimeFrame(TimeFrameEnum.D1),
                         Market = market,
-                        //DateTime = DateTime.Parse(date),
-                        //Open = OHLCVFromApi.open,
-                        //High = OHLCVFromApi.high,
-                        //Low = OHLCVFromApi.low,
-                        //Last = OHLCVFromApi.last,
-                        //Volume = OHLCVFromApi.volume
+                        DateTimeOffset = DateTimeData.TimestampToDateTimeOffset(OHLCVFromApi.ticker.date),
+                        Buy = Convert.ToDecimal(OHLCVFromApi.ticker.buy),
+                        Sell = Convert.ToDecimal(OHLCVFromApi.ticker.sell),
+                        High = Convert.ToDecimal(OHLCVFromApi.ticker.high),
+                        Low = Convert.ToDecimal(OHLCVFromApi.ticker.low),
+                        Last = Convert.ToDecimal(OHLCVFromApi.ticker.last),
+                        Volume = Convert.ToDecimal(OHLCVFromApi.ticker.vol)
                     };
                 }
                 else

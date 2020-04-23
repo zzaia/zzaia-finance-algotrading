@@ -6,13 +6,19 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Public
 {
     class TickerDTO
     {
-        public Decimal high { get; set; }
-        public Decimal low { get; set; }
-        public Decimal vol { get; set; }
-        public Decimal last { get; set; }
-        public Decimal buy { get; set; }
-        public Decimal sell { get; set; }
-        public string date { get; set; }
+        public string high { get; set; }
+        public string low { get; set; }
+        public string vol { get; set; }
+        public string last { get; set; }
+        public string buy { get; set; }
+        public string sell { get; set; }
+        public int date { get; set; }
+
+    }
+
+    class TickerDataDTO
+    {
+        public TickerDTO ticker { get; set; }
         public string error { get; set; }
 
     }
