@@ -8,7 +8,7 @@ namespace MagoTrader.Core.Exchange
 {
     public interface IPublicApiClient
     {
-        Task<OHLCV> GetDaySummaryOHLCVAsync(Market market, DateTime dt);
+        Task<OHLCV> GetDaySummaryOHLCVAsync(Market market, DateTimeOffset dt);
         Task<OrderBook> GetOrderbookAsync(Market market);
 
     }

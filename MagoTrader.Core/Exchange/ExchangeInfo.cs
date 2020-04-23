@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using MagoTrader.Core.Models;
 
 namespace MagoTrader.Core.Exchange
@@ -18,7 +19,8 @@ namespace MagoTrader.Core.Exchange
         public IEnumerable<Market> Futures { get; set; }
         public IEnumerable<Asset> Assets { get; set; }
         public IEnumerable<Asset> Fiats { get; set; }
-        public IEnumerable<CountryEnum> Countries { get; set; }
+        public CountryEnum Country { get; set; }
+        public CultureInfo Culture { get; set; }
         public IEnumerable<TimeFrame> Timeframes{ get; set; }
         public ExchangeUrls Urls { get; set; }
         public RequiredCredentials RequiredCredentials { get; set; }

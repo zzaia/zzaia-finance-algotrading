@@ -22,7 +22,7 @@ namespace MagoTrader.Core.Models
         /// <summary>
         /// Represents the candlestick time of measurement.
         /// </summary>
-        public DateTime DateTime { get; set; }
+        public DateTimeOffset DateTimeOffset { get; set; }
 
         /// <summary>
         /// Represents the candlestick timeframe.

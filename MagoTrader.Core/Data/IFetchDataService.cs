@@ -8,7 +8,7 @@ namespace MagoTrader.Core.Repositories
 {
     public interface IFetchDataService
     {
-        Task<OHLCV[]> GetDefaultDaySummaryAsync(DateTime startDate, ExchangeNameEnum exchangeName);
+        Task<OHLCV[]> GetDefaultDaySummaryAsync(DateTimeOffset startDate, ExchangeNameEnum exchangeName);
 
     }
 
