@@ -35,7 +35,7 @@ namespace MagoTrader.Tests.Exchange.MercadoBitcoin
             Assert.Equal(ExchangeNameEnum.MercadoBitcoin, result.Exchange);
             Assert.Equal(timeframe.Enum, result.TimeFrame.Enum);
             Assert.Equal(market, result.Market);
-            Assert.Equal(new DateTime(2013, 6, 20), result.DateTime);
+            Assert.Equal(new DateTime(2013, 6, 20), result.DateTimeOffset);
             Assert.Equal((decimal)262.99999, result.Open,5);
             Assert.Equal((decimal)269.0, result.High,5);
             Assert.Equal((decimal)260.00002, result.Low,5);
@@ -44,6 +44,29 @@ namespace MagoTrader.Tests.Exchange.MercadoBitcoin
             Assert.Equal((decimal)27.11390588, result.TradedQuantity,5);
             Assert.Equal((decimal)267.5060416518087, result.Average,5);
             Assert.Equal((int)28, result.NumberOfTrades);
+        }
+
+        [Fact]
+        public async void GetLast24hOHLCVByMarket()
+        {
+            //Arrange:
+            var market = new Market(AssetTickerEnum.BTC, AssetTickerEnum.BRL);
+            var dt = DateTimeOffset.UtcNow;
+            var tolerance = TimeSpan.FromSeconds(30);
+
+            //Act:
+            OHLCV result = await _client.GetLast24hOHLCVAsync(market);
+
+            //Assert:
+            Assert.NotNull(result);
+            //Assert.Equal(dt, result.DateTimeOffset);
+            Assert.Equal(dt.DateTime, result.DateTimeOffset.DateTime, tolerance );
+            Assert.InRange<decimal>(result.Buy, 10000, decimal.MaxValue);
+            Assert.InRange<decimal>(result.Sell, 10000, decimal.MaxValue);
+            Assert.InRange<decimal>(result.High, 10000, decimal.MaxValue);
+            Assert.InRange<decimal>(result.Low, 10000, decimal.MaxValue);
+            Assert.InRange<decimal>(result.Last, 10000, decimal.MaxValue);
+            Assert.InRange<decimal>(result.Volume, 0, 1000);
         }
 
         [Fact]
