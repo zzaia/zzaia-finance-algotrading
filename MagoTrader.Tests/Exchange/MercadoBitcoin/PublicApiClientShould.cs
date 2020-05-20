@@ -88,6 +88,20 @@ namespace MagoTrader.Tests.Exchange.MercadoBitcoin
             Assert.InRange<decimal>(result.Bids[0][0], 10000, decimal.MaxValue);
             Assert.InRange<decimal>(result.Bids[0][1], 0, 50);
         }
+        [Fact]
+        public async void GetTradesSinceTIDByMarket()
+        {
+            //Arrange:
+            var market = new Market(AssetTickerEnum.BTC, AssetTickerEnum.BRL);
+            string tid = "5700";
+            var globalId = new Guid(tid.GetHashCode().ToString());
+            
+            //Act:
+            IEnumerable<Order> result = await _client.GetTradesSinceTIDAsync(market, tid);
+
+            //Assert:
+            Assert.NotNull(result);
+        }
 
     }
 }
