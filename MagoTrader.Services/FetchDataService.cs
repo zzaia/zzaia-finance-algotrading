@@ -16,7 +16,7 @@ namespace MagoTrader.Services
 {
     public class FetchDataService : IFetchDataService
     {
-        private IExchangeSelector _exchangeSelector;
+        private readonly IExchangeSelector _exchangeSelector;
         protected readonly ILogger<FetchDataService> _logger;
 
         public FetchDataService(IExchangeSelector exchangeSelector, ILogger<FetchDataService> logger)
@@ -24,16 +24,16 @@ namespace MagoTrader.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _exchangeSelector = exchangeSelector ?? throw new ArgumentNullException(nameof(exchangeSelector));
         }
-        public async Task<OHLCV[]> GetDefaultDaySummaryAsync(DateTime dt, ExchangeNameEnum exchangeName)
+        public async Task<OHLCV[]> GetDefaultDaySummaryAsync(DateTimeOffset dt, ExchangeNameEnum exchangeName)
         {
             IExchange exchange = _exchangeSelector.GetByName(exchangeName);
             IPublicApiClient publicApiClient = exchange.Public;
-            AssetTickerEnum[] tickers = exchange.Info.Assets.Select(c => c.Ticker).ToArray();
+            Market[] markets = exchange.Info.Markets.ToArray();
             List<Task<OHLCV>> tasks = new List<Task<OHLCV>>();
-            OHLCV[] data = new OHLCV[tickers.Length];
-            foreach(var tck in tickers)
+            OHLCV[] data = new OHLCV[markets.Length];
+            foreach(var mkt in markets)
             {
-                tasks.Add(Task.Run(() =>publicApiClient.GetDaySummaryOHLCVAsync(tck, dt)));
+                tasks.Add(Task.Run(() =>publicApiClient.GetDaySummaryOHLCVAsync(mkt, dt)));
                 //tasks.Add( GetPriceByTickerAsync(tck, dt));
             }
 

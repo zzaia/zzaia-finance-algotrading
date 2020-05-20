@@ -20,7 +20,7 @@ namespace MagoTrader.Web.Pages
         public Decimal[] Prices { get; set; }
         protected override async Task OnInitializedAsync()
         {
-            Forecasts = await FetchDataService.GetDefaultDaySummaryAsync(DateTime.Now.Subtract(TimeSpan.FromDays(1)), ExchangeNameEnum.MercadoBitcoin);
+            Forecasts = await FetchDataService.GetDefaultDaySummaryAsync(DateTimeOffset.Now.Subtract(TimeSpan.FromDays(1)), ExchangeNameEnum.MercadoBitcoin).ConfigureAwait(true);
         }
     }
 }

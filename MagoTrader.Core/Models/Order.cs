@@ -9,16 +9,24 @@ namespace MagoTrader.Core.Models
     public class Order
     {
         public Guid Id { get; set; }
-        public AssetTickerEnum Ticker { get; private set; }
-        public Decimal? Price { get; private set; }
-        public double? Amount { get; private set; }
+        public Market Market { get; private set; }
+        public decimal Price { get; private set; }
+        public decimal Amount { get; private set; }
         public OrderTypeEnum Type { get; private set; }
-        public Order(AssetTickerEnum ticker, OrderTypeEnum type, double? amount, Decimal? price)
+        public DateTimeOffset DateTimeOffset { get; private set; }
+
+        public Order( Market market, OrderTypeEnum type, 
+                                     decimal amount, 
+                                     decimal price, 
+                                     Guid? id = null, 
+                                     DateTimeOffset? dateTimeOffset = null)
         {
-            Ticker = ticker;
+            Market = market;
             Type = type;
             Amount = amount;
             Price = price;
+            DateTimeOffset = dateTimeOffset ?? DateTimeConvert.CurrentLocalDateTimeOffset();
+            Id = id ?? Guid.NewGuid();
         }
     }
 
