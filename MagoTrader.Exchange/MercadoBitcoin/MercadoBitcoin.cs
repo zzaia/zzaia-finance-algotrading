@@ -113,8 +113,8 @@ namespace MagoTrader.Exchange.MercadoBitcoin
                         },
                         Api = new ApiUrls
                         {
-                            Private = "https://www.mercadobitcoin.net/api",
-                            Public = "https://www.mercadobitcoin.net/tapi/v3",
+                            Public = "https://www.mercadobitcoin.net/api",
+                            Private = "https://www.mercadobitcoin.net/tapi/v3",
                             Trade = "https://www.mercadobitcoin.net/tapi/v3"
                         },
                     },
