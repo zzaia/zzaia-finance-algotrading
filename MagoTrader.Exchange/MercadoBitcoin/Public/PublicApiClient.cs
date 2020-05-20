@@ -156,9 +156,9 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Public
 
         }
 
-        public async Task<Order[]> GetTradesSinceTIDAsync(AssetTickerEnum ticker, int tid)
+        public async Task<IEnumerable<Order>> GetTradesSinceTIDAsync(Market market, string  id)
         {
-            Uri requestUri = new Uri($"{ticker.ToString()}/trades/{tid.ToString()}", UriKind.Relative);
+            Uri requestUri = new Uri($"{market.Main.ToString()}/trades/?since={id.ToString()}", UriKind.Relative);
             var response = await _client.GetAsync(requestUri);
 
             if (response.IsSuccessStatusCode)
@@ -167,30 +167,31 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Public
                 var tradesFromApi = await JsonSerializer.DeserializeAsync<TradesDTO>(responseStream, _jsonOptions);
                 if (String.IsNullOrEmpty(tradesFromApi.error))
                 {
-                    _logger.LogInformation($"Get trades for {ticker.ToString()} succeed.");
-                    /*
-                    var orders = new Order[tradesFromApi.Length];
+                    _logger.LogInformation($"Get trades for {market.Main.ToString()} succeed.");
+                    var orders = new Order[tradesFromApi.Trades.Length];
                     int index = 0;
-                    foreach (var trade in tradesFromApi)
+                    foreach (var trade in tradesFromApi.Trades)
                     {
-                        OrderType type = trade.type.Equals("sell") ? OrderType.MARKET_SELL : OrderType.MARKET_BUY;
-                        orders[index] = new Order(ticker, type, trade.amount, trade.price);
+                        OrderTypeEnum type = trade.type.Equals("sell") ? OrderTypeEnum.SELL : OrderTypeEnum.BUY;
+                        orders[index] = new Order(market, type, 
+                                                          trade.amount, 
+                                                          trade.price,
+                                                          new Guid(trade.tid.GetHashCode().ToString()),
+                                                          DateTimeConvert.TimestampToDateTimeOffset(trade.date, false));
                         index++;
                     }
                     return orders;
-                    */
-                    return null;
                 }
                 else
                 {
                     string net_http_message_error_response = $"Exchange returned an error: {tradesFromApi.error}.";
-                    _logger.LogError($"Get {ticker.ToString()} day-summary OHLCV failed:{net_http_message_error_response}");
+                    _logger.LogError($"Get {market.Main.ToString()} day-summary OHLCV failed:{net_http_message_error_response}");
                     throw new HttpRequestException(net_http_message_error_response);
                 }
             }
             else
             {
-                _logger.LogError($"Get trades for {ticker.ToString()} failed.");
+                _logger.LogError($"Get trades for {market.Main.ToString()} failed.");
                 string responseBody = await response.Content.ReadAsStringAsync();
                 string net_http_message_not_success_statuscode = @"Response status code does not indicate success: {0} ({1}) - BODY: {2}.";
                 throw new HttpRequestException(String.Format(net_http_message_not_success_statuscode, response.StatusCode, response.ReasonPhrase, responseBody));
