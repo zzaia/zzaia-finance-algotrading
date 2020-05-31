@@ -5,8 +5,10 @@ using MagoTrader.Core.Models;
 
 namespace MagoTrader.Core
 {
-    public class Trade 
-    {
+    /// <summary>
+    /// Represents a financial order the was fulfilled.
+    /// </summary>
+
         /*  ======================================================================================================================
            
             ====================================================================================================================== 
@@ -59,5 +61,5 @@ namespace MagoTrader.Core
             }
         }
        */
-    }
+    
 }

@@ -76,7 +76,7 @@ namespace MagoTrader.Core.Services
             StatusCodes.Status500InternalServerError,
             "InternalServerError",
             "Internal Server Error.",
-            "An unexpected error occurred in our server, please try again or contact our support team: support@3rz.io."
+            "An unexpected error occurred in our server"
             );
     }
 }

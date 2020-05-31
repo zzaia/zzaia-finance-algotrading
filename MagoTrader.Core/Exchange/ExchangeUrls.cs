@@ -4,19 +4,19 @@ using System.Text;
 
 namespace MagoTrader.Core.Exchange
 {
-    public class ExchangeUrls
+    public class ExchangeUris
     {
-        public string Logo { get; set; }
-        public string WWW { get; set; }
-        public IEnumerable<string> Fees { get; set; }
+        public Uri Logo { get; set; }
+        public Uri WWW { get; set; }
+        public IEnumerable<Uri> Fees { get; set; }
         public bool Testnet { get; set; }
-        public ApiUrls Api { get; set; }
-        public IEnumerable<string> Doc { get; set; }
+        public ApiUris Api { get; set; }
+        public IEnumerable<Uri> Doc { get; set; }
     }
-    public class ApiUrls
+    public class ApiUris
     {
-        public string Public { get; set; }
-        public string Private { get; set; }
-        public string Trade { get; set; }
+        public Uri Public { get; set; }
+        public Uri Private { get; set; }
+        public Uri Trade { get; set; }
     }
 }

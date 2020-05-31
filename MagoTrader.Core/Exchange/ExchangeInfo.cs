@@ -22,7 +22,7 @@ namespace MagoTrader.Core.Exchange
         public CountryEnum Country { get; set; }
         public CultureInfo Culture { get; set; }
         public IEnumerable<TimeFrame> Timeframes{ get; set; }
-        public ExchangeUrls Urls { get; set; }
+        public ExchangeUris Uris { get; set; }
         public RequiredCredentials RequiredCredentials { get; set; }
         public ExchangeOptions Options { get; set; }
         public MarketFee TradingFee { get; set; }
