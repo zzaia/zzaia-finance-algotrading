@@ -84,10 +84,5 @@ namespace MagoTrader.Core.Models
         /// </summary>
         public int NumberOfTrades { get; set; }
 
-        /// <summary>
-        /// Order book for market main asset, from OHLCV date time.
-        /// </summary>
-        public OrderBook OrderBook { get; set; }
-
     }
 }

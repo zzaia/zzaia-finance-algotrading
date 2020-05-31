@@ -74,7 +74,7 @@ namespace MagoTrader.Exchange
                         services.AddHttpClient<MagoTrader.Exchange.MercadoBitcoin.Trade.TradeApiClient>(configureClient);
                         services.Configure("MercadoBitcoinTradeApiOptions", tradeApiOptions);
                     }
-                    services.AddScoped<Exchange.MercadoBitcoin.MercadoBitcoin>();
+                    services.AddScoped<Exchange.MercadoBitcoin.MercadoBitcoinExchange>();
                     break;
             }
             

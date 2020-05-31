@@ -12,16 +12,22 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Private
 {
     public class PrivateApiClient : IPrivateApiClient
     {
-        protected readonly AuthApiOptions _authentication;
-        protected readonly ILogger<PrivateApiClient> _logger;
-        protected HttpClient _client;
+        //private readonly AuthApiOptions _authentication;
+        private readonly ILogger<PrivateApiClient> _logger;
+        private readonly HttpClient _client;
 
-        public PrivateApiClient(HttpClient client, IOptionsMonitor<AuthApiOptions> authApiOptions, ILogger<PrivateApiClient> logger) 
+        public PrivateApiClient(HttpClient client, ILogger<PrivateApiClient> logger)//, IOptionsMonitor<AuthApiOptions> authApiOptions) 
         {
-            _authentication = authApiOptions.Get("MercadoBitcoinPrivateApiOptions") ?? throw new ArgumentNullException(nameof(authApiOptions));
+            //_authentication = authApiOptions.Get("MercadoBitcoinPrivateApiOptions") ?? throw new ArgumentNullException(nameof(authApiOptions));
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            //_authentication = authApiOptions.Get("MercadoBitcoinPrivateApiOptions") ?? throw new ArgumentNullException(nameof(authApiOptions));
         }
+        public void SetBaseAddress(Uri baseAddress)
+        {
+            _client.BaseAddress = baseAddress;
+        }
+
 
     }
 }

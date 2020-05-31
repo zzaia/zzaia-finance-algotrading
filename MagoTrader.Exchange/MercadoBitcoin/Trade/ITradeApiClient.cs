@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MagoTrader.Core.Exchange
+namespace MagoTrader.Exchange.MercadoBitcoin.Trade
 {
     public interface ITradeApiClient
     {

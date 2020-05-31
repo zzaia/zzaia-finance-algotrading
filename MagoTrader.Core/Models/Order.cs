@@ -5,28 +5,33 @@ using System.Linq;
 
 namespace MagoTrader.Core.Models
 {
-
+    /// <summary>
+    /// Represents a financial order, that can be partially or completely fulfilled.
+    /// </summary>
     public class Order
     {
+        public OrderStatusEnum Status { get; set; }
         public Guid Id { get; set; }
         public Market Market { get; private set; }
         public decimal Price { get; private set; }
         public decimal Amount { get; private set; }
         public OrderTypeEnum Type { get; private set; }
-        public DateTimeOffset DateTimeOffset { get; private set; }
+        public DateTimeOffset CreatedAt { get; private set; }
 
         public Order( Market market, OrderTypeEnum type, 
                                      decimal amount, 
                                      decimal price, 
                                      Guid? id = null, 
-                                     DateTimeOffset? dateTimeOffset = null)
+                                     DateTimeOffset? createdAt = null,
+                                     OrderStatusEnum status = OrderStatusEnum.CREATED)
         {
             Market = market;
             Type = type;
             Amount = amount;
             Price = price;
-            DateTimeOffset = dateTimeOffset ?? DateTimeConvert.CurrentLocalDateTimeOffset();
+            CreatedAt = createdAt ?? DateTimeConvert.CurrentLocalDateTimeOffset();
             Id = id ?? Guid.NewGuid();
+            Status = status;
         }
     }
 

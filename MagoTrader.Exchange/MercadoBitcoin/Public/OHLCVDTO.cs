@@ -1,21 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace MagoTrader.Exchange.MercadoBitcoin.Public
 {
-    class OHLCVDTO
+    /// <summary>
+    /// Data Transfer Object to be used in json to model serialization
+    /// </summary>
+    public class OHLCVDTO
     {
-        public string date { get; set; }
-        public decimal opening { get; set; }
-        public decimal closing { get; set; }
-        public decimal lowest { get; set; }
-        public decimal highest { get; set; }
-        public decimal volume { get; set; }
-        public decimal quantity { get; set; }
-        public int amount { get; set; }
-        public decimal avg_price { get; set; }
-        public string error { get; set; }
+
+        [JsonPropertyName("date")]
+        public string Date { get; set; }
+
+        [JsonPropertyName("opening")]
+        public decimal Open { get; set; }
+
+        [JsonPropertyName("closing")]
+        public decimal Close { get; set; }
+
+        [JsonPropertyName("lowest")]
+        public decimal Low { get; set; }
+
+        [JsonPropertyName("highest")]
+        public decimal High { get; set; }
+
+        [JsonPropertyName("volume")]
+        public decimal Volume { get; set; }
+
+        [JsonPropertyName("quantity")]
+        public decimal TradedQuantity { get; set; }
+
+        [JsonPropertyName("amount")]
+        public int NumberOfTrades { get; set; }
+
+        [JsonPropertyName("avg_price")]
+        public decimal Average { get; set; }
+
+        [JsonPropertyName("error")]
+        public string ErrorMessage { get; set; }
 
     }
 }
