@@ -1,25 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace MagoTrader.Exchange.MercadoBitcoin.Public
 {
-    class TickerDTO
+    /// <summary>
+    /// Data Transfer Object to be used in json to model serialization
+    /// </summary>
+    public class TickerDTO
     {
-        public string high { get; set; }
-        public string low { get; set; }
-        public string vol { get; set; }
-        public string last { get; set; }
-        public string buy { get; set; }
-        public string sell { get; set; }
-        public int date { get; set; }
+        [JsonPropertyName("high")]
+        public string High { get; set; }
+
+        [JsonPropertyName("low")]
+        public string Low { get; set; }
+
+        [JsonPropertyName("vol")]
+        public string Volume { get; set; }
+
+        [JsonPropertyName("last")]
+        public string Last { get; set; }
+
+        [JsonPropertyName("buy")]
+        public string Buy { get; set; }
+
+        [JsonPropertyName("sell")]
+        public string Sell { get; set; }
+
+        [JsonPropertyName("date")]
+        public int TimeStamp { get; set; }
 
     }
 
-    class TickerDataDTO
+    public class TickerDataDTO
     {
-        public TickerDTO ticker { get; set; }
-        public string error { get; set; }
+        [JsonPropertyName("ticker")]
+        public TickerDTO Ticker { get; set; }
+
+        [JsonPropertyName("error")]
+        public string ErrorMessage { get; set; }
 
     }
 }

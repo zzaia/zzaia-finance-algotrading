@@ -1,15 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace MagoTrader.Exchange.MercadoBitcoin.Public
 {
-    class OrderbookDTO
+    /// <summary>
+    /// Data Transfer Object to be used in json to model serialization
+    /// </summary>
+    public class OrderBookDTO
     {
-        public Decimal[][] asks { get; set; }
-        public Decimal[][] bids { get; set; }
-        public string ticker { get; set; }
-        public string error { get; set; }
+        [JsonPropertyName("asks")]
+        public decimal[][] Asks { get; set; }
+
+        [JsonPropertyName("bids")]
+        public decimal[][] Bids { get; set; }
+
+        [JsonPropertyName("ticker")]
+        public string MainTicker { get; set; }
+
+        [JsonPropertyName("error")]
+        public string ErrorMessage { get; set; }
 
     }
 }
