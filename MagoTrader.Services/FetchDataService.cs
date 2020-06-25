@@ -1,18 +1,12 @@
+using MagoTrader.Core.Exchange;
+using MagoTrader.Core.Models;
+using MagoTrader.Core.Repositories;
+using MagoTrader.Core.Services;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using System.Text.Json;
-
-using MagoTrader.Core.Models;
-using MagoTrader.Core.Repositories;
-using MagoTrader.Core.Exchange;
-using MagoTrader.Exchange;
-using Microsoft.Extensions.Logging;
-using MagoTrader.Exchange.MercadoBitcoin;
-using MagoTrader.Exchange.MercadoBitcoin.Public;
-using MagoTrader.Core.Services;
 
 namespace MagoTrader.Services
 {
@@ -32,20 +26,21 @@ namespace MagoTrader.Services
             Market[] markets = exchange.Info.Markets.ToArray();
             List<Task<ObjectResult<OHLCV>>> tasks = new List<Task<ObjectResult<OHLCV>>>();
             OHLCV[] data = new OHLCV[markets.Length];
-            foreach(var mkt in markets)
+            foreach (var mkt in markets)
             {
                 tasks.Add(Task.Run(() => exchange.FetchDaySummaryAsync(mkt, dt)));
                 //tasks.Add( GetPriceByTickerAsync(tck, dt));
             }
 
-            try {
+            try
+            {
                 await Task.WhenAll(tasks);
-                for (int i = 0; i < tasks.Count; i++) 
+                for (int i = 0; i < tasks.Count; i++)
                 {
                     data[i] = tasks[i].Result.Output;
                 }
             }
-            catch(Exception e){ _logger.LogError(e.Message); }
+            catch (Exception e) { _logger.LogError(e.Message); }
             return data;
         }
 

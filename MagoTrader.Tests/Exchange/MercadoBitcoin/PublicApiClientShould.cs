@@ -58,7 +58,7 @@ namespace MagoTrader.Tests.Exchange.MercadoBitcoin
             //Assert:
             Assert.True(response.IsOK());
             Assert.NotNull(response);
-            Assert.Equal(dt.DateTime, DateTimeConvert.TimestampToDateTimeOffset(response.Value.Ticker.TimeStamp, false).DateTime, tolerance);
+            Assert.Equal(dt.DateTime, DateTimeUtils.TimestampToDateTimeOffset(response.Value.Ticker.TimeStamp, false).DateTime, tolerance);
             Assert.InRange<decimal>(Convert.ToDecimal(response.Value.Ticker.Buy, cultureInfo), 10000, decimal.MaxValue);
             Assert.InRange<decimal>(Convert.ToDecimal(response.Value.Ticker.Sell, cultureInfo), 10000, decimal.MaxValue);
             Assert.InRange<decimal>(Convert.ToDecimal(response.Value.Ticker.High, cultureInfo), 10000, decimal.MaxValue);

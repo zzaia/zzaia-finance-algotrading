@@ -61,7 +61,7 @@ namespace MagoTrader.Tests.Exchange.MercadoBitcoin
         {
             //Arrange:
             var market = new Market(AssetTickerEnum.BTC, AssetTickerEnum.BRL);
-            var currentTime = DateTimeConvert.CurrentUtcDateTimeOffset();
+            var currentTime = DateTimeUtils.CurrentUtcDateTimeOffset();
             var tolerance = TimeSpan.FromSeconds(30);
 
             //Act:
