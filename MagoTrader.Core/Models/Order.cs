@@ -29,7 +29,7 @@ namespace MagoTrader.Core.Models
             Type = type;
             Amount = amount;
             Price = price;
-            CreatedAt = createdAt ?? DateTimeConvert.CurrentLocalDateTimeOffset();
+            CreatedAt = createdAt ?? DateTimeUtils.CurrentLocalDateTimeOffset();
             Id = id ?? Guid.NewGuid();
             Status = status;
         }

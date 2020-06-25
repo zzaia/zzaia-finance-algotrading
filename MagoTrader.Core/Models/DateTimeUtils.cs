@@ -1,16 +1,15 @@
 using System;
-using System.Globalization;
 
 namespace MagoTrader.Core.Models
 {
-    public class DateTimeConvert
+    public static class DateTimeUtils
     {
         /// <summary>
         /// Returns the Coordinated Universal Time (UTC) datetime.
         /// </summary>
-        public static DateTimeOffset CurrentUtcDateTimeOffset() 
+        public static DateTimeOffset CurrentUtcDateTimeOffset()
         {
-            return DateTimeOffset.UtcNow; 
+            return DateTimeOffset.UtcNow;
         }
 
         /// <summary>
@@ -18,7 +17,7 @@ namespace MagoTrader.Core.Models
         /// </summary>
         public static long CurrentUtcTimestamp()
         {
-          return  DateTimeOffsetToTimestamp(CurrentUtcDateTimeOffset());
+            return DateTimeOffsetToTimestamp(CurrentUtcDateTimeOffset());
         }
 
         /// <summary>
@@ -58,15 +57,15 @@ namespace MagoTrader.Core.Models
         /// </summary>
         public static DateTimeOffset TimestampToDateTimeOffset(string timestamp, bool IsMillisecond)
         {
-            return TimestampToDateTimeOffset(Convert.ToInt64(timestamp),IsMillisecond);
+            return TimestampToDateTimeOffset(Convert.ToInt64(timestamp), IsMillisecond);
         }
-         
+
         /// <summary>
         /// Convert a timestamp to a Coordinated Universal Time (UTC) datetime.
         /// </summary>
         public static DateTimeOffset TimestampToDateTimeOffset(long timestamp, bool IsMilliseconds)
         {
-            return IsMilliseconds 
+            return IsMilliseconds
                 ? DateTimeOffset.FromUnixTimeMilliseconds(timestamp).ToUniversalTime()
                 : DateTimeOffset.FromUnixTimeSeconds(timestamp).ToUniversalTime();
         }
