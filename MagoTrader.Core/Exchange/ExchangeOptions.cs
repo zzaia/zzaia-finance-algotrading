@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MagoTrader.Core.Exchange
+﻿namespace MagoTrader.Core.Exchange
 {
     public class ExchangeOptions
     {
-
+        public string PrivateClientCredentialReference { get; set; }
+        public string TradeClientCredentialReference { get; set; }
         public bool HasAlreadyAuthenticatedSuccessfully { get; set; }
     }
 }
