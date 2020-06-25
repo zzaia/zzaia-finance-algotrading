@@ -5,6 +5,7 @@ using MagoTrader.Exchange.MercadoBitcoin.Private;
 using MagoTrader.Exchange.MercadoBitcoin.Public;
 using MagoTrader.Exchange.MercadoBitcoin.Trade;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -19,6 +20,8 @@ namespace MagoTrader.Exchange.MercadoBitcoin
         private readonly PrivateApiClient _privateApiClient;
         private readonly TradeApiClient _tradeApiClient;
         private readonly ILogger<MercadoBitcoinExchange> _logger;
+        private readonly ClientCredential _tradeClientCredential;
+        private readonly ClientCredential _privateClientCredential;
 
         private readonly string _apiResponseUnsuccessfully = "Public Api returned unsuccessfully, with message: ";
 
@@ -28,16 +31,19 @@ namespace MagoTrader.Exchange.MercadoBitcoin
         public MercadoBitcoinExchange(PublicApiClient publicApiClient,
                                       PrivateApiClient privateApiClient,
                                       TradeApiClient tradeApiClient,
-                                      ILogger<MercadoBitcoinExchange> logger)
+                                      ILogger<MercadoBitcoinExchange> logger,
+                                      IOptionsMonitor<ClientCredential> clientCredentials)
         {
+            _tradeClientCredential = clientCredentials.Get(Information.Options.TradeClientCredentialReference) ?? throw new ArgumentNullException(nameof(clientCredentials));
+            _privateClientCredential = clientCredentials.Get(Information.Options.PrivateClientCredentialReference) ?? throw new ArgumentNullException(nameof(clientCredentials));
             _publicApiClient = publicApiClient ?? throw new ArgumentNullException(nameof(publicApiClient));
             _privateApiClient = privateApiClient ?? throw new ArgumentNullException(nameof(privateApiClient));
             _tradeApiClient = tradeApiClient ?? throw new ArgumentNullException(nameof(tradeApiClient));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
-            _publicApiClient.SetBaseAddress(this.Info.Uris.Api.Public);
-            _privateApiClient.SetBaseAddress(this.Info.Uris.Api.Private);
-            _tradeApiClient.SetBaseAddress(this.Info.Uris.Api.Trade);
+            _publicApiClient.SetBaseAddress(Information.Uris.Api.Public);
+            _privateApiClient.SetBaseAddress(Information.Uris.Api.Private);
+            _tradeApiClient.SetBaseAddress(Information.Uris.Api.Trade);
         }
 
         public IPublicApiClient PublicClient
@@ -65,9 +71,9 @@ namespace MagoTrader.Exchange.MercadoBitcoin
         }
 
         /// <summary>
-        /// Exhange information
+        /// Exhange static information
         /// </summary>
-        public ExchangeInfo Info
+        public static ExchangeInfo Information
         {
             get
             {
@@ -126,18 +132,17 @@ namespace MagoTrader.Exchange.MercadoBitcoin
                         Api = new ApiUris
                         {
                             Public = new Uri("https://www.mercadobitcoin.net/api/"),
-                            Private = new Uri("https://www.mercadobitcoin.net/tapi/v3/"),
-                            Trade = new Uri("https://www.mercadobitcoin.net/tapi/v3/")
+                            Private = new Uri("https://www.mercadobitcoin.net"),
+                            Trade = new Uri("https://www.mercadobitcoin.net")
                         },
                     },
                     RequiredCredentials = new RequiredCredentials
                     {
-                        Apikey = true,
+                        Id = true,
                         Secret = true,
                         Login = false,
                         Password = false,
                         Twofa = false,
-                        Uid = false,
                     },
                     TradingFee = new MarketFee
                     {
@@ -145,11 +150,21 @@ namespace MagoTrader.Exchange.MercadoBitcoin
                         FixedPercentage = true,
                         Maker = 0.3m / 100m,
                         Taker = 0.7m / 100m,
+                    },
+                    Options = new ExchangeOptions
+                    {
+                        PrivateClientCredentialReference = Guid.NewGuid().ToString(),
+                        TradeClientCredentialReference = Guid.NewGuid().ToString(),
                     }
                 };
                 return exchangeInfo;
             }
         }
+
+        /// <summary>
+        /// Exhange instance information information
+        /// </summary>
+        public ExchangeInfo Info { get { return Information; } }
 
         /// <summary>
         /// Fetch day summary OHLCV for the specified market and date.
@@ -202,7 +217,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin
                 var resultToReturn = new OrderBook
                 {
                     Exchange = ExchangeNameEnum.MercadoBitcoin,
-                    DateTimeOffset = DateTimeConvert.CurrentUtcDateTimeOffset(),
+                    DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
                     Market = market,
                     Bids = from order in response.Value.Bids.ToList()
                            select new Order(market, OrderTypeEnum.BUY, order[1], order[0]),
@@ -234,14 +249,14 @@ namespace MagoTrader.Exchange.MercadoBitcoin
                 {
                     Exchange = ExchangeNameEnum.MercadoBitcoin,
                     TimeFrame = new TimeFrame(TimeFrameEnum.D1),
-                    DateTimeOffset = DateTimeConvert.TimestampToDateTimeOffset(response.Value.Ticker.TimeStamp, false),
+                    DateTimeOffset = DateTimeUtils.TimestampToDateTimeOffset(response.Value.Ticker.TimeStamp, false),
                     Market = market,
-                    Buy = Convert.ToDecimal(response.Value.Ticker.Buy, this.Info.Culture),
-                    Sell = Convert.ToDecimal(response.Value.Ticker.Sell, this.Info.Culture),
-                    High = Convert.ToDecimal(response.Value.Ticker.High, this.Info.Culture),
-                    Low = Convert.ToDecimal(response.Value.Ticker.Low, this.Info.Culture),
-                    Last = Convert.ToDecimal(response.Value.Ticker.Last, this.Info.Culture),
-                    Volume = Convert.ToDecimal(response.Value.Ticker.Volume, this.Info.Culture),
+                    Buy = Convert.ToDecimal(response.Value.Ticker.Buy, Information.Culture),
+                    Sell = Convert.ToDecimal(response.Value.Ticker.Sell, Information.Culture),
+                    High = Convert.ToDecimal(response.Value.Ticker.High, Information.Culture),
+                    Low = Convert.ToDecimal(response.Value.Ticker.Low, Information.Culture),
+                    Last = Convert.ToDecimal(response.Value.Ticker.Last, Information.Culture),
+                    Volume = Convert.ToDecimal(response.Value.Ticker.Volume, Information.Culture),
                 };
 
                 return ObjectResultFactory.CreateSuccessResult(resultToReturn);
@@ -271,7 +286,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin
                                        trade.Amount,
                                        trade.Price,
                                        new Guid(trade.Tid.GetHashCode().ToString(CultureInfo.InvariantCulture)),
-                                       DateTimeConvert.TimestampToDateTimeOffset(trade.TimeStamp, false),
+                                       DateTimeUtils.TimestampToDateTimeOffset(trade.TimeStamp, false),
                                        OrderStatusEnum.CLOSED
                           );
 
