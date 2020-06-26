@@ -34,8 +34,8 @@ namespace MagoTrader.Exchange.MercadoBitcoin
                                       ILogger<MercadoBitcoinExchange> logger,
                                       IOptionsMonitor<ClientCredential> clientCredentials)
         {
-            _tradeClientCredential = clientCredentials.Get(Information.Options.TradeClientCredentialReference) ?? throw new ArgumentNullException(nameof(clientCredentials));
-            _privateClientCredential = clientCredentials.Get(Information.Options.PrivateClientCredentialReference) ?? throw new ArgumentNullException(nameof(clientCredentials));
+            _tradeClientCredential = clientCredentials.Get(Information.Options.TradeClientCredentialReference);
+            _privateClientCredential = clientCredentials.Get(Information.Options.PrivateClientCredentialReference);
             _publicApiClient = publicApiClient ?? throw new ArgumentNullException(nameof(publicApiClient));
             _privateApiClient = privateApiClient ?? throw new ArgumentNullException(nameof(privateApiClient));
             _tradeApiClient = tradeApiClient ?? throw new ArgumentNullException(nameof(tradeApiClient));
