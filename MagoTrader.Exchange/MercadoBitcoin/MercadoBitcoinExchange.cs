@@ -175,30 +175,30 @@ namespace MagoTrader.Exchange.MercadoBitcoin
 
             var response = await this.PublicClient.GetDaySummaryOHLCVAsync(market.Main.ToString(), dateTime.Year, dateTime.Month, dateTime.Day).ConfigureAwait(true);
 
-            if (response.IsOK())
+            if (response.Success)
             {
                 var resultToReturn = new OHLCV
                 {
                     Exchange = ExchangeNameEnum.MercadoBitcoin,
                     TimeFrame = new TimeFrame(TimeFrameEnum.D1),
-                    DateTimeOffset = DateTimeOffset.Parse(response.Value.Date, CultureInfo.InvariantCulture),
+                    DateTimeOffset = DateTimeOffset.Parse(response.Output.Date, CultureInfo.InvariantCulture),
                     //DateTimeOffset = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day),
                     Market = market,
-                    Open = response.Value.Open,
-                    High = response.Value.High,
-                    Low = response.Value.Low,
-                    Close = response.Value.Close,
-                    Volume = response.Value.Volume,
-                    TradedQuantity = response.Value.TradedQuantity,
-                    Average = response.Value.Average,
-                    NumberOfTrades = response.Value.NumberOfTrades,
+                    Open = response.Output.Open,
+                    High = response.Output.High,
+                    Low = response.Output.Low,
+                    Close = response.Output.Close,
+                    Volume = response.Output.Volume,
+                    TradedQuantity = response.Output.TradedQuantity,
+                    Average = response.Output.Average,
+                    NumberOfTrades = response.Output.NumberOfTrades,
                 };
 
                 return ObjectResultFactory.CreateSuccessResult(resultToReturn);
             }
             else
             {
-                _logger.LogError($"{_apiResponseUnsuccessfully}{response.Message}");
+                _logger.LogError($"{_apiResponseUnsuccessfully}{response.ProblemDetails.Detail}");
                 return ObjectResultFactory.CreateFailResult<OHLCV>();
             }
         }
@@ -212,16 +212,16 @@ namespace MagoTrader.Exchange.MercadoBitcoin
 
             var response = await this.PublicClient.GetOrderBookAsync(market.Main.ToString()).ConfigureAwait(true);
 
-            if (response.IsOK())
+            if (response.Success)
             {
                 var resultToReturn = new OrderBook
                 {
                     Exchange = ExchangeNameEnum.MercadoBitcoin,
                     DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
                     Market = market,
-                    Bids = from order in response.Value.Bids.ToList()
+                    Bids = from order in response.Output.Bids.ToList()
                            select new Order(market, OrderTypeEnum.BUY, order[1], order[0]),
-                    Asks = from order in response.Value.Bids.ToList()
+                    Asks = from order in response.Output.Bids.ToList()
                            select new Order(market, OrderTypeEnum.SELL, order[1], order[0]),
                 };
 
@@ -229,7 +229,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin
             }
             else
             {
-                _logger.LogError($"{_apiResponseUnsuccessfully}{response.Message}");
+                _logger.LogError($"{_apiResponseUnsuccessfully}{response.ProblemDetails.Detail}");
                 return ObjectResultFactory.CreateFailResult<OrderBook>();
             }
         }
@@ -243,27 +243,27 @@ namespace MagoTrader.Exchange.MercadoBitcoin
 
             var response = await this.PublicClient.GetLast24hOHLCVAsync(market.Main.ToString()).ConfigureAwait(true);
 
-            if (response.IsOK())
+            if (response.Success)
             {
                 var resultToReturn = new OHLCV
                 {
                     Exchange = ExchangeNameEnum.MercadoBitcoin,
                     TimeFrame = new TimeFrame(TimeFrameEnum.D1),
-                    DateTimeOffset = DateTimeUtils.TimestampToDateTimeOffset(response.Value.Ticker.TimeStamp, false),
+                    DateTimeOffset = DateTimeUtils.TimestampToDateTimeOffset(response.Output.Ticker.TimeStamp, false),
                     Market = market,
-                    Buy = Convert.ToDecimal(response.Value.Ticker.Buy, Information.Culture),
-                    Sell = Convert.ToDecimal(response.Value.Ticker.Sell, Information.Culture),
-                    High = Convert.ToDecimal(response.Value.Ticker.High, Information.Culture),
-                    Low = Convert.ToDecimal(response.Value.Ticker.Low, Information.Culture),
-                    Last = Convert.ToDecimal(response.Value.Ticker.Last, Information.Culture),
-                    Volume = Convert.ToDecimal(response.Value.Ticker.Volume, Information.Culture),
+                    Buy = Convert.ToDecimal(response.Output.Ticker.Buy, Information.Culture),
+                    Sell = Convert.ToDecimal(response.Output.Ticker.Sell, Information.Culture),
+                    High = Convert.ToDecimal(response.Output.Ticker.High, Information.Culture),
+                    Low = Convert.ToDecimal(response.Output.Ticker.Low, Information.Culture),
+                    Last = Convert.ToDecimal(response.Output.Ticker.Last, Information.Culture),
+                    Volume = Convert.ToDecimal(response.Output.Ticker.Volume, Information.Culture),
                 };
 
                 return ObjectResultFactory.CreateSuccessResult(resultToReturn);
             }
             else
             {
-                _logger.LogError($"{_apiResponseUnsuccessfully}{response.Message}");
+                _logger.LogError($"{_apiResponseUnsuccessfully}{response.ProblemDetails.Detail}");
                 return ObjectResultFactory.CreateFailResult<OHLCV>();
             }
         }
@@ -277,10 +277,10 @@ namespace MagoTrader.Exchange.MercadoBitcoin
 
             var response = await this.PublicClient.GetLastTradesAsync(market.Main.ToString()).ConfigureAwait(true);
 
-            if (response.IsOK())
+            if (response.Success)
             {
                 IEnumerable<Order> resultToReturn
-                    = from trade in response.Value
+                    = from trade in response.Output
                       select new Order(market,
                                        OrderTypeEnum.Parse<OrderTypeEnum>(trade.Type),
                                        trade.Amount,
@@ -294,7 +294,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin
             }
             else
             {
-                _logger.LogError($"{_apiResponseUnsuccessfully} {response.Message}");
+                _logger.LogError($"{_apiResponseUnsuccessfully} {response.ProblemDetails.Detail}");
                 return ObjectResultFactory.CreateFailResult<IEnumerable<Order>>();
             }
         }

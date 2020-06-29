@@ -1,4 +1,5 @@
 ﻿using MagoTrader.Core.Exchange;
+using MagoTrader.Exchange.MercadoBitcoin.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

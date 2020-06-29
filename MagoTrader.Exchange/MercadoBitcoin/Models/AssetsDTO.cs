@@ -1,11 +1,11 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MagoTrader.Exchange.MercadoBitcoin.Private
+namespace MagoTrader.Exchange.MercadoBitcoin.Models
 {
     /// <summary>
     /// Data Transfer Object to be used in json to model serialization
     /// </summary>
-    class WithdrawLimitsDTO
+    class AssetsDTO
     {
         [JsonPropertyName("bch")]
         public BalanceDTO BCH { get; set; }
@@ -24,5 +24,23 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Private
 
         [JsonPropertyName("xrp")]
         public BalanceDTO XRP { get; set; }
+
+        [JsonPropertyName("mbprk01")]
+        public BalanceDTO MBPRK01 { get; set; }
+
+        [JsonPropertyName("mbprk02")]
+        public BalanceDTO MBPRK02 { get; set; }
+
+        [JsonPropertyName("mbprk03")]
+        public BalanceDTO MBPRK03 { get; set; }
+
+        [JsonPropertyName("mbprk04")]
+        public BalanceDTO MBPRK04 { get; set; }
+
+        [JsonPropertyName("mbcons01")]
+        public BalanceDTO MBCONS01 { get; set; }
+
+        [JsonPropertyName("usdc")]
+        public BalanceDTO USDC { get; set; }
     }
 }

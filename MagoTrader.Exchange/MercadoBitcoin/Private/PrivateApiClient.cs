@@ -1,5 +1,6 @@
 ﻿using MagoTrader.Core.Exchange;
 using MagoTrader.Core.Models;
+using MagoTrader.Exchange.MercadoBitcoin.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
