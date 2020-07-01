@@ -24,5 +24,21 @@ namespace MagoTrader.Core.Exchange
                 return new Response<T>(errorDetails);
             }
         }
+
+        public async Task<Response> GetResponseAsync(HttpResponseMessage response)
+        {
+            if (response == null) throw new ArgumentNullException(nameof(response));
+
+            if (response.IsSuccessStatusCode)
+            {
+                return new Response(true);
+            }
+            else
+            {
+                using var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                var errorDetails = await JsonSerializer.DeserializeAsync<ProblemDetails>(responseStream).ConfigureAwait(false);
+                return new Response(errorDetails);
+            }
+        }
     }
 }
