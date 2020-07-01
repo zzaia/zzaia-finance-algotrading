@@ -78,5 +78,13 @@ namespace MagoTrader.Core.Services
             "Internal Server Error.",
             "An unexpected error occurred in our server"
             );
+
+        public static readonly ApplicationError BadRequestError = new ApplicationError(
+            new Uri("https://tools.ietf.org/html/rfc7231#section-6.5.1"),
+            StatusCodes.Status400BadRequest,
+            "BadRequestError",
+            "Bad Request Error.",
+            "Make sure you have passed all the arguments or payloads as valid values."
+            );
     }
 }
