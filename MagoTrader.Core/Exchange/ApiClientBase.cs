@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.Logging;
+using System;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -7,21 +8,23 @@ namespace MagoTrader.Core.Exchange
 {
     public class ApiClientBase
     {
-        public async Task<Response<T>> GetResponseAsync<T>(HttpResponseMessage httpResponseMessage) where T : class
+        protected ILogger<object> _logger;
+        public async Task<Response<T>> GetResponseAsync<T>(HttpResponseMessage response) where T : class
         {
-            if (httpResponseMessage == null) throw new ArgumentNullException(nameof(httpResponseMessage));
+            if (response == null) throw new ArgumentNullException(nameof(response));
 
-            if (httpResponseMessage.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
-                using var responseStream = await httpResponseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                using var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
                 var customerFromApi = await JsonSerializer.DeserializeAsync<T>(responseStream).ConfigureAwait(false);
                 return new Response<T>(customerFromApi);
             }
             else
             {
-                using var responseStream = await httpResponseMessage.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                var errorDetails = await JsonSerializer.DeserializeAsync<ProblemDetails>(responseStream).ConfigureAwait(false);
-                return new Response<T>(errorDetails);
+                _logger.LogError($"Client Api response returned {response.StatusCode} {response.ReasonPhrase}");
+                using var problemStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                var problemDetails = await JsonSerializer.DeserializeAsync<ProblemDetails>(problemStream).ConfigureAwait(false);
+                return new Response<T>(problemDetails);
             }
         }
 
@@ -35,9 +38,10 @@ namespace MagoTrader.Core.Exchange
             }
             else
             {
-                using var responseStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
-                var errorDetails = await JsonSerializer.DeserializeAsync<ProblemDetails>(responseStream).ConfigureAwait(false);
-                return new Response(errorDetails);
+                _logger.LogError($"Client Api response returned {response.StatusCode} {response.ReasonPhrase}");
+                using var problemStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                var problemDetails = await JsonSerializer.DeserializeAsync<ProblemDetails>(problemStream).ConfigureAwait(false);
+                return new Response(problemDetails);
             }
         }
     }

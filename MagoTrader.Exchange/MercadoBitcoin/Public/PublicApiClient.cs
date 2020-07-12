@@ -10,7 +10,6 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Public
 {
     public class PublicApiClient : ApiClientBase, IPublicApiClient
     {
-        private readonly ILogger<PublicApiClient> _logger;
         private readonly HttpClient _client;
         private readonly bool _awaitable;
 

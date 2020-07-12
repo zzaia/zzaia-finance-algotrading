@@ -30,17 +30,17 @@ namespace MagoTrader.Tests.Exchange.MercadoBitcoin
             var response = await _client.GetDaySummaryOHLCVAsync(market.Main.ToString(), dt.Year, dt.Month, dt.Day).ConfigureAwait(true);
 
             //Assert:
-            Assert.True(response.IsOK());
+            Assert.True(response.Success);
             Assert.NotNull(response);
-            Assert.Equal((decimal)262.99999, response.Value.Open, 5);
-            Assert.Equal((decimal)262.99999, response.Value.Open, 5);
-            Assert.Equal((decimal)269.0, response.Value.High, 5);
-            Assert.Equal((decimal)260.00002, response.Value.Low, 5);
-            Assert.Equal((decimal)269.0, response.Value.Close, 5);
-            Assert.Equal((decimal)7253.1336356785, response.Value.Volume, 5);
-            Assert.Equal((decimal)27.11390588, response.Value.TradedQuantity, 5);
-            Assert.Equal((decimal)267.5060416518087, response.Value.Average, 5);
-            Assert.Equal((int)28, response.Value.NumberOfTrades);
+            Assert.Equal((decimal)262.99999, response.Output.Open, 5);
+            Assert.Equal((decimal)262.99999, response.Output.Open, 5);
+            Assert.Equal((decimal)269.0, response.Output.High, 5);
+            Assert.Equal((decimal)260.00002, response.Output.Low, 5);
+            Assert.Equal((decimal)269.0, response.Output.Close, 5);
+            Assert.Equal((decimal)7253.1336356785, response.Output.Volume, 5);
+            Assert.Equal((decimal)27.11390588, response.Output.TradedQuantity, 5);
+            Assert.Equal((decimal)267.5060416518087, response.Output.Average, 5);
+            Assert.Equal((int)28, response.Output.NumberOfTrades);
 
         }
 
@@ -56,15 +56,15 @@ namespace MagoTrader.Tests.Exchange.MercadoBitcoin
             var response = await _client.GetLast24hOHLCVAsync(market.Main.ToString()).ConfigureAwait(true);
 
             //Assert:
-            Assert.True(response.IsOK());
+            Assert.True(response.Success);
             Assert.NotNull(response);
-            Assert.Equal(dt.DateTime, DateTimeUtils.TimestampToDateTimeOffset(response.Value.Ticker.TimeStamp, false).DateTime, tolerance);
-            Assert.InRange<decimal>(Convert.ToDecimal(response.Value.Ticker.Buy, cultureInfo), 10000, decimal.MaxValue);
-            Assert.InRange<decimal>(Convert.ToDecimal(response.Value.Ticker.Sell, cultureInfo), 10000, decimal.MaxValue);
-            Assert.InRange<decimal>(Convert.ToDecimal(response.Value.Ticker.High, cultureInfo), 10000, decimal.MaxValue);
-            Assert.InRange<decimal>(Convert.ToDecimal(response.Value.Ticker.Low, cultureInfo), 10000, decimal.MaxValue);
-            Assert.InRange<decimal>(Convert.ToDecimal(response.Value.Ticker.Last, cultureInfo), 10000, decimal.MaxValue);
-            Assert.InRange<decimal>(Convert.ToDecimal(response.Value.Ticker.Volume, cultureInfo), 0, 1000);
+            Assert.Equal(dt.DateTime, DateTimeUtils.TimestampToDateTimeOffset(response.Output.Ticker.TimeStamp, false).DateTime, tolerance);
+            Assert.InRange<decimal>(Convert.ToDecimal(response.Output.Ticker.Buy, cultureInfo), 10000, decimal.MaxValue);
+            Assert.InRange<decimal>(Convert.ToDecimal(response.Output.Ticker.Sell, cultureInfo), 10000, decimal.MaxValue);
+            Assert.InRange<decimal>(Convert.ToDecimal(response.Output.Ticker.High, cultureInfo), 10000, decimal.MaxValue);
+            Assert.InRange<decimal>(Convert.ToDecimal(response.Output.Ticker.Low, cultureInfo), 10000, decimal.MaxValue);
+            Assert.InRange<decimal>(Convert.ToDecimal(response.Output.Ticker.Last, cultureInfo), 10000, decimal.MaxValue);
+            Assert.InRange<decimal>(Convert.ToDecimal(response.Output.Ticker.Volume, cultureInfo), 0, 1000);
         }
 
         [Fact]
@@ -77,16 +77,16 @@ namespace MagoTrader.Tests.Exchange.MercadoBitcoin
             var response = await _client.GetOrderBookAsync(market.Main.ToString()).ConfigureAwait(true);
 
             //Assert:
-            Assert.True(response.IsOK());
+            Assert.True(response.Success);
             Assert.NotNull(response);
-            Assert.NotNull(response.Value.Asks);
-            Assert.Equal(1000, response.Value.Asks.Length);
-            Assert.InRange<decimal>(response.Value.Asks[0][0], 10000, decimal.MaxValue);
-            Assert.InRange<decimal>(response.Value.Asks[0][1], 0, 50);
-            Assert.NotNull(response.Value.Bids);
-            Assert.Equal(1000, response.Value.Bids.Length);
-            Assert.InRange<decimal>(response.Value.Bids[0][0], 10000, decimal.MaxValue);
-            Assert.InRange<decimal>(response.Value.Bids[0][1], 0, 50);
+            Assert.NotNull(response.Output.Asks);
+            Assert.Equal(1000, response.Output.Asks.Length);
+            Assert.InRange<decimal>(response.Output.Asks[0][0], 10000, decimal.MaxValue);
+            Assert.InRange<decimal>(response.Output.Asks[0][1], 0, 50);
+            Assert.NotNull(response.Output.Bids);
+            Assert.Equal(1000, response.Output.Bids.Length);
+            Assert.InRange<decimal>(response.Output.Bids[0][0], 10000, decimal.MaxValue);
+            Assert.InRange<decimal>(response.Output.Bids[0][1], 0, 50);
         }
         [Fact]
         public async void GetTradesSinceTIDByMainTicker()
@@ -100,7 +100,7 @@ namespace MagoTrader.Tests.Exchange.MercadoBitcoin
             var response = await _client.GetTradesSinceTIDAsync(market.Main.ToString(), tid).ConfigureAwait(true);
 
             //Assert:
-            Assert.True(response.IsOK());
+            Assert.True(response.Success);
             Assert.NotNull(response);
         }
 

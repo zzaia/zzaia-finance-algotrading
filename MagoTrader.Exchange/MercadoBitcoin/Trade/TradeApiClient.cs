@@ -7,7 +7,6 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Trade
 {
     public class TradeApiClient : ApiClientBase, ITradeApiClient
     {
-        private readonly ILogger<TradeApiClient> _logger;
         private readonly HttpClient _client;
 
         public TradeApiClient(HttpClient client, ILogger<TradeApiClient> logger)

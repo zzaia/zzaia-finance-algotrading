@@ -12,7 +12,6 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Private
 {
     public class PrivateApiClient : ApiClientBase, IPrivateApiClient
     {
-        private readonly ILogger<PrivateApiClient> _logger;
         private readonly HttpClient _client;
         private readonly bool _awaitable;
         private readonly string _requestPath;
