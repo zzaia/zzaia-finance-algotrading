@@ -274,6 +274,7 @@ log_*.txt
 *.pem
 **/[Dd]rop/
 **/[Dd]rop.zip
+secrets.json
 
 # SqLite
 *.ide
