@@ -22,26 +22,29 @@ namespace MagoTrader.Services
         }
         public async Task<OHLCV[]> GetDefaultDaySummaryAsync(DateTimeOffset dt, ExchangeNameEnum exchangeName)
         {
-            var exchange = _exchangeSelector.GetByName(exchangeName);
-            Market[] markets = exchange.Info.Markets.ToArray();
-            List<Task<ObjectResult<OHLCV>>> tasks = new List<Task<ObjectResult<OHLCV>>>();
-            OHLCV[] data = new OHLCV[markets.Length];
-            foreach (var mkt in markets)
-            {
-                tasks.Add(Task.Run(() => exchange.FetchDaySummaryAsync(mkt, dt)));
-                //tasks.Add( GetPriceByTickerAsync(tck, dt));
-            }
-
             try
             {
+                var exchange = _exchangeSelector.GetByName(exchangeName);
+                Market[] markets = exchange.Info.Markets.ToArray();
+                List<Task<ObjectResult<OHLCV>>> tasks = new List<Task<ObjectResult<OHLCV>>>();
+                OHLCV[] data = new OHLCV[markets.Length];
+                foreach (var mkt in markets)
+                {
+                    tasks.Add(Task.Run(() => exchange.FetchDaySummaryAsync(mkt, dt)));
+                    //tasks.Add(exchange.FetchDaySummaryAsync(mkt, dt));
+                }
                 await Task.WhenAll(tasks);
                 for (int i = 0; i < tasks.Count; i++)
                 {
                     data[i] = tasks[i].Result.Output;
                 }
+                return data;
             }
-            catch (Exception e) { _logger.LogError(e.Message); }
-            return data;
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message);
+                return null;
+            }
         }
 
         /*
