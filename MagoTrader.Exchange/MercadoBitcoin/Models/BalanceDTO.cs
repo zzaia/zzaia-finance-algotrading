@@ -5,7 +5,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Models
     /// <summary>
     /// Data Transfer Object to be used in json to model serialization
     /// </summary>
-    class BalanceDTO
+    public class BalanceDTO
     {
         [JsonPropertyName("available")]
         public string Available { get; set; }
