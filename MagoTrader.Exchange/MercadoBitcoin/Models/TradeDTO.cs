@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
-namespace MagoTrader.Exchange.MercadoBitcoin.Public
+namespace MagoTrader.Exchange.MercadoBitcoin.Models
 {
     /// <summary>
     /// Data Transfer Object to be used in json to model serialization
@@ -21,7 +18,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Public
 
         [JsonPropertyName("tid")]
         public int Tid { get; set; }
-        
+
         [JsonPropertyName("type")]
         public string Type { get; set; }
     }

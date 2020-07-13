@@ -1,19 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MagoTrader.Core.Exchange
+﻿namespace MagoTrader.Core.Exchange
 {
-    public class Response<T>
+    public class Response<T> where T : class
     {
-        public string Message { get; set; }
-        public System.Net.HttpStatusCode Code { get; set; }
-        public T Item { get; set; }
-        public List<T> Values { get; set; }
-        public T Value { get; set; }
-        public bool IsOK()
+        public Response() { }
+        public Response(T output)
         {
-            return Code == System.Net.HttpStatusCode.OK;
+            Output = output;
         }
+        public Response(ProblemDetails problemDetails)
+        {
+            ProblemDetails = problemDetails;
+        }
+        public T Output { get; set; }
+        public ProblemDetails ProblemDetails { get; set; }
+        public bool Success => Output != null;
+    }
+    public class Response
+    {
+        public Response() { }
+        public Response(bool success)
+        {
+            Success = success;
+        }
+        public Response(ProblemDetails problemDetails)
+        {
+            ProblemDetails = problemDetails;
+        }
+        public bool Output => Success;
+        public ProblemDetails ProblemDetails { get; set; }
+        public bool Success { get; set; }
     }
 }

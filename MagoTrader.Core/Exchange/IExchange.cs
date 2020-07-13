@@ -12,6 +12,7 @@ namespace MagoTrader.Core.Exchange
     /// </summary>
     public interface IExchange
     {
+        static ExchangeInfo Information { get; }
         ExchangeInfo Info { get; }
 
         Task<ObjectResult<OHLCV>> FetchDaySummaryAsync(Market market, DateTimeOffset dateTime);

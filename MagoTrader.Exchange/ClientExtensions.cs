@@ -1,16 +1,14 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MagoTrader.Core.Exchange;
+using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Reflection;
-
-using MagoTrader.Core.Exchange;
 using System.Net.Http;
 
 namespace MagoTrader.Exchange
-{    
+{
     /// <summary>
     /// Extension methods for the Exchange clients.
     /// </summary>
-    public static class ClientExtensions 
+    public static class ClientExtensions
     {
         /// <summary>
         /// Adds services and options for the exchange client.
@@ -18,8 +16,8 @@ namespace MagoTrader.Exchange
         /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
         /// <param name="apiOptions">A delegate to configure the <see cref="ExchangeApiOptions"/>.</param>
         /// <returns></returns>
-        public static IServiceCollection AddExchangeClient(this IServiceCollection services, ExchangeNameEnum exchangeName, 
-             Action<AuthApiOptions> privateApiOptions, Action<AuthApiOptions> tradeApiOptions, Action<HttpClient> configureClient)
+        public static IServiceCollection AddExchangeClient(this IServiceCollection services, ExchangeNameEnum exchangeName,
+             Action<ClientCredential> privateCredential, Action<ClientCredential> tradeCredential)
         {
             if (services is null)
             {
@@ -62,23 +60,29 @@ namespace MagoTrader.Exchange
             switch (exchangeName)
             {
                 case ExchangeNameEnum.MercadoBitcoin:
-                    
-                    services.AddHttpClient<MagoTrader.Exchange.MercadoBitcoin.Public.PublicApiClient>(configureClient);
-                    if (privateApiOptions != null)
+
+                    services.AddHttpClient<MagoTrader.Exchange.MercadoBitcoin.Public.PublicApiClient>();
+                    if (privateCredential != null)
                     {
-                        services.AddHttpClient<MagoTrader.Exchange.MercadoBitcoin.Private.PrivateApiClient>(configureClient);
-                        services.Configure("MercadoBitcoinPrivateApiOptions", privateApiOptions);     
+                        services.AddHttpClient<MagoTrader.Exchange.MercadoBitcoin.Private.PrivateApiClient>();
+                        services.Configure(Exchange.MercadoBitcoin
+                                                   .MercadoBitcoinExchange
+                                                   .Information.Options
+                                                   .PrivateClientCredentialReference, privateCredential);
                     }
-                    if (tradeApiOptions != null)
+                    if (tradeCredential != null)
                     {
-                        services.AddHttpClient<MagoTrader.Exchange.MercadoBitcoin.Trade.TradeApiClient>(configureClient);
-                        services.Configure("MercadoBitcoinTradeApiOptions", tradeApiOptions);
+                        services.AddHttpClient<MagoTrader.Exchange.MercadoBitcoin.Trade.TradeApiClient>();
+                        services.Configure(Exchange.MercadoBitcoin
+                                                   .MercadoBitcoinExchange
+                                                   .Information.Options.
+                                                   TradeClientCredentialReference, tradeCredential);
                     }
                     services.AddScoped<Exchange.MercadoBitcoin.MercadoBitcoinExchange>();
                     break;
             }
-            
-            services.AddScoped<IExchangeSelector,ExchangeSelector>();
+
+            services.AddScoped<IExchangeSelector, ExchangeSelector>();
             return services;
         }
     }

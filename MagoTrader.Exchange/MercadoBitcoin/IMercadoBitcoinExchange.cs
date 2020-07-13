@@ -1,9 +1,6 @@
 ﻿using MagoTrader.Exchange.MercadoBitcoin.Private;
 using MagoTrader.Exchange.MercadoBitcoin.Public;
 using MagoTrader.Exchange.MercadoBitcoin.Trade;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MagoTrader.Exchange.MercadoBitcoin
 {

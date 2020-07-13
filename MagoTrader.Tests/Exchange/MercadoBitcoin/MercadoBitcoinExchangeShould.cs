@@ -6,6 +6,7 @@ using MagoTrader.Exchange.MercadoBitcoin.Public;
 using MagoTrader.Exchange.MercadoBitcoin.Trade;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Moq;
 using System;
 using System.Linq;
 using System.Net.Http;
@@ -18,14 +19,16 @@ namespace MagoTrader.Tests.Exchange.MercadoBitcoin
         private readonly IExchange _exchange;
         public MercadoBitcoinExchangeShould()
         {
-            var logger = new Logger<MercadoBitcoinExchange>(new LoggerFactory());
-            var publicLogger = new Logger<PublicApiClient>(new LoggerFactory());
-            var privateLogger = new Logger<PrivateApiClient>(new LoggerFactory());
-            var tradeLogger = new Logger<TradeApiClient>(new LoggerFactory());
-            var publicClient = new PublicApiClient(new HttpClient(), publicLogger);
-            var privateClient = new PrivateApiClient(new HttpClient(), privateLogger);
-            var tradeClient = new TradeApiClient(new HttpClient(), tradeLogger);
-            _exchange = new MercadoBitcoinExchange(publicClient, privateClient, tradeClient, logger);
+            var logger = new Mock<ILogger<MercadoBitcoinExchange>>();
+            var publicLogger = new Mock<ILogger<PublicApiClient>>();
+            var privateLogger = new Mock<ILogger<PrivateApiClient>>();
+            var tradeLogger = new Mock<ILogger<TradeApiClient>>();
+
+            var publicClient = new PublicApiClient(new HttpClient(), publicLogger.Object);
+            var privateClient = new PrivateApiClient(new HttpClient(), privateLogger.Object);
+            var tradeClient = new TradeApiClient(new HttpClient(), tradeLogger.Object);
+            var clientCredential = new Mock<IOptionsMonitor<ClientCredential>>();
+            _exchange = new MercadoBitcoinExchange(publicClient, privateClient, tradeClient, logger.Object, clientCredential.Object);
         }
 
         [Fact]
@@ -61,7 +64,7 @@ namespace MagoTrader.Tests.Exchange.MercadoBitcoin
         {
             //Arrange:
             var market = new Market(AssetTickerEnum.BTC, AssetTickerEnum.BRL);
-            var currentTime = DateTimeConvert.CurrentUtcDateTimeOffset();
+            var currentTime = DateTimeUtils.CurrentUtcDateTimeOffset();
             var tolerance = TimeSpan.FromSeconds(30);
 
             //Act:
