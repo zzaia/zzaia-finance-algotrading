@@ -30,16 +30,69 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Private
             _client.BaseAddress = baseAddress;
         }
 
-        public async Task<Response<TAPResponse<SystemMessagesDTO>>> PostSystemMessagesAsync(ClientCredential clientCredential, SystemMessageTypeEnum level)
+        public async Task<Response<TAPResponse<SystemMessagesDTO>>> GetListOfSystemMessagesAsync(ClientCredential clientCredential, string level)
         {
             _logger.LogInformation($"Get all system messages.");
             var parameters = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("tapi_method", "list_system_messages"),
-                    new KeyValuePair<string, string>("level", level.ToString()),
+                    new KeyValuePair<string, string>("level", level),
                     new KeyValuePair<string, string>("tapi_nonce", DateTimeUtils.CurrentUtcTimestamp().ToString(CultureInfo.InvariantCulture)),
                 };
             return await PostSuppreme<SystemMessagesDTO>(clientCredential, parameters).ConfigureAwait(_continueOnCapturedContext);
+        }
+
+        public async Task<Response<TAPResponse<AccountInformationDTO>>> GetAccountInformationAsync(ClientCredential clientCredential)
+        {
+            _logger.LogInformation($"Get account information.");
+            var parameters = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("tapi_method", "get_account_info"),
+                    new KeyValuePair<string, string>("tapi_nonce", DateTimeUtils.CurrentUtcTimestamp().ToString(CultureInfo.InvariantCulture)),
+                };
+            return await PostSuppreme<AccountInformationDTO>(clientCredential, parameters).ConfigureAwait(_continueOnCapturedContext);
+        }
+
+        public async Task<Response<TAPResponse<OrderInformationDTO>>> GetOrderByIdAsync(ClientCredential clientCredential, int orderId, string tickerPair)
+        {
+            _logger.LogInformation($"Get a order by id.");
+            var parameters = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("tapi_method", "get_order"),
+                    new KeyValuePair<string, string>("coin_pair", tickerPair),
+                    new KeyValuePair<string, string>("order_id", orderId.ToString(CultureInfo.InvariantCulture)),
+                    new KeyValuePair<string, string>("tapi_nonce", DateTimeUtils.CurrentUtcTimestamp().ToString(CultureInfo.InvariantCulture)),
+                };
+            return await PostSuppreme<OrderInformationDTO>(clientCredential, parameters).ConfigureAwait(_continueOnCapturedContext);
+        }
+
+        public async Task<Response<TAPResponse<OrdersInformationDTO>>> GetListOfOrdersAsync(ClientCredential clientCredential, string tickerPair,
+                                                                                                                               string statusList,
+                                                                                                                               bool hasFills)
+        {
+            _logger.LogInformation($"Get a list of orders.");
+            var parameters = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("tapi_method", "list_orders"),
+                    new KeyValuePair<string, string>("coin_pair", tickerPair),
+                    new KeyValuePair<string, string>("status_list", statusList),
+                    new KeyValuePair<string, string>("has_fills", hasFills.ToString()),
+                    new KeyValuePair<string, string>("tapi_nonce", DateTimeUtils.CurrentUtcTimestamp().ToString(CultureInfo.InvariantCulture)),
+                };
+            return await PostSuppreme<OrdersInformationDTO>(clientCredential, parameters).ConfigureAwait(_continueOnCapturedContext);
+        }
+
+        public async Task<Response<TAPResponse<OrderbookInformationDTO>>> GetCompleteOrderBookByTickerPairAsync(ClientCredential clientCredential, string tickerPair, bool fullQuantity)
+        {
+            _logger.LogInformation($"Get the complete orderbook.");
+            var parameters = new List<KeyValuePair<string, string>>
+                {
+                    new KeyValuePair<string, string>("tapi_method", "list_orderbook"),
+                    new KeyValuePair<string, string>("coin_pair", tickerPair),
+                    new KeyValuePair<string, string>("full", fullQuantity.ToString()),
+                    new KeyValuePair<string, string>("tapi_nonce", DateTimeUtils.CurrentUtcTimestamp().ToString(CultureInfo.InvariantCulture)),
+                };
+            return await PostSuppreme<OrderbookInformationDTO>(clientCredential, parameters).ConfigureAwait(_continueOnCapturedContext);
         }
 
         public async Task<Response<TAPResponse<T>>> PostSuppreme<T>(ClientCredential clientCredential, IEnumerable<KeyValuePair<string, string>> parameters)
