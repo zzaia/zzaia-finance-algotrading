@@ -18,7 +18,7 @@ namespace MagoTrader.Core.Models
             using HMACSHA512 hmac = new HMACSHA512(Encoding.UTF8.GetBytes(key));
             // Compute the hash of the source message:
             byte[] hashValue = hmac.ComputeHash(Encoding.UTF8.GetBytes(sourceMessage));
-            return BitConverter.ToString(hashValue);
+            return BitConverter.ToString(hashValue).ToLowerInvariant().Replace("-", String.Empty);
         }
 
         /// <summary>
@@ -33,7 +33,7 @@ namespace MagoTrader.Core.Models
             using HMACSHA512 hmac = new HMACSHA512(key);
             // Compute the hash of the source message:
             byte[] hashValue = hmac.ComputeHash(sourceMessage);
-            return BitConverter.ToString(hashValue);
+            return BitConverter.ToString(hashValue).ToLowerInvariant().Replace("-", String.Empty);
         }
     }
 }
