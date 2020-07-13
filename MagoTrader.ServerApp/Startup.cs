@@ -8,10 +8,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Net.Mime;
 
+[assembly: UserSecretsId("dc5b4f9c-8b0e-2hg9-9813-c86ce80c39e6")]
 namespace MagoTrader.ServerApp
 {
     public class Startup
