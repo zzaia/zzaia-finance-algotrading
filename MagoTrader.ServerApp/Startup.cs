@@ -11,7 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Net.Mime;
 
 [assembly: UserSecretsId("dc5b4f9c-8b0e-2hg9-9813-c86ce80c39e6")]
 namespace MagoTrader.ServerApp
@@ -36,7 +35,7 @@ namespace MagoTrader.ServerApp
             });
 
             services.AddScoped<IUnitOfWork, UnitOfWork>(); //It has all implemented data repositories inside;
-            
+
             //----------- Generic API Access-------------------
             services.AddExchangeClient(ExchangeNameEnum.MercadoBitcoin,
                 privateCredential => Configuration.Bind("Exchange:MercadoBitcoin:Private", privateCredential),
