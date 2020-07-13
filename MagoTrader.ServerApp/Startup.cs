@@ -40,13 +40,7 @@ namespace MagoTrader.ServerApp
             services.AddExchangeClient(ExchangeNameEnum.MercadoBitcoin,
                 privateCredential => Configuration.Bind("Exchange:MercadoBitcoin:Private", privateCredential),
                 tradeCredential => Configuration.Bind("Exchange:MercadoBitcoin:Trade", tradeCredential));
-            /*
-            c =>
-                {
-                    c.DefaultRequestHeaders.Add(HeaderFieldNames.Accept, MediaTypeNames.Application.Json);
-                    c.DefaultRequestHeaders.Add(HeaderFieldNames.UserAgent, "HttpClient-MercadoBitcoinPublicApiClient-MagoTrader");
-                });
-            */
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
