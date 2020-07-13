@@ -36,7 +36,7 @@ namespace MagoTrader.ServerApp
 
             services.AddScoped<IUnitOfWork, UnitOfWork>(); //It has all implemented data repositories inside;
 
-            //----------- Generic API Access-------------------
+            //----------- Exchange API Client -------------------
             services.AddExchangeClient(ExchangeNameEnum.MercadoBitcoin,
                 privateCredential => Configuration.Bind("Exchange:MercadoBitcoin:Private", privateCredential),
                 tradeCredential => Configuration.Bind("Exchange:MercadoBitcoin:Trade", tradeCredential));
