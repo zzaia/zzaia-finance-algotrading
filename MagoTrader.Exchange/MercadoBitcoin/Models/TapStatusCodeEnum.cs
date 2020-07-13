@@ -2,7 +2,7 @@
 {
     public enum TapStatusCodeEnum
     {
-        Success = 200,
+        Success = 100,
         Failed = 666
     }
 }
