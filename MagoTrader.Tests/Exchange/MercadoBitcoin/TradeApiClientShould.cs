@@ -83,7 +83,7 @@ namespace MagoTrader.Tests.Exchange.MercadoBitcoin
         }
 
         [Fact]
-        public async void GetOrderInformation()
+        public async void PlaceAndCancelOrder()
         {
             if (_unlockTest)
             {
