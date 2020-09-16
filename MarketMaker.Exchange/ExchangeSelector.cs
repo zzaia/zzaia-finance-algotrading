@@ -21,9 +21,9 @@ namespace MarketMaker.Exchange
         /// <summary>
         /// Get exchange by name and reflection, on the runtime.
         /// </summary>
-        public IExchange GetByName(ExchangeNameEnum exchangeName) { return GetExchangeByNamespace<IExchange>(exchangeName); }
+        public IExchange GetByName(ExchangeName exchangeName) { return GetExchangeByNamespace<IExchange>(exchangeName); }
 
-        private Ttype GetExchangeByNamespace<Ttype>(ExchangeNameEnum exchangeName)
+        private Ttype GetExchangeByNamespace<Ttype>(ExchangeName exchangeName)
         {
 
             Type type = Type.GetType(String.Format(CultureInfo.InvariantCulture,

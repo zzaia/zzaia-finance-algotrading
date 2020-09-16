@@ -4,6 +4,6 @@ namespace MarketMaker.Core.Exchange
 {
     public interface IExchangeSelector
     {
-        IExchange GetByName(ExchangeNameEnum exchangeName);
+        IExchange GetByName(ExchangeName exchangeName);
     }
 }

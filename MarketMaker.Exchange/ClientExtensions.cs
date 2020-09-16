@@ -1,7 +1,6 @@
 ﻿using MarketMaker.Core.Exchange;
 using Microsoft.Extensions.DependencyInjection;
 using System;
-using System.Net.Http;
 
 namespace MarketMaker.Exchange
 {
@@ -16,12 +15,16 @@ namespace MarketMaker.Exchange
         /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
         /// <param name="apiOptions">A delegate to configure the <see cref="ExchangeApiOptions"/>.</param>
         /// <returns></returns>
-        public static IServiceCollection AddExchangeClient(this IServiceCollection services, ExchangeNameEnum exchangeName,
+        public static IServiceCollection AddExchangeClient(this IServiceCollection services, ExchangeName exchangeName,
              Action<ClientCredential> privateCredential, Action<ClientCredential> tradeCredential)
         {
             if (services is null)
             {
                 throw new ArgumentNullException(nameof(services));
+            }
+            if (exchangeName is null)
+            {
+                throw new ArgumentNullException(nameof(exchangeName));
             }
 
             /* // Typed http client by reflection (Runtime)
@@ -57,29 +60,26 @@ namespace MarketMaker.Exchange
 
 
             // Typed http client (Compile Time)
-            switch (exchangeName)
+            if (exchangeName.Equals(ExchangeName.MercadoBitcoin))
             {
-                case ExchangeNameEnum.MercadoBitcoin:
-
-                    services.AddHttpClient<MarketMaker.Exchange.MercadoBitcoin.Public.PublicApiClient>();
-                    if (privateCredential != null)
-                    {
-                        services.AddHttpClient<MarketMaker.Exchange.MercadoBitcoin.Private.PrivateApiClient>();
-                        services.Configure(Exchange.MercadoBitcoin
-                                                   .MercadoBitcoinExchange
-                                                   .Information.Options
-                                                   .PrivateClientCredentialReference, privateCredential);
-                    }
-                    if (tradeCredential != null)
-                    {
-                        services.AddHttpClient<MarketMaker.Exchange.MercadoBitcoin.Trade.TradeApiClient>();
-                        services.Configure(Exchange.MercadoBitcoin
-                                                   .MercadoBitcoinExchange
-                                                   .Information.Options.
-                                                   TradeClientCredentialReference, tradeCredential);
-                    }
-                    services.AddScoped<Exchange.MercadoBitcoin.MercadoBitcoinExchange>();
-                    break;
+                services.AddHttpClient<MarketMaker.Exchange.MercadoBitcoin.Public.PublicApiClient>();
+                if (privateCredential != null)
+                {
+                    services.AddHttpClient<MarketMaker.Exchange.MercadoBitcoin.Private.PrivateApiClient>();
+                    services.Configure(Exchange.MercadoBitcoin
+                                               .MercadoBitcoinExchange
+                                               .Information.Options
+                                               .PrivateClientCredentialReference, privateCredential);
+                }
+                if (tradeCredential != null)
+                {
+                    services.AddHttpClient<MarketMaker.Exchange.MercadoBitcoin.Trade.TradeApiClient>();
+                    services.Configure(Exchange.MercadoBitcoin
+                                               .MercadoBitcoinExchange
+                                               .Information.Options.
+                                               TradeClientCredentialReference, tradeCredential);
+                }
+                services.AddScoped<Exchange.MercadoBitcoin.MercadoBitcoinExchange>();
             }
 
             services.AddScoped<IExchangeSelector, ExchangeSelector>();

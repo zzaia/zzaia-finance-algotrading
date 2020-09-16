@@ -20,7 +20,7 @@ namespace MarketMaker.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _exchangeSelector = exchangeSelector ?? throw new ArgumentNullException(nameof(exchangeSelector));
         }
-        public async Task<OHLCV[]> GetDefaultDaySummaryAsync(DateTimeOffset dt, ExchangeNameEnum exchangeName)
+        public async Task<OHLCV[]> GetDefaultDaySummaryAsync(DateTimeOffset dt, ExchangeName exchangeName)
         {
             try
             {

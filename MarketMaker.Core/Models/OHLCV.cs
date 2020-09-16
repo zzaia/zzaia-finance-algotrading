@@ -12,7 +12,7 @@ namespace MarketMaker.Core.Models
         /// <summary>
         /// Represents exchange where the data was taken.
         /// </summary>
-        public ExchangeNameEnum Exchange { get; set; }
+        public ExchangeName Exchange { get; set; }
 
         /// <summary>
         /// Represents the data market, with main and base assets.

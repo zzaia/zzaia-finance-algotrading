@@ -11,7 +11,7 @@ namespace MarketMaker.Services
 {
     public class MockFetchDataService : IFetchDataService
     {
-        public Task<OHLCV[]> GetDefaultDaySummaryAsync(DateTimeOffset startDate, ExchangeNameEnum exchangeName)
+        public Task<OHLCV[]> GetDefaultDaySummaryAsync(DateTimeOffset startDate, ExchangeName exchangeName)
         {
             var rng = new Random();
             return  Task.FromResult(Enumerable.Range(1, 5).Select(index => new OHLCV

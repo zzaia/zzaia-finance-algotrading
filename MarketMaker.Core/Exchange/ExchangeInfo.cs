@@ -12,7 +12,7 @@ namespace MarketMaker.Core.Exchange
         public Guid Id { get; set; }
 
         [Required]
-        public ExchangeNameEnum Name { get; set; }
+        public ExchangeName Name { get; set; }
 
         [Required]
         public IEnumerable<Market> Markets { get; set; }

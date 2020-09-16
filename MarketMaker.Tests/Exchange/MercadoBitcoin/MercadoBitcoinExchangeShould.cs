@@ -45,7 +45,7 @@ namespace MarketMaker.Tests.Exchange.MercadoBitcoin
             //Assert:
             Assert.True(response.Succeed);
             Assert.NotNull(response.Output);
-            Assert.Equal(ExchangeNameEnum.MercadoBitcoin, response.Output.Exchange);
+            Assert.Equal(ExchangeName.MercadoBitcoin, response.Output.Exchange);
             Assert.Equal(timeframe.Enum, response.Output.TimeFrame.Enum);
             Assert.Equal(market, response.Output.Market);
             Assert.Equal(new DateTime(2013, 6, 20), response.Output.DateTimeOffset);
@@ -73,7 +73,7 @@ namespace MarketMaker.Tests.Exchange.MercadoBitcoin
             //Assert:
             Assert.True(response.Succeed);
             Assert.NotNull(response.Output);
-            Assert.Equal(ExchangeNameEnum.MercadoBitcoin, response.Output.Exchange);
+            Assert.Equal(ExchangeName.MercadoBitcoin, response.Output.Exchange);
             Assert.Equal(currentTime.DateTime, response.Output.DateTimeOffset.DateTime, tolerance);
             Assert.Equal(market, response.Output.Market);
             Assert.NotNull(response.Output.Asks);

@@ -79,7 +79,7 @@ namespace MarketMaker.Exchange.MercadoBitcoin
             {
                 var exchangeInfo = new ExchangeInfo()
                 {
-                    Name = ExchangeNameEnum.MercadoBitcoin,
+                    Name = ExchangeName.MercadoBitcoin,
                     Fiats = new List<Asset>
                     {
                         new Asset("Real", AssetTickerEnum.BRL, 50, 200000, 0, 50, 200000, 1.99m / 100m),
@@ -179,7 +179,7 @@ namespace MarketMaker.Exchange.MercadoBitcoin
             {
                 var resultToReturn = new OHLCV
                 {
-                    Exchange = ExchangeNameEnum.MercadoBitcoin,
+                    Exchange = ExchangeName.MercadoBitcoin,
                     TimeFrame = new TimeFrame(TimeFrameEnum.D1),
                     DateTimeOffset = DateTimeOffset.Parse(response.Output.Date, CultureInfo.InvariantCulture),
                     //DateTimeOffset = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day),
@@ -216,7 +216,7 @@ namespace MarketMaker.Exchange.MercadoBitcoin
             {
                 var resultToReturn = new OrderBook
                 {
-                    Exchange = ExchangeNameEnum.MercadoBitcoin,
+                    Exchange = ExchangeName.MercadoBitcoin,
                     DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
                     Market = market,
                     Bids = from order in response.Output.Bids.ToList()
@@ -247,7 +247,7 @@ namespace MarketMaker.Exchange.MercadoBitcoin
             {
                 var resultToReturn = new OHLCV
                 {
-                    Exchange = ExchangeNameEnum.MercadoBitcoin,
+                    Exchange = ExchangeName.MercadoBitcoin,
                     TimeFrame = new TimeFrame(TimeFrameEnum.D1),
                     DateTimeOffset = DateTimeUtils.TimestampToDateTimeOffset(response.Output.Ticker.TimeStamp, false),
                     Market = market,

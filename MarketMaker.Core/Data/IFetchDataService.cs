@@ -8,7 +8,7 @@ namespace MarketMaker.Core.Repositories
 {
     public interface IFetchDataService
     {
-        Task<OHLCV[]> GetDefaultDaySummaryAsync(DateTimeOffset startDate, ExchangeNameEnum exchangeName);
+        Task<OHLCV[]> GetDefaultDaySummaryAsync(DateTimeOffset startDate, ExchangeName exchangeName);
 
     }
 
