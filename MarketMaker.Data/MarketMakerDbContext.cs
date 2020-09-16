@@ -6,12 +6,12 @@ using MarketMaker.Core.Exchange;
 
 namespace MarketMaker.Data
 {
-    public class MagoTraderDbContext : DbContext
+    public class MarketMakerDbContext : DbContext
     {
         //public DbSet<OHLCV> OHLCV { get; set; } 
         public DbSet<IExchange> Exchanges { get; set; } 
         
-        public MagoTraderDbContext(DbContextOptions<MagoTraderDbContext> options):base(options)
+        public MarketMakerDbContext(DbContextOptions<MarketMakerDbContext> options):base(options)
         {
 
         }

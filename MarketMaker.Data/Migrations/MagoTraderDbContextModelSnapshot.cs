@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MarketMaker.Data.Migrations
 {
-    [DbContext(typeof(MagoTraderDbContext))]
+    [DbContext(typeof(MarketMakerDbContext))]
     partial class MagoTraderDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

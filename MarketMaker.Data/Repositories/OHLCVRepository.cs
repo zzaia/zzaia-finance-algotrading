@@ -9,7 +9,7 @@ namespace MarketMaker.Data.Repositories
 {
     public class OHLCVRepository : Repository<OHLCV>, IOHLCVRepository
     {
-        public OHLCVRepository(MagoTraderDbContext context) 
+        public OHLCVRepository(MarketMakerDbContext context) 
             : base(context)
         { }
         /*

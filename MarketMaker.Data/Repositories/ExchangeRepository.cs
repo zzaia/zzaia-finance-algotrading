@@ -10,7 +10,7 @@ namespace MarketMaker.Data.Repositories
 {
     public class ExchangeRepository : Repository<IExchange>, IExchangeRepository
     {
-        public ExchangeRepository(MagoTraderDbContext context) 
+        public ExchangeRepository(MarketMakerDbContext context) 
             : base(context)
         { }
         /*

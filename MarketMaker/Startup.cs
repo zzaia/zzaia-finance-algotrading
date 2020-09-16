@@ -29,7 +29,7 @@ namespace MarketMaker.ServerApp
         public void ConfigureServices(IServiceCollection services)
         {
             //------- DB Context configuration --------
-            services.AddDbContextPool<MagoTraderDbContext>(options =>
+            services.AddDbContextPool<MarketMakerDbContext>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("MagoTraderSQLDB"));
             });
@@ -57,7 +57,6 @@ namespace MarketMaker.ServerApp
             }
             else
             {
-                app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
@@ -69,8 +68,7 @@ namespace MarketMaker.ServerApp
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapBlazorHub();
-                endpoints.MapFallbackToPage("/_Host");
+                endpoints.MapControllers();
             });
         }
     }

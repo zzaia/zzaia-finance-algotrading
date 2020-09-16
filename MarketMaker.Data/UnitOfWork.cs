@@ -7,12 +7,12 @@ namespace MarketMaker.Data
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly MagoTraderDbContext _context;
+        private readonly MarketMakerDbContext _context;
         
         private OHLCVRepository _ohlcvRepository;
         private ExchangeRepository _exchangeRepository;
 
-        public UnitOfWork(MagoTraderDbContext context)
+        public UnitOfWork(MarketMakerDbContext context)
         {
             this._context = context;
         }

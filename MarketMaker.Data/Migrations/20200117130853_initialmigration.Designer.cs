@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace MarketMaker.Data.Migrations
 {
-    [DbContext(typeof(MagoTraderDbContext))]
+    [DbContext(typeof(MarketMakerDbContext))]
     [Migration("20200117130853_initialmigration")]
     partial class initialmigration
     {
