@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System;
 using System.Linq;
 
-namespace MagoTrader.Core.Models
+namespace MarketMaker.Core.Models
 {
     /// <summary>
     /// Represents a financial order, that can be partially or completely fulfilled.

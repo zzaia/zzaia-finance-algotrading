@@ -1,4 +1,4 @@
-﻿namespace MagoTrader.Exchange.MercadoBitcoin.Models
+﻿namespace MarketMaker.Exchange.MercadoBitcoin.Models
 {
     public enum TapStatusCodeEnum
     {

@@ -1,8 +1,8 @@
-﻿using MagoTrader.Core.Exchange;
+﻿using MarketMaker.Core.Exchange;
 using System;
 using System.Collections.Generic;
 
-namespace MagoTrader.Core.Models
+namespace MarketMaker.Core.Models
 {
     /// <summary>
     /// Represents a financial market candlestick.

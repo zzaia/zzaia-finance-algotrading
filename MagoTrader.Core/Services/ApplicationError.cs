@@ -2,7 +2,7 @@
 using System;
 
 
-namespace MagoTrader.Core.Services
+namespace MarketMaker.Core.Services
 {
     /// <summary>
     /// A base error class in conformance to RFC 7807 about

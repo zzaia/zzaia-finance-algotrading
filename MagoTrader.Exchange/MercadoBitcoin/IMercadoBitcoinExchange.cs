@@ -1,8 +1,8 @@
-﻿using MagoTrader.Exchange.MercadoBitcoin.Private;
-using MagoTrader.Exchange.MercadoBitcoin.Public;
-using MagoTrader.Exchange.MercadoBitcoin.Trade;
+﻿using MarketMaker.Exchange.MercadoBitcoin.Private;
+using MarketMaker.Exchange.MercadoBitcoin.Public;
+using MarketMaker.Exchange.MercadoBitcoin.Trade;
 
-namespace MagoTrader.Exchange.MercadoBitcoin
+namespace MarketMaker.Exchange.MercadoBitcoin
 {
     public interface IMercadoBitcoinExchange
     {

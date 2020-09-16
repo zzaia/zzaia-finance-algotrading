@@ -1,4 +1,4 @@
-namespace MagoTrader.Core.Models
+namespace MarketMaker.Core.Models
 {
     public enum OrderTypeEnum
     {

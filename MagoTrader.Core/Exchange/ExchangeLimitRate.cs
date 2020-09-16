@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MagoTrader.Core.Exchange
+namespace MarketMaker.Core.Exchange
 {
     public class ExchangeLimitRate
     {

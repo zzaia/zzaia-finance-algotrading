@@ -1,6 +1,6 @@
-﻿using MagoTrader.Core.Models;
+﻿using MarketMaker.Core.Models;
 
-namespace MagoTrader.Core.Exchange
+namespace MarketMaker.Core.Exchange
 {
     public interface IExchangeSelector
     {

@@ -5,12 +5,12 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 
-using MagoTrader.Core.Models;
-using MagoTrader.Core.Repositories;
-using MagoTrader.Data.Repositories;
-using MagoTrader.Core.Exchange;
+using MarketMaker.Core.Models;
+using MarketMaker.Core.Repositories;
+using MarketMaker.Data.Repositories;
+using MarketMaker.Core.Exchange;
 
-namespace MagoTrader.Web.Pages
+namespace MarketMaker.Web.Pages
 {
     public class DaySummaryBase : ComponentBase
     {

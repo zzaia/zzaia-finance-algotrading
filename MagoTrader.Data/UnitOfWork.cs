@@ -1,9 +1,9 @@
 using System.Threading.Tasks;
-using MagoTrader.Core;
-using MagoTrader.Core.Repositories;
-using MagoTrader.Data.Repositories;
+using MarketMaker.Core;
+using MarketMaker.Core.Repositories;
+using MarketMaker.Data.Repositories;
 
-namespace MagoTrader.Data
+namespace MarketMaker.Data
 {
     public class UnitOfWork : IUnitOfWork
     {

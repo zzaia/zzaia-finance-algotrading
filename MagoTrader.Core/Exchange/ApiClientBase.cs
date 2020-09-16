@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace MagoTrader.Core.Exchange
+namespace MarketMaker.Core.Exchange
 {
     public class ApiClientBase
     {

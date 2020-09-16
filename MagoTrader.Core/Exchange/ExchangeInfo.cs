@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
-using MagoTrader.Core.Models;
+using MarketMaker.Core.Models;
 
-namespace MagoTrader.Core.Exchange
+namespace MarketMaker.Core.Exchange
 {
     public class ExchangeInfo
     {

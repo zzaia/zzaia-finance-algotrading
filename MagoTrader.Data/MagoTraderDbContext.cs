@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MagoTrader.Data.Configurations;
-using MagoTrader.Core.Models;
+using MarketMaker.Data.Configurations;
+using MarketMaker.Core.Models;
 using System;
-using MagoTrader.Core.Exchange;
+using MarketMaker.Core.Exchange;
 
-namespace MagoTrader.Data
+namespace MarketMaker.Data
 {
     public class MagoTraderDbContext : DbContext
     {

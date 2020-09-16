@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MagoTrader.Core.Exchange;
-using MagoTrader.Core.Models;
+using MarketMaker.Core.Exchange;
+using MarketMaker.Core.Models;
 
-namespace MagoTrader.Core.Repositories
+namespace MarketMaker.Core.Repositories
 {
     public interface IFetchDataService
     {

@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.Services.AppAuthentication;
 
-namespace MagoTrader.ServerApp
+namespace MarketMaker.ServerApp
 {
     public class Program
     {

@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MagoTrader.Core.Models
+namespace MarketMaker.Core.Models
 {
     public interface ITradeService
     {

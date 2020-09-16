@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json.Serialization;
 
-namespace MagoTrader.Exchange.MercadoBitcoin.Models
+namespace MarketMaker.Exchange.MercadoBitcoin.Models
 {
     /// <summary>
     /// Data Transfer Object to be used in json to model serialization

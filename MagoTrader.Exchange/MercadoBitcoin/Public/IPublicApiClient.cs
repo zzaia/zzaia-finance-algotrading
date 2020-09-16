@@ -1,9 +1,9 @@
-﻿using MagoTrader.Core.Exchange;
-using MagoTrader.Exchange.MercadoBitcoin.Models;
+﻿using MarketMaker.Core.Exchange;
+using MarketMaker.Exchange.MercadoBitcoin.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MagoTrader.Exchange.MercadoBitcoin.Public
+namespace MarketMaker.Exchange.MercadoBitcoin.Public
 {
     public interface IPublicApiClient
     {

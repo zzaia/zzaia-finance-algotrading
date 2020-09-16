@@ -1,6 +1,6 @@
 using System;
 
-namespace MagoTrader.Core.Models
+namespace MarketMaker.Core.Models
 {
     public enum AssetTickerEnum
     {

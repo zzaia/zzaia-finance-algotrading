@@ -1,4 +1,4 @@
-﻿namespace MagoTrader.Core.Exchange
+﻿namespace MarketMaker.Core.Exchange
 {
     public class WithdrawAndDeposit
     {

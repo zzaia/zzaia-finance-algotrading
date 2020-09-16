@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using MagoTrader.Core.Exchange;
-using MagoTrader.Core.Models;
-using MagoTrader.Core.Repositories;
+using MarketMaker.Core.Exchange;
+using MarketMaker.Core.Models;
+using MarketMaker.Core.Repositories;
 
-namespace MagoTrader.Services
+namespace MarketMaker.Services
 {
     public class MockFetchDataService : IFetchDataService
     {

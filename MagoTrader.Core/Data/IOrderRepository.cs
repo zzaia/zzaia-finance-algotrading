@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using MagoTrader.Core.Models;
+using MarketMaker.Core.Models;
 
-namespace MagoTrader.Core.Repositories
+namespace MarketMaker.Core.Repositories
 {
     public interface IOrderRepository : IRepository<OHLCV>
     {

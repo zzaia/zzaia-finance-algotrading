@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MagoTrader.Exchange.Binance
+namespace MarketMaker.Exchange.Binance
 {
     class Binance
     {

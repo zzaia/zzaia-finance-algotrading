@@ -1,12 +1,12 @@
-﻿using MagoTrader.Core.Exchange;
-using MagoTrader.Exchange.MercadoBitcoin.Models;
+﻿using MarketMaker.Core.Exchange;
+using MarketMaker.Exchange.MercadoBitcoin.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace MagoTrader.Exchange.MercadoBitcoin.Public
+namespace MarketMaker.Exchange.MercadoBitcoin.Public
 {
     public class PublicApiClient : ApiClientBase, IPublicApiClient
     {

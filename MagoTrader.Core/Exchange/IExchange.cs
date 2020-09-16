@@ -1,14 +1,14 @@
 ﻿
-using MagoTrader.Core.Models;
-using MagoTrader.Core.Services;
+using MarketMaker.Core.Models;
+using MarketMaker.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MagoTrader.Core.Exchange
+namespace MarketMaker.Core.Exchange
 {
     /// <summary>
-    /// Describes all common public methods for all implemented exchanges under MagoTrader.Exchange namespace.
+    /// Describes all common public methods for all implemented exchanges under MarketMaker.Exchange namespace.
     /// </summary>
     public interface IExchange
     {

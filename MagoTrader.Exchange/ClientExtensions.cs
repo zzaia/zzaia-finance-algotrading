@@ -1,9 +1,9 @@
-﻿using MagoTrader.Core.Exchange;
+﻿using MarketMaker.Core.Exchange;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Net.Http;
 
-namespace MagoTrader.Exchange
+namespace MarketMaker.Exchange
 {
     /// <summary>
     /// Extension methods for the Exchange clients.
@@ -61,10 +61,10 @@ namespace MagoTrader.Exchange
             {
                 case ExchangeNameEnum.MercadoBitcoin:
 
-                    services.AddHttpClient<MagoTrader.Exchange.MercadoBitcoin.Public.PublicApiClient>();
+                    services.AddHttpClient<MarketMaker.Exchange.MercadoBitcoin.Public.PublicApiClient>();
                     if (privateCredential != null)
                     {
-                        services.AddHttpClient<MagoTrader.Exchange.MercadoBitcoin.Private.PrivateApiClient>();
+                        services.AddHttpClient<MarketMaker.Exchange.MercadoBitcoin.Private.PrivateApiClient>();
                         services.Configure(Exchange.MercadoBitcoin
                                                    .MercadoBitcoinExchange
                                                    .Information.Options
@@ -72,7 +72,7 @@ namespace MagoTrader.Exchange
                     }
                     if (tradeCredential != null)
                     {
-                        services.AddHttpClient<MagoTrader.Exchange.MercadoBitcoin.Trade.TradeApiClient>();
+                        services.AddHttpClient<MarketMaker.Exchange.MercadoBitcoin.Trade.TradeApiClient>();
                         services.Configure(Exchange.MercadoBitcoin
                                                    .MercadoBitcoinExchange
                                                    .Information.Options.

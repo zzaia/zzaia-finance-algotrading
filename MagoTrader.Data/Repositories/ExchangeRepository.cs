@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using MagoTrader.Core.Models;
-using MagoTrader.Core.Repositories;
-using MagoTrader.Core.Exchange;
+using MarketMaker.Core.Models;
+using MarketMaker.Core.Repositories;
+using MarketMaker.Core.Exchange;
 
-namespace MagoTrader.Data.Repositories
+namespace MarketMaker.Data.Repositories
 {
     public class ExchangeRepository : Repository<IExchange>, IExchangeRepository
     {

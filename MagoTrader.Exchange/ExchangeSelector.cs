@@ -1,9 +1,9 @@
-﻿using MagoTrader.Core.Exchange;
+﻿using MarketMaker.Core.Exchange;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 
-namespace MagoTrader.Exchange
+namespace MarketMaker.Exchange
 {
     public class ExchangeSelector : IExchangeSelector
     {

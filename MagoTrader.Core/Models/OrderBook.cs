@@ -1,9 +1,9 @@
-﻿using MagoTrader.Core.Exchange;
+﻿using MarketMaker.Core.Exchange;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace MagoTrader.Core.Models
+namespace MarketMaker.Core.Models
 {
     /// <summary>
     /// Order book for market main asset, from OHLCV date time.

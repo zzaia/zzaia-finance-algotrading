@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
-using MagoTrader.Core.Models;
+using MarketMaker.Core.Models;
 
-namespace MagoTrader.Tests.Models
+namespace MarketMaker.Tests.Models
 {
     public class DateTimeConvertShould
     {

@@ -1,8 +1,8 @@
 using System;
 using System.Threading.Tasks;
-using MagoTrader.Core.Repositories;
+using MarketMaker.Core.Repositories;
 
-namespace MagoTrader.Core
+namespace MarketMaker.Core
 {
     public interface IUnitOfWork : IDisposable
     {

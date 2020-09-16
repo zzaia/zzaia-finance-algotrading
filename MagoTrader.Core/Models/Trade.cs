@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using MagoTrader.Core.Models;
+using MarketMaker.Core.Models;
 
-namespace MagoTrader.Core
+namespace MarketMaker.Core
 {
     /// <summary>
     /// Represents a financial order the was fulfilled.

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using MagoTrader.Core.Repositories;
+using MarketMaker.Core.Repositories;
 
-namespace MagoTrader.Data.Repositories
+namespace MarketMaker.Data.Repositories
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MagoTrader.Core.Models
+namespace MarketMaker.Core.Models
 {
     public class TimeFrame
     {

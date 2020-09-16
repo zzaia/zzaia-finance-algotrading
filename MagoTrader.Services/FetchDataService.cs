@@ -1,14 +1,14 @@
-using MagoTrader.Core.Exchange;
-using MagoTrader.Core.Models;
-using MagoTrader.Core.Repositories;
-using MagoTrader.Core.Services;
+using MarketMaker.Core.Exchange;
+using MarketMaker.Core.Models;
+using MarketMaker.Core.Repositories;
+using MarketMaker.Core.Services;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MagoTrader.Services
+namespace MarketMaker.Services
 {
     public class FetchDataService : IFetchDataService
     {

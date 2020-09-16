@@ -1,9 +1,9 @@
-using MagoTrader.Core;
-using MagoTrader.Core.Exchange;
-using MagoTrader.Core.Repositories;
-using MagoTrader.Data;
-using MagoTrader.Exchange;
-using MagoTrader.Services;
+using MarketMaker.Core;
+using MarketMaker.Core.Exchange;
+using MarketMaker.Core.Repositories;
+using MarketMaker.Data;
+using MarketMaker.Exchange;
+using MarketMaker.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 [assembly: UserSecretsId("dc5b4f9c-8b0e-2hg9-9813-c86ce80c39e6")]
-namespace MagoTrader.ServerApp
+namespace MarketMaker.ServerApp
 {
     public class Startup
     {

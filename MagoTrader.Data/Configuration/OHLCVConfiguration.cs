@@ -1,8 +1,8 @@
-using MagoTrader.Core.Models;
+using MarketMaker.Core.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 // https://docs.microsoft.com/en-us/dotnet/api/microsoft.entityframeworkcore.metadata.builders.entitytypebuilder?view=efcore-3.1
-namespace MagoTrader.Data.Configurations
+namespace MarketMaker.Data.Configurations
 {
     public class OHLCVConfiguration : IEntityTypeConfiguration<OHLCV>
     {

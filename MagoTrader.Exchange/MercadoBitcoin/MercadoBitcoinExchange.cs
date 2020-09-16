@@ -1,9 +1,9 @@
-﻿using MagoTrader.Core.Exchange;
-using MagoTrader.Core.Models;
-using MagoTrader.Core.Services;
-using MagoTrader.Exchange.MercadoBitcoin.Private;
-using MagoTrader.Exchange.MercadoBitcoin.Public;
-using MagoTrader.Exchange.MercadoBitcoin.Trade;
+﻿using MarketMaker.Core.Exchange;
+using MarketMaker.Core.Models;
+using MarketMaker.Core.Services;
+using MarketMaker.Exchange.MercadoBitcoin.Private;
+using MarketMaker.Exchange.MercadoBitcoin.Public;
+using MarketMaker.Exchange.MercadoBitcoin.Trade;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
@@ -12,7 +12,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MagoTrader.Exchange.MercadoBitcoin
+namespace MarketMaker.Exchange.MercadoBitcoin
 {
     public class MercadoBitcoinExchange : IMercadoBitcoinExchange, IExchange
     {

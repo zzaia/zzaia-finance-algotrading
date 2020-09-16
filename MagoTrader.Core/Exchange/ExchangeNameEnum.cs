@@ -1,6 +1,6 @@
 using System;
 
-namespace MagoTrader.Core.Exchange
+namespace MarketMaker.Core.Exchange
 {
     public enum ExchangeNameEnum
     {

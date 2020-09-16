@@ -1,12 +1,12 @@
-using MagoTrader.Core.Models;
-using MagoTrader.Exchange.MercadoBitcoin.Public;
+using MarketMaker.Core.Models;
+using MarketMaker.Exchange.MercadoBitcoin.Public;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 using System.Net.Http;
 using Xunit;
 
-namespace MagoTrader.Tests.Exchange.MercadoBitcoin
+namespace MarketMaker.Tests.Exchange.MercadoBitcoin
 {
     public class PublicApiClientShould
     {

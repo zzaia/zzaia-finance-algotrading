@@ -1,12 +1,12 @@
-﻿using MagoTrader.Core.Exchange;
-using MagoTrader.Exchange.MercadoBitcoin.Trade;
+﻿using MarketMaker.Core.Exchange;
+using MarketMaker.Exchange.MercadoBitcoin.Trade;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
 using Xunit;
 
-namespace MagoTrader.Tests.Exchange.MercadoBitcoin
+namespace MarketMaker.Tests.Exchange.MercadoBitcoin
 {
     /// <summary>
     /// ## Instructions for the test ## 
@@ -28,7 +28,7 @@ namespace MagoTrader.Tests.Exchange.MercadoBitcoin
             _client.SetBaseAddress(new Uri("https://www.mercadobitcoin.net"));
             var configuration = new ConfigurationBuilder()
                .AddJsonFile("secrets.json")
-               .AddUserSecrets<MagoTrader.ServerApp.Startup>()
+               .AddUserSecrets<MarketMaker.ServerApp.Startup>()
                .Build();
             _clientCredential = new ClientCredential();
             configuration.Bind("Exchange:MercadoBitcoin:Private", _clientCredential);

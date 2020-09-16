@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace MagoTrader.Data.Migrations
+namespace MarketMaker.Data.Migrations
 {
     public partial class initialmigration : Migration
     {

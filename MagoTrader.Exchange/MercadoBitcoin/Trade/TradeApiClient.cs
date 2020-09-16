@@ -1,6 +1,6 @@
-﻿using MagoTrader.Core.Exchange;
-using MagoTrader.Core.Models;
-using MagoTrader.Exchange.MercadoBitcoin.Models;
+﻿using MarketMaker.Core.Exchange;
+using MarketMaker.Core.Models;
+using MarketMaker.Exchange.MercadoBitcoin.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
-namespace MagoTrader.Exchange.MercadoBitcoin.Trade
+namespace MarketMaker.Exchange.MercadoBitcoin.Trade
 {
     public class TradeApiClient : ApiClientBase, ITradeApiClient
     {

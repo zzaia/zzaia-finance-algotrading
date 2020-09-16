@@ -1,4 +1,4 @@
-﻿namespace MagoTrader.Core.Services
+﻿namespace MarketMaker.Core.Services
 {
     public class ObjectResult<T> where T : class
     {
