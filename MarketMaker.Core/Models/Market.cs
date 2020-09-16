@@ -12,7 +12,7 @@ namespace MarketMaker.Core.Models
         {
             Main = mainTicker;
             Base = baseTicker;
-            Ticker = $"{mainTicker}/{baseTicker}";
+            Ticker = $"{mainTicker.DisplayName}/{baseTicker.DisplayName}";
         }
     }
 }

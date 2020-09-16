@@ -104,18 +104,18 @@ namespace MarketMaker.Exchange.MercadoBitcoin
                     Culture = new CultureInfo("en-us"),
                     Timeframes = new List<TimeFrame>
                     {
-                        new TimeFrame(TimeFrameEnum.m15),
-                        new TimeFrame(TimeFrameEnum.m30),
-                        new TimeFrame(TimeFrameEnum.H1),
-                        new TimeFrame(TimeFrameEnum.H2),
-                        new TimeFrame(TimeFrameEnum.H4),
-                        new TimeFrame(TimeFrameEnum.H6),
-                        new TimeFrame(TimeFrameEnum.H8),
-                        new TimeFrame(TimeFrameEnum.H12),
-                        new TimeFrame(TimeFrameEnum.D1),
-                        new TimeFrame(TimeFrameEnum.D3),
-                        new TimeFrame(TimeFrameEnum.W1),
-                        new TimeFrame(TimeFrameEnum.W2),
+                        TimeFrame.m15,
+                        TimeFrame.m30,
+                        TimeFrame.H1,
+                        TimeFrame.H2,
+                        TimeFrame.H4,
+                        TimeFrame.H6,
+                        TimeFrame.H8,
+                        TimeFrame.H12,
+                        TimeFrame.D1,
+                        TimeFrame.D3,
+                        TimeFrame.W1,
+                        TimeFrame.W2,
                     },
                     Uris = new ExchangeUris
                     {
@@ -180,7 +180,7 @@ namespace MarketMaker.Exchange.MercadoBitcoin
                 var resultToReturn = new OHLCV
                 {
                     Exchange = ExchangeName.MercadoBitcoin,
-                    TimeFrame = new TimeFrame(TimeFrameEnum.D1),
+                    TimeFrame = TimeFrame.D1,
                     DateTimeOffset = DateTimeOffset.Parse(response.Output.Date, CultureInfo.InvariantCulture),
                     //DateTimeOffset = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day),
                     Market = market,
@@ -248,7 +248,7 @@ namespace MarketMaker.Exchange.MercadoBitcoin
                 var resultToReturn = new OHLCV
                 {
                     Exchange = ExchangeName.MercadoBitcoin,
-                    TimeFrame = new TimeFrame(TimeFrameEnum.D1),
+                    TimeFrame = TimeFrame.D1,
                     DateTimeOffset = DateTimeUtils.TimestampToDateTimeOffset(response.Output.Ticker.TimeStamp, false),
                     Market = market,
                     Buy = Convert.ToDecimal(response.Output.Ticker.Buy, Information.Culture),
