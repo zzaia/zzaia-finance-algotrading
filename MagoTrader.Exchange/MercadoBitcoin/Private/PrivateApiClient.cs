@@ -70,7 +70,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Private
                                                                                                                                string statusList,
                                                                                                                                bool hasFills)
         {
-            _logger.LogInformation($"Get a list of orders.");
+            _logger.LogInformation($"Get a list of orders by {tickerPair}.");
             var parameters = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("tapi_method", "list_orders"),
@@ -84,7 +84,7 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Private
 
         public async Task<Response<TAPResponse<OrderbookInformationDTO>>> GetCompleteOrderBookByTickerPairAsync(ClientCredential clientCredential, string tickerPair, bool fullQuantity)
         {
-            _logger.LogInformation($"Get the complete orderbook.");
+            _logger.LogInformation($"Get the complete orderbook for {tickerPair}.");
             var parameters = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("tapi_method", "list_orderbook"),

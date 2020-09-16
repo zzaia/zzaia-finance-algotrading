@@ -25,7 +25,10 @@ namespace MagoTrader.Exchange.MercadoBitcoin.Models
         public bool HasFills { get; set; }
 
         [JsonPropertyName("quantity")]
-        public string Qauantity { get; set; }
+        public string Quantity { get; set; }
+
+        [JsonPropertyName("cost")]
+        public string Cost { get; set; }
 
         [JsonPropertyName("limit_price")]
         public string PriceLimit { get; set; }
