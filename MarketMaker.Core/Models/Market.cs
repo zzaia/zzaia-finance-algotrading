@@ -6,9 +6,9 @@ namespace MarketMaker.Core.Models
     {
         public Guid Id { get; set; }
         public string Ticker { get; }
-        public AssetTickerEnum Base { get; }
-        public AssetTickerEnum Main { get; }
-        public Market(AssetTickerEnum mainTicker, AssetTickerEnum baseTicker)
+        public AssetTicker Base { get; }
+        public AssetTicker Main { get; }
+        public Market(AssetTicker mainTicker, AssetTicker baseTicker)
         {
             Main = mainTicker;
             Base = baseTicker;

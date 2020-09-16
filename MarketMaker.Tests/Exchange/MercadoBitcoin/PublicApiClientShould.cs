@@ -24,7 +24,7 @@ namespace MarketMaker.Tests.Exchange.MercadoBitcoin
         {
             //Arrange:
             DateTime dt = new DateTime(2013, 6, 20, 2, 40, 30);
-            var market = new Market(AssetTickerEnum.BTC, AssetTickerEnum.BRL);
+            var market = new Market(AssetTicker.BTC, AssetTicker.BRL);
 
             //Act:
             var response = await _client.GetDaySummaryOHLCVAsync(market.Main.ToString(), dt.Year, dt.Month, dt.Day).ConfigureAwait(true);
@@ -48,7 +48,7 @@ namespace MarketMaker.Tests.Exchange.MercadoBitcoin
         public async void GetLast24hOHLCVByMainTicker()
         {
             //Arrange:
-            var market = new Market(AssetTickerEnum.BTC, AssetTickerEnum.BRL);
+            var market = new Market(AssetTicker.BTC, AssetTicker.BRL);
             var dt = DateTimeOffset.UtcNow;
             var tolerance = TimeSpan.FromMinutes(30);
             var cultureInfo = new CultureInfo("en-us");
@@ -71,7 +71,7 @@ namespace MarketMaker.Tests.Exchange.MercadoBitcoin
         public async void GetOrderBookByMainTicker()
         {
             //Arrange:
-            var market = new Market(AssetTickerEnum.BTC, AssetTickerEnum.BRL);
+            var market = new Market(AssetTicker.BTC, AssetTicker.BRL);
 
             //Act:
             var response = await _client.GetOrderBookAsync(market.Main.ToString()).ConfigureAwait(true);
@@ -92,7 +92,7 @@ namespace MarketMaker.Tests.Exchange.MercadoBitcoin
         public async void GetTradesSinceTIDByMainTicker()
         {
             //Arrange:
-            var market = new Market(AssetTickerEnum.BTC, AssetTickerEnum.BRL);
+            var market = new Market(AssetTicker.BTC, AssetTicker.BRL);
             string tid = "5700";
             //var globalId = new Guid(tid.GetHashCode().ToString());
 

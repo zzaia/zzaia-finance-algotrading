@@ -36,7 +36,7 @@ namespace MarketMaker.Tests.Exchange.MercadoBitcoin
         {
             //Arrange:
             DateTime dt = new DateTime(2013, 6, 20, 2, 40, 30);
-            var market = new Market(AssetTickerEnum.BTC, AssetTickerEnum.BRL);
+            var market = new Market(AssetTicker.BTC, AssetTicker.BRL);
             var timeframe = new TimeFrame(TimeFrameEnum.D1);
 
             //Act:
@@ -63,7 +63,7 @@ namespace MarketMaker.Tests.Exchange.MercadoBitcoin
         public async void FetchOrderBookByMarket()
         {
             //Arrange:
-            var market = new Market(AssetTickerEnum.BTC, AssetTickerEnum.BRL);
+            var market = new Market(AssetTicker.BTC, AssetTicker.BRL);
             var currentTime = DateTimeUtils.CurrentUtcDateTimeOffset();
             var tolerance = TimeSpan.FromSeconds(30);
 
@@ -90,7 +90,7 @@ namespace MarketMaker.Tests.Exchange.MercadoBitcoin
         public async void FetchOHLCVByMarket()
         {
             //Arrange:
-            var market = new Market(AssetTickerEnum.BTC, AssetTickerEnum.BRL);
+            var market = new Market(AssetTicker.BTC, AssetTicker.BRL);
             var dt = DateTimeOffset.UtcNow;
             var tolerance = TimeSpan.FromMinutes(30);
 

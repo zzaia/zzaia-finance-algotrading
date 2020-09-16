@@ -82,23 +82,23 @@ namespace MarketMaker.Exchange.MercadoBitcoin
                     Name = ExchangeName.MercadoBitcoin,
                     Fiats = new List<Asset>
                     {
-                        new Asset("Real", AssetTickerEnum.BRL, 50, 200000, 0, 50, 200000, 1.99m / 100m),
+                        new Asset("Real", AssetTicker.BRL, 50, 200000, 0, 50, 200000, 1.99m / 100m),
                     },
                     Assets = new List<Asset>
                     {
-                        new Asset("Bitcoin", AssetTickerEnum.BTC, 5 / 10m, decimal.MaxValue, 0, 1 / 1m, 10, 4 / 10m),
-                        new Asset("Ethereum", AssetTickerEnum.ETH, 10 / 1m, decimal.MaxValue, 0, 1 / 1m, 70, 2 / 1m),
-                        new Asset("Bitcoin Cash", AssetTickerEnum.BCH, 1 / 10m, decimal.MaxValue, 0, 1 / 1m, 25, 1 / 1m),
-                        new Asset("Lite Coin", AssetTickerEnum.LTC, 1 / 10m, decimal.MaxValue, 0, 1 / 1m, 500, 1 / 1m),
-                        new Asset("Ripple", AssetTickerEnum.XRP, 0, decimal.MaxValue, 0, 20, 20000, 1 / 100),
+                        new Asset("Bitcoin", AssetTicker.BTC, 5 / 10m, decimal.MaxValue, 0, 1 / 1m, 10, 4 / 10m),
+                        new Asset("Ethereum", AssetTicker.ETH, 10 / 1m, decimal.MaxValue, 0, 1 / 1m, 70, 2 / 1m),
+                        new Asset("Bitcoin Cash", AssetTicker.BCH, 1 / 10m, decimal.MaxValue, 0, 1 / 1m, 25, 1 / 1m),
+                        new Asset("Lite Coin", AssetTicker.LTC, 1 / 10m, decimal.MaxValue, 0, 1 / 1m, 500, 1 / 1m),
+                        new Asset("Ripple", AssetTicker.XRP, 0, decimal.MaxValue, 0, 20, 20000, 1 / 100),
                     },
                     Markets = new List<Market>
                     {
-                        new Market(AssetTickerEnum.BTC, AssetTickerEnum.BRL),
-                        new Market(AssetTickerEnum.BCH, AssetTickerEnum.BRL),
-                        new Market(AssetTickerEnum.ETH, AssetTickerEnum.BRL),
-                        new Market(AssetTickerEnum.LTC, AssetTickerEnum.BRL),
-                        new Market(AssetTickerEnum.XRP, AssetTickerEnum.BRL),
+                        new Market(AssetTicker.BTC, AssetTicker.BRL),
+                        new Market(AssetTicker.BCH, AssetTicker.BRL),
+                        new Market(AssetTicker.ETH, AssetTicker.BRL),
+                        new Market(AssetTicker.LTC, AssetTicker.BRL),
+                        new Market(AssetTicker.XRP, AssetTicker.BRL),
                     },
                     Country = Country.BRA,
                     Culture = new CultureInfo("en-us"),

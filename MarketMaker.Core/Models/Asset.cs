@@ -7,11 +7,11 @@ namespace MarketMaker.Core.Models
 {
     public class Asset
     {
-        public AssetTickerEnum Ticker { get; set; }
+        public AssetTicker Ticker { get; set; }
         public string Name { get; set; }
         public WithdrawAndDeposit Withdraw { get; set; }
         public WithdrawAndDeposit Deposit { get; set; }
-        public Asset(string name, AssetTickerEnum ticker, 
+        public Asset(string name, AssetTicker ticker, 
                                   decimal depositMinimumLimit,
                                   decimal depositMaximumLimit, 
                                   decimal depositFee, 
