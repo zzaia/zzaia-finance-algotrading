@@ -31,7 +31,7 @@ namespace MarketMaker.ServerApp
             //------- DB Context configuration --------
             services.AddDbContextPool<MarketMakerDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("MagoTraderSQLDB"));
+                options.UseSqlServer(Configuration.GetConnectionString("MarketMakerSQLDB"));
             });
 
             services.AddScoped<IUnitOfWork, UnitOfWork>(); //It has all implemented data repositories inside;

@@ -100,7 +100,7 @@ namespace MarketMaker.Exchange.MercadoBitcoin
                         new Market(AssetTickerEnum.LTC, AssetTickerEnum.BRL),
                         new Market(AssetTickerEnum.XRP, AssetTickerEnum.BRL),
                     },
-                    Country = CountryEnum.BRA,
+                    Country = Country.BRA,
                     Culture = new CultureInfo("en-us"),
                     Timeframes = new List<TimeFrame>
                     {
