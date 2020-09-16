@@ -23,7 +23,7 @@ namespace MarketMaker.Tests.Exchange.MercadoBitcoin
             _client.SetBaseAddress(new Uri("https://www.mercadobitcoin.net"));
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("secrets.json")
-                .AddUserSecrets<MarketMaker.ServerApp.Startup>()
+                .AddUserSecrets<Startup>()
                 .Build();
             _clientCredential = new ClientCredential();
             configuration.Bind("Exchange:MercadoBitcoin:Private", _clientCredential);
