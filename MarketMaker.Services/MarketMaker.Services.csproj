@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
-    <ProjectReference Include="..\MarketMaker.Data\MarketMaker.Data.csproj" />
-    <ProjectReference Include="..\MarketMaker.Exchange\MarketMaker.Exchange.csproj" />
+    <ProjectReference Include="..\MarketMaker.Core\MarketMaker.Core.csproj" />
   </ItemGroup>
 
   <PropertyGroup>
