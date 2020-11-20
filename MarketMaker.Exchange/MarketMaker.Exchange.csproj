@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MarketMaker.Core\MarketMaker.Core.csproj" />
+    <ProjectReference Include="..\MarketMaker.Services\MarketMaker.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>

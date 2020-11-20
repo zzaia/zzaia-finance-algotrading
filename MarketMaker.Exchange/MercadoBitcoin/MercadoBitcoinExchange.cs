@@ -1,6 +1,7 @@
 ﻿using MarketMaker.Core.Exchange;
 using MarketMaker.Core.Models;
 using MarketMaker.Core.Services;
+using MarketMaker.Core.Utils;
 using MarketMaker.Exchange.MercadoBitcoin.Private;
 using MarketMaker.Exchange.MercadoBitcoin.Public;
 using MarketMaker.Exchange.MercadoBitcoin.Trade;
@@ -80,25 +81,45 @@ namespace MarketMaker.Exchange.MercadoBitcoin
                 var exchangeInfo = new ExchangeInfo()
                 {
                     Name = ExchangeName.MercadoBitcoin,
-                    Fiats = new List<Asset>
-                    {
-                        new Asset("Real", AssetTicker.BRL, 50, 200000, 0, 50, 200000, 1.99m / 100m),
-                    },
                     Assets = new List<Asset>
                     {
-                        new Asset("Bitcoin", AssetTicker.BTC, 5 / 10m, decimal.MaxValue, 0, 1 / 1m, 10, 4 / 10m),
-                        new Asset("Ethereum", AssetTicker.ETH, 10 / 1m, decimal.MaxValue, 0, 1 / 1m, 70, 2 / 1m),
-                        new Asset("Bitcoin Cash", AssetTicker.BCH, 1 / 10m, decimal.MaxValue, 0, 1 / 1m, 25, 1 / 1m),
-                        new Asset("Lite Coin", AssetTicker.LTC, 1 / 10m, decimal.MaxValue, 0, 1 / 1m, 500, 1 / 1m),
-                        new Asset("Ripple", AssetTicker.XRP, 0, decimal.MaxValue, 0, 20, 20000, 1 / 100),
+                        Asset.BRL,
+                        Asset.BCH,
+                        Asset.BTC,
+                        Asset.ETH,
+                        Asset.LTC,
+                        Asset.XRP,
+                        Asset.WBX,
+                        Asset.CHZ,
+                        Asset.USDC
+                    },
+                    Operations = new List<OperationInfo>
+                    {
+                        new OperationInfo(OperationInfo.Types.Deposit, Asset.BRL,50, 200000).AddFee(decimal.Zero, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.BRL, 50, 200000).AddFee(decimal.Zero, 1.99m / 100m),
+                        new OperationInfo(OperationInfo.Types.Deposit, Asset.BTC, 5 / 10m, decimal.MaxValue).AddFee(decimal.Zero, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.BTC, 1 / 1m, 10).AddFee( 4 / 10m, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Deposit, Asset.BCH, 1 / 10m, decimal.MaxValue).AddFee(decimal.Zero, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.BCH, 1 / 1m, 25).AddFee( 1 / 1m, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Deposit, Asset.LTC, 1 / 10m, decimal.MaxValue).AddFee(decimal.Zero, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.LTC, 1 / 1m, 500).AddFee( 1 / 1m, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Deposit, Asset.XRP, 0, decimal.MaxValue).AddFee(decimal.Zero, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.XRP, 20, 20000).AddFee( 1 / 100, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Deposit, Asset.ETH, 10 / 1m, decimal.MaxValue),
+                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.ETH, 1 / 1m, 70),
+                        new OperationInfo(OperationInfo.Types.Maker, decimal.MinValue, decimal.MaxValue).AddFee(decimal.Zero, 0.3m / 100m),
+                        new OperationInfo(OperationInfo.Types.Taker, decimal.MinValue, decimal.MaxValue).AddFee(decimal.Zero, 0.7m / 100m),
                     },
                     Markets = new List<Market>
                     {
-                        new Market(AssetTicker.BTC, AssetTicker.BRL),
-                        new Market(AssetTicker.BCH, AssetTicker.BRL),
-                        new Market(AssetTicker.ETH, AssetTicker.BRL),
-                        new Market(AssetTicker.LTC, AssetTicker.BRL),
-                        new Market(AssetTicker.XRP, AssetTicker.BRL),
+                        new Market(Asset.BTC, Asset.BRL),
+                        new Market(Asset.BCH, Asset.BRL),
+                        new Market(Asset.ETH, Asset.BRL),
+                        new Market(Asset.LTC, Asset.BRL),
+                        new Market(Asset.XRP, Asset.BRL),
+                        new Market(Asset.WBX, Asset.BRL),
+                        new Market(Asset.CHZ, Asset.BRL),
+                        new Market(Asset.USDC, Asset.BRL),
                     },
                     Country = Country.BRA,
                     Culture = new CultureInfo("en-us"),
@@ -143,13 +164,6 @@ namespace MarketMaker.Exchange.MercadoBitcoin
                         Login = false,
                         Password = false,
                         Twofa = false,
-                    },
-                    TradingFee = new MarketFee
-                    {
-                        TierBasedPercentage = false,
-                        FixedPercentage = true,
-                        Maker = 0.3m / 100m,
-                        Taker = 0.7m / 100m,
                     },
                     Options = new ExchangeOptions
                     {
@@ -220,9 +234,9 @@ namespace MarketMaker.Exchange.MercadoBitcoin
                     DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
                     Market = market,
                     Bids = from order in response.Output.Bids.ToList()
-                           select new Order(market, OrderTypeEnum.BUY, order[1], order[0]),
+                           select new Order(market, Order.Types.Buy, order[1], order[0]),
                     Asks = from order in response.Output.Bids.ToList()
-                           select new Order(market, OrderTypeEnum.SELL, order[1], order[0]),
+                           select new Order(market, Order.Types.Sell, order[1], order[0]),
                 };
 
                 return ObjectResultFactory.CreateSuccessResult(resultToReturn);
@@ -282,13 +296,12 @@ namespace MarketMaker.Exchange.MercadoBitcoin
                 IEnumerable<Order> resultToReturn
                     = from trade in response.Output
                       select new Order(market,
-                                       OrderTypeEnum.Parse<OrderTypeEnum>(trade.Type),
+                                       String.Parse<Order.Types>(trade.Type),
                                        trade.Amount,
                                        trade.Price,
                                        new Guid(trade.Tid.GetHashCode().ToString(CultureInfo.InvariantCulture)),
                                        DateTimeUtils.TimestampToDateTimeOffset(trade.TimeStamp, false),
-                                       OrderStatusEnum.CLOSED
-                          );
+                                       Order.Statuses.Closed);
 
                 return ObjectResultFactory.CreateSuccessResult(resultToReturn);
             }

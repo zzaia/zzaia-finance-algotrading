@@ -1,5 +1,5 @@
 ﻿using MarketMaker.Core.Exchange;
-using MarketMaker.Core.Models;
+using MarketMaker.Core.Utils;
 using MarketMaker.Exchange.MercadoBitcoin.Models;
 using Microsoft.Extensions.Logging;
 using System;

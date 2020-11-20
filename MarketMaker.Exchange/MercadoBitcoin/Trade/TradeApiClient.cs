@@ -1,5 +1,5 @@
 ﻿using MarketMaker.Core.Exchange;
-using MarketMaker.Core.Models;
+using MarketMaker.Core.Utils;
 using MarketMaker.Exchange.MercadoBitcoin.Models;
 using Microsoft.Extensions.Logging;
 using System;
@@ -81,8 +81,8 @@ namespace MarketMaker.Exchange.MercadoBitcoin.Trade
             return await PostSuppreme<WithdrawalDTO>(clientCredential, parameters).ConfigureAwait(_continueOnCapturedContext);
         }
 
-        public async Task<Response<TAPResponse<WithdrawalDTO>>> PlaceWithdrawalAsync(ClientCredential clientCredential, string ticker, string walletAddress, 
-                                                                                                                                       string quantity, 
+        public async Task<Response<TAPResponse<WithdrawalDTO>>> PlaceWithdrawalAsync(ClientCredential clientCredential, string ticker, string walletAddress,
+                                                                                                                                       string quantity,
                                                                                                                                        string transactionFee,
                                                                                                                                        int destinationTag = int.MinValue,
                                                                                                                                        bool isAggregate = false,
