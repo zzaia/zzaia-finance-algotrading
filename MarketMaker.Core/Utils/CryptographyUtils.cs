@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MarketMaker.Core.Models
+namespace MarketMaker.Core.Utils
 {
     public static class CryptographyUtils
     {

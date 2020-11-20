@@ -1,6 +1,6 @@
 using System;
 
-namespace MarketMaker.Core.Models
+namespace MarketMaker.Core.Utils
 {
     public static class DateTimeUtils
     {

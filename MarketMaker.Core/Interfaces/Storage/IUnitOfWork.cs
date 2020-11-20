@@ -1,8 +1,7 @@
 using System;
 using System.Threading.Tasks;
-using MarketMaker.Core.Repositories;
 
-namespace MarketMaker.Core
+namespace MarketMaker.Core.Storage
 {
     public interface IUnitOfWork : IDisposable
     {

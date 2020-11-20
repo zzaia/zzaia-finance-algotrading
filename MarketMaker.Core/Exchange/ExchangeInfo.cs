@@ -18,14 +18,13 @@ namespace MarketMaker.Core.Exchange
         public IEnumerable<Market> Markets { get; set; }
         public IEnumerable<Market> Futures { get; set; }
         public IEnumerable<Asset> Assets { get; set; }
-        public IEnumerable<Asset> Fiats { get; set; }
+        public IEnumerable<OperationInfo> Operations { get; set; }
         public Country Country { get; set; }
         public CultureInfo Culture { get; set; }
         public IEnumerable<TimeFrame> Timeframes{ get; set; }
         public ExchangeUris Uris { get; set; }
         public RequiredCredentials RequiredCredentials { get; set; }
         public ExchangeOptions Options { get; set; }
-        public MarketFee TradingFee { get; set; }
         public ExchangeLimitRate LimitRate { get; set; }
 
     }

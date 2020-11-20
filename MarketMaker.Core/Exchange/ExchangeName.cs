@@ -1,7 +1,7 @@
 namespace MarketMaker.Core.Exchange
 {
     /*========================================================================================================
-        Supported Exchanges
+        Supported Exchanges by Name
       ======================================================================================================= */
     public class ExchangeName : Enumeration
     {

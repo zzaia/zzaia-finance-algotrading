@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace MarketMaker.Core.Repositories
+namespace MarketMaker.Core.Storage
 {
     public interface IRepository<TEntity> where TEntity : class
     {

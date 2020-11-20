@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MarketMaker.Core.Models;
 
-namespace MarketMaker.Core.Repositories
+namespace MarketMaker.Core.Storage
 {
     public interface IOHLCVRepository : IRepository<OHLCV>
     {

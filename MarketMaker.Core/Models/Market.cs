@@ -1,14 +1,11 @@
-using System;
-
 namespace MarketMaker.Core.Models
 {
     public class Market
     {
-        public Guid Id { get; set; }
         public string Ticker { get; }
-        public AssetTicker Base { get; }
-        public AssetTicker Main { get; }
-        public Market(AssetTicker mainTicker, AssetTicker baseTicker)
+        public Asset Base { get; }
+        public Asset Main { get; }
+        public Market(Asset mainTicker, Asset baseTicker)
         {
             Main = mainTicker;
             Base = baseTicker;
