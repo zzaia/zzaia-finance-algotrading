@@ -1,5 +1,6 @@
 ﻿using MarketMaker.Core.Exchange;
 using MarketMaker.Core.Models;
+using MarketMaker.Core.Utils;
 using MarketMaker.Exchange.MercadoBitcoin;
 using MarketMaker.Exchange.MercadoBitcoin.Private;
 using MarketMaker.Exchange.MercadoBitcoin.Public;
@@ -36,8 +37,8 @@ namespace MarketMaker.Tests.Exchange.MercadoBitcoin
         {
             //Arrange:
             DateTime dt = new DateTime(2013, 6, 20, 2, 40, 30);
-            var market = new Market(AssetTicker.BTC, AssetTicker.BRL);
-            var timeframe = new TimeFrame(TimeFrameEnum.D1);
+            var market = new Market(Asset.BTC, Asset.BRL);
+            var timeframe = TimeFrame.D1;
 
             //Act:
             var response = await _exchange.FetchDaySummaryAsync(market, dt).ConfigureAwait(true);
@@ -46,7 +47,7 @@ namespace MarketMaker.Tests.Exchange.MercadoBitcoin
             Assert.True(response.Succeed);
             Assert.NotNull(response.Output);
             Assert.Equal(ExchangeName.MercadoBitcoin, response.Output.Exchange);
-            Assert.Equal(timeframe.Enum, response.Output.TimeFrame.Enum);
+            Assert.Equal(timeframe, response.Output.TimeFrame);
             Assert.Equal(market, response.Output.Market);
             Assert.Equal(new DateTime(2013, 6, 20), response.Output.DateTimeOffset);
             Assert.Equal((decimal)262.99999, response.Output.Open, 5);
@@ -63,7 +64,7 @@ namespace MarketMaker.Tests.Exchange.MercadoBitcoin
         public async void FetchOrderBookByMarket()
         {
             //Arrange:
-            var market = new Market(AssetTicker.BTC, AssetTicker.BRL);
+            var market = new Market(Asset.BTC, Asset.BRL);
             var currentTime = DateTimeUtils.CurrentUtcDateTimeOffset();
             var tolerance = TimeSpan.FromSeconds(30);
 
@@ -90,7 +91,7 @@ namespace MarketMaker.Tests.Exchange.MercadoBitcoin
         public async void FetchOHLCVByMarket()
         {
             //Arrange:
-            var market = new Market(AssetTicker.BTC, AssetTicker.BRL);
+            var market = new Market(Asset.BTC, Asset.BRL);
             var dt = DateTimeOffset.UtcNow;
             var tolerance = TimeSpan.FromMinutes(30);
 

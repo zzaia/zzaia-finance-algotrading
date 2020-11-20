@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MarketMaker.Core.Utils;
+using System;
 using Xunit;
-using MarketMaker.Core.Models;
 
 namespace MarketMaker.Tests.Models
 {
@@ -14,8 +12,8 @@ namespace MarketMaker.Tests.Models
             //Arrange:
             var dateTimeOffset1 = DateTimeUtils.CurrentUtcDateTimeOffset();
             var millisecondsTimestamp1 = DateTimeUtils.DateTimeOffsetToTimestamp(dateTimeOffset1);
-            var dateTimeOffset2 = new DateTime(1970,4,24).ToUniversalTime();
-            var millisecondsTimestamp2= DateTimeUtils.DateTimeToTimestamp(dateTimeOffset2);
+            var dateTimeOffset2 = new DateTime(1970, 4, 24).ToUniversalTime();
+            var millisecondsTimestamp2 = DateTimeUtils.DateTimeToTimestamp(dateTimeOffset2);
             var tolerance = TimeSpan.FromSeconds(1);
 
             //Act:
@@ -23,7 +21,7 @@ namespace MarketMaker.Tests.Models
             DateTimeOffset result2 = DateTimeUtils.TimestampToDateTimeOffset(millisecondsTimestamp2, true);
 
             //Assert:
-            Assert.Equal(dateTimeOffset1.DateTime, result1.DateTime,tolerance);
+            Assert.Equal(dateTimeOffset1.DateTime, result1.DateTime, tolerance);
             Assert.Equal(dateTimeOffset2, result2.DateTime, tolerance);
 
         }
