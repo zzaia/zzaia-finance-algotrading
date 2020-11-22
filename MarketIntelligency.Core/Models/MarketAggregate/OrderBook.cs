@@ -1,0 +1,39 @@
+﻿using MarketIntelligency.Core.Models.EnumerationAggregate;
+using System;
+using System.Collections.Generic;
+
+namespace MarketIntelligency.Core.Models.MarketAgregate
+{
+    /// <summary>
+    /// Order book for market main asset, from OHLCV date time.
+    /// </summary>
+    public class OrderBook
+    {
+
+        /// <summary>
+        /// Represents exchange where the data was taken.
+        /// </summary>
+        public ExchangeName Exchange { get; set; }
+
+        /// <summary>
+        /// Represents the data market, with main and base assets.
+        /// </summary>
+        public Market Market { get; set; }
+
+        /// <summary>
+        /// Represents the candlestick time of measurement.
+        /// </summary>
+        public DateTimeOffset DateTimeOffset { get; set; }
+
+        /// <summary>
+        /// List of bids orders.
+        /// </summary>
+        public IEnumerable<Order> Bids { get; set; }
+
+        /// <summary>
+        /// List of asks orders.
+        /// </summary>
+        public IEnumerable<Order> Asks { get; set; }
+
+    }
+}
