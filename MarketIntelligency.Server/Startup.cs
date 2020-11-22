@@ -1,19 +1,14 @@
-using MarketMaker.Core;
-using MarketMaker.Core.Exchange;
-using MarketMaker.Core.Repositories;
-using MarketMaker.Data;
-using MarketMaker.Exchange;
-using MarketMaker.Services;
+using MarketIntelligency.Core.Models.EnumerationAggregate;
+using MarketIntelligency.Exchange;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 [assembly: UserSecretsId("dc5b4f9c-8b0e-2hg9-9813-c86ce80c39e6")]
-namespace MarketMaker
+namespace MarketIntelligency
 {
     public class Startup
     {
@@ -28,24 +23,12 @@ namespace MarketMaker
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //------- DB Context configuration --------
-            services.AddDbContextPool<MarketMakerDbContext>(options =>
-            {
-                options.UseSqlServer(Configuration.GetConnectionString("MarketMakerSQLDB"));
-            });
-
-            services.AddScoped<IUnitOfWork, UnitOfWork>(); //It has all implemented data repositories inside;
 
             //----------- Exchange API Client -------------------
             services.AddExchangeClient(ExchangeName.MercadoBitcoin,
                 privateCredential => Configuration.Bind("Exchange:MercadoBitcoin:Private", privateCredential),
                 tradeCredential => Configuration.Bind("Exchange:MercadoBitcoin:Trade", tradeCredential));
 
-            services.AddRazorPages();
-            services.AddServerSideBlazor();
-
-            //services.AddScoped<IFetchDataService,FetchFakeDataService>();
-            services.AddScoped<IFetchDataService, FetchDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
