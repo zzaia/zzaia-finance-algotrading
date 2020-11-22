@@ -1,16 +1,16 @@
-﻿using MarketMaker.Core.Exchange;
-using MarketMaker.Exchange.MercadoBitcoin.Trade;
+﻿using MarketIntelligency.Core.Models.ExchangeAggregate;
+using MarketIntelligency.Exchange.MercadoBitcoin.Trade;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
 using Xunit;
 
-namespace MarketMaker.Tests.Exchange.MercadoBitcoin
+namespace MarketIntelligency.Tests.Exchange.MercadoBitcoin
 {
     /// <summary>
     /// ## Instructions for the test ## 
-    /// ATTENTION: THIS TEST WILL MAKE REAL TRADES;
+    /// ATTENTION: THIS TEST WILL MAKE REAL TRADES!;
     /// Have the following requirements:
     /// [] The exhange secret and id locally in secrets.json;
     /// [] Set the _unlockTest to true;

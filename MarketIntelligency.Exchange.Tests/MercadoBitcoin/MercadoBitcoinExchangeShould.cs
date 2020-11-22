@@ -1,10 +1,12 @@
-﻿using MarketMaker.Core.Exchange;
-using MarketMaker.Core.Models;
-using MarketMaker.Core.Utils;
-using MarketMaker.Exchange.MercadoBitcoin;
-using MarketMaker.Exchange.MercadoBitcoin.Private;
-using MarketMaker.Exchange.MercadoBitcoin.Public;
-using MarketMaker.Exchange.MercadoBitcoin.Trade;
+﻿using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
+using MarketIntelligency.Core.Models.EnumerationAggregate;
+using MarketIntelligency.Core.Models.ExchangeAggregate;
+using MarketIntelligency.Core.Models.MarketAgregate;
+using MarketIntelligency.Core.Utils;
+using MarketIntelligency.Exchange.MercadoBitcoin;
+using MarketIntelligency.Exchange.MercadoBitcoin.Private;
+using MarketIntelligency.Exchange.MercadoBitcoin.Public;
+using MarketIntelligency.Exchange.MercadoBitcoin.Trade;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Moq;
@@ -13,7 +15,7 @@ using System.Linq;
 using System.Net.Http;
 using Xunit;
 
-namespace MarketMaker.Tests.Exchange.MercadoBitcoin
+namespace MarketIntelligency.Tests.Exchange.MercadoBitcoin
 {
     public class MercadoBitcoinExchangeShould
     {
@@ -80,11 +82,11 @@ namespace MarketMaker.Tests.Exchange.MercadoBitcoin
             Assert.NotNull(response.Output.Asks);
             Assert.Equal(1000, response.Output.Asks.Count());
             Assert.InRange<decimal>(response.Output.Asks.First().Price, 10000, decimal.MaxValue);
-            Assert.InRange<decimal>(response.Output.Asks.First().Amount, 0, 50);
+            Assert.InRange<decimal>(response.Output.Asks.First().Quantity, 0, 50);
             Assert.NotNull(response.Output.Bids);
             Assert.Equal(1000, response.Output.Bids.Count());
             Assert.InRange<decimal>(response.Output.Bids.First().Price, 10000, decimal.MaxValue);
-            Assert.InRange<decimal>(response.Output.Bids.First().Amount, 0, 50);
+            Assert.InRange<decimal>(response.Output.Bids.First().Quantity, 0, 50);
         }
 
         [Fact]

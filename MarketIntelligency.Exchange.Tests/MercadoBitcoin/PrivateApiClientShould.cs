@@ -1,6 +1,6 @@
-﻿using MarketMaker.Core.Exchange;
-using MarketMaker.Exchange.MercadoBitcoin.Models;
-using MarketMaker.Exchange.MercadoBitcoin.Private;
+﻿using MarketIntelligency.Core.Models.ExchangeAggregate;
+using MarketIntelligency.Exchange.MercadoBitcoin.Models;
+using MarketIntelligency.Exchange.MercadoBitcoin.Private;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using Xunit;
 
-namespace MarketMaker.Tests.Exchange.MercadoBitcoin
+namespace MarketIntelligency.Tests.Exchange.MercadoBitcoin
 {
     public class PrivateApiClientShould
     {

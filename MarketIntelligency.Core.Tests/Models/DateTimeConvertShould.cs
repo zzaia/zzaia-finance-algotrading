@@ -1,8 +1,8 @@
-﻿using MarketMaker.Core.Utils;
+﻿using MarketIntelligency.Core.Utils;
 using System;
 using Xunit;
 
-namespace MarketMaker.Tests.Models
+namespace MarketIntelligency.Tests.Models
 {
     public class DateTimeConvertShould
     {

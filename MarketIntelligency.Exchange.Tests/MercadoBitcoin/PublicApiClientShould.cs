@@ -1,13 +1,14 @@
-using MarketMaker.Core.Models;
-using MarketMaker.Core.Utils;
-using MarketMaker.Exchange.MercadoBitcoin.Public;
+using MarketIntelligency.Core.Models.EnumerationAggregate;
+using MarketIntelligency.Core.Models.MarketAgregate;
+using MarketIntelligency.Core.Utils;
+using MarketIntelligency.Exchange.MercadoBitcoin.Public;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 using System.Net.Http;
 using Xunit;
 
-namespace MarketMaker.Tests.Exchange.MercadoBitcoin
+namespace MarketIntelligency.Tests.Exchange.MercadoBitcoin
 {
     public class PublicApiClientShould
     {
