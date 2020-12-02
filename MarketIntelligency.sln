@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Exchange
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Exchange.Tests", "MarketIntelligency.Exchange.Tests\MarketIntelligency.Exchange.Tests.csproj", "{01E8D314-4F0E-43CA-8325-5BCBA48207B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketIntelligency.Core.Tests", "MarketIntelligency.Core.Tests\MarketIntelligency.Core.Tests.csproj", "{4691D071-D85C-42B3-9AC0-EB32E4BE36A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Core.Tests", "MarketIntelligency.Core.Tests\MarketIntelligency.Core.Tests.csproj", "{4691D071-D85C-42B3-9AC0-EB32E4BE36A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketIntelligency.DataEventManager", "MarketIntelligency.DataEventManager\MarketIntelligency.DataEventManager.csproj", "{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,18 @@ Global
 		{4691D071-D85C-42B3-9AC0-EB32E4BE36A1}.Release|x64.Build.0 = Release|Any CPU
 		{4691D071-D85C-42B3-9AC0-EB32E4BE36A1}.Release|x86.ActiveCfg = Release|Any CPU
 		{4691D071-D85C-42B3-9AC0-EB32E4BE36A1}.Release|x86.Build.0 = Release|Any CPU
+		{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}.Debug|x64.Build.0 = Debug|Any CPU
+		{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}.Debug|x86.Build.0 = Debug|Any CPU
+		{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}.Release|x64.ActiveCfg = Release|Any CPU
+		{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}.Release|x64.Build.0 = Release|Any CPU
+		{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}.Release|x86.ActiveCfg = Release|Any CPU
+		{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
