@@ -3,17 +3,19 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Server", "MarketIntelligency.Server\MarketIntelligency.Server.csproj", "{09B9F446-4981-4FD4-B648-1771BD4C9A7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Application.SA0001", "MarketIntelligency.Application.SA0001\MarketIntelligency.Application.SA0001.csproj", "{09B9F446-4981-4FD4-B648-1771BD4C9A7D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Core", "MarketIntelligency.Core\MarketIntelligency.Core.csproj", "{B94E215B-1DAD-43C1-B8FC-6114F58458EE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Exchange", "MarketIntelligency.Exchange\MarketIntelligency.Exchange.csproj", "{204DB78F-AC67-424A-8C62-62E4268140D7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Exchange.Tests", "MarketIntelligency.Exchange.Tests\MarketIntelligency.Exchange.Tests.csproj", "{01E8D314-4F0E-43CA-8325-5BCBA48207B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Exchange.Test", "MarketIntelligency.Exchange.Test\MarketIntelligency.Exchange.Test.csproj", "{01E8D314-4F0E-43CA-8325-5BCBA48207B4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Core.Tests", "MarketIntelligency.Core.Tests\MarketIntelligency.Core.Tests.csproj", "{4691D071-D85C-42B3-9AC0-EB32E4BE36A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Core.Test", "MarketIntelligency.Core.Test\MarketIntelligency.Core.Test.csproj", "{4691D071-D85C-42B3-9AC0-EB32E4BE36A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketIntelligency.DataEventManager", "MarketIntelligency.DataEventManager\MarketIntelligency.DataEventManager.csproj", "{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.DataEventManager", "MarketIntelligency.DataEventManager\MarketIntelligency.DataEventManager.csproj", "{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketIntelligency.DataEventManager.Test", "MarketIntelligency.DataEventManager.Test\MarketIntelligency.DataEventManager.Test.csproj", "{D4AFE807-6F56-4200-A456-398D7A813A9A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -97,6 +99,18 @@ Global
 		{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}.Release|x64.Build.0 = Release|Any CPU
 		{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}.Release|x86.ActiveCfg = Release|Any CPU
 		{1A84A995-EC99-41D8-AC3A-420C5ABDACC1}.Release|x86.Build.0 = Release|Any CPU
+		{D4AFE807-6F56-4200-A456-398D7A813A9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4AFE807-6F56-4200-A456-398D7A813A9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4AFE807-6F56-4200-A456-398D7A813A9A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D4AFE807-6F56-4200-A456-398D7A813A9A}.Debug|x64.Build.0 = Debug|Any CPU
+		{D4AFE807-6F56-4200-A456-398D7A813A9A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D4AFE807-6F56-4200-A456-398D7A813A9A}.Debug|x86.Build.0 = Debug|Any CPU
+		{D4AFE807-6F56-4200-A456-398D7A813A9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4AFE807-6F56-4200-A456-398D7A813A9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4AFE807-6F56-4200-A456-398D7A813A9A}.Release|x64.ActiveCfg = Release|Any CPU
+		{D4AFE807-6F56-4200-A456-398D7A813A9A}.Release|x64.Build.0 = Release|Any CPU
+		{D4AFE807-6F56-4200-A456-398D7A813A9A}.Release|x86.ActiveCfg = Release|Any CPU
+		{D4AFE807-6F56-4200-A456-398D7A813A9A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
