@@ -15,7 +15,7 @@ using System.Linq;
 using System.Net.Http;
 using Xunit;
 
-namespace MarketIntelligency.Tests.Exchange.MercadoBitcoin
+namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
 {
     public class MercadoBitcoinExchangeShould
     {

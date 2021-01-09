@@ -6,7 +6,7 @@ using System;
 using System.Net.Http;
 using Xunit;
 
-namespace MarketIntelligency.Tests.Exchange.MercadoBitcoin
+namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
 {
     /// <summary>
     /// ## Instructions for the test ## 

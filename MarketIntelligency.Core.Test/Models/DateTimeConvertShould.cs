@@ -2,7 +2,7 @@
 using System;
 using Xunit;
 
-namespace MarketIntelligency.Tests.Models
+namespace MarketIntelligency.Test.Models
 {
     public class DateTimeConvertShould
     {

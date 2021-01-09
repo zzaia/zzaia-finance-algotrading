@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MarketIntelligency.Exchange\MarketIntelligency.Exchange.csproj" />
-    <ProjectReference Include="..\MarketIntelligency.Server\MarketIntelligency.Server.csproj" />
+    <ProjectReference Include="..\MarketIntelligency.Server\MarketIntelligency.Application.CH0001.csproj" />
   </ItemGroup>
   
   <ItemGroup>
