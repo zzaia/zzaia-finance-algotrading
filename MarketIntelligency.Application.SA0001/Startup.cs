@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 [assembly: UserSecretsId("dc5b4f9c-8b0e-2hg9-9813-c86ce80c39e6")]
-namespace MarketIntelligency
+namespace MarketIntelligency.Application.SA0001
 {
     public class Startup
     {

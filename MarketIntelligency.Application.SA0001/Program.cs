@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration.AzureKeyVault;
 using Microsoft.Azure.KeyVault;
 using Microsoft.Azure.Services.AppAuthentication;
 
-namespace MarketIntelligency
+namespace MarketIntelligency.Application.SA0001
 {
     public class Program
     {
