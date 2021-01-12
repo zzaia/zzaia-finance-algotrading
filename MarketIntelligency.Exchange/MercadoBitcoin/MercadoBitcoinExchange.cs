@@ -183,134 +183,63 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
         public ExchangeInfo Info { get { return Information; } }
 
         /// <summary>
-        /// Fetch day summary OHLCV for the specified market and date.
-        /// </summary>
-        public async Task<ObjectResult<OHLCV>> FetchDaySummaryAsync(Market market, DateTimeOffset dateTime)
-        {
-            market = market ?? throw new ArgumentNullException(nameof(market));
-
-            var response = await this.PublicClient.GetDaySummaryOHLCVAsync(market.Main.ToString(), dateTime.Year, dateTime.Month, dateTime.Day).ConfigureAwait(true);
-
-            if (response.Success)
-            {
-                var resultToReturn = new OHLCV
-                {
-                    Exchange = ExchangeName.MercadoBitcoin,
-                    TimeFrame = TimeFrame.D1,
-                    DateTimeOffset = DateTimeOffset.Parse(response.Output.Date, CultureInfo.InvariantCulture),
-                    //DateTimeOffset = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day),
-                    Market = market,
-                    Open = response.Output.Open,
-                    High = response.Output.High,
-                    Low = response.Output.Low,
-                    Close = response.Output.Close,
-                    Volume = response.Output.Volume,
-                    TradedQuantity = response.Output.TradedQuantity,
-                    Average = response.Output.Average,
-                    NumberOfTrades = response.Output.NumberOfTrades,
-                };
-
-                return ObjectResultFactory.CreateSuccessResult(resultToReturn);
-            }
-            else
-            {
-                _logger.LogError($"{_apiResponseUnsuccessfully}{response.ProblemDetails.Detail}");
-                return ObjectResultFactory.CreateFailResult<OHLCV>();
-            }
-        }
-
-        /// <summary>
-        /// Fetch public orderbook for the specified market, returns a simplified orderbook by price.
+        /// Fetch orderbook for the specified market, returns a simplified orderbook by price.
         /// </summary>
         public async Task<ObjectResult<OrderBook>> FetchOrderBookAsync(Market market)
         {
             market = market ?? throw new ArgumentNullException(nameof(market));
 
-            var response = await this.PublicClient.GetOrderBookAsync(market.Main.ToString()).ConfigureAwait(true);
-
-            if (response.Success)
+            if (_privateClientCredential is not null)
             {
-                var resultToReturn = new OrderBook
+                var response = await this.PrivateClient.GetCompleteOrderBookByTickerPairAsync(_privateClientCredential, market.Main.ToString(), true).ConfigureAwait(false);
+
+                if (response.Success)
                 {
-                    Exchange = ExchangeName.MercadoBitcoin,
-                    DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
-                    Market = market,
-                    Bids = from order in response.Output.Bids.ToList()
-                           select new Order(market, Order.Types.Buy, order[1], order[0]),
-                    Asks = from order in response.Output.Bids.ToList()
-                           select new Order(market, Order.Types.Sell, order[1], order[0]),
-                };
+                    var resultToReturn = new OrderBook
+                    {
+                        Exchange = ExchangeName.MercadoBitcoin,
+                        DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
+                        Market = market,
+                        Bids = from order in response.Output.Data.Orderbook.Bids.ToList()
+                               select new Tuple<decimal, decimal>(int.Parse(order.PriceLimit, Information.Culture.NumberFormat),
+                                                                  int.Parse(order.Quantity, Information.Culture.NumberFormat)),
+                        Asks = from order in response.Output.Data.Orderbook.Asks.ToList()
+                               select new Tuple<decimal, decimal>(int.Parse(order.PriceLimit, Information.Culture.NumberFormat),
+                                                                  int.Parse(order.Quantity, Information.Culture.NumberFormat)),
+                    };
 
-                return ObjectResultFactory.CreateSuccessResult(resultToReturn);
-            }
-            else
-            {
-                _logger.LogError($"{_apiResponseUnsuccessfully}{response.ProblemDetails.Detail}");
-                return ObjectResultFactory.CreateFailResult<OrderBook>();
-            }
-        }
-
-        /// <summary>
-        /// Fetch last 24h OHLCV for the specified market.
-        /// </summary>
-        public async Task<ObjectResult<OHLCV>> FetchOHLCVAsync(Market market)
-        {
-            market = market ?? throw new ArgumentNullException(nameof(market));
-
-            var response = await this.PublicClient.GetLast24hOHLCVAsync(market.Main.ToString()).ConfigureAwait(true);
-
-            if (response.Success)
-            {
-                var resultToReturn = new OHLCV
+                    return ObjectResultFactory.CreateSuccessResult(resultToReturn);
+                }
+                else
                 {
-                    Exchange = ExchangeName.MercadoBitcoin,
-                    TimeFrame = TimeFrame.D1,
-                    DateTimeOffset = DateTimeUtils.TimestampToDateTimeOffset(response.Output.Ticker.TimeStamp, false),
-                    Market = market,
-                    Buy = Convert.ToDecimal(response.Output.Ticker.Buy, Information.Culture),
-                    Sell = Convert.ToDecimal(response.Output.Ticker.Sell, Information.Culture),
-                    High = Convert.ToDecimal(response.Output.Ticker.High, Information.Culture),
-                    Low = Convert.ToDecimal(response.Output.Ticker.Low, Information.Culture),
-                    Last = Convert.ToDecimal(response.Output.Ticker.Last, Information.Culture),
-                    Volume = Convert.ToDecimal(response.Output.Ticker.Volume, Information.Culture),
-                };
-
-                return ObjectResultFactory.CreateSuccessResult(resultToReturn);
+                    _logger.LogError($"{_apiResponseUnsuccessfully}{response.ProblemDetails.Detail}");
+                    return ObjectResultFactory.CreateFailResult<OrderBook>();
+                }
             }
             else
             {
-                _logger.LogError($"{_apiResponseUnsuccessfully}{response.ProblemDetails.Detail}");
-                return ObjectResultFactory.CreateFailResult<OHLCV>();
-            }
-        }
+                var response = await this.PublicClient.GetOrderBookAsync(market.Main.ToString()).ConfigureAwait(false);
 
-        /// <summary>
-        /// Fetch list of trades for the specified market, return 1000 last.
-        /// </summary>
-        public async Task<ObjectResult<IEnumerable<Order>>> FetchTradesAsync(Market market)
-        {
-            market = market ?? throw new ArgumentNullException(nameof(market));
+                if (response.Success)
+                {
+                    var resultToReturn = new OrderBook
+                    {
+                        Exchange = ExchangeName.MercadoBitcoin,
+                        DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
+                        Market = market,
+                        Bids = from order in response.Output.Bids.ToList()
+                               select new Tuple<decimal, decimal>(order[1], order[0]),
+                        Asks = from order in response.Output.Asks.ToList()
+                               select new Tuple<decimal, decimal>(order[1], order[0]),
+                    };
 
-            var response = await this.PublicClient.GetLastTradesAsync(market.Main.ToString()).ConfigureAwait(true);
-
-            if (response.Success)
-            {
-                IEnumerable<Order> resultToReturn
-                    = from trade in response.Output
-                      select new Order(market,
-                                       String.Parse<Order.Types>(trade.Type),
-                                       trade.Amount,
-                                       trade.Price,
-                                       new Guid(trade.Tid.GetHashCode().ToString(CultureInfo.InvariantCulture)),
-                                       DateTimeUtils.TimestampToDateTimeOffset(trade.TimeStamp, false),
-                                       Order.Statuses.Closed);
-
-                return ObjectResultFactory.CreateSuccessResult(resultToReturn);
-            }
-            else
-            {
-                _logger.LogError($"{_apiResponseUnsuccessfully} {response.ProblemDetails.Detail}");
-                return ObjectResultFactory.CreateFailResult<IEnumerable<Order>>();
+                    return ObjectResultFactory.CreateSuccessResult(resultToReturn);
+                }
+                else
+                {
+                    _logger.LogError($"{_apiResponseUnsuccessfully}{response.ProblemDetails.Detail}");
+                    return ObjectResultFactory.CreateFailResult<OrderBook>();
+                }
             }
         }
     }
