@@ -16,7 +16,7 @@ namespace MarketIntelligency.Core.Models.MarketAgregate
         public string Type { get; private set; }
         public DateTimeOffset CreatedAt { get; private set; }
         public OperationInfo OperationInfo { get; private set; }
-
+        public Order() { }
         public Order(Market market, string type,
                                     decimal quantity,
                                     decimal price,

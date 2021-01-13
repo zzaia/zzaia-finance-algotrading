@@ -4,7 +4,7 @@ namespace MarketIntelligency.DataEventManager
 {
     public class NotificationSubscriber<T> : IObserver<T>
     {
-        private IDisposable _unsubscriber; 
+        private IDisposable _unsubscriber;
         public virtual void Subscribe(IObservable<T> provider)
         {
             // Subscribe to the Observable
