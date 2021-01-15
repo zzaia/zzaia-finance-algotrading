@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MarketIntelligency.Exchange.MercadoBitcoin
@@ -185,13 +186,13 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
         /// <summary>
         /// Fetch orderbook for the specified market, returns a simplified orderbook by price.
         /// </summary>
-        public async Task<ObjectResult<OrderBook>> FetchOrderBookAsync(Market market)
+        public async Task<ObjectResult<OrderBook>> FetchOrderBookAsync(Market market, CancellationToken cancellationToken)
         {
             market = market ?? throw new ArgumentNullException(nameof(market));
 
             if (_privateClientCredential is not null)
             {
-                var response = await this.PrivateClient.GetCompleteOrderBookByTickerPairAsync(_privateClientCredential, market.Main.ToString(), true).ConfigureAwait(false);
+                var response = await this.PrivateClient.GetCompleteOrderBookByTickerPairAsync(_privateClientCredential, market.Main.ToString(), true, cancellationToken).ConfigureAwait(false);
 
                 if (response.Success)
                 {
@@ -218,7 +219,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
             }
             else
             {
-                var response = await this.PublicClient.GetOrderBookAsync(market.Main.ToString()).ConfigureAwait(false);
+                var response = await this.PublicClient.GetOrderBookAsync(market.Main.ToString(), cancellationToken).ConfigureAwait(false);
 
                 if (response.Success)
                 {

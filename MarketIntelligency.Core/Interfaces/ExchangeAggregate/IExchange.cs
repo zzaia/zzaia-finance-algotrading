@@ -2,6 +2,7 @@
 using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MarketIntelligency.Core.Interfaces.ExchangeAggregate
@@ -14,6 +15,6 @@ namespace MarketIntelligency.Core.Interfaces.ExchangeAggregate
         static ExchangeInfo Information { get; }
         ExchangeInfo Info { get; }
 
-        Task<ObjectResult<OrderBook>> FetchOrderBookAsync(Market market);
+        Task<ObjectResult<OrderBook>> FetchOrderBookAsync(Market market, CancellationToken cancellationToken);
     }
 }
