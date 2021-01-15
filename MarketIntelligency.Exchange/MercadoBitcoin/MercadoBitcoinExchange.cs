@@ -7,27 +7,28 @@ using MarketIntelligency.Core.Utils;
 using MarketIntelligency.Exchange.MercadoBitcoin.Private;
 using MarketIntelligency.Exchange.MercadoBitcoin.Public;
 using MarketIntelligency.Exchange.MercadoBitcoin.Trade;
+using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace MarketIntelligency.Exchange.MercadoBitcoin
 {
-    public class MercadoBitcoinExchange : IMercadoBitcoinExchange, IExchange
+    public partial class MercadoBitcoinExchange : IMercadoBitcoinExchange, IExchange
     {
         private readonly PublicApiClient _publicApiClient;
         private readonly PrivateApiClient _privateApiClient;
         private readonly TradeApiClient _tradeApiClient;
         private readonly ILogger<MercadoBitcoinExchange> _logger;
+        private readonly TelemetryClient _telemetryClient;
         private readonly ClientCredential _tradeClientCredential;
         private readonly ClientCredential _privateClientCredential;
-
-        private readonly string _apiResponseUnsuccessfully = "Public Api returned unsuccessfully, with message: ";
 
         /// <summary>
         /// Exchange client instance, selects api end-point based on parameter
@@ -35,8 +36,9 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
         public MercadoBitcoinExchange(PublicApiClient publicApiClient,
                                       PrivateApiClient privateApiClient,
                                       TradeApiClient tradeApiClient,
+                                      IOptionsMonitor<ClientCredential> clientCredentials,
                                       ILogger<MercadoBitcoinExchange> logger,
-                                      IOptionsMonitor<ClientCredential> clientCredentials)
+                                      TelemetryClient telemetryClient)
         {
             _tradeClientCredential = clientCredentials.Get(Information.Options.TradeClientCredentialReference);
             _privateClientCredential = clientCredentials.Get(Information.Options.PrivateClientCredentialReference);
@@ -44,6 +46,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
             _privateApiClient = privateApiClient ?? throw new ArgumentNullException(nameof(privateApiClient));
             _tradeApiClient = tradeApiClient ?? throw new ArgumentNullException(nameof(tradeApiClient));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
 
             _publicApiClient.SetBaseAddress(Information.Uris.Api.Public);
             _privateApiClient.SetBaseAddress(Information.Uris.Api.Private);
@@ -188,59 +191,70 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
         /// </summary>
         public async Task<ObjectResult<OrderBook>> FetchOrderBookAsync(Market market, CancellationToken cancellationToken)
         {
+            Log.FetchOrderBook.Received(_logger);
+            Log.FetchOrderBook.ReceivedAction(_telemetryClient);
             market = market ?? throw new ArgumentNullException(nameof(market));
-
-            if (_privateClientCredential is not null)
+            try
             {
-                var response = await this.PrivateClient.GetCompleteOrderBookByTickerPairAsync(_privateClientCredential, market.Main.ToString(), true, cancellationToken).ConfigureAwait(false);
-
-                if (response.Success)
+                if (_privateClientCredential is not null)
                 {
-                    var resultToReturn = new OrderBook
-                    {
-                        Exchange = ExchangeName.MercadoBitcoin,
-                        DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
-                        Market = market,
-                        Bids = from order in response.Output.Data.Orderbook.Bids.ToList()
-                               select new Tuple<decimal, decimal>(int.Parse(order.PriceLimit, Information.Culture.NumberFormat),
-                                                                  int.Parse(order.Quantity, Information.Culture.NumberFormat)),
-                        Asks = from order in response.Output.Data.Orderbook.Asks.ToList()
-                               select new Tuple<decimal, decimal>(int.Parse(order.PriceLimit, Information.Culture.NumberFormat),
-                                                                  int.Parse(order.Quantity, Information.Culture.NumberFormat)),
-                    };
+                    var response = await this.PrivateClient.GetCompleteOrderBookByTickerPairAsync(_privateClientCredential, market.Main.ToString(), true, cancellationToken).ConfigureAwait(false);
 
-                    return ObjectResultFactory.CreateSuccessResult(resultToReturn);
+                    if (response.Success)
+                    {
+                        var resultToReturn = new OrderBook
+                        {
+                            Exchange = ExchangeName.MercadoBitcoin,
+                            DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
+                            Market = market,
+                            Bids = from order in response.Output.Data.Orderbook.Bids.ToList()
+                                   select new Tuple<decimal, decimal>(int.Parse(order.PriceLimit, Information.Culture.NumberFormat),
+                                                                      int.Parse(order.Quantity, Information.Culture.NumberFormat)),
+                            Asks = from order in response.Output.Data.Orderbook.Asks.ToList()
+                                   select new Tuple<decimal, decimal>(int.Parse(order.PriceLimit, Information.Culture.NumberFormat),
+                                                                      int.Parse(order.Quantity, Information.Culture.NumberFormat)),
+                        };
+
+                        return ObjectResultFactory.CreateSuccessResult(resultToReturn);
+                    }
+                    else
+                    {
+                        var errorPayload = JsonSerializer.Serialize(response.ProblemDetails);
+                        Log.FetchOrderBook.WithFailedResponse(_logger, errorPayload);
+                        return ObjectResultFactory.CreateFailResult<OrderBook>();
+                    }
                 }
                 else
                 {
-                    _logger.LogError($"{_apiResponseUnsuccessfully}{response.ProblemDetails.Detail}");
-                    return ObjectResultFactory.CreateFailResult<OrderBook>();
+                    var response = await this.PublicClient.GetOrderBookAsync(market.Main.ToString(), cancellationToken).ConfigureAwait(false);
+
+                    if (response.Success)
+                    {
+                        var resultToReturn = new OrderBook
+                        {
+                            Exchange = ExchangeName.MercadoBitcoin,
+                            DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
+                            Market = market,
+                            Bids = from order in response.Output.Bids.ToList()
+                                   select new Tuple<decimal, decimal>(order[1], order[0]),
+                            Asks = from order in response.Output.Asks.ToList()
+                                   select new Tuple<decimal, decimal>(order[1], order[0]),
+                        };
+
+                        return ObjectResultFactory.CreateSuccessResult(resultToReturn);
+                    }
+                    else
+                    {
+                        var errorPayload = JsonSerializer.Serialize(response.ProblemDetails);
+                        Log.FetchOrderBook.WithFailedResponse(_logger, errorPayload); 
+                        return ObjectResultFactory.CreateFailResult<OrderBook>();
+                    }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                var response = await this.PublicClient.GetOrderBookAsync(market.Main.ToString(), cancellationToken).ConfigureAwait(false);
-
-                if (response.Success)
-                {
-                    var resultToReturn = new OrderBook
-                    {
-                        Exchange = ExchangeName.MercadoBitcoin,
-                        DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
-                        Market = market,
-                        Bids = from order in response.Output.Bids.ToList()
-                               select new Tuple<decimal, decimal>(order[1], order[0]),
-                        Asks = from order in response.Output.Asks.ToList()
-                               select new Tuple<decimal, decimal>(order[1], order[0]),
-                    };
-
-                    return ObjectResultFactory.CreateSuccessResult(resultToReturn);
-                }
-                else
-                {
-                    _logger.LogError($"{_apiResponseUnsuccessfully}{response.ProblemDetails.Detail}");
-                    return ObjectResultFactory.CreateFailResult<OrderBook>();
-                }
+                Log.FetchOrderBook.WithException(_logger, ex);
+                return ObjectResultFactory.CreateFailResult<OrderBook>();
             }
         }
     }
