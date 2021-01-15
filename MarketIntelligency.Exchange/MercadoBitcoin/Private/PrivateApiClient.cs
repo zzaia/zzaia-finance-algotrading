@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
@@ -31,7 +32,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
             _client.BaseAddress = baseAddress;
         }
 
-        public async Task<Response<TAPResponse<SystemMessagesDTO>>> GetListOfSystemMessagesAsync(ClientCredential clientCredential, string level)
+        public async Task<Response<TAPResponse<SystemMessagesDTO>>> GetListOfSystemMessagesAsync(ClientCredential clientCredential, string level, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Get all system messages.");
             var parameters = new List<KeyValuePair<string, string>>
@@ -40,10 +41,10 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
                     new KeyValuePair<string, string>("level", level),
                     new KeyValuePair<string, string>("tapi_nonce", DateTimeUtils.CurrentUtcTimestamp().ToString(CultureInfo.InvariantCulture)),
                 };
-            return await PostSuppreme<SystemMessagesDTO>(clientCredential, parameters).ConfigureAwait(_continueOnCapturedContext);
+            return await PostSuppreme<SystemMessagesDTO>(clientCredential, parameters, cancellationToken).ConfigureAwait(_continueOnCapturedContext);
         }
 
-        public async Task<Response<TAPResponse<AccountInformationDTO>>> GetAccountInformationAsync(ClientCredential clientCredential)
+        public async Task<Response<TAPResponse<AccountInformationDTO>>> GetAccountInformationAsync(ClientCredential clientCredential, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Get account information.");
             var parameters = new List<KeyValuePair<string, string>>
@@ -51,10 +52,10 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
                     new KeyValuePair<string, string>("tapi_method", "get_account_info"),
                     new KeyValuePair<string, string>("tapi_nonce", DateTimeUtils.CurrentUtcTimestamp().ToString(CultureInfo.InvariantCulture)),
                 };
-            return await PostSuppreme<AccountInformationDTO>(clientCredential, parameters).ConfigureAwait(_continueOnCapturedContext);
+            return await PostSuppreme<AccountInformationDTO>(clientCredential, parameters, cancellationToken).ConfigureAwait(_continueOnCapturedContext);
         }
 
-        public async Task<Response<TAPResponse<OrderInformationDTO>>> GetOrderByIdAsync(ClientCredential clientCredential, int orderId, string tickerPair)
+        public async Task<Response<TAPResponse<OrderInformationDTO>>> GetOrderByIdAsync(ClientCredential clientCredential, int orderId, string tickerPair, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Get a order by id.");
             var parameters = new List<KeyValuePair<string, string>>
@@ -64,12 +65,12 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
                     new KeyValuePair<string, string>("order_id", orderId.ToString(CultureInfo.InvariantCulture)),
                     new KeyValuePair<string, string>("tapi_nonce", DateTimeUtils.CurrentUtcTimestamp().ToString(CultureInfo.InvariantCulture)),
                 };
-            return await PostSuppreme<OrderInformationDTO>(clientCredential, parameters).ConfigureAwait(_continueOnCapturedContext);
+            return await PostSuppreme<OrderInformationDTO>(clientCredential, parameters, cancellationToken).ConfigureAwait(_continueOnCapturedContext);
         }
 
         public async Task<Response<TAPResponse<OrdersInformationDTO>>> GetListOfOrdersAsync(ClientCredential clientCredential, string tickerPair,
                                                                                                                                string statusList,
-                                                                                                                               bool hasFills)
+                                                                                                                               bool hasFills, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Get a list of orders by {tickerPair}.");
             var parameters = new List<KeyValuePair<string, string>>
@@ -80,10 +81,10 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
                     new KeyValuePair<string, string>("has_fills", hasFills.ToString()),
                     new KeyValuePair<string, string>("tapi_nonce", DateTimeUtils.CurrentUtcTimestamp().ToString(CultureInfo.InvariantCulture)),
                 };
-            return await PostSuppreme<OrdersInformationDTO>(clientCredential, parameters).ConfigureAwait(_continueOnCapturedContext);
+            return await PostSuppreme<OrdersInformationDTO>(clientCredential, parameters, cancellationToken).ConfigureAwait(_continueOnCapturedContext);
         }
 
-        public async Task<Response<TAPResponse<OrderbookInformationDTO>>> GetCompleteOrderBookByTickerPairAsync(ClientCredential clientCredential, string tickerPair, bool fullQuantity)
+        public async Task<Response<TAPResponse<OrderbookInformationDTO>>> GetCompleteOrderBookByTickerPairAsync(ClientCredential clientCredential, string tickerPair, bool fullQuantity, CancellationToken cancellationToken)
         {
             _logger.LogInformation($"Get the complete orderbook for {tickerPair}.");
             var parameters = new List<KeyValuePair<string, string>>
@@ -93,10 +94,10 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
                     new KeyValuePair<string, string>("full", fullQuantity.ToString()),
                     new KeyValuePair<string, string>("tapi_nonce", DateTimeUtils.CurrentUtcTimestamp().ToString(CultureInfo.InvariantCulture)),
                 };
-            return await PostSuppreme<OrderbookInformationDTO>(clientCredential, parameters).ConfigureAwait(_continueOnCapturedContext);
+            return await PostSuppreme<OrderbookInformationDTO>(clientCredential, parameters, cancellationToken).ConfigureAwait(_continueOnCapturedContext);
         }
 
-        public async Task<Response<TAPResponse<T>>> PostSuppreme<T>(ClientCredential clientCredential, IEnumerable<KeyValuePair<string, string>> parameters)
+        public async Task<Response<TAPResponse<T>>> PostSuppreme<T>(ClientCredential clientCredential, IEnumerable<KeyValuePair<string, string>> parameters, CancellationToken cancellationToken)
         {
             using var requestBody = new FormUrlEncodedContent(parameters);
             string paramString = await requestBody.ReadAsStringAsync().ConfigureAwait(_continueOnCapturedContext);
@@ -107,7 +108,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
             request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             request.Content.Headers.Add("TAPI-ID", clientCredential.Id);
             request.Content.Headers.Add("TAPI-MAC", hmac);
-            var response = await _client.SendAsync(request).ConfigureAwait(_continueOnCapturedContext);
+            var response = await _client.SendAsync(request, cancellationToken).ConfigureAwait(_continueOnCapturedContext);
             return await this.GetResponseAsync<TAPResponse<T>>(response).ConfigureAwait(_continueOnCapturedContext);
         }
     }
