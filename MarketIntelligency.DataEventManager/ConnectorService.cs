@@ -30,11 +30,15 @@ namespace MarketIntelligency.DataEventManager
         {
             Log.ConnectToRest.Received(_logger);
             Log.ConnectToRest.ReceivedAction(_telemetryClient);
-            try
+            var timeOutCancellationTokenSource = new CancellationTokenSource();
+            timeOutCancellationTokenSource.CancelAfter(timeFrame.TimeSpan.Milliseconds);
+            var timeoutCancellationToken = timeOutCancellationTokenSource.Token;
+            var initialTime = DateTimeOffset.UtcNow;
+            while (!cancellationToken.IsCancellationRequested)
             {
-                while (!cancellationToken.IsCancellationRequested)
+                try
                 {
-                    var response = method.Invoke(parameter, cancellationToken);
+                    var response = method.Invoke(parameter, timeoutCancellationToken);
                     if (response.Succeed)
                     {
                         var eventToPublish = new EventSource<TResult>(response.Output);
@@ -45,11 +49,31 @@ namespace MarketIntelligency.DataEventManager
                         var errorPayload = JsonSerializer.Serialize(response.Error);
                         Log.ConnectToRest.WithFailedResponse(_logger, errorPayload);
                     }
+                    var finalTime = DateTimeOffset.UtcNow;
+                    var awaitTime = (initialTime + timeFrame.TimeSpan) - finalTime;
+                    await Task.Delay(awaitTime.Milliseconds);
                 }
-            }
-            catch (Exception ex)
-            {
-                Log.ConnectToRest.WithException(_logger, ex);
+                catch (TimeoutException ex)
+                {
+                    // Task was canceled by timeout.
+                    Log.ConnectToRest.WithException(_logger, ex);
+                    timeOutCancellationTokenSource.Dispose();
+                    timeOutCancellationTokenSource = new CancellationTokenSource();
+                    timeOutCancellationTokenSource.CancelAfter(timeFrame.TimeSpan.Milliseconds);
+                    // TODO : reset the cancelation token to be able to continue in the loop.
+                }
+                catch (TaskCanceledException ex)
+                {
+                    // Task was canceled before running.
+                    Log.ConnectToRest.WithException(_logger, ex);
+                    break;
+                }
+                catch (OperationCanceledException ex)
+                {
+                    // Task was canceled while running.
+                    Log.ConnectToRest.WithException(_logger, ex);
+                    break;
+                }
             }
         }
     }
