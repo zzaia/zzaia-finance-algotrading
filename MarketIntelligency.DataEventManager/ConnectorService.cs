@@ -19,13 +19,13 @@ namespace MarketIntelligency.DataEventManager
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        private async Task ConnectToRest<T, TResult>(T parameter, CancellationToken cancelationToken, TimeFrame timeFrame, Func<T, ObjectResult<TResult>> method) where TResult : class
+        private async Task ConnectToRest<T, TResult>(T parameter, CancellationToken cancellationToken, TimeFrame timeFrame, Func<T, CancellationToken, ObjectResult<TResult>> method) where TResult : class
         {
-            while (!cancelationToken.IsCancellationRequested)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 try
                 {
-                    var response = method.Invoke(parameter);
+                    var response = method.Invoke(parameter, cancellationToken);
                     if (response.Succeed)
                     {
                         var eventToPublish = new EventSource<TResult>(response.Output);
@@ -38,7 +38,6 @@ namespace MarketIntelligency.DataEventManager
                 }
                 catch (Exception ex)
                 {
-
                 }
             }
         }
