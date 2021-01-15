@@ -2,7 +2,6 @@
 using MarketIntelligency.Core.Utils;
 using MarketIntelligency.Exchange.MercadoBitcoin.Models;
 using MarketIntelligency.Exchange.MercadoBitcoin.Models.DTO;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -19,10 +18,9 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Trade
         private readonly bool _continueOnCapturedContext;
         private readonly string _requestPath;
 
-        public TradeApiClient(HttpClient client, ILogger<TradeApiClient> logger)
+        public TradeApiClient(HttpClient client)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _requestPath = "/tapi/v3/";
             _continueOnCapturedContext = false;
         }
@@ -33,7 +31,6 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Trade
 
         public async Task<Response<TAPResponse<OrderDTO>>> PlaceMarketBuyOrderAsync(ClientCredential clientCredential, string tickerPair, string cost, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Place market buy order {tickerPair}.");
             var parameters = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("tapi_method", "place_market_buy_order"),
@@ -46,7 +43,6 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Trade
 
         public async Task<Response<TAPResponse<OrderDTO>>> PlaceMarketSellOrderAsync(ClientCredential clientCredential, string tickerPair, string quantity, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Place market sell order {tickerPair}.");
             var parameters = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("tapi_method", "place_market_sell_order"),
@@ -59,7 +55,6 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Trade
 
         public async Task<Response<TAPResponse<OrderDTO>>> CancelOrderAsync(ClientCredential clientCredential, string tickerPair, int orderId, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Cancel order by {tickerPair} and id.");
             var parameters = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("tapi_method", "cancel_order"),
@@ -72,7 +67,6 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Trade
 
         public async Task<Response<TAPResponse<WithdrawalDTO>>> GetWithdrawalAsync(ClientCredential clientCredential, string ticker, int withdrawalId, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Get {ticker} withdrawal.");
             var parameters = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("tapi_method", "get_withdrawal"),
@@ -91,7 +85,6 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Trade
                                                                                                                                        bool isAggregate = false,
                                                                                                                                        bool inBlockchain = false)
         {
-            _logger.LogInformation($"Place withdrawal {ticker}");
             var parameters = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("tapi_method", "withdraw_coin"),
@@ -109,7 +102,6 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Trade
 
         public async Task<Response<TAPResponse<WithdrawalDTO>>> PlaceWithdrawalAsync(ClientCredential clientCredential, string accountRef, string quantity, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Place BRL withdrawal");
             var parameters = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("tapi_method", "withdraw_coin"),

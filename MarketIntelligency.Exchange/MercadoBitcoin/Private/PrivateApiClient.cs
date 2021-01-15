@@ -2,7 +2,6 @@
 using MarketIntelligency.Core.Utils;
 using MarketIntelligency.Exchange.MercadoBitcoin.Models;
 using MarketIntelligency.Exchange.MercadoBitcoin.Models.DTO;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -19,10 +18,9 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
         private readonly bool _continueOnCapturedContext;
         private readonly string _requestPath;
 
-        public PrivateApiClient(HttpClient client, ILogger<PrivateApiClient> logger)
+        public PrivateApiClient(HttpClient client)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _requestPath = "/tapi/v3/";
             _continueOnCapturedContext = false;
         }
@@ -34,7 +32,6 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
 
         public async Task<Response<TAPResponse<SystemMessagesDTO>>> GetListOfSystemMessagesAsync(ClientCredential clientCredential, string level, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Get all system messages.");
             var parameters = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("tapi_method", "list_system_messages"),
@@ -46,7 +43,6 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
 
         public async Task<Response<TAPResponse<AccountInformationDTO>>> GetAccountInformationAsync(ClientCredential clientCredential, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Get account information.");
             var parameters = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("tapi_method", "get_account_info"),
@@ -57,7 +53,6 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
 
         public async Task<Response<TAPResponse<OrderInformationDTO>>> GetOrderByIdAsync(ClientCredential clientCredential, int orderId, string tickerPair, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Get a order by id.");
             var parameters = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("tapi_method", "get_order"),
@@ -72,7 +67,6 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
                                                                                                                                string statusList,
                                                                                                                                bool hasFills, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Get a list of orders by {tickerPair}.");
             var parameters = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("tapi_method", "list_orders"),
@@ -86,7 +80,6 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
 
         public async Task<Response<TAPResponse<OrderbookInformationDTO>>> GetCompleteOrderBookByTickerPairAsync(ClientCredential clientCredential, string tickerPair, bool fullQuantity, CancellationToken cancellationToken)
         {
-            _logger.LogInformation($"Get the complete orderbook for {tickerPair}.");
             var parameters = new List<KeyValuePair<string, string>>
                 {
                     new KeyValuePair<string, string>("tapi_method", "list_orderbook"),
