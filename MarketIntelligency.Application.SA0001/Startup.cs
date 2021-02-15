@@ -1,3 +1,4 @@
+using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Exchange;
 using MediatR;
@@ -29,6 +30,11 @@ namespace MarketIntelligency.Application.SA0001
             services.AddExchangeClient(ExchangeName.MercadoBitcoin,
                 privateCredential => Configuration.Bind("Exchange:MercadoBitcoin:Private", privateCredential),
                 tradeCredential => Configuration.Bind("Exchange:MercadoBitcoin:Trade", tradeCredential));
+
+            services.AddConnector(ExchangeName.MercadoBitcoin, );
+
+
+            services.AddScoped<IExchangeSelector, ExchangeSelector>();
 
             services.AddMediatR(typeof(Startup));
         }

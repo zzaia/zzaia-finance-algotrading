@@ -1,12 +1,11 @@
-using System;
 using Xunit;
 
 namespace MarketIntelligency.DataEventManager.Test
 {
-    public class UnitTest1
+    public class ConnectorServiceShould
     {
         [Fact]
-        public void Test1()
+        public void ConnectToRest()
         {
 
         }

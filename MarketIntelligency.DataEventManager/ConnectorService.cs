@@ -4,7 +4,10 @@ using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MediatR;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,17 +16,31 @@ namespace MarketIntelligency.DataEventManager
 {
     public partial class ConnectorService
     {
-        private readonly IExchange _exchange;
+        private readonly IExchangeSelector _exchangeSelector;
+        private readonly IEnumerable<ConnectorOptions> _options;
         private readonly IMediator _mediator;
         protected ILogger<ConnectorService> _logger;
         private readonly TelemetryClient _telemetryClient;
 
-        public ConnectorService(IExchange exchange, IMediator mediator, ILogger<ConnectorService> logger, TelemetryClient telemetryClient)
+        public ConnectorService(IExchangeSelector exchangeSelector, IMediator mediator, ILogger<ConnectorService> logger, TelemetryClient telemetryClient, IEnumerable<IOptionsMonitor<ConnectorOptions>> options)
         {
-            _exchange = exchange ?? throw new ArgumentNullException(nameof(exchange));
+            _options = options.ToList().Any() ? options.Select() : throw new ArgumentNullException(nameof(options));
+            _exchangeSelector = exchangeSelector ?? throw new ArgumentNullException(nameof(exchangeSelector));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
+            Initialize();
+        }
+
+        public ConnectorService(IEnumerable<ConnectorOptions> connectorOptions)
+        {
+            Initialize();
+        }
+
+        public async void Initialize()
+        {
+            Console.WriteLine("Connector Service Initialized");
+            //await ConnectToRest<Market, OrderBook>()
         }
 
         private async Task ConnectToRest<T, TResult>(T parameter, CancellationToken cancellationToken, TimeFrame timeFrame, Func<T, CancellationToken, ObjectResult<TResult>> method) where TResult : class

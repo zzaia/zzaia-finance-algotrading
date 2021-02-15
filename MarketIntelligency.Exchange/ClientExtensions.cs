@@ -64,10 +64,16 @@ namespace MarketIntelligency.Exchange
             // Typed http client (Compile Time)
             if (exchangeName.Equals(ExchangeName.MercadoBitcoin))
             {
-                services.AddHttpClient<MarketIntelligency.Exchange.MercadoBitcoin.Public.PublicApiClient>();
+                services.AddHttpClient<MarketIntelligency.Exchange
+                                                         .MercadoBitcoin
+                                                         .Public
+                                                         .PublicApiClient>();
                 if (privateCredential != null)
                 {
-                    services.AddHttpClient<MarketIntelligency.Exchange.MercadoBitcoin.Private.PrivateApiClient>();
+                    services.AddHttpClient<MarketIntelligency.Exchange
+                                                             .MercadoBitcoin
+                                                             .Private
+                                                             .PrivateApiClient>();
                     services.Configure(Exchange.MercadoBitcoin
                                                .MercadoBitcoinExchange
                                                .Information.Options
@@ -75,7 +81,10 @@ namespace MarketIntelligency.Exchange
                 }
                 if (tradeCredential != null)
                 {
-                    services.AddHttpClient<MarketIntelligency.Exchange.MercadoBitcoin.Trade.TradeApiClient>();
+                    services.AddHttpClient<MarketIntelligency.Exchange
+                                                             .MercadoBitcoin
+                                                             .Trade
+                                                             .TradeApiClient>();
                     services.Configure(Exchange.MercadoBitcoin
                                                .MercadoBitcoinExchange
                                                .Information.Options.
@@ -84,7 +93,6 @@ namespace MarketIntelligency.Exchange
                 services.AddScoped<Exchange.MercadoBitcoin.MercadoBitcoinExchange>();
             }
 
-            services.AddScoped<IExchangeSelector, ExchangeSelector>();
             return services;
         }
     }
