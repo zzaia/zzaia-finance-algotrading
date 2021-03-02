@@ -22,25 +22,33 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
         protected ILogger<ConnectorService> _logger;
         private readonly TelemetryClient _telemetryClient;
 
-        public ConnectorService(IExchangeSelector exchangeSelector, IMediator mediator, ILogger<ConnectorService> logger, TelemetryClient telemetryClient, IEnumerable<IOptionsMonitor<ConnectorOptions>> options)
+        public ConnectorService(IExchangeSelector exchangeSelector, IMediator mediator, ILogger<ConnectorService> logger, TelemetryClient telemetryClient/*, IEnumerable<IOptionsMonitor<ConnectorOptions>> options*/)
         {
-            _options = options.ToList().Any() ? options.Select() : throw new ArgumentNullException(nameof(options));
+            //TODO: The configuration must be selected from a collection of options or the connector instance must be initialized in the startup;
+            //_options = options.ToList().Any() ? options.Select() : throw new ArgumentNullException(nameof(options));
             _exchangeSelector = exchangeSelector ?? throw new ArgumentNullException(nameof(exchangeSelector));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
-            Initialize();
         }
 
-        public ConnectorService(IEnumerable<ConnectorOptions> connectorOptions)
-        {
-            Initialize();
-        }
+        //public ConnectorService(IEnumerable<ConnectorOptions> connectorOptions)
+        //{
+        //    Initialize();
+        //}
 
-        public async void Initialize()
+        public async void Activate()
         {
             Console.WriteLine("Connector Service Initialized");
             //await ConnectToRest<Market, OrderBook>()
+            //TODO: In this method the connect must be initialized by configurations, setting the time frame, the data type in and out;
+        }
+
+        public async void Deactivate()
+        {
+            Console.WriteLine("Connector Service Initialized");
+            //await ConnectToRest<Market, OrderBook>()
+            //TODO: In this method the connect must be initialized by configurations, setting the time frame, the data type in and out;
         }
 
         private async Task ConnectToRest<T, TResult>(T parameter, CancellationToken cancellationToken, TimeFrame timeFrame, Func<T, CancellationToken, ObjectResult<TResult>> method) where TResult : class
