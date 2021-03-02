@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.DataEventManager
+namespace MarketIntelligency.DataEventManager.ConnectorAggregate
 {
     /// <summary>
     /// Extension methods for the Exchange clients.
@@ -17,7 +17,7 @@ namespace MarketIntelligency.DataEventManager
         /// Adds services and options for the connector.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
-        /// <param name="connectorOptions">A delegate to configure the <see cref="ExchangeApiOptions"/>.</param>
+        /// <param name="connectorOptions">A delegate to configure the <see cref="ConnectorOptions"/>.</param>
         /// <returns></returns>
         public static IServiceCollection AddConnector(this IServiceCollection services, ExchangeName exchangeName, Action<ConnectorOptions> connectorOptions)
         {
@@ -33,7 +33,7 @@ namespace MarketIntelligency.DataEventManager
             var connector = new ConnectorService(new ConnectorOptions());
             if (exchangeName.Equals(ExchangeName.MercadoBitcoin))
             {
-                services.AddSingleton(connector);
+                services.AddSingleton();
             }
             return services;
         }

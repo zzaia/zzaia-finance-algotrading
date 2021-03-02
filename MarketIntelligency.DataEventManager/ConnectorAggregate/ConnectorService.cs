@@ -12,7 +12,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.DataEventManager
+namespace MarketIntelligency.DataEventManager.ConnectorAggregate
 {
     public partial class ConnectorService
     {
