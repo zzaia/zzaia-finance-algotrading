@@ -1,5 +1,7 @@
 using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
+using MarketIntelligency.Core.Models.MarketAgregate;
+using MarketIntelligency.DataEventManager.ConnectorAggregate;
 using MarketIntelligency.Exchange;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -31,7 +33,14 @@ namespace MarketIntelligency.Application.SA0001
                 privateCredential => Configuration.Bind("Exchange:MercadoBitcoin:Private", privateCredential),
                 tradeCredential => Configuration.Bind("Exchange:MercadoBitcoin:Trade", tradeCredential));
 
-            services.AddConnector(ExchangeName.MercadoBitcoin, );
+            //----------- Data Event Connector -------------------
+            services.AddConnector(ExchangeName.MercadoBitcoin,
+                options =>
+                {
+                    options.TimeFrame = TimeFrame.m3;
+                    options.DataIn = typeof(Market);
+                    options.DataOut = typeof(OrderBook);
+                });
 
 
             services.AddScoped<IExchangeSelector, ExchangeSelector>();
