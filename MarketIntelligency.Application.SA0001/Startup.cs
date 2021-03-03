@@ -32,6 +32,8 @@ namespace MarketIntelligency.Application.SA0001
             services.AddExchangeClient(ExchangeName.MercadoBitcoin,
                 privateCredential => Configuration.Bind("Exchange:MercadoBitcoin:Private", privateCredential),
                 tradeCredential => Configuration.Bind("Exchange:MercadoBitcoin:Trade", tradeCredential));
+            
+            services.AddScoped<IExchangeSelector, ExchangeSelector>();
 
             //----------- Data Event Connector -------------------
             services.AddConnector(options =>
@@ -42,8 +44,11 @@ namespace MarketIntelligency.Application.SA0001
                     options.DataOut = typeof(OrderBook);
                 });
 
+            services.AddApplicationInsightsTelemetry(options =>
+            {
+                options.EnableAdaptiveSampling = false;
+            });
 
-            services.AddScoped<IExchangeSelector, ExchangeSelector>();
 
             services.AddMediatR(typeof(Startup));
         }
@@ -68,7 +73,6 @@ namespace MarketIntelligency.Application.SA0001
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
             });
         }
     }

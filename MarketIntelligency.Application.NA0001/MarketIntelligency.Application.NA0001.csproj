@@ -5,7 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MarketIntelligency.Client\MarketIntelligency.Client.csproj" />
     <ProjectReference Include="..\MarketIntelligency.Core\MarketIntelligency.Core.csproj" />
     <ProjectReference Include="..\MarketIntelligency.Exchange\MarketIntelligency.Exchange.csproj" />
     <ProjectReference Include="..\MarketIntelligency.DataEventManager\MarketIntelligency.DataEventManager.csproj" />

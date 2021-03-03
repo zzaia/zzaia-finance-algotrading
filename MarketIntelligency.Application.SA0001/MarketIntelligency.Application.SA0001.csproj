@@ -4,7 +4,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MarketIntelligency.Client\MarketIntelligency.Client.csproj" />
     <ProjectReference Include="..\MarketIntelligency.Core\MarketIntelligency.Core.csproj" />
     <ProjectReference Include="..\MarketIntelligency.Exchange\MarketIntelligency.Exchange.csproj" />
     <ProjectReference Include="..\MarketIntelligency.DataEventManager\MarketIntelligency.DataEventManager.csproj" />
@@ -14,6 +13,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.KeyVault" Version="3.0.5" />
     <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="3.1.8" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.16.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.16.0" />
   </ItemGroup>
 
 </Project>
