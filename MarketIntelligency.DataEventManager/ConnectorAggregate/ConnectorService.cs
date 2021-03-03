@@ -37,7 +37,7 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
         public async void Activate()
         {
             Console.WriteLine("Connector Service Activated");
-            //await ConnectToRest<Market, OrderBook>()
+            await ConnectToRest<_options.DataIn, _options.DataOut>();
             //TODO: In this method the connect must be initialized by configurations, setting the time frame, the data type in and out;
         }
 
