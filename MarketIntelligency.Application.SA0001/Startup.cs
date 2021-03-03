@@ -34,9 +34,9 @@ namespace MarketIntelligency.Application.SA0001
                 tradeCredential => Configuration.Bind("Exchange:MercadoBitcoin:Trade", tradeCredential));
 
             //----------- Data Event Connector -------------------
-            services.AddConnector(ExchangeName.MercadoBitcoin,
-                options =>
+            services.AddConnector(options =>
                 {
+                    options.Exchange = ExchangeName.MercadoBitcoin;
                     options.TimeFrame = TimeFrame.m3;
                     options.DataIn = typeof(Market);
                     options.DataOut = typeof(OrderBook);

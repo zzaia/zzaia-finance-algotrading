@@ -4,10 +4,7 @@ using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MediatR;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -17,7 +14,7 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
     public partial class ConnectorService
     {
         private readonly IExchangeSelector _exchangeSelector;
-        private readonly IEnumerable<ConnectorOptions> _options;
+        private readonly ConnectorOptions _options;
         private readonly IMediator _mediator;
         protected ILogger<ConnectorService> _logger;
         private readonly TelemetryClient _telemetryClient;
@@ -32,21 +29,21 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
         }
 
-        //public ConnectorService(IEnumerable<ConnectorOptions> connectorOptions)
-        //{
-        //    Initialize();
-        //}
+        public ConnectorService(ConnectorOptions connectorOptions)
+        {
+            _options = connectorOptions ?? throw new ArgumentNullException(nameof(connectorOptions));
+        }
 
         public async void Activate()
         {
-            Console.WriteLine("Connector Service Initialized");
+            Console.WriteLine("Connector Service Activated");
             //await ConnectToRest<Market, OrderBook>()
             //TODO: In this method the connect must be initialized by configurations, setting the time frame, the data type in and out;
         }
 
         public async void Deactivate()
         {
-            Console.WriteLine("Connector Service Initialized");
+            Console.WriteLine("Connector Service Deactivated");
             //await ConnectToRest<Market, OrderBook>()
             //TODO: In this method the connect must be initialized by configurations, setting the time frame, the data type in and out;
         }
