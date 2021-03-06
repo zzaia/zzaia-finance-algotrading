@@ -12,7 +12,7 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
         /// Adds services and options for the connector.
         /// </summary>
         /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
-        /// <param name="connectorOptions">A delegate to configure the <see cref="ConnectorOptions"/>.</param>
+        /// <param name="connectorOptions">A delegate to configure the connector opations<see cref="ConnectorOptions"/>.</param>
         /// <returns></returns>
         public static IServiceCollection AddConnector(this IServiceCollection services, Action<ConnectorOptions> connectorOptions)
         {
@@ -20,12 +20,12 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
             {
                 throw new ArgumentNullException(nameof(services));
             }
-
-            //TODO: set a guid s reference for the singleton service, to be able to retrieve the connector options from a collection of options in the constructor.
-            var connectorOptionsModel = new ConnectorOptions();
-            connectorOptions.Invoke(connectorOptionsModel);
-            var connectorInstance = new ConnectorService(connectorOptionsModel);
-            services.AddSingleton(connectorInstance);
+            services.AddSingleton((s) =>
+                {
+                    var service = (ConnectorService)s.GetService(typeof(ConnectorService));
+                    service.Configure(connectorOptions);
+                    return service;
+                });
             return services;
         }
     }

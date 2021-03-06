@@ -27,7 +27,9 @@ namespace MarketIntelligency.Application.SA0001.Strategies
             /// <summary>
             /// Xisto & Cassar Strategy logic
             /// </summary>
-            await Task.Delay(10000);
+            /// 
+            Console.WriteLine("Received Ordebook");
+            await Task.Delay(1000);
             var response = new Order();
             await _mediator.Send(response);
         }

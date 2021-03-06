@@ -5,7 +5,7 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
 {
     public class ConnectorOptions
     {
-        public ExchangeName Exchange { get; set; }
+        public ExchangeName ExchangeName { get; set; }
         public TimeFrame TimeFrame { get; set; }
         public Type DataIn { get; set; }
         public Type DataOut { get; set; }

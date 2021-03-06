@@ -5,6 +5,7 @@ using MediatR;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -14,38 +15,50 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
     public partial class ConnectorService
     {
         private readonly IExchangeSelector _exchangeSelector;
-        private readonly ConnectorOptions _options;
+        private ConnectorOptions _options;
         private readonly IMediator _mediator;
         protected ILogger<ConnectorService> _logger;
         private readonly TelemetryClient _telemetryClient;
 
-        public ConnectorService(IExchangeSelector exchangeSelector, IMediator mediator, ILogger<ConnectorService> logger, TelemetryClient telemetryClient/*, IEnumerable<IOptionsMonitor<ConnectorOptions>> options*/)
+        public ConnectorService(IExchangeSelector exchangeSelector, IMediator mediator, ILogger<ConnectorService> logger, TelemetryClient telemetryClient)
         {
-            //TODO: The configuration must be selected from a collection of options or the connector instance must be initialized in the startup;
-            //_options = options.ToList().Any() ? options.Select() : throw new ArgumentNullException(nameof(options));
             _exchangeSelector = exchangeSelector ?? throw new ArgumentNullException(nameof(exchangeSelector));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
         }
 
-        public ConnectorService(ConnectorOptions connectorOptions)
+        /// <summary>
+        /// Configure the connector service to create a collection of asynchrounous operations.
+        /// <param name="connectorOptions">A delegate to configure the <see cref="ConnectorOptions"/>.</param>
+        /// </summary>
+        public void Configure(Action<ConnectorOptions> connectorOptions)
         {
-            _options = connectorOptions ?? throw new ArgumentNullException(nameof(connectorOptions));
+            connectorOptions = connectorOptions ?? throw new ArgumentNullException(nameof(connectorOptions));
+            var connectorOptionsModel = new ConnectorOptions();
+            connectorOptions.Invoke(connectorOptionsModel);
+            _options = connectorOptionsModel;
+            Console.WriteLine("Connector Service Configured");
         }
 
+        /// <summary>
+        /// This public method exposes the control to activate all asynchrounous connectors.
+        /// </summary>
         public async void Activate()
         {
             Console.WriteLine("Connector Service Activated");
-            await ConnectToRest<_options.DataIn, _options.DataOut>();
-            //TODO: In this method the connect must be initialized by configurations, setting the time frame, the data type in and out;
+            var exchange = _exchangeSelector.GetByName(_options.ExchangeName);
+            var market = exchange.Info.Markets.First();
+            var cancelationToken = new CancellationToken();
+            await ConnectToRest(market, cancelationToken, _options.TimeFrame, (a, c) => exchange.FetchOrderBookAsync(a, c).Result);
         }
 
-        public async void Deactivate()
+        /// <summary>
+        /// This public method exposes the control to deactivate all asynchrounous connectors.
+        /// </summary>
+        public void Deactivate()
         {
             Console.WriteLine("Connector Service Deactivated");
-            //await ConnectToRest<Market, OrderBook>()
-            //TODO: In this method the connect must be initialized by configurations, setting the time frame, the data type in and out;
         }
 
         private async Task ConnectToRest<T, TResult>(T parameter, CancellationToken cancellationToken, TimeFrame timeFrame, Func<T, CancellationToken, ObjectResult<TResult>> method) where TResult : class

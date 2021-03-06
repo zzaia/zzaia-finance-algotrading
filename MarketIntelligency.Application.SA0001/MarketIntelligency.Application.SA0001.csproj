@@ -8,6 +8,7 @@
     <ProjectReference Include="..\MarketIntelligency.Exchange\MarketIntelligency.Exchange.csproj" />
     <ProjectReference Include="..\MarketIntelligency.DataEventManager\MarketIntelligency.DataEventManager.csproj" />
     <ProjectReference Include="..\MarketIntelligency.Infrastructure\MarketIntelligency.Infrastructure.csproj" />
+    <ProjectReference Include="..\MarketIntelligency.WebApi.Grpc\MarketIntelligency.WebApi.Grpc.csproj" />
   </ItemGroup>
   
   <ItemGroup>

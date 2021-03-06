@@ -21,15 +21,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Infrastr
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Infrastructure.Test", "MarketIntelligency.Infrastructure.Test\MarketIntelligency.Infrastructure.Test.csproj", "{DE3829DE-C068-43D9-9F49-7836E3A2058E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.WebApi.Grpc", "MarketIntelligency.Application.Client\MarketIntelligency.WebApi.Grpc.csproj", "{0D2C6634-6689-4F91-B02B-16F8D0F4D200}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.WebApi.Grpc", "MarketIntelligency.WebApi.Grpc\MarketIntelligency.WebApi.Grpc.csproj", "{0D2C6634-6689-4F91-B02B-16F8D0F4D200}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Application.NA0001", "MarketIntelligency.Application.NA0001\MarketIntelligency.Application.NA0001.csproj", "{19C24BF9-5873-4BB0-8D38-B5819A7AF80D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Application.AS0001", "MarketIntelligency.Application.AS0001\MarketIntelligency.Application.AS0001.csproj", "{E743E082-362F-450E-8560-B5169026B381}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.WebApi", "MarketIntelligency.Api\MarketIntelligency.WebApi.csproj", "{F15B7C2B-313F-4275-9385-28163997291F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.WebApi", "MarketIntelligency.WebApi\MarketIntelligency.WebApi.csproj", "{F15B7C2B-313F-4275-9385-28163997291F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.WebApi.Test", "MarketIntelligency.Api.Test\MarketIntelligency.WebApi.Test.csproj", "{BD56B43D-A73C-4258-9BD0-033CC271D93A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.WebApi.Test", "MarketIntelligency.WebApi.Test\MarketIntelligency.WebApi.Test.csproj", "{BD56B43D-A73C-4258-9BD0-033CC271D93A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketIntelligency.OrderEventManager", "MarketIntelligency.OrderEventManager\MarketIntelligency.OrderEventManager.csproj", "{358F4975-4B41-4B72-8A0E-F8C38545EFDE}"
 EndProject
