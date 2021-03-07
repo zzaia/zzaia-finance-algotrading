@@ -1,18 +1,14 @@
 ﻿syntax = "proto3";
 import "Protos/CustomTypes.proto";
+import "google/protobuf/empty.proto";
 
 option csharp_namespace = "MarketIntelligency.WebApi.Grpc.Protos";
 
 service ControlGrpc {
-	rpc Activate (ControlMetadata) returns (ControlResponse);
-	rpc Deactivate (ControlMetadata) returns (ControlResponse);
+	rpc Activate (ControlMetadata) returns (google.protobuf.Empty);
+	rpc Deactivate (ControlMetadata) returns (google.protobuf.Empty);
 }
 
 message ControlMetadata {
-	string ExchangeName = 1;
-}
-
-message ControlResponse {
-	string Message = 1;
-	string Code = 2;
-}
+	string Name = 1;
+}       

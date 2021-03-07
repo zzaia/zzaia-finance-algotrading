@@ -20,7 +20,7 @@ namespace MarketIntelligency.WebApi.Grpc
             _controlGrpcClient = controlGgrpcClient ?? throw new ArgumentNullException(nameof(controlGgrpcClient));
         }
 
-        public async Task<Response<ControlResponse>> ActivateAsync(string exchangeName)
+        public async Task<Response> ActivateAsync(string exchangeName)
         {
             OAuthToken oauthToken = await _authentication.GetTokenAsync();
             string accessToken = oauthToken.access_token;
@@ -36,7 +36,7 @@ namespace MarketIntelligency.WebApi.Grpc
             return await GetResponseAsync(response);
         }
 
-        public async Task<Response<ControlResponse>> DeactivateAsync(string exchangeName)
+        public async Task<Response> DeactivateAsync(string exchangeName)
         {
             OAuthToken oauthToken = await _authentication.GetTokenAsync();
             string accessToken = oauthToken.access_token;

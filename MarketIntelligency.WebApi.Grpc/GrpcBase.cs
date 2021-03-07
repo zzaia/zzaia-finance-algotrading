@@ -25,7 +25,7 @@ namespace MarketIntelligency.WebApi.Grpc
                 return new Response<TResponse>(status);
             }
         }
-        public async Task<Response> GetResponseAsync(AsyncUnaryCall<object> response)
+        public async Task<Response> GetResponseAsync(AsyncUnaryCall<Google.Protobuf.WellKnownTypes.Empty> response)
         {
             if (response == null) throw new ArgumentNullException(nameof(response));
             await response.ResponseAsync;
