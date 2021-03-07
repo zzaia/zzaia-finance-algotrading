@@ -38,7 +38,7 @@ namespace MarketIntelligency.Application.SA0001
             //----------- Data Event Connector -------------------
             services.AddConnector(options =>
                 {
-                    options.ExchangeName = ExchangeName.MercadoBitcoin;
+                    options.Name = ExchangeName.MercadoBitcoin.DisplayName;
                     options.TimeFrame = TimeFrame.m3;
                     options.DataIn = typeof(Market);
                     options.DataOut = typeof(OrderBook);

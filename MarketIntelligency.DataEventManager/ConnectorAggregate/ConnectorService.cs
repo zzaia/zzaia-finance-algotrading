@@ -14,12 +14,12 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
 {
     public partial class ConnectorService
     {
+        public ConnectorOptions Options { get; private set; }
+        private readonly ILogger<ConnectorService> _logger;
         private readonly IExchangeSelector _exchangeSelector;
-        private ConnectorOptions _options;
         private readonly IMediator _mediator;
-        protected ILogger<ConnectorService> _logger;
         private readonly TelemetryClient _telemetryClient;
-
+        private CancellationTokenSource _cancellationTokenSource;
         public ConnectorService(IExchangeSelector exchangeSelector, IMediator mediator, ILogger<ConnectorService> logger, TelemetryClient telemetryClient)
         {
             _exchangeSelector = exchangeSelector ?? throw new ArgumentNullException(nameof(exchangeSelector));
@@ -37,7 +37,7 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
             connectorOptions = connectorOptions ?? throw new ArgumentNullException(nameof(connectorOptions));
             var connectorOptionsModel = new ConnectorOptions();
             connectorOptions.Invoke(connectorOptionsModel);
-            _options = connectorOptionsModel;
+            Options = connectorOptionsModel;
             Console.WriteLine("Connector Service Configured");
         }
 
@@ -46,11 +46,19 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
         /// </summary>
         public async void Activate()
         {
-            Console.WriteLine("Connector Service Activated");
-            var exchange = _exchangeSelector.GetByName(_options.ExchangeName);
-            var market = exchange.Info.Markets.First();
-            var cancelationToken = new CancellationToken();
-            await ConnectToRest(market, cancelationToken, _options.TimeFrame, (a, c) => exchange.FetchOrderBookAsync(a, c).Result);
+            if (ExchangeName.IsValid(Options.Name))
+            {
+                var exchangeName = Enumeration.FromDisplayName<ExchangeName>(Options.Name);
+                var exchange = _exchangeSelector.GetByName(exchangeName);
+                var market = exchange.Info.Markets.First();
+                _cancellationTokenSource = new CancellationTokenSource();
+                await ConnectToRest(market, _cancellationTokenSource.Token, Options.TimeFrame, (a, c) => exchange.FetchOrderBookAsync(a, c).Result);
+                Console.WriteLine("Exchange Connector Service Activated");
+            }
+            else
+            {
+                // TODO: Section reserved for non exchange connectors activation;
+            }
         }
 
         /// <summary>
@@ -59,6 +67,7 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
         public void Deactivate()
         {
             Console.WriteLine("Connector Service Deactivated");
+            _cancellationTokenSource.Cancel();
         }
 
         private async Task ConnectToRest<T, TResult>(T parameter, CancellationToken cancellationToken, TimeFrame timeFrame, Func<T, CancellationToken, ObjectResult<TResult>> method) where TResult : class
