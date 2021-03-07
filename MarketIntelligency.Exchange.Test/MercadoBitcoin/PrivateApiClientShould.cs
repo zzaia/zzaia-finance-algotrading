@@ -1,11 +1,12 @@
-﻿using MarketIntelligency.Core.Models.ExchangeAggregate;
+﻿using MarketIntelligency.Application.SA0001;
+using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Exchange.MercadoBitcoin.Models;
 using MarketIntelligency.Exchange.MercadoBitcoin.Private;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using Xunit;
 
 namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
@@ -18,8 +19,7 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
         public PrivateApiClientShould()
         {
             var htttpClient = new HttpClient();
-            var logger = new Logger<PrivateApiClient>(new LoggerFactory());
-            _client = new PrivateApiClient(htttpClient, logger);
+            _client = new PrivateApiClient(htttpClient);
             _client.SetBaseAddress(new Uri("https://www.mercadobitcoin.net"));
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("secrets.json")
@@ -34,9 +34,10 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
         {
             //Arrange:
             string messageLevel = SystemMessageTypeEnum.WARNING.ToString();
+            var cancellationToken = new CancellationToken();
 
             //Act:
-            var response = await _client.GetListOfSystemMessagesAsync(_clientCredential, messageLevel);
+            var response = await _client.GetListOfSystemMessagesAsync(_clientCredential, messageLevel, cancellationToken);
 
             //Assert:
             Assert.True(response.Success);
@@ -49,9 +50,10 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
         public async void GetAccountInformation()
         {
             //Arrange:
+            var cancellationToken = new CancellationToken();
 
             //Act:
-            var response = await _client.GetAccountInformationAsync(_clientCredential);
+            var response = await _client.GetAccountInformationAsync(_clientCredential, cancellationToken);
 
             //Assert:
             Assert.True(response.Success);
@@ -68,9 +70,10 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
             //Arrange:
             int orderId = 81629700;
             string tickerPair = "BRLBTC";
+            var cancellationToken = new CancellationToken();
 
             //Act:
-            var response = await _client.GetOrderByIdAsync(_clientCredential, orderId, tickerPair);
+            var response = await _client.GetOrderByIdAsync(_clientCredential, orderId, tickerPair, cancellationToken);
 
             //Assert:
             Assert.True(response.Success);
@@ -88,9 +91,10 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
             string tickerPair = "BRLBTC";
             string statusList = "[2,3,4]";
             bool hasFills = true;
+            var cancellationToken = new CancellationToken();
 
             //Act:
-            var response = await _client.GetListOfOrdersAsync(_clientCredential, tickerPair, statusList, hasFills);
+            var response = await _client.GetListOfOrdersAsync(_clientCredential, tickerPair, statusList, hasFills, cancellationToken);
 
             //Assert:
             Assert.True(response.Success);
@@ -107,9 +111,10 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
             //Arrange:
             string tickerPair = "BRLBTC";
             bool fullQuantity = true;
+            var cancellationToken = new CancellationToken();
 
             //Act:
-            var response = await _client.GetCompleteOrderBookByTickerPairAsync(_clientCredential, tickerPair, fullQuantity);
+            var response = await _client.GetCompleteOrderBookByTickerPairAsync(_clientCredential, tickerPair, fullQuantity, cancellationToken);
 
             //Assert:
             Assert.True(response.Success);

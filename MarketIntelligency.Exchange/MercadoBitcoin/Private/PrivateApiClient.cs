@@ -30,7 +30,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
             _client.BaseAddress = baseAddress;
         }
 
-        public async Task<Response<TAPResponse<SystemMessagesDTO>>> GetListOfSystemMessagesAsync(ClientCredential clientCredential, string level, CancellationToken cancellationToken)
+        public async Task<Response<TAPResponse<SystemMessagesDTO>>> GetListOfSystemMessagesAsync(ClientCredential clientCredential, string level, CancellationToken cancellationToken = new CancellationToken())
         {
             var parameters = new List<KeyValuePair<string, string>>
                 {
@@ -41,7 +41,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
             return await PostSuppreme<SystemMessagesDTO>(clientCredential, parameters, cancellationToken).ConfigureAwait(_continueOnCapturedContext);
         }
 
-        public async Task<Response<TAPResponse<AccountInformationDTO>>> GetAccountInformationAsync(ClientCredential clientCredential, CancellationToken cancellationToken)
+        public async Task<Response<TAPResponse<AccountInformationDTO>>> GetAccountInformationAsync(ClientCredential clientCredential, CancellationToken cancellationToken = new CancellationToken())
         {
             var parameters = new List<KeyValuePair<string, string>>
                 {
@@ -51,7 +51,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
             return await PostSuppreme<AccountInformationDTO>(clientCredential, parameters, cancellationToken).ConfigureAwait(_continueOnCapturedContext);
         }
 
-        public async Task<Response<TAPResponse<OrderInformationDTO>>> GetOrderByIdAsync(ClientCredential clientCredential, int orderId, string tickerPair, CancellationToken cancellationToken)
+        public async Task<Response<TAPResponse<OrderInformationDTO>>> GetOrderByIdAsync(ClientCredential clientCredential, int orderId, string tickerPair, CancellationToken cancellationToken = new CancellationToken())
         {
             var parameters = new List<KeyValuePair<string, string>>
                 {
@@ -78,7 +78,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
             return await PostSuppreme<OrdersInformationDTO>(clientCredential, parameters, cancellationToken).ConfigureAwait(_continueOnCapturedContext);
         }
 
-        public async Task<Response<TAPResponse<OrderbookInformationDTO>>> GetCompleteOrderBookByTickerPairAsync(ClientCredential clientCredential, string tickerPair, bool fullQuantity, CancellationToken cancellationToken)
+        public async Task<Response<TAPResponse<OrderbookInformationDTO>>> GetCompleteOrderBookByTickerPairAsync(ClientCredential clientCredential, string tickerPair, bool fullQuantity, CancellationToken cancellationToken = new CancellationToken())
         {
             var parameters = new List<KeyValuePair<string, string>>
                 {
@@ -90,7 +90,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
             return await PostSuppreme<OrderbookInformationDTO>(clientCredential, parameters, cancellationToken).ConfigureAwait(_continueOnCapturedContext);
         }
 
-        public async Task<Response<TAPResponse<T>>> PostSuppreme<T>(ClientCredential clientCredential, IEnumerable<KeyValuePair<string, string>> parameters, CancellationToken cancellationToken)
+        public async Task<Response<TAPResponse<T>>> PostSuppreme<T>(ClientCredential clientCredential, IEnumerable<KeyValuePair<string, string>> parameters, CancellationToken cancellationToken = new CancellationToken())
         {
             using var requestBody = new FormUrlEncodedContent(parameters);
             string paramString = await requestBody.ReadAsStringAsync().ConfigureAwait(_continueOnCapturedContext);

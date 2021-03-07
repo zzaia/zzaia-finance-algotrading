@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Globalization;
 using System.Net.Http;
+using System.Threading;
 using Xunit;
 
 namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
@@ -16,8 +17,7 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
         public PublicApiClientShould()
         {
             var htttpClient = new HttpClient();
-            var logger = new Logger<PublicApiClient>(new LoggerFactory());
-            _client = new PublicApiClient(htttpClient, logger);
+            _client = new PublicApiClient(htttpClient);
             _client.SetBaseAddress(new Uri("https://www.mercadobitcoin.net/api/"));
         }
 
@@ -27,9 +27,10 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
             //Arrange:
             DateTime dt = new DateTime(2013, 6, 20, 2, 40, 30);
             var market = new Market(Asset.BTC, Asset.BRL);
+            var cancellationToken = new CancellationToken();
 
             //Act:
-            var response = await _client.GetDaySummaryOHLCVAsync(market.Main.ToString(), dt.Year, dt.Month, dt.Day).ConfigureAwait(true);
+            var response = await _client.GetDaySummaryOHLCVAsync(market.Main.ToString(), dt.Year, dt.Month, dt.Day, cancellationToken).ConfigureAwait(true);
 
             //Assert:
             Assert.True(response.Success);
@@ -54,8 +55,10 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
             var dt = DateTimeOffset.UtcNow;
             var tolerance = TimeSpan.FromMinutes(30);
             var cultureInfo = new CultureInfo("en-us");
+            var cancellationToken = new CancellationToken();
+            
             //Act:
-            var response = await _client.GetLast24hOHLCVAsync(market.Main.ToString()).ConfigureAwait(true);
+            var response = await _client.GetLast24hOHLCVAsync(market.Main.ToString(), cancellationToken).ConfigureAwait(true);
 
             //Assert:
             Assert.True(response.Success);
@@ -74,9 +77,10 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
         {
             //Arrange:
             var market = new Market(Asset.BTC, Asset.BRL);
+            var cancellationToken = new CancellationToken();
 
             //Act:
-            var response = await _client.GetOrderBookAsync(market.Main.ToString()).ConfigureAwait(true);
+            var response = await _client.GetOrderBookAsync(market.Main.ToString(), cancellationToken).ConfigureAwait(true);
 
             //Assert:
             Assert.True(response.Success);
@@ -97,9 +101,10 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
             var market = new Market(Asset.BTC, Asset.BRL);
             string tid = "5700";
             //var globalId = new Guid(tid.GetHashCode().ToString());
+            var cancellationToken = new CancellationToken();
 
             //Act:
-            var response = await _client.GetTradesSinceTIDAsync(market.Main.ToString(), tid).ConfigureAwait(true);
+            var response = await _client.GetTradesSinceTIDAsync(market.Main.ToString(), tid, cancellationToken).ConfigureAwait(true);
 
             //Assert:
             Assert.True(response.Success);

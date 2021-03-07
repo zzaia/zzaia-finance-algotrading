@@ -1,9 +1,10 @@
-﻿using MarketIntelligency.Core.Models.ExchangeAggregate;
+﻿using MarketIntelligency.Application.SA0001;
+using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Exchange.MercadoBitcoin.Trade;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
+using System.Threading;
 using Xunit;
 
 namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
@@ -23,8 +24,7 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
         public TradeApiClientShould()
         {
             var htttpClient = new HttpClient();
-            var logger = new Logger<TradeApiClient>(new LoggerFactory());
-            _client = new TradeApiClient(htttpClient, logger);
+            _client = new TradeApiClient(htttpClient);
             _client.SetBaseAddress(new Uri("https://www.mercadobitcoin.net"));
             var configuration = new ConfigurationBuilder()
                .AddJsonFile("secrets.json")
@@ -43,8 +43,10 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
                 //Arrange:
                 string tickerPair = "BTCBRL";
                 string cost = "0.0000000001";
+                var cancellationToken = new CancellationToken();
+
                 //Act:
-                var response = await _client.PlaceMarketBuyOrderAsync(_clientCredential, tickerPair, cost);
+                var response = await _client.PlaceMarketBuyOrderAsync(_clientCredential, tickerPair, cost, cancellationToken);
 
                 //Assert:
                 Assert.True(response.Success);
@@ -66,9 +68,10 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
                 //Arrange:
                 string tickerPair = "BTCBRL";
                 string cost = "0.0000000001";
+                var cancellationToken = new CancellationToken();
 
                 //Act:
-                var response = await _client.PlaceMarketSellOrderAsync(_clientCredential, tickerPair, cost);
+                var response = await _client.PlaceMarketSellOrderAsync(_clientCredential, tickerPair, cost, cancellationToken);
 
                 //Assert:
                 Assert.True(response.Success);
@@ -90,12 +93,15 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
                 //Arrange:
                 string tickerPair = "BRLBTC";
                 string cost = "0.0000000001";
-                var responseFromPlaceOrder = await _client.PlaceMarketSellOrderAsync(_clientCredential, tickerPair, cost);
+                var cancellationToken = new CancellationToken();
+
+                var responseFromPlaceOrder = await _client.PlaceMarketSellOrderAsync(_clientCredential, tickerPair, cost, cancellationToken);
+
                 if (responseFromPlaceOrder.Success)
                 {
                     int orderId = responseFromPlaceOrder.Output.Data.Id;
                     //Act:
-                    var response = await _client.CancelOrderAsync(_clientCredential, tickerPair, orderId);
+                    var response = await _client.CancelOrderAsync(_clientCredential, tickerPair, orderId, cancellationToken);
 
                     //Assert:
                     Assert.True(response.Success);
