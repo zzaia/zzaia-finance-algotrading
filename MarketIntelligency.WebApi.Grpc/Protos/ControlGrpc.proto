@@ -1,0 +1,18 @@
+﻿syntax = "proto3";
+import "Protos/CustomTypes.proto";
+
+option csharp_namespace = "MarketIntelligency.WebApi.Grpc.Protos";
+
+service ControlGrpc {
+	rpc Activate (ControlMetadata) returns (ControlResponse);
+	rpc Deactivate (ControlMetadata) returns (ControlResponse);
+}
+
+message ControlMetadata {
+	string ExchangeName = 1;
+}
+
+message ControlResponse {
+	string Message = 1;
+	string Code = 2;
+}
