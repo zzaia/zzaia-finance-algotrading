@@ -5,9 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MarketIntelligency.Application.SA0001\MarketIntelligency.Application.SA0001.csproj" />
     <ProjectReference Include="..\MarketIntelligency.Exchange\MarketIntelligency.Exchange.csproj" />
-    <ProjectReference Include="..\MarketIntelligency.Server\MarketIntelligency.Application.CH0001.csproj" />
+    <ProjectReference Include="..\MarketIntelligency.Application.SA0001\MarketIntelligency.Application.SA0001.csproj" />
   </ItemGroup>
   
   <ItemGroup>

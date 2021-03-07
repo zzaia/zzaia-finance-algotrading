@@ -51,6 +51,12 @@ namespace MarketIntelligency.Application.SA0001
 
 
             services.AddMediatR(typeof(Startup));
+
+            // Grpc
+            services.AddGrpc(opt =>
+            {
+                opt.EnableDetailedErrors = true;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

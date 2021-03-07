@@ -1,7 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore.Server" Version="2.35.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MarketIntelligency.WebApi.Grpc\MarketIntelligency.WebApi.Grpc.csproj" />
+    <ProjectReference Include="..\MarketIntelligency.Core\MarketIntelligency.Core.csproj" />
+    <ProjectReference Include="..\MarketIntelligency.Exchange\MarketIntelligency.Exchange.csproj" />
+    <ProjectReference Include="..\MarketIntelligency.DataEventManager\MarketIntelligency.DataEventManager.csproj" />
+    <ProjectReference Include="..\MarketIntelligency.Infrastructure\MarketIntelligency.Infrastructure.csproj" />
+  </ItemGroup>
 </Project>
