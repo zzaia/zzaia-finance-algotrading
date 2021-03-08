@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MarketIntelligency.WebApi.Grpc\MarketIntelligency.WebApi.Grpc.csproj" />
+    <ProjectReference Include="..\MarketIntelligency.WebApi\MarketIntelligency.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

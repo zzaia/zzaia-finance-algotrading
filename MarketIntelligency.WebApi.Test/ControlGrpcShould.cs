@@ -1,8 +1,10 @@
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Core.Testing;
+using Grpc.Net.Client;
 using MarketIntelligency.WebApi.Grpc.Protos;
 using Moq;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
@@ -23,15 +25,21 @@ namespace MarketIntelligency.Api.Test
             // Act
             mockClient.Setup(m => m.ActivateAsync(It.IsAny<ControlMetadata>()
                 , null, null, CancellationToken.None)).Returns(fakeCall);
-            
+
             // Assert
             Assert.Equal(fakeCall, mockClient.Object.ActivateAsync(controlArgs));
         }
 
         [Fact]
-        public void DeactivateAGivenExchange()
+        public async Task ActivateAllConnectors()
         {
+            var options = new GrpcChannelOptions();
+            var channel = GrpcChannel.ForAddress("https://localhost:5001", options);
+            var client = new ControlGrpc.ControlGrpcClient(channel);
 
+            // Asynchronous unary RPC
+            var foosRequest = new ControlMetadata { Name = "connectors" };
+            var fooResponse = await client.ActivateAsync(foosRequest);
         }
     }
 }
