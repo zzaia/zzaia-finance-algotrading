@@ -33,9 +33,9 @@ namespace MarketIntelligency.Application.SA0001
             services.AddExchangeClient(ExchangeName.MercadoBitcoin,
                 privateCredential => Configuration.Bind("Exchange:MercadoBitcoin:Private", privateCredential),
                 tradeCredential => Configuration.Bind("Exchange:MercadoBitcoin:Trade", tradeCredential));
-
-            services.AddScoped<IExchangeSelector, ExchangeSelector>();
-
+            
+            services.AddSingleton<IExchangeSelector, ExchangeSelector>();
+            
             //----------- Data Event Connector -------------------
             services.AddConnector(options =>
                 {
@@ -58,6 +58,7 @@ namespace MarketIntelligency.Application.SA0001
             {
                 opt.EnableDetailedErrors = true;
             });
+            services.AddGrpcReflection();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

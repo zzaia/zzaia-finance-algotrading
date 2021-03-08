@@ -13,10 +13,10 @@ namespace MarketIntelligency.WebApi.Services
     {
         protected ILogger<ControlService> _logger;
         private readonly TelemetryClient _telemetryClient;
-        private readonly IServiceCollection _serviceCollection;
-        public ControlService(ILogger<ControlService> logger, TelemetryClient telemetryClient, IServiceCollection serviceCollection)
+        private readonly IServiceProvider _serviceProvider;
+        public ControlService(ILogger<ControlService> logger, TelemetryClient telemetryClient, IServiceProvider serviceProvider)
         {
-            _serviceCollection = serviceCollection ?? throw new ArgumentNullException(nameof(serviceCollection));
+            _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
         }
@@ -29,7 +29,7 @@ namespace MarketIntelligency.WebApi.Services
             {
                 if (request.Name.Equals("connectors"))
                 {
-                    var services = _serviceCollection.BuildServiceProvider().GetServices<ConnectorService>();
+                    var services = _serviceProvider.GetServices<ConnectorService>();
                     foreach (var service in services)
                     {
                         service.Activate();

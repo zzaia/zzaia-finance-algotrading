@@ -20,12 +20,16 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
             {
                 throw new ArgumentNullException(nameof(services));
             }
-            services.AddSingleton((s) =>
-                {
-                    var service = (ConnectorService)s.GetService(typeof(ConnectorService));
-                    service.Configure(connectorOptions);
-                    return service;
-                });
+            //services.AddSingleton<ConnectorService>();
+
+            services.AddSingleton<ConnectorService>()
+                    .AddSingleton((s) =>
+                    {
+                        var service = (ConnectorService)s.GetService(typeof(ConnectorService));
+                        service.Configure(connectorOptions);
+                        return service;
+                    });
+
             return services;
         }
     }
