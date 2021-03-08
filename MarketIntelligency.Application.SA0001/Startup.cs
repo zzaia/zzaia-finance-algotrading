@@ -3,6 +3,7 @@ using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
 using MarketIntelligency.DataEventManager.ConnectorAggregate;
 using MarketIntelligency.Exchange;
+using MarketIntelligency.WebApi.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -32,7 +33,7 @@ namespace MarketIntelligency.Application.SA0001
             services.AddExchangeClient(ExchangeName.MercadoBitcoin,
                 privateCredential => Configuration.Bind("Exchange:MercadoBitcoin:Private", privateCredential),
                 tradeCredential => Configuration.Bind("Exchange:MercadoBitcoin:Trade", tradeCredential));
-            
+
             services.AddScoped<IExchangeSelector, ExchangeSelector>();
 
             //----------- Data Event Connector -------------------
@@ -79,6 +80,12 @@ namespace MarketIntelligency.Application.SA0001
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGrpcService<ControlService>();
+
+                if (env.IsDevelopment())
+                {
+                    endpoints.MapGrpcReflectionService();
+                }
             });
         }
     }
