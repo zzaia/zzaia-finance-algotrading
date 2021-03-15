@@ -22,10 +22,10 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
             }
             //services.AddSingleton<ConnectorService>();
 
-            services.AddSingleton<ConnectorService>()
-                    .AddSingleton((s) =>
+            services.AddHostedService<ConnectorProcessor>()
+                    .AddHostedService((s) =>
                     {
-                        var service = (ConnectorService)s.GetService(typeof(ConnectorService));
+                        var service = (ConnectorProcessor)s.GetService(typeof(ConnectorProcessor));
                         service.Configure(connectorOptions);
                         return service;
                     });

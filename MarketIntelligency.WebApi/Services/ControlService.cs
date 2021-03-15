@@ -29,7 +29,7 @@ namespace MarketIntelligency.WebApi.Services
             {
                 if (request.Name.Equals("connectors"))
                 {
-                    var services = _serviceProvider.GetServices<ConnectorService>();
+                    var services = _serviceProvider.GetServices<IConnectorControl>();
                     foreach (var service in services)
                     {
                         service.Activate();

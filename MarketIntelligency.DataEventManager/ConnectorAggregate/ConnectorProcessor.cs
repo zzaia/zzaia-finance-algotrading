@@ -3,6 +3,7 @@ using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MediatR;
 using Microsoft.ApplicationInsights;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Linq;
@@ -12,15 +13,14 @@ using System.Threading.Tasks;
 
 namespace MarketIntelligency.DataEventManager.ConnectorAggregate
 {
-    public partial class ConnectorService
+    public partial class ConnectorProcessor : IHostedService, IDisposable
     {
         public ConnectorOptions Options { get; private set; }
-        private readonly ILogger<ConnectorService> _logger;
+        private readonly ILogger<ConnectorProcessor> _logger;
         private readonly IExchangeSelector _exchangeSelector;
         private readonly IMediator _mediator;
         private readonly TelemetryClient _telemetryClient;
-        private CancellationTokenSource _cancellationTokenSource;
-        public ConnectorService(IExchangeSelector exchangeSelector, IMediator mediator, ILogger<ConnectorService> logger, TelemetryClient telemetryClient)
+        public ConnectorProcessor(IExchangeSelector exchangeSelector, IMediator mediator, ILogger<ConnectorProcessor> logger, TelemetryClient telemetryClient)
         {
             _exchangeSelector = exchangeSelector ?? throw new ArgumentNullException(nameof(exchangeSelector));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
@@ -39,35 +39,6 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
             connectorOptions.Invoke(connectorOptionsModel);
             Options = connectorOptionsModel;
             Console.WriteLine("Connector Service Configured");
-        }
-
-        /// <summary>
-        /// This public method exposes the control to activate all asynchrounous connectors.
-        /// </summary>
-        public async void Activate()
-        {
-            if (ExchangeName.IsValid(Options.Name))
-            {
-                var exchangeName = Enumeration.FromDisplayName<ExchangeName>(Options.Name);
-                var exchange = _exchangeSelector.GetByName(exchangeName);
-                var market = exchange.Info.Markets.First();
-                _cancellationTokenSource = new CancellationTokenSource();
-                await ConnectToRest(market, _cancellationTokenSource.Token, Options.TimeFrame, (a, c) => exchange.FetchOrderBookAsync(a, c).Result);
-                Console.WriteLine("Exchange Connector Service Activated");
-            }
-            else
-            {
-                // TODO: Section reserved for non exchange connectors activation;
-            }
-        }
-
-        /// <summary>
-        /// This public method exposes the control to deactivate all asynchrounous connectors.
-        /// </summary>
-        public void Deactivate()
-        {
-            Console.WriteLine("Connector Service Deactivated");
-            _cancellationTokenSource.Cancel();
         }
 
         private async Task ConnectToRest<T, TResult>(T parameter, CancellationToken cancellationToken, TimeFrame timeFrame, Func<T, CancellationToken, ObjectResult<TResult>> method) where TResult : class
@@ -119,6 +90,32 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
                     break;
                 }
             }
+        }
+
+        public async Task StartAsync(CancellationToken cancellationToken)
+        {
+            if (ExchangeName.IsValid(Options.Name))
+            {
+                var exchangeName = Enumeration.FromDisplayName<ExchangeName>(Options.Name);
+                var exchange = _exchangeSelector.GetByName(exchangeName);
+                var market = exchange.Info.Markets.First();
+                await ConnectToRest(market, cancellationToken, Options.TimeFrame, (a, c) => exchange.FetchOrderBookAsync(a, c).Result);
+                Console.WriteLine("Exchange Connector Service Activated");
+            }
+            else
+            {
+                // TODO: Section reserved for non exchange connectors activation;
+            }
+        }
+
+        public Task StopAsync(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 }
