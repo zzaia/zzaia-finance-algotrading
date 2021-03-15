@@ -29,14 +29,14 @@ namespace MarketIntelligency.Application.SA0001
         public void ConfigureServices(IServiceCollection services)
         {
 
-            //----------- Exchange API Client -------------------
+            //----------- Exchange API Clients -------------------
             services.AddExchangeClient(ExchangeName.MercadoBitcoin,
                 privateCredential => Configuration.Bind("Exchange:MercadoBitcoin:Private", privateCredential),
                 tradeCredential => Configuration.Bind("Exchange:MercadoBitcoin:Trade", tradeCredential));
             
             services.AddSingleton<IExchangeSelector, ExchangeSelector>();
             
-            //----------- Data Event Connector -------------------
+            //----------- Data Event Connectors -------------------
             services.AddConnector(options =>
                 {
                     options.Name = ExchangeName.MercadoBitcoin.DisplayName;
@@ -51,14 +51,13 @@ namespace MarketIntelligency.Application.SA0001
             });
 
 
-            services.AddMediatR(typeof(Startup));
+            services.AddMediatR(typeof(Startup).Assembly);
 
             // Grpc
             services.AddGrpc(opt =>
             {
                 opt.EnableDetailedErrors = true;
             });
-            services.AddGrpcReflection();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

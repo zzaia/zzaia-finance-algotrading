@@ -4,7 +4,7 @@ using System;
 
 namespace MarketIntelligency.DataEventManager.ConnectorAggregate
 {
-    public partial class ConnectorService
+    public partial class ConnectorProcessor
     {
         private static class Log
         {
