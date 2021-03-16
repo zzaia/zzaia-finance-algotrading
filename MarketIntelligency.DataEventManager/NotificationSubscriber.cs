@@ -12,7 +12,7 @@ namespace MarketIntelligency.DataEventManager
                 _unsubscriber = provider.Subscribe(this);
         }
         public virtual void OnCompleted()
-        {
+        { 
             Console.WriteLine("Done");
         }
         public virtual void OnError(Exception e)

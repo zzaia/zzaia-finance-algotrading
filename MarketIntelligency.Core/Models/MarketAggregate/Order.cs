@@ -52,14 +52,14 @@ namespace MarketIntelligency.Core.Models.MarketAgregate
 
         public class Statuses
         {
-            /* ====================================================================================
+            /* ================================================================================
                  A order status
                 Order Status: -> CREATED: Order only created by client or by strategy algorithm;
                               -> PLACED: Order placed in exchange by client or by algorithm;
                               -> CANCELED: Order canceled by client, algorithm or by exchange;
                               -> OPEN: Order still waiting to be completed by exchange;  
                               -> CLOSED: Order fullfilled and closed by exchange;          
-               ==================================================================================== */
+               ================================================================================ */
 
             public const string Created = "created";
             public const string Placed = "placed";
