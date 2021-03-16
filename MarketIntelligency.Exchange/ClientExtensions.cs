@@ -1,8 +1,11 @@
-﻿using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
-using MarketIntelligency.Core.Models.EnumerationAggregate;
+﻿using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.ExchangeAggregate;
+using MarketIntelligency.Exchange.MercadoBitcoin;
+using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
+using System.Net.Http;
 
 namespace MarketIntelligency.Exchange
 {
@@ -60,37 +63,16 @@ namespace MarketIntelligency.Exchange
             }
             */
 
-
             // Typed http client (Compile Time)
             if (exchangeName.Equals(ExchangeName.MercadoBitcoin))
             {
-                services.AddHttpClient<MarketIntelligency.Exchange
-                                                         .MercadoBitcoin
-                                                         .Public
-                                                         .PublicApiClient>();
-                if (privateCredential != null)
+                services.AddSingleton((s) =>
                 {
-                    services.AddHttpClient<MarketIntelligency.Exchange
-                                                             .MercadoBitcoin
-                                                             .Private
-                                                             .PrivateApiClient>();
-                    services.Configure(Exchange.MercadoBitcoin
-                                               .MercadoBitcoinExchange
-                                               .Information.Options
-                                               .PrivateClientCredentialReference, privateCredential);
-                }
-                if (tradeCredential != null)
-                {
-                    services.AddHttpClient<MarketIntelligency.Exchange
-                                                             .MercadoBitcoin
-                                                             .Trade
-                                                             .TradeApiClient>();
-                    services.Configure(Exchange.MercadoBitcoin
-                                               .MercadoBitcoinExchange
-                                               .Information.Options.
-                                               TradeClientCredentialReference, tradeCredential);
-                }
-                services.AddScoped<Exchange.MercadoBitcoin.MercadoBitcoinExchange>();
+                    var logger = (ILogger<MercadoBitcoinExchange>)s.GetService(typeof(ILogger<MercadoBitcoinExchange>));
+                    var telemetry = (TelemetryClient)s.GetService(typeof(TelemetryClient));
+                    var client = (HttpClient)s.GetService(typeof(HttpClient));
+                    return new MercadoBitcoinExchange(privateCredential, tradeCredential, logger, telemetry, client);
+                });
             }
 
             return services;

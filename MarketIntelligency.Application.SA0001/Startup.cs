@@ -28,8 +28,8 @@ namespace MarketIntelligency.Application.SA0001
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-
             //----------- Exchange API Clients -------------------
+            services.AddHttpClient();
             services.AddExchangeClient(ExchangeName.MercadoBitcoin,
                 privateCredential => Configuration.Bind("Exchange:MercadoBitcoin:Private", privateCredential),
                 tradeCredential => Configuration.Bind("Exchange:MercadoBitcoin:Trade", tradeCredential));
