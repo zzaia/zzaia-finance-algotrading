@@ -9,11 +9,11 @@ using MarketIntelligency.Exchange.MercadoBitcoin.Public;
 using MarketIntelligency.Exchange.MercadoBitcoin.Trade;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -33,24 +33,32 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
         /// <summary>
         /// Exchange client instance, selects api end-point based on parameter
         /// </summary>
-        public MercadoBitcoinExchange(PublicApiClient publicApiClient,
-                                      PrivateApiClient privateApiClient,
-                                      TradeApiClient tradeApiClient,
-                                      IOptionsMonitor<ClientCredential> clientCredentials,
+        public MercadoBitcoinExchange(Action<ClientCredential> privateClientCredentials,
+                                      Action<ClientCredential> tradeClientCredentials,
                                       ILogger<MercadoBitcoinExchange> logger,
-                                      TelemetryClient telemetryClient)
+                                      TelemetryClient telemetryClient,
+                                      HttpClient client)
         {
-            _tradeClientCredential = clientCredentials.Get(Information.Options.TradeClientCredentialReference);
-            _privateClientCredential = clientCredentials.Get(Information.Options.PrivateClientCredentialReference);
-            _publicApiClient = publicApiClient ?? throw new ArgumentNullException(nameof(publicApiClient));
-            _privateApiClient = privateApiClient ?? throw new ArgumentNullException(nameof(privateApiClient));
-            _tradeApiClient = tradeApiClient ?? throw new ArgumentNullException(nameof(tradeApiClient));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
+            privateClientCredentials = privateClientCredentials ?? throw new ArgumentNullException(nameof(privateClientCredentials));
+            var privateClientCredentialsModel = new ClientCredential();
+            privateClientCredentials.Invoke(privateClientCredentialsModel);
+            _tradeClientCredential = privateClientCredentialsModel;
 
+            tradeClientCredentials = tradeClientCredentials ?? throw new ArgumentNullException(nameof(tradeClientCredentials));
+            var tradeClientCredentialsModel = new ClientCredential();
+            tradeClientCredentials.Invoke(privateClientCredentialsModel);
+            _privateClientCredential = tradeClientCredentialsModel;
+
+            client = client ?? throw new ArgumentNullException(nameof(client));
+            _publicApiClient = new PublicApiClient(client);
+            _privateApiClient = new PrivateApiClient(client);
+            _tradeApiClient = new TradeApiClient(client);
             _publicApiClient.SetBaseAddress(Information.Uris.Api.Public);
             _privateApiClient.SetBaseAddress(Information.Uris.Api.Private);
             _tradeApiClient.SetBaseAddress(Information.Uris.Api.Trade);
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
         }
 
         public IPublicApiClient PublicClient
@@ -246,7 +254,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                     else
                     {
                         var errorPayload = JsonSerializer.Serialize(response.ProblemDetails);
-                        Log.FetchOrderBook.WithFailedResponse(_logger, errorPayload); 
+                        Log.FetchOrderBook.WithFailedResponse(_logger, errorPayload);
                         return ObjectResultFactory.CreateFailResult<OrderBook>();
                     }
                 }
