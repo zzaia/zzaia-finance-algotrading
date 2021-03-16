@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace MarketIntelligency.Infrastructure.CosmosDB.ChangeFeed
 {
-    public class ChangeFeedProcessor<T> : IHostedService where T : class
+    public class ChangeFeedProcessor<T> : IHostedService, IChangeFeedProcessor<T> where T : class
     {
         private readonly IMediator _mediator;
         private readonly ICosmosDbClient _client;
