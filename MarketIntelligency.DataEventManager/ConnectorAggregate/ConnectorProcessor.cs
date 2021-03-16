@@ -13,32 +13,23 @@ using System.Threading.Tasks;
 
 namespace MarketIntelligency.DataEventManager.ConnectorAggregate
 {
-    public partial class ConnectorProcessor : IHostedService, IDisposable
+    public partial class ConnectorProcessor : IHostedService
     {
-        public ConnectorOptions Options { get; private set; }
+        private readonly ConnectorOptions _options;
         private readonly ILogger<ConnectorProcessor> _logger;
         private readonly IExchangeSelector _exchangeSelector;
         private readonly IMediator _mediator;
         private readonly TelemetryClient _telemetryClient;
-        public ConnectorProcessor(IExchangeSelector exchangeSelector, IMediator mediator, ILogger<ConnectorProcessor> logger, TelemetryClient telemetryClient)
-        {
-            _exchangeSelector = exchangeSelector ?? throw new ArgumentNullException(nameof(exchangeSelector));
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
-        }
-
-        /// <summary>
-        /// Configure the connector service to create a collection of asynchrounous operations.
-        /// <param name="connectorOptions">A delegate to configure the <see cref="ConnectorOptions"/>.</param>
-        /// </summary>
-        public void Configure(Action<ConnectorOptions> connectorOptions)
+        public ConnectorProcessor(Action<ConnectorOptions> connectorOptions, IExchangeSelector exchangeSelector, IMediator mediator, ILogger<ConnectorProcessor> logger, TelemetryClient telemetryClient)
         {
             connectorOptions = connectorOptions ?? throw new ArgumentNullException(nameof(connectorOptions));
             var connectorOptionsModel = new ConnectorOptions();
             connectorOptions.Invoke(connectorOptionsModel);
-            Options = connectorOptionsModel;
-            Console.WriteLine("Connector Service Configured");
+            _options = connectorOptionsModel;
+            _exchangeSelector = exchangeSelector ?? throw new ArgumentNullException(nameof(exchangeSelector));
+            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
         }
 
         private async Task ConnectToRest<T, TResult>(T parameter, CancellationToken cancellationToken, TimeFrame timeFrame, Func<T, CancellationToken, ObjectResult<TResult>> method) where TResult : class
@@ -94,12 +85,12 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            if (ExchangeName.IsValid(Options.Name))
+            if (ExchangeName.IsValid(_options.Name))
             {
-                var exchangeName = Enumeration.FromDisplayName<ExchangeName>(Options.Name);
+                var exchangeName = Enumeration.FromDisplayName<ExchangeName>(_options.Name);
                 var exchange = _exchangeSelector.GetByName(exchangeName);
                 var market = exchange.Info.Markets.First();
-                await ConnectToRest(market, cancellationToken, Options.TimeFrame, (a, c) => exchange.FetchOrderBookAsync(a, c).Result);
+                await ConnectToRest(market, cancellationToken, _options.TimeFrame, (a, c) => exchange.FetchOrderBookAsync(a, c).Result);
                 Console.WriteLine("Exchange Connector Service Activated");
             }
             else
@@ -109,11 +100,6 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
         }
 
         public Task StopAsync(CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Dispose()
         {
             throw new NotImplementedException();
         }

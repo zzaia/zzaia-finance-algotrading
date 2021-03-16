@@ -1,4 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
+using MediatR;
+using Microsoft.ApplicationInsights;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 
 namespace MarketIntelligency.DataEventManager.ConnectorAggregate
@@ -20,16 +24,14 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
             {
                 throw new ArgumentNullException(nameof(services));
             }
-            //services.AddSingleton<ConnectorService>();
-
-            services.AddHostedService<ConnectorProcessor>()
-                    .AddHostedService((s) =>
+            services.AddHostedService((s) =>
                     {
-                        var service = (ConnectorProcessor)s.GetService(typeof(ConnectorProcessor));
-                        service.Configure(connectorOptions);
-                        return service;
+                        var mediator = (IMediator)s.GetService(typeof(IMediator));
+                        var exchangeSelector = (IExchangeSelector)s.GetService(typeof(IExchangeSelector));
+                        var logger = (ILogger<ConnectorProcessor>)s.GetService(typeof(ILogger<ConnectorProcessor>));
+                        var telemetry = (TelemetryClient)s.GetService(typeof(TelemetryClient));
+                        return new ConnectorProcessor(connectorOptions, exchangeSelector, mediator, logger, telemetry);
                     });
-
             return services;
         }
     }
