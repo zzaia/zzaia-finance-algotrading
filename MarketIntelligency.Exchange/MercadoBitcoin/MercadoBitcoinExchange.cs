@@ -37,7 +37,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                                       Action<ClientCredential> tradeClientCredentials,
                                       ILogger<MercadoBitcoinExchange> logger,
                                       TelemetryClient telemetryClient,
-                                      HttpClient client)
+                                      IHttpClientFactory clientFactory)
         {
             privateClientCredentials = privateClientCredentials ?? throw new ArgumentNullException(nameof(privateClientCredentials));
             var privateClientCredentialsModel = new ClientCredential();
@@ -49,10 +49,10 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
             tradeClientCredentials.Invoke(privateClientCredentialsModel);
             _privateClientCredential = tradeClientCredentialsModel;
 
-            client = client ?? throw new ArgumentNullException(nameof(client));
-            _publicApiClient = new PublicApiClient(client);
-            _privateApiClient = new PrivateApiClient(client);
-            _tradeApiClient = new TradeApiClient(client);
+            clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
+            _publicApiClient = new PublicApiClient(clientFactory.CreateClient());
+            _privateApiClient = new PrivateApiClient(clientFactory.CreateClient());
+            _tradeApiClient = new TradeApiClient(clientFactory.CreateClient());
             _publicApiClient.SetBaseAddress(Information.Uris.Api.Public);
             _privateApiClient.SetBaseAddress(Information.Uris.Api.Private);
             _tradeApiClient.SetBaseAddress(Information.Uris.Api.Trade);
