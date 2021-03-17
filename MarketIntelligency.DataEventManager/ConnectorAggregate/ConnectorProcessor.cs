@@ -37,23 +37,23 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
             Log.ConnectToRest.Received(_logger);
             Log.ConnectToRest.ReceivedAction(_telemetryClient);
             var timeOutCancellationTokenSource = new CancellationTokenSource();
-            timeOutCancellationTokenSource.CancelAfter(timeFrame.TimeSpan.Milliseconds);
+            timeOutCancellationTokenSource.CancelAfter(timeFrame.TimeSpan);
             var timeoutCancellationToken = timeOutCancellationTokenSource.Token;
             var initialTime = DateTimeOffset.UtcNow;
             while (!cancellationToken.IsCancellationRequested)
             {
                 try
                 {
-                    var response = method.Invoke(parameter, timeoutCancellationToken);
-                    if (response.Succeed)
+                    var result = method.Invoke(parameter, timeoutCancellationToken);
+                    if (result.Succeed)
                     {
-                        var eventToPublish = new EventSource<TResult>(response.Output);
+                        var eventToPublish = new EventSource<TResult>(result.Output);
                         await _mediator.Publish(eventToPublish);
                     }
                     else
                     {
-                        var errorPayload = JsonSerializer.Serialize(response.Error);
-                        Log.ConnectToRest.WithFailedResponse(_logger, errorPayload);
+                        var errorMessage = $"{result.Error.Status} - {result.Error.Detail}";
+                        Log.ConnectToRest.WithFailedResponse(_logger, errorMessage);
                     }
                     var finalTime = DateTimeOffset.UtcNow;
                     var awaitTime = (initialTime + timeFrame.TimeSpan) - finalTime;

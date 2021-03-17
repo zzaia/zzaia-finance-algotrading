@@ -46,7 +46,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
 
             tradeClientCredentials = tradeClientCredentials ?? throw new ArgumentNullException(nameof(tradeClientCredentials));
             var tradeClientCredentialsModel = new ClientCredential();
-            tradeClientCredentials.Invoke(privateClientCredentialsModel);
+            tradeClientCredentials.Invoke(tradeClientCredentialsModel);
             _privateClientCredential = tradeClientCredentialsModel;
 
             clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
@@ -194,6 +194,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
         /// </summary>
         public ExchangeInfo Info { get { return Information; } }
 
+        #region Public Methods
         /// <summary>
         /// Fetch orderbook for the specified market, returns a simplified orderbook by price.
         /// </summary>
@@ -206,9 +207,10 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
             {
                 if (_privateClientCredential is not null)
                 {
-                    var response = await this.PrivateClient.GetCompleteOrderBookByTickerPairAsync(_privateClientCredential, market.Main.ToString(), true, cancellationToken).ConfigureAwait(false);
+                    var ticker = ToDataDomain(market);
+                    var response = await this.PrivateClient.GetCompleteOrderBookByTickerPairAsync(_privateClientCredential, ticker, true, cancellationToken).ConfigureAwait(false);
 
-                    if (response.Success)
+                    if (response.Success && response.Output.Success)
                     {
                         var resultToReturn = new OrderBook
                         {
@@ -225,16 +227,22 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
 
                         return ObjectResultFactory.CreateSuccessResult(resultToReturn);
                     }
+                    else if (!response.Output.Success)
+                    {
+                        var errorMessage = $"{response.Output.Code} - {response.Output.Message}";
+                        Log.FetchOrderBook.WithFailedResponse(_logger, errorMessage);
+                        return ObjectResultFactory.CreateFailResult<OrderBook>();
+                    }
                     else
                     {
-                        var errorPayload = JsonSerializer.Serialize(response.ProblemDetails);
-                        Log.FetchOrderBook.WithFailedResponse(_logger, errorPayload);
+                        var errorMessage = JsonSerializer.Serialize(response.ProblemDetails);
+                        Log.FetchOrderBook.WithFailedResponse(_logger, errorMessage);
                         return ObjectResultFactory.CreateFailResult<OrderBook>();
                     }
                 }
                 else
                 {
-                    var response = await this.PublicClient.GetOrderBookAsync(market.Main.ToString(), cancellationToken).ConfigureAwait(false);
+                    var response = await this.PublicClient.GetOrderBookAsync(market.Ticker, cancellationToken).ConfigureAwait(false);
 
                     if (response.Success)
                     {
@@ -253,8 +261,8 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                     }
                     else
                     {
-                        var errorPayload = JsonSerializer.Serialize(response.ProblemDetails);
-                        Log.FetchOrderBook.WithFailedResponse(_logger, errorPayload);
+                        var errorMessage = JsonSerializer.Serialize(response.ProblemDetails);
+                        Log.FetchOrderBook.WithFailedResponse(_logger, errorMessage);
                         return ObjectResultFactory.CreateFailResult<OrderBook>();
                     }
                 }
@@ -262,8 +270,16 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
             catch (Exception ex)
             {
                 Log.FetchOrderBook.WithException(_logger, ex);
-                return ObjectResultFactory.CreateFailResult<OrderBook>();
+                return ObjectResultFactory.CreateFailResult<OrderBook>(ex);
             }
         }
+        #endregion
+
+        #region Private Methods
+        private static string ToDataDomain(Market market)
+        {
+            return $"{market.Base.DisplayName}{market.Main.DisplayName}";
+        }
+        #endregion
     }
 }

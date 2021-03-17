@@ -24,14 +24,10 @@ namespace MarketIntelligency.Application.SA0001.Strategies
         /// </summary>
         public async Task Handle(EventSource<OrderBook> eventSource, CancellationToken cancellationToken)
         {
-            /// <summary>
-            /// Xisto & Cassar Strategy logic
-            /// </summary>
-            /// 
-            Console.WriteLine("Received Ordebook");
+            Console.WriteLine("Received Ordebook and executiong logic");
             await Task.Delay(1000);
-            var response = new Order();
-            await _mediator.Send(response);
+            var response = new EventSource<Order>(new Order());
+            await _mediator.Publish(response);
         }
     }
 }

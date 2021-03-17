@@ -90,7 +90,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
             return await PostSuppreme<OrderbookInformationDTO>(clientCredential, parameters, cancellationToken).ConfigureAwait(_continueOnCapturedContext);
         }
 
-        public async Task<Response<TAPResponse<T>>> PostSuppreme<T>(ClientCredential clientCredential, IEnumerable<KeyValuePair<string, string>> parameters, CancellationToken cancellationToken = new CancellationToken())
+        public async Task<Response<TAPResponse<T>>> PostSuppreme<T>(ClientCredential clientCredential, IEnumerable<KeyValuePair<string, string>> parameters, CancellationToken cancellationToken)
         {
             using var requestBody = new FormUrlEncodedContent(parameters);
             string paramString = await requestBody.ReadAsStringAsync().ConfigureAwait(_continueOnCapturedContext);

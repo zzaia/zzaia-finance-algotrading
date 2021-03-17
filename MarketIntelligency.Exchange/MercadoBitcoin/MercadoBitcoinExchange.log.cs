@@ -12,8 +12,8 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
             {
                 public static void Received(ILogger logger)
                     => _receivedMessage(logger, null);
-                public static void WithFailedResponse(ILogger logger, string payLoad)
-                    => _withFailedResponse(logger, payLoad, null);
+                public static void WithFailedResponse(ILogger logger, string response)
+                    => _withFailedResponse(logger, response, null);
                 public static void WithException(ILogger logger, Exception exception)
                     => _withException(logger, exception);
 
@@ -23,7 +23,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                     , "Call to fetch orderbook received");
                 private static readonly Action<ILogger, string, Exception> _withFailedResponse =
                     LoggerMessage.Define<string>(LogLevel.Error, new EventId(102102, "FetchOrderBookWithFailedResponse")
-                    , "Was not possible to fetch orderbook due to a failed response without a description. Payload = {payLoad}");
+                    , "Was not possible to fetch orderbook due to a failed response. Message = {response}");
                 private static readonly Action<ILogger, Exception> _withException =
                     LoggerMessage.Define(LogLevel.Critical, new EventId(10103, "FetchOrderBookWithException")
                     , "Was not possible to fetch orderbook due to an exception.");
