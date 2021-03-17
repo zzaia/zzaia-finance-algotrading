@@ -30,7 +30,7 @@ namespace MarketIntelligency.Application.SA0001
         {
             //----------- Exchange API Clients -------------------
             services.AddHttpClient();
-            services.AddExchangeClient(ExchangeName.MercadoBitcoin,
+            services.AddExchange(ExchangeName.MercadoBitcoin,
                 privateCredential => Configuration.Bind("Exchange:MercadoBitcoin:Private", privateCredential),
                 tradeCredential => Configuration.Bind("Exchange:MercadoBitcoin:Trade", tradeCredential));
             

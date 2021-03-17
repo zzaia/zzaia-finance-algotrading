@@ -20,7 +20,7 @@ namespace MarketIntelligency.Exchange
         /// <param name="services">The <see cref="IServiceCollection"/> for adding services.</param>
         /// <param name="apiOptions">A delegate to configure the <see cref="ExchangeApiOptions"/>.</param>
         /// <returns></returns>
-        public static IServiceCollection AddExchangeClient(this IServiceCollection services, ExchangeName exchangeName,
+        public static IServiceCollection AddExchange(this IServiceCollection services, ExchangeName exchangeName,
              Action<ClientCredential> privateCredential, Action<ClientCredential> tradeCredential)
         {
             if (services is null)
