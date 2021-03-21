@@ -98,22 +98,23 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
 
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    foreach (var item in _delegatesCollection)
+                    try
                     {
-                        Log.CallToRest.Received(_logger);
-                        Log.CallToRest.ReceivedAction(_telemetryClient);
-
-                        try
+                        var timeNow = DateTimeUtils.CurrentUtcTimestamp();
+                        var timeFrame = _options.TimeFrame.TimeSpan;
+                        var timeCount = timeNow % timeFrame.TotalMilliseconds;
+                        var period = timeFrame / 2000;
+                        while (!cancellationToken.IsCancellationRequested && timeCount > 2 * period.Milliseconds)
                         {
-                            var timeNow = DateTimeUtils.CurrentUtcTimestamp();
-                            var timeFrame = _options.TimeFrame.TimeSpan.TotalMilliseconds;
-                            var timeCount = timeNow % timeFrame;
-                            while (!cancellationToken.IsCancellationRequested && timeCount != 0)
-                            {
-                                timeNow = DateTimeUtils.CurrentUtcTimestamp();
-                                timeCount = timeNow % timeFrame;
-                            }
-                            
+                            timeNow = DateTimeUtils.CurrentUtcTimestamp();
+                            timeCount = timeNow % timeFrame.TotalMilliseconds;
+                            await Task.Delay(period, cancellationToken);
+                        }
+
+                        Parallel.ForEach(_delegatesCollection, async (item) =>
+                        {
+                            Log.CallToRest.Received(_logger);
+                            Log.CallToRest.ReceivedAction(_telemetryClient);
                             var result = item.Item2.Invoke(item.Item1, cancellationToken);
                             if (result.Succeed)
                             {
@@ -124,11 +125,11 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
                                 var errorMessage = $"{result.Error.Status} - {result.Error.Detail}";
                                 Log.CallToRest.WithFailedResponse(_logger, errorMessage);
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.CallToRest.WithException(_logger, ex);
-                        }
+                        });
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.CallToRest.WithException(_logger, ex);
                     }
                 }
             }
@@ -144,9 +145,9 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
             await _mediator.Publish(eventToPublish);
         }
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        public async Task StopAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await Task.CompletedTask;
         }
     }
 }
