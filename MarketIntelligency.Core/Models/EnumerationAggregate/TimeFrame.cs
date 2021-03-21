@@ -1,12 +1,18 @@
 ﻿using System;
 
 namespace MarketIntelligency.Core.Models.EnumerationAggregate
-{    
+{
     /*  ========================================================================================================
         System Default TimeFrames
         ======================================================================================================= */
     public class TimeFrame : Enumeration
     {
+        public static readonly TimeFrame ms1 = new TimeFrame(-5, "1ms", TimeSpan.FromMilliseconds(1));
+        public static readonly TimeFrame ms15 = new TimeFrame(-4, "15ms", TimeSpan.FromMilliseconds(15));
+        public static readonly TimeFrame s1 = new TimeFrame(-3, "1s", TimeSpan.FromSeconds(1));
+        public static readonly TimeFrame s5 = new TimeFrame(-2, "s5", TimeSpan.FromSeconds(5));
+        public static readonly TimeFrame s15 = new TimeFrame(-1, "s15", TimeSpan.FromSeconds(15));
+        public static readonly TimeFrame s30 = new TimeFrame(0, "s30", TimeSpan.FromSeconds(30));
         public static readonly TimeFrame m1 = new TimeFrame(1, "1m", TimeSpan.FromMinutes(1));
         public static readonly TimeFrame m2 = new TimeFrame(2, "2m", TimeSpan.FromMinutes(2));
         public static readonly TimeFrame m3 = new TimeFrame(3, "3m", TimeSpan.FromMinutes(3));
