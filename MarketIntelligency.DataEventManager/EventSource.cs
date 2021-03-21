@@ -3,7 +3,7 @@ using System;
 
 namespace MarketIntelligency.DataEventManager
 {
-    public class EventSource<T> : INotification
+    public class EventSource<T> : INotification where T : class
     {
         public EventSource(T content)
         {

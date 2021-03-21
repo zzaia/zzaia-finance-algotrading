@@ -8,7 +8,7 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
     {
         private static class Log
         {
-            public static class ConnectToRest
+            public static class CallToRest
             {
                 public static void Received(ILogger logger)
                     => _receivedMessage(logger, null);
