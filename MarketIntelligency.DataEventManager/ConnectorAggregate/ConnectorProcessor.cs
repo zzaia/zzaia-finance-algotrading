@@ -96,26 +96,40 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
                     _delegatesCollection.Add(tuple);
                 }
 
+                //var IsCompleted = true;
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    try
+                    var timeNow = DateTimeUtils.CurrentUtcTimestamp();
+                    var timeFrame = _options.TimeFrame.TimeSpan;
+                    var timeCount = timeNow % timeFrame.TotalMilliseconds;
+                    var period = timeFrame / 2000;
+                    while (timeCount > 2 * period.Milliseconds)
                     {
-                        var timeNow = DateTimeUtils.CurrentUtcTimestamp();
-                        var timeFrame = _options.TimeFrame.TimeSpan;
-                        var timeCount = timeNow % timeFrame.TotalMilliseconds;
-                        var period = timeFrame / 2000;
-                        while (!cancellationToken.IsCancellationRequested && timeCount > 2 * period.Milliseconds)
+                        timeNow = DateTimeUtils.CurrentUtcTimestamp();
+                        timeCount = timeNow % timeFrame.TotalMilliseconds;
+                        await Task.Delay(period, cancellationToken);
+                        if (cancellationToken.IsCancellationRequested)
                         {
-                            timeNow = DateTimeUtils.CurrentUtcTimestamp();
-                            timeCount = timeNow % timeFrame.TotalMilliseconds;
-                            await Task.Delay(period, cancellationToken);
+                            break;
                         }
+                    }
 
-                        Parallel.ForEach(_delegatesCollection, async (item) =>
+                    var paralletOptions = new ParallelOptions()
+                    {
+                        CancellationToken = cancellationToken
+                    };
+
+                    var parallelLoop = Parallel.ForEach(_delegatesCollection, paralletOptions, async (item) =>
+                    {
+                        Log.CallToRest.Received(_logger);
+                        Log.CallToRest.ReceivedAction(_telemetryClient);
+                        try
                         {
-                            Log.CallToRest.Received(_logger);
-                            Log.CallToRest.ReceivedAction(_telemetryClient);
-                            var result = item.Item2.Invoke(item.Item1, cancellationToken);
+                            var timeOutCancellationTokenSource = new CancellationTokenSource();
+                            var timeOutCancellationToken = timeOutCancellationTokenSource.Token;
+                            timeOutCancellationTokenSource.CancelAfter(Convert.ToInt32(timeFrame.TotalMilliseconds));
+                            //await Task.Delay(100000000, timeOutCancellationToken);
+                            var result = item.Item2.Invoke(item.Item1, timeOutCancellationToken);
                             if (result.Succeed)
                             {
                                 await PublishEvent(result.Output);
@@ -125,12 +139,16 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
                                 var errorMessage = $"{result.Error.Status} - {result.Error.Detail}";
                                 Log.CallToRest.WithFailedResponse(_logger, errorMessage);
                             }
-                        });
-                    }
-                    catch (Exception ex)
-                    {
-                        Log.CallToRest.WithException(_logger, ex);
-                    }
+                        }
+                        catch (TimeoutException ex)
+                        {
+                            Log.CallToRest.WithException(_logger, ex);
+                        }
+                        catch (Exception ex)
+                        {
+                            Log.CallToRest.WithException(_logger, ex);
+                        }
+                    });
                 }
             }
             else
