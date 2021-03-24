@@ -40,10 +40,12 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
+            TimeSpan minTimeFrame = new();
             if (ExchangeName.IsValid(_options.Name))
             {
                 var exchangeName = Enumeration.FromDisplayName<ExchangeName>(_options.Name);
                 var exchange = _exchangeSelector.GetByName(exchangeName);
+                minTimeFrame = exchange.Info.LimitRate.Period;
                 _delegateCollection = new List<(dynamic, Delegate)>();
                 foreach (var market in _options.DataIn)
                 {
@@ -62,7 +64,7 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
             while (!cancellationToken.IsCancellationRequested)
             {
                 var timeNow = DateTimeUtils.CurrentUtcTimestamp();
-                var timeFrame = _options.TimeFrame.TimeSpan;
+                var timeFrame = _options.TimeFrame.TimeSpan > minTimeFrame ? _options.TimeFrame.TimeSpan : minTimeFrame;
                 var timeCount = timeNow % timeFrame.TotalMilliseconds;
                 var period = timeFrame / _options.Resolution;
                 while (timeCount > _options.Tolerance * period.Milliseconds)

@@ -109,16 +109,16 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                     },
                     Operations = new List<OperationInfo>
                     {
-                        new OperationInfo(OperationInfo.Types.Deposit, Asset.BRL,50, 200000).AddFee(decimal.Zero, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Deposit, Asset.BRL, 50, 200000).AddFee(decimal.Zero, decimal.Zero),
                         new OperationInfo(OperationInfo.Types.Withdrawal, Asset.BRL, 50, 200000).AddFee(decimal.Zero, 1.99m / 100m),
                         new OperationInfo(OperationInfo.Types.Deposit, Asset.BTC, 5 / 10m, decimal.MaxValue).AddFee(decimal.Zero, decimal.Zero),
-                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.BTC, 1 / 1m, 10).AddFee( 4 / 10m, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.BTC, 1 / 1m, 10).AddFee(4 / 10m, decimal.Zero),
                         new OperationInfo(OperationInfo.Types.Deposit, Asset.BCH, 1 / 10m, decimal.MaxValue).AddFee(decimal.Zero, decimal.Zero),
-                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.BCH, 1 / 1m, 25).AddFee( 1 / 1m, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.BCH, 1 / 1m, 25).AddFee(1 / 1m, decimal.Zero),
                         new OperationInfo(OperationInfo.Types.Deposit, Asset.LTC, 1 / 10m, decimal.MaxValue).AddFee(decimal.Zero, decimal.Zero),
-                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.LTC, 1 / 1m, 500).AddFee( 1 / 1m, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.LTC, 1 / 1m, 500).AddFee(1 / 1m, decimal.Zero),
                         new OperationInfo(OperationInfo.Types.Deposit, Asset.XRP, 0, decimal.MaxValue).AddFee(decimal.Zero, decimal.Zero),
-                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.XRP, 20, 20000).AddFee( 1 / 100, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.XRP, 20, 20000).AddFee(1 / 100, decimal.Zero),
                         new OperationInfo(OperationInfo.Types.Deposit, Asset.ETH, 10 / 1m, decimal.MaxValue),
                         new OperationInfo(OperationInfo.Types.Withdrawal, Asset.ETH, 1 / 1m, 70),
                         new OperationInfo(OperationInfo.Types.Maker, decimal.MinValue, decimal.MaxValue).AddFee(decimal.Zero, 0.3m / 100m),
@@ -179,10 +179,9 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                         Password = false,
                         Twofa = false,
                     },
-                    Options = new ExchangeOptions
+                    LimitRate = new ExchangeLimitRate
                     {
-                        PrivateClientCredentialReference = Guid.NewGuid().ToString(),
-                        TradeClientCredentialReference = Guid.NewGuid().ToString(),
+                        Rate = 1
                     }
                 };
                 return exchangeInfo;

@@ -25,7 +25,6 @@ namespace MarketIntelligency.Core.Models.ExchangeAggregate
         public IEnumerable<TimeFrame> Timeframes { get; set; }
         public ExchangeUris Uris { get; set; }
         public RequiredCredentials RequiredCredentials { get; set; }
-        public ExchangeOptions Options { get; set; }
         public ExchangeLimitRate LimitRate { get; set; }
 
     }

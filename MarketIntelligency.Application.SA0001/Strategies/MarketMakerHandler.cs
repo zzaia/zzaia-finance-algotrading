@@ -24,7 +24,7 @@ namespace MarketIntelligency.Application.SA0001.Strategies
         /// </summary>
         public async Task Handle(EventSource<OrderBook> eventSource, CancellationToken cancellationToken)
         {
-            Console.WriteLine("Received Ordebook and executiong logic");
+            Console.WriteLine($"### Received Ordebook from {eventSource.Content.Exchange} do ticker {eventSource.Content.Market.Ticker} at time {DateTimeOffset.UtcNow}");
             await Task.Delay(1000);
             var response = new EventSource<Order>(new Order());
             await _mediator.Publish(response);

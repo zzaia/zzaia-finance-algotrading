@@ -43,7 +43,7 @@ namespace MarketIntelligency.Application.SA0001
             services.AddConnector(options =>
                 {
                     options.Name = ExchangeName.MercadoBitcoin.DisplayName;
-                    options.TimeFrame = TimeFrame.s15;
+                    options.TimeFrame = TimeFrame.ms1;
                     options.DataIn = MercadoBitcoinExchange.Information.Markets;
                     options.DataOut = new List<Type> { typeof(OrderBook) };
                     options.Resolution = 2000;
