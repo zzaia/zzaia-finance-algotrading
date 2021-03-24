@@ -3,6 +3,7 @@ using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
 using MarketIntelligency.DataEventManager.ConnectorAggregate;
 using MarketIntelligency.Exchange;
+using MarketIntelligency.Exchange.MercadoBitcoin;
 using MarketIntelligency.WebApi.Services;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
@@ -11,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Collections.Generic;
 
 [assembly: UserSecretsId("dc5b4f9c-8b0e-2hg9-9813-c86ce80c39e6")]
 namespace MarketIntelligency.Application.SA0001
@@ -33,16 +36,18 @@ namespace MarketIntelligency.Application.SA0001
             services.AddExchange(ExchangeName.MercadoBitcoin,
                 privateCredential => Configuration.Bind("Exchange:MercadoBitcoin:Private", privateCredential),
                 tradeCredential => Configuration.Bind("Exchange:MercadoBitcoin:Trade", tradeCredential));
-            
+
             services.AddSingleton<IExchangeSelector, ExchangeSelector>();
-            
+
             //----------- Data Event Connectors -------------------
             services.AddConnector(options =>
                 {
                     options.Name = ExchangeName.MercadoBitcoin.DisplayName;
-                    options.TimeFrame = TimeFrame.m3;
-                    options.DataIn = typeof(Market);
-                    options.DataOut = typeof(OrderBook);
+                    options.TimeFrame = TimeFrame.s15;
+                    options.DataIn = MercadoBitcoinExchange.Information.Markets;
+                    options.DataOut = new List<Type> { typeof(OrderBook) };
+                    options.Resolution = 2000;
+                    options.Tolerance = 2;
                 });
 
             services.AddApplicationInsightsTelemetry(options =>

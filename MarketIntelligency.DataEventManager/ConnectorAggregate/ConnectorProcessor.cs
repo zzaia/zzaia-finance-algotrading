@@ -9,6 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,9 +22,8 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
         private readonly IExchangeSelector _exchangeSelector;
         private readonly IMediator _mediator;
         private readonly TelemetryClient _telemetryClient;
-        //private delegate Task MethodHandler<T, TResult>(Func<T, CancellationToken, ObjectResult<TResult>> method) where TResult : class;
         private delegate ObjectResult<TResult> MethodHandler<T, CancellationToken, TResult>(T arg, CancellationToken cancellationToken) where TResult : class;
-        private List<Tuple<Market, MethodHandler<Market, CancellationToken, OrderBook>>> _delegatesCollection { get; set; }
+        private List<(dynamic, Delegate)> _delegateCollection { get; set; }
 
 
         public ConnectorProcessor(Action<ConnectorOptions> connectorOptions, IExchangeSelector exchangeSelector, IMediator mediator, ILogger<ConnectorProcessor> logger, TelemetryClient telemetryClient)
@@ -38,122 +38,74 @@ namespace MarketIntelligency.DataEventManager.ConnectorAggregate
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
         }
 
-        //private async Task CallToRest<T, TResult>(T parameter, CancellationToken cancellationToken, TimeFrame timeFrame, MethodHandler<T, CancellationToken, TResult> method) where TResult : class
-        //{
-        //    Log.CallToRest.Received(_logger);
-        //    Log.CallToRest.ReceivedAction(_telemetryClient);
-
-        //    try
-        //    {
-        //        var result = method.Invoke(parameter, timeoutCancellationToken);
-        //        if (result.Succeed)
-        //        {
-        //            var eventToPublish = new EventSource<TResult>(result.Output);
-        //            await _mediator.Publish(eventToPublish);
-        //        }
-        //        else
-        //        {
-        //            var errorMessage = $"{result.Error.Status} - {result.Error.Detail}";
-        //            Log.CallToRest.WithFailedResponse(_logger, errorMessage);
-        //        }
-        //        var finalTime = DateTimeUtils.CurrentUtcTimestamp();
-        //        var awaitTime = (initialTime + timeFrame.TimeSpan) - finalTime;
-        //        await Task.Delay(awaitTime, cancellationToken);
-        //    }
-        //    catch (TimeoutException ex)
-        //    {
-        //        // Task was canceled by timeout.
-        //        Log.CallToRest.WithException(_logger, ex);
-        //        timeOutCancellationTokenSource.Dispose();
-        //        timeOutCancellationTokenSource = new CancellationTokenSource();
-        //        timeOutCancellationTokenSource.CancelAfter(timeFrame.TimeSpan);
-        //        // TODO : reset the cancelation token to be able to continue in the loop.
-        //    }
-        //    catch (TaskCanceledException ex)
-        //    {
-        //        // Task was canceled before running.
-        //        Log.CallToRest.WithException(_logger, ex);
-        //    }
-        //    catch (OperationCanceledException ex)
-        //    {
-        //        // Task was canceled while running.
-        //        Log.CallToRest.WithException(_logger, ex);
-        //    }
-        //}
-
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             if (ExchangeName.IsValid(_options.Name))
             {
                 var exchangeName = Enumeration.FromDisplayName<ExchangeName>(_options.Name);
                 var exchange = _exchangeSelector.GetByName(exchangeName);
-                _delegatesCollection = new List<Tuple<Market, MethodHandler<Market, CancellationToken, OrderBook>>>();
-                foreach (var market in exchange.Info.Markets)
+                _delegateCollection = new List<(dynamic, Delegate)>();
+                foreach (var market in _options.DataIn)
                 {
-                    //var del = new Func<Market, CancellationToken, ObjectResult<OrderBook>>((a, c) => exchange.FetchOrderBookAsync(a, c).Result);
-                    var del = new MethodHandler<Market, CancellationToken, OrderBook>((a, c) => exchange.FetchOrderBookAsync(a, c).Result);
-                    var tuple = new Tuple<Market, MethodHandler<Market, CancellationToken, OrderBook>>(market, del);
-                    _delegatesCollection.Add(tuple);
-                }
-
-                //var IsCompleted = true;
-                while (!cancellationToken.IsCancellationRequested)
-                {
-                    var timeNow = DateTimeUtils.CurrentUtcTimestamp();
-                    var timeFrame = _options.TimeFrame.TimeSpan;
-                    var timeCount = timeNow % timeFrame.TotalMilliseconds;
-                    var period = timeFrame / 2000;
-                    while (timeCount > 2 * period.Milliseconds)
+                    if (_options.DataOut.Any(each => each.Equals(typeof(OrderBook))))
                     {
-                        timeNow = DateTimeUtils.CurrentUtcTimestamp();
-                        timeCount = timeNow % timeFrame.TotalMilliseconds;
-                        await Task.Delay(period, cancellationToken);
-                        if (cancellationToken.IsCancellationRequested)
-                        {
-                            break;
-                        }
+                        var del = new MethodHandler<Market, CancellationToken, OrderBook>((a, c) => exchange.FetchOrderBookAsync(a, c).Result);
+                        _delegateCollection.Add((market, del));
                     }
-
-                    var paralletOptions = new ParallelOptions()
-                    {
-                        CancellationToken = cancellationToken
-                    };
-
-                    var parallelLoop = Parallel.ForEach(_delegatesCollection, paralletOptions, async (item) =>
-                    {
-                        Log.CallToRest.Received(_logger);
-                        Log.CallToRest.ReceivedAction(_telemetryClient);
-                        try
-                        {
-                            var timeOutCancellationTokenSource = new CancellationTokenSource();
-                            var timeOutCancellationToken = timeOutCancellationTokenSource.Token;
-                            timeOutCancellationTokenSource.CancelAfter(Convert.ToInt32(timeFrame.TotalMilliseconds));
-                            //await Task.Delay(100000000, timeOutCancellationToken);
-                            var result = item.Item2.Invoke(item.Item1, timeOutCancellationToken);
-                            if (result.Succeed)
-                            {
-                                await PublishEvent(result.Output);
-                            }
-                            else
-                            {
-                                var errorMessage = $"{result.Error.Status} - {result.Error.Detail}";
-                                Log.CallToRest.WithFailedResponse(_logger, errorMessage);
-                            }
-                        }
-                        catch (TimeoutException ex)
-                        {
-                            Log.CallToRest.WithException(_logger, ex);
-                        }
-                        catch (Exception ex)
-                        {
-                            Log.CallToRest.WithException(_logger, ex);
-                        }
-                    });
                 }
             }
             else
             {
                 // TODO: Section reserved for non exchange connectors activation;
+            }
+
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                var timeNow = DateTimeUtils.CurrentUtcTimestamp();
+                var timeFrame = _options.TimeFrame.TimeSpan;
+                var timeCount = timeNow % timeFrame.TotalMilliseconds;
+                var period = timeFrame / _options.Resolution;
+                while (timeCount > _options.Tolerance * period.Milliseconds)
+                {
+                    timeNow = DateTimeUtils.CurrentUtcTimestamp();
+                    timeCount = timeNow % timeFrame.TotalMilliseconds;
+                    await Task.Delay(period, cancellationToken);
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        break;
+                    }
+                }
+
+                var paralletOptions = new ParallelOptions()
+                {
+                    CancellationToken = cancellationToken
+                };
+
+                var parallelLoop = Parallel.ForEach(_delegateCollection, paralletOptions, async (item) =>
+                {
+                    Log.CallToRest.Received(_logger);
+                    Log.CallToRest.ReceivedAction(_telemetryClient);
+                    try
+                    {
+                        var timeOutCancellationTokenSource = new CancellationTokenSource();
+                        var timeOutCancellationToken = timeOutCancellationTokenSource.Token;
+                        timeOutCancellationTokenSource.CancelAfter(Convert.ToInt32(timeFrame.TotalMilliseconds));
+                        var result = item.Item2.DynamicInvoke(item.Item1, timeOutCancellationToken);
+                        if (result.Succeed)
+                        {
+                            await PublishEvent(result.Output);
+                        }
+                        else
+                        {
+                            var errorMessage = $"{result.Error.Status} - {result.Error.Detail}";
+                            Log.CallToRest.WithFailedResponse(_logger, errorMessage);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.CallToRest.WithException(_logger, ex);
+                    }
+                });
             }
         }
 
