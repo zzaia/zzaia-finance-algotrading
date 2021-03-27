@@ -217,11 +217,11 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                             DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
                             Market = market,
                             Bids = from order in response.Output.Data.Orderbook.Bids.ToList()
-                                   select new Tuple<decimal, decimal>(int.Parse(order.PriceLimit, Information.Culture.NumberFormat),
-                                                                      int.Parse(order.Quantity, Information.Culture.NumberFormat)),
+                                   select new Tuple<decimal, decimal>(decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
+                                                                      decimal.Parse(order.Quantity, Information.Culture.NumberFormat)),
                             Asks = from order in response.Output.Data.Orderbook.Asks.ToList()
-                                   select new Tuple<decimal, decimal>(int.Parse(order.PriceLimit, Information.Culture.NumberFormat),
-                                                                      int.Parse(order.Quantity, Information.Culture.NumberFormat)),
+                                   select new Tuple<decimal, decimal>(decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
+                                                                      decimal.Parse(order.Quantity, Information.Culture.NumberFormat)),
                         };
 
                         return ObjectResultFactory.CreateSuccessResult(resultToReturn);
