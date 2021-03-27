@@ -9,7 +9,7 @@ namespace MarketIntelligency.DataEventManager.MediatorAggregate
     /// <summary>
     /// Extension methods for the Data Event Manager.
     /// </summary>
-    public static class DataEventManagerExtension
+    public static class EventManagerExtension
     {
         /// <summary>
         /// Adds services and options for the data event manager.
@@ -26,7 +26,7 @@ namespace MarketIntelligency.DataEventManager.MediatorAggregate
             }
             services.AddSingleton<Publisher>();
             services.AddSingleton<INotificationHandler<EventSource<OrderBook>>, EventHubHandler>();
-            services.AddMediatR(assemblies);
+            //services.AddMediatR(assemblies);
 
             return services;
         }
