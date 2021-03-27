@@ -2,10 +2,10 @@ using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
 using MarketIntelligency.DataEventManager.ConnectorAggregate;
+using MarketIntelligency.DataEventManager.MediatorAggregate;
 using MarketIntelligency.Exchange;
 using MarketIntelligency.Exchange.MercadoBitcoin;
 using MarketIntelligency.WebApi.Services;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -43,7 +43,7 @@ namespace MarketIntelligency.Application.SA0001
             services.AddConnector(options =>
                 {
                     options.Name = ExchangeName.MercadoBitcoin.DisplayName;
-                    options.TimeFrame = TimeFrame.ms1;
+                    options.TimeFrame = TimeFrame.s15;
                     options.DataIn = MercadoBitcoinExchange.Information.Markets;
                     options.DataOut = new List<Type> { typeof(OrderBook) };
                     options.Resolution = 2000;
@@ -55,8 +55,7 @@ namespace MarketIntelligency.Application.SA0001
                 options.EnableAdaptiveSampling = false;
             });
 
-
-            services.AddMediatR(typeof(Startup).Assembly);
+            services.AddEventManager(options => { }, typeof(Startup).Assembly);
 
             // Grpc
             services.AddGrpc(opt =>
