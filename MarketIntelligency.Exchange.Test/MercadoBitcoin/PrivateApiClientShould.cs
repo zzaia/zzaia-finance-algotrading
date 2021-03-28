@@ -42,7 +42,7 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
             //Assert:
             Assert.True(response.Success);
             Assert.NotNull(response);
-            Assert.True(response.Output.IsSuccess());
+            Assert.True(response.Output.Success);
             Assert.NotNull(response.Output.Data.Messages);
         }
 
@@ -58,7 +58,7 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
             //Assert:
             Assert.True(response.Success);
             Assert.NotNull(response);
-            Assert.True(response.Output.IsSuccess());
+            Assert.True(response.Output.Success);
             Assert.NotNull(response.Output.Data.Assets);
             Assert.NotNull(response.Output.Data.WithdrawLimits);
 
@@ -78,7 +78,7 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
             //Assert:
             Assert.True(response.Success);
             Assert.NotNull(response);
-            Assert.True(response.Output.IsSuccess());
+            Assert.True(response.Output.Success);
             Assert.NotNull(response.Output.Data);
             Assert.NotNull(response.Output.Data.Order.CreatedAt);
 
@@ -99,7 +99,7 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
             //Assert:
             Assert.True(response.Success);
             Assert.NotNull(response);
-            Assert.True(response.Output.IsSuccess());
+            Assert.True(response.Output.Success);
             Assert.NotNull(response.Output.Data);
             Assert.True(response.Output.Data.Orders.Any());
 
@@ -119,7 +119,7 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
             //Assert:
             Assert.True(response.Success);
             Assert.NotNull(response);
-            Assert.True(response.Output.IsSuccess());
+            Assert.True(response.Output.Success);
             Assert.NotNull(response.Output.Data);
             Assert.True(response.Output.Data.Orderbook.Asks.Any());
             Assert.True(response.Output.Data.Orderbook.Bids.Any());

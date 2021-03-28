@@ -51,7 +51,7 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
                 //Assert:
                 Assert.True(response.Success);
                 Assert.NotNull(response);
-                Assert.True(response.Output.IsSuccess());
+                Assert.True(response.Output.Success);
                 Assert.NotNull(response.Output.Data);
             }
             else
@@ -76,7 +76,7 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
                 //Assert:
                 Assert.True(response.Success);
                 Assert.NotNull(response);
-                Assert.True(response.Output.IsSuccess());
+                Assert.True(response.Output.Success);
                 Assert.NotNull(response.Output.Data);
             }
             else
@@ -106,7 +106,7 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
                     //Assert:
                     Assert.True(response.Success);
                     Assert.NotNull(response);
-                    Assert.True(response.Output.IsSuccess());
+                    Assert.True(response.Output.Success);
                     Assert.NotNull(response.Output.Data);
                     Assert.True(response.Output.Data.Status == 3);
                 }

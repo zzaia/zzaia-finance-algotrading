@@ -4,12 +4,8 @@ using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
 using MarketIntelligency.Core.Utils;
 using MarketIntelligency.Exchange.MercadoBitcoin;
-using MarketIntelligency.Exchange.MercadoBitcoin.Private;
-using MarketIntelligency.Exchange.MercadoBitcoin.Public;
-using MarketIntelligency.Exchange.MercadoBitcoin.Trade;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Moq;
 using System;
 using System.Linq;
@@ -26,12 +22,15 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
         {
             var logger = new Mock<ILogger<MercadoBitcoinExchange>>();
 
-            var publicClient = new PublicApiClient(new HttpClient());
-            var privateClient = new PrivateApiClient(new HttpClient());
-            var tradeClient = new TradeApiClient(new HttpClient());
-            var clientCredential = new Mock<IOptionsMonitor<ClientCredential>>();
+            var privateClientCredential = new Mock<Action<ClientCredential>>();
+            var tradeClientCredential = new Mock<Action<ClientCredential>>();
             var telemetryClient = new Mock<TelemetryClient>();
-            _exchange = new MercadoBitcoinExchange(publicClient, privateClient, tradeClient, clientCredential.Object, logger.Object, telemetryClient.Object);
+            var httpFactory = new Mock<IHttpClientFactory>();
+            _exchange = new MercadoBitcoinExchange(privateClientCredential.Object,
+                                                   tradeClientCredential.Object,
+                                                   logger.Object,
+                                                   telemetryClient.Object,
+                                                   httpFactory.Object);
         }
 
         [Fact]
