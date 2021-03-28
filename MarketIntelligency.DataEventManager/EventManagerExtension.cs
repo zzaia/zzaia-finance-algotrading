@@ -1,5 +1,4 @@
-﻿using MarketIntelligency.Core.Models.MarketAgregate;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
@@ -24,10 +23,23 @@ namespace MarketIntelligency.DataEventManager.MediatorAggregate
             {
                 throw new ArgumentNullException(nameof(services));
             }
-            services.AddSingleton<Publisher>();
-            services.AddSingleton<INotificationHandler<EventSource<OrderBook>>, EventHubHandler>();
-            //services.AddMediatR(assemblies);
 
+            if (managerOptions is null)
+            {
+                throw new ArgumentNullException(nameof(managerOptions));
+            }
+
+            var eventManagerOptionsModel = new EventManagerOptions();
+            managerOptions.Invoke(eventManagerOptionsModel);
+
+            services.AddSingleton<ServiceFactory>(p => p.GetService);
+
+            services.AddTransient<IMediator, CustomMediator>((s) =>
+            {
+                var serviceFactory = (ServiceFactory)s.GetService(typeof(ServiceFactory));
+                return new CustomMediator(serviceFactory, eventManagerOptionsModel.PublishStrategy);
+            });
+            services.AddMediatR(cfg => cfg.Using<CustomMediator>().AsSingleton(), assemblies);
             return services;
         }
     }

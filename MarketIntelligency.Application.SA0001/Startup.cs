@@ -55,7 +55,10 @@ namespace MarketIntelligency.Application.SA0001
                 options.EnableAdaptiveSampling = false;
             });
 
-            services.AddEventManager(options => { }, typeof(Startup).Assembly);
+            services.AddEventManager(options =>
+            {
+                options.PublishStrategy = PublishStrategy.ParallelNoWait;
+            }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
 
             // Grpc
             services.AddGrpc(opt =>
