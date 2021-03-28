@@ -13,7 +13,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.DataEventManager.ConnectorAggregate
+namespace MarketIntelligency.Connector
 {
     public partial class ConnectorProcessor : IHostedService
     {

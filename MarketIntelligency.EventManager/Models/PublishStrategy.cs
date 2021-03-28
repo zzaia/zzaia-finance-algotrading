@@ -1,4 +1,4 @@
-﻿namespace MarketIntelligency.DataEventManager.MediatorAggregate
+﻿namespace MarketIntelligency.EventManager.Models
 {
     /// <summary>
     /// Strategy to use when publishing notifications

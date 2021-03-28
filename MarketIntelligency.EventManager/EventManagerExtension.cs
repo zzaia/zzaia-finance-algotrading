@@ -1,9 +1,10 @@
-﻿using MediatR;
+﻿using MarketIntelligency.EventManager.Models;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
 
-namespace MarketIntelligency.DataEventManager.MediatorAggregate
+namespace MarketIntelligency.EventManager
 {
     /// <summary>
     /// Extension methods for the Data Event Manager.

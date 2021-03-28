@@ -1,4 +1,4 @@
-﻿using MarketIntelligency.DataEventManager.MediatorAggregate;
+﻿using MarketIntelligency.EventManager.Models;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.DataEventManager
+namespace MarketIntelligency.EventManager
 {
     public class CustomMediator : Mediator
     {

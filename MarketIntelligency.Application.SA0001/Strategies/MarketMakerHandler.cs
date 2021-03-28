@@ -1,5 +1,5 @@
-﻿using MarketIntelligency.Core.Models.MarketAgregate;
-using MarketIntelligency.DataEventManager;
+﻿using MarketIntelligency.Core.Models;
+using MarketIntelligency.Core.Models.MarketAgregate;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;

@@ -1,4 +1,4 @@
-﻿namespace MarketIntelligency.DataEventManager.ConnectorAggregate
+﻿namespace MarketIntelligency.Connector
 {
     public interface IConnectorControl
     {

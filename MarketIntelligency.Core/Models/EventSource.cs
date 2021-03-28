@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System;
 
-namespace MarketIntelligency.DataEventManager
+namespace MarketIntelligency.Core.Models
 {
     public class EventSource<T> : INotification where T : class
     {

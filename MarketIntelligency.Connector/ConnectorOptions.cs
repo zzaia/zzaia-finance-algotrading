@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MarketIntelligency.DataEventManager.ConnectorAggregate
+namespace MarketIntelligency.Connector
 {
     public class ConnectorOptions
     {

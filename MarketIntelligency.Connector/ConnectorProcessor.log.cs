@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace MarketIntelligency.DataEventManager.ConnectorAggregate
+namespace MarketIntelligency.Connector
 {
     public partial class ConnectorProcessor
     {

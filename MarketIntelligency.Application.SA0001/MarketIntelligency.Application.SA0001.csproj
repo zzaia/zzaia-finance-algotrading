@@ -5,6 +5,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MarketIntelligency.WebApi\MarketIntelligency.WebApi.csproj" />
+    <ProjectReference Include="..\MarketIntelligency.Connector\MarketIntelligency.Connector.csproj" />
+    <ProjectReference Include="..\MarketIntelligency.EventManager\MarketIntelligency.EventManager.csproj" />
   </ItemGroup>
   
   <ItemGroup>

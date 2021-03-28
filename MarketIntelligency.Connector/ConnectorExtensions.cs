@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace MarketIntelligency.DataEventManager.ConnectorAggregate
+namespace MarketIntelligency.Connector
 {
     /// <summary>
     /// Extension methods for the Exchange clients.

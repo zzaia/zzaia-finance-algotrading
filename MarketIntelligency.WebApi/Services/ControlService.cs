@@ -1,5 +1,5 @@
 ﻿using Grpc.Core;
-using MarketIntelligency.DataEventManager.ConnectorAggregate;
+using MarketIntelligency.Connector;
 using MarketIntelligency.WebApi.Grpc.Protos;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.DependencyInjection;

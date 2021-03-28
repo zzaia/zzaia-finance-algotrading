@@ -9,10 +9,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MarketIntelligency.Connector\MarketIntelligency.Connector.csproj" />
     <ProjectReference Include="..\MarketIntelligency.WebApi.Grpc\MarketIntelligency.WebApi.Grpc.csproj" />
     <ProjectReference Include="..\MarketIntelligency.Core\MarketIntelligency.Core.csproj" />
     <ProjectReference Include="..\MarketIntelligency.Exchange\MarketIntelligency.Exchange.csproj" />
-    <ProjectReference Include="..\MarketIntelligency.DataEventManager\MarketIntelligency.DataEventManager.csproj" />
+    <ProjectReference Include="..\MarketIntelligency.DataEventManager\MarketIntelligency.EventManager.csproj" />
     <ProjectReference Include="..\MarketIntelligency.Infrastructure\MarketIntelligency.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

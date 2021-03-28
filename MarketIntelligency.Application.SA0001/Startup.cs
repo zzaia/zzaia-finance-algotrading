@@ -1,8 +1,9 @@
+using MarketIntelligency.Connector;
 using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
-using MarketIntelligency.DataEventManager.ConnectorAggregate;
-using MarketIntelligency.DataEventManager.MediatorAggregate;
+using MarketIntelligency.EventManager;
+using MarketIntelligency.EventManager.Models;
 using MarketIntelligency.Exchange;
 using MarketIntelligency.Exchange.MercadoBitcoin;
 using MarketIntelligency.WebApi.Services;
