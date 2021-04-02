@@ -16,7 +16,7 @@ namespace MarketIntelligency.Core.Models.MarketAgregate
         public string Type { get; private set; }
         public DateTimeOffset CreatedAt { get; private set; }
         public OperationInfo OperationInfo { get; private set; }
-
+        public Order() { }
         public Order(Market market, string type,
                                     decimal quantity,
                                     decimal price,
@@ -52,14 +52,14 @@ namespace MarketIntelligency.Core.Models.MarketAgregate
 
         public class Statuses
         {
-            /* ====================================================================================
+            /* ================================================================================
                  A order status
                 Order Status: -> CREATED: Order only created by client or by strategy algorithm;
                               -> PLACED: Order placed in exchange by client or by algorithm;
                               -> CANCELED: Order canceled by client, algorithm or by exchange;
                               -> OPEN: Order still waiting to be completed by exchange;  
                               -> CLOSED: Order fullfilled and closed by exchange;          
-               ==================================================================================== */
+               ================================================================================ */
 
             public const string Created = "created";
             public const string Placed = "placed";
@@ -81,6 +81,7 @@ namespace MarketIntelligency.Core.Models.MarketAgregate
             /*  ========================================================================================================
                 A order types
                 Order Types: -> HOLD
+                             -> OTC: Over the counter type of order
                              -> BUY: Generic buy order at a given price, may not be completed; 
                              -> SELL: Generic sell order at a given price, may not be completed; 
                              -> LIMIT_SELL: Sell order at a given limit price, may not be completed; 
@@ -93,6 +94,7 @@ namespace MarketIntelligency.Core.Models.MarketAgregate
                 ======================================================================================================= */
 
             public const string Hold = "hold";
+            public const string Otc = "otc";
             public const string Buy = "buy";
             public const string Sell = "sell";
             public const string LimitBuy = "limit buy";
@@ -106,6 +108,7 @@ namespace MarketIntelligency.Core.Models.MarketAgregate
             public static bool IsValid(string type)
             {
                 return Hold.Equals(type, StringComparison.OrdinalIgnoreCase)
+                    || Otc.Equals(type, StringComparison.OrdinalIgnoreCase)
                     || Buy.Equals(type, StringComparison.OrdinalIgnoreCase)
                     || Sell.Equals(type, StringComparison.OrdinalIgnoreCase)
                     || LimitBuy.Equals(type, StringComparison.OrdinalIgnoreCase)

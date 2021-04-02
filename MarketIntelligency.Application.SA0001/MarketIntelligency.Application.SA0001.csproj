@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MarketIntelligency.WebApi\MarketIntelligency.WebApi.csproj" />
+    <ProjectReference Include="..\MarketIntelligency.Connector\MarketIntelligency.Connector.csproj" />
+    <ProjectReference Include="..\MarketIntelligency.EventManager\MarketIntelligency.EventManager.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.35.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="3.1.12" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.17.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.17.0" />
+  </ItemGroup>
+
+</Project>

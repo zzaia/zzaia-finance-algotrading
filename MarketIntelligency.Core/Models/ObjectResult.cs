@@ -1,10 +1,14 @@
-﻿namespace MarketIntelligency.Core.Models
+﻿using System;
+
+namespace MarketIntelligency.Core.Models
 {
     public class ObjectResult<T> where T : class
     {
         public bool Succeed { get; set; }
         public T Output { get; set; }
         public ApplicationError Error { get; set; }
+        public Exception Exception { get; set; }
+
     }
 
     public class ObjectResult
@@ -12,6 +16,7 @@
         public bool Succeed { get; set; }
         public bool Output => Succeed;
         public ApplicationError Error { get; set; }
+        public Exception Exception { get; set; }
     }
 
     public static class ObjectResultFactory
@@ -32,6 +37,17 @@
                 Output = null,
                 Succeed = false,
                 Error = ApplicationErrors.InternalServerError
+            };
+        }
+        
+        public static ObjectResult<T> CreateFailResult<T>(Exception ex) where T : class
+        {
+            return new ObjectResult<T>
+            {
+                Output = null,
+                Succeed = false,
+                Error = ApplicationErrors.InternalServerError,
+                Exception = ex
             };
         }
 
@@ -71,5 +87,4 @@
             };
         }
     }
-
 }

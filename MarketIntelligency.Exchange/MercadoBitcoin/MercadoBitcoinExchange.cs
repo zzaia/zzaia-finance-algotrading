@@ -7,46 +7,58 @@ using MarketIntelligency.Core.Utils;
 using MarketIntelligency.Exchange.MercadoBitcoin.Private;
 using MarketIntelligency.Exchange.MercadoBitcoin.Public;
 using MarketIntelligency.Exchange.MercadoBitcoin.Trade;
+using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MarketIntelligency.Exchange.MercadoBitcoin
 {
-    public class MercadoBitcoinExchange : IMercadoBitcoinExchange, IExchange
+    public partial class MercadoBitcoinExchange : IMercadoBitcoinExchange, IExchange
     {
         private readonly PublicApiClient _publicApiClient;
         private readonly PrivateApiClient _privateApiClient;
         private readonly TradeApiClient _tradeApiClient;
         private readonly ILogger<MercadoBitcoinExchange> _logger;
+        private readonly TelemetryClient _telemetryClient;
         private readonly ClientCredential _tradeClientCredential;
         private readonly ClientCredential _privateClientCredential;
-
-        private readonly string _apiResponseUnsuccessfully = "Public Api returned unsuccessfully, with message: ";
 
         /// <summary>
         /// Exchange client instance, selects api end-point based on parameter
         /// </summary>
-        public MercadoBitcoinExchange(PublicApiClient publicApiClient,
-                                      PrivateApiClient privateApiClient,
-                                      TradeApiClient tradeApiClient,
+        public MercadoBitcoinExchange(Action<ClientCredential> privateClientCredentials,
+                                      Action<ClientCredential> tradeClientCredentials,
                                       ILogger<MercadoBitcoinExchange> logger,
-                                      IOptionsMonitor<ClientCredential> clientCredentials)
+                                      TelemetryClient telemetryClient,
+                                      IHttpClientFactory clientFactory)
         {
-            _tradeClientCredential = clientCredentials.Get(Information.Options.TradeClientCredentialReference);
-            _privateClientCredential = clientCredentials.Get(Information.Options.PrivateClientCredentialReference);
-            _publicApiClient = publicApiClient ?? throw new ArgumentNullException(nameof(publicApiClient));
-            _privateApiClient = privateApiClient ?? throw new ArgumentNullException(nameof(privateApiClient));
-            _tradeApiClient = tradeApiClient ?? throw new ArgumentNullException(nameof(tradeApiClient));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            privateClientCredentials = privateClientCredentials ?? throw new ArgumentNullException(nameof(privateClientCredentials));
+            var privateClientCredentialsModel = new ClientCredential();
+            privateClientCredentials.Invoke(privateClientCredentialsModel);
+            _tradeClientCredential = privateClientCredentialsModel;
 
+            tradeClientCredentials = tradeClientCredentials ?? throw new ArgumentNullException(nameof(tradeClientCredentials));
+            var tradeClientCredentialsModel = new ClientCredential();
+            tradeClientCredentials.Invoke(tradeClientCredentialsModel);
+            _privateClientCredential = tradeClientCredentialsModel;
+
+            clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
+            _publicApiClient = new PublicApiClient(clientFactory.CreateClient());
+            _privateApiClient = new PrivateApiClient(clientFactory.CreateClient());
+            _tradeApiClient = new TradeApiClient(clientFactory.CreateClient());
             _publicApiClient.SetBaseAddress(Information.Uris.Api.Public);
             _privateApiClient.SetBaseAddress(Information.Uris.Api.Private);
             _tradeApiClient.SetBaseAddress(Information.Uris.Api.Trade);
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
+            _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
         }
 
         public IPublicApiClient PublicClient
@@ -97,16 +109,16 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                     },
                     Operations = new List<OperationInfo>
                     {
-                        new OperationInfo(OperationInfo.Types.Deposit, Asset.BRL,50, 200000).AddFee(decimal.Zero, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Deposit, Asset.BRL, 50, 200000).AddFee(decimal.Zero, decimal.Zero),
                         new OperationInfo(OperationInfo.Types.Withdrawal, Asset.BRL, 50, 200000).AddFee(decimal.Zero, 1.99m / 100m),
                         new OperationInfo(OperationInfo.Types.Deposit, Asset.BTC, 5 / 10m, decimal.MaxValue).AddFee(decimal.Zero, decimal.Zero),
-                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.BTC, 1 / 1m, 10).AddFee( 4 / 10m, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.BTC, 1 / 1m, 10).AddFee(4 / 10m, decimal.Zero),
                         new OperationInfo(OperationInfo.Types.Deposit, Asset.BCH, 1 / 10m, decimal.MaxValue).AddFee(decimal.Zero, decimal.Zero),
-                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.BCH, 1 / 1m, 25).AddFee( 1 / 1m, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.BCH, 1 / 1m, 25).AddFee(1 / 1m, decimal.Zero),
                         new OperationInfo(OperationInfo.Types.Deposit, Asset.LTC, 1 / 10m, decimal.MaxValue).AddFee(decimal.Zero, decimal.Zero),
-                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.LTC, 1 / 1m, 500).AddFee( 1 / 1m, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.LTC, 1 / 1m, 500).AddFee(1 / 1m, decimal.Zero),
                         new OperationInfo(OperationInfo.Types.Deposit, Asset.XRP, 0, decimal.MaxValue).AddFee(decimal.Zero, decimal.Zero),
-                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.XRP, 20, 20000).AddFee( 1 / 100, decimal.Zero),
+                        new OperationInfo(OperationInfo.Types.Withdrawal, Asset.XRP, 20, 20000).AddFee(1 / 100, decimal.Zero),
                         new OperationInfo(OperationInfo.Types.Deposit, Asset.ETH, 10 / 1m, decimal.MaxValue),
                         new OperationInfo(OperationInfo.Types.Withdrawal, Asset.ETH, 1 / 1m, 70),
                         new OperationInfo(OperationInfo.Types.Maker, decimal.MinValue, decimal.MaxValue).AddFee(decimal.Zero, 0.3m / 100m),
@@ -167,10 +179,9 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                         Password = false,
                         Twofa = false,
                     },
-                    Options = new ExchangeOptions
+                    LimitRate = new ExchangeLimitRate
                     {
-                        PrivateClientCredentialReference = Guid.NewGuid().ToString(),
-                        TradeClientCredentialReference = Guid.NewGuid().ToString(),
+                        Rate = 1
                     }
                 };
                 return exchangeInfo;
@@ -182,136 +193,92 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
         /// </summary>
         public ExchangeInfo Info { get { return Information; } }
 
+        #region Public Methods
         /// <summary>
-        /// Fetch day summary OHLCV for the specified market and date.
+        /// Fetch orderbook for the specified market, returns a simplified orderbook by price.
         /// </summary>
-        public async Task<ObjectResult<OHLCV>> FetchDaySummaryAsync(Market market, DateTimeOffset dateTime)
+        public async Task<ObjectResult<OrderBook>> FetchOrderBookAsync(Market market, CancellationToken cancellationToken)
         {
+            Log.FetchOrderBook.Received(_logger);
+            Log.FetchOrderBook.ReceivedAction(_telemetryClient);
             market = market ?? throw new ArgumentNullException(nameof(market));
-
-            var response = await this.PublicClient.GetDaySummaryOHLCVAsync(market.Main.ToString(), dateTime.Year, dateTime.Month, dateTime.Day).ConfigureAwait(true);
-
-            if (response.Success)
+            try
             {
-                var resultToReturn = new OHLCV
+                if (_privateClientCredential is not null)
                 {
-                    Exchange = ExchangeName.MercadoBitcoin,
-                    TimeFrame = TimeFrame.D1,
-                    DateTimeOffset = DateTimeOffset.Parse(response.Output.Date, CultureInfo.InvariantCulture),
-                    //DateTimeOffset = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day),
-                    Market = market,
-                    Open = response.Output.Open,
-                    High = response.Output.High,
-                    Low = response.Output.Low,
-                    Close = response.Output.Close,
-                    Volume = response.Output.Volume,
-                    TradedQuantity = response.Output.TradedQuantity,
-                    Average = response.Output.Average,
-                    NumberOfTrades = response.Output.NumberOfTrades,
-                };
+                    var ticker = ToDataDomain(market);
+                    var response = await this.PrivateClient.GetCompleteOrderBookByTickerPairAsync(_privateClientCredential, ticker, true, cancellationToken).ConfigureAwait(false);
 
-                return ObjectResultFactory.CreateSuccessResult(resultToReturn);
-            }
-            else
-            {
-                _logger.LogError($"{_apiResponseUnsuccessfully}{response.ProblemDetails.Detail}");
-                return ObjectResultFactory.CreateFailResult<OHLCV>();
-            }
-        }
+                    if (response.Success && response.Output.Success)
+                    {
+                        var resultToReturn = new OrderBook
+                        {
+                            Exchange = ExchangeName.MercadoBitcoin,
+                            DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
+                            Market = market,
+                            Bids = from order in response.Output.Data.Orderbook.Bids.ToList()
+                                   select new Tuple<decimal, decimal>(decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
+                                                                      decimal.Parse(order.Quantity, Information.Culture.NumberFormat)),
+                            Asks = from order in response.Output.Data.Orderbook.Asks.ToList()
+                                   select new Tuple<decimal, decimal>(decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
+                                                                      decimal.Parse(order.Quantity, Information.Culture.NumberFormat)),
+                        };
 
-        /// <summary>
-        /// Fetch public orderbook for the specified market, returns a simplified orderbook by price.
-        /// </summary>
-        public async Task<ObjectResult<OrderBook>> FetchOrderBookAsync(Market market)
-        {
-            market = market ?? throw new ArgumentNullException(nameof(market));
-
-            var response = await this.PublicClient.GetOrderBookAsync(market.Main.ToString()).ConfigureAwait(true);
-
-            if (response.Success)
-            {
-                var resultToReturn = new OrderBook
+                        return ObjectResultFactory.CreateSuccessResult(resultToReturn);
+                    }
+                    else if (!response.Output.Success)
+                    {
+                        var errorMessage = $"{response.Output.Code} - {response.Output.Message}";
+                        Log.FetchOrderBook.WithFailedResponse(_logger, errorMessage);
+                        return ObjectResultFactory.CreateFailResult<OrderBook>();
+                    }
+                    else
+                    {
+                        var errorMessage = JsonSerializer.Serialize(response.ProblemDetails);
+                        Log.FetchOrderBook.WithFailedResponse(_logger, errorMessage);
+                        return ObjectResultFactory.CreateFailResult<OrderBook>();
+                    }
+                }
+                else
                 {
-                    Exchange = ExchangeName.MercadoBitcoin,
-                    DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
-                    Market = market,
-                    Bids = from order in response.Output.Bids.ToList()
-                           select new Order(market, Order.Types.Buy, order[1], order[0]),
-                    Asks = from order in response.Output.Bids.ToList()
-                           select new Order(market, Order.Types.Sell, order[1], order[0]),
-                };
+                    var response = await this.PublicClient.GetOrderBookAsync(market.Ticker, cancellationToken).ConfigureAwait(false);
 
-                return ObjectResultFactory.CreateSuccessResult(resultToReturn);
+                    if (response.Success)
+                    {
+                        var resultToReturn = new OrderBook
+                        {
+                            Exchange = ExchangeName.MercadoBitcoin,
+                            DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
+                            Market = market,
+                            Bids = from order in response.Output.Bids.ToList()
+                                   select new Tuple<decimal, decimal>(order[1], order[0]),
+                            Asks = from order in response.Output.Asks.ToList()
+                                   select new Tuple<decimal, decimal>(order[1], order[0]),
+                        };
+
+                        return ObjectResultFactory.CreateSuccessResult(resultToReturn);
+                    }
+                    else
+                    {
+                        var errorMessage = JsonSerializer.Serialize(response.ProblemDetails);
+                        Log.FetchOrderBook.WithFailedResponse(_logger, errorMessage);
+                        return ObjectResultFactory.CreateFailResult<OrderBook>();
+                    }
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _logger.LogError($"{_apiResponseUnsuccessfully}{response.ProblemDetails.Detail}");
-                return ObjectResultFactory.CreateFailResult<OrderBook>();
+                Log.FetchOrderBook.WithException(_logger, ex);
+                return ObjectResultFactory.CreateFailResult<OrderBook>(ex);
             }
         }
+        #endregion
 
-        /// <summary>
-        /// Fetch last 24h OHLCV for the specified market.
-        /// </summary>
-        public async Task<ObjectResult<OHLCV>> FetchOHLCVAsync(Market market)
+        #region Private Methods
+        private static string ToDataDomain(Market market)
         {
-            market = market ?? throw new ArgumentNullException(nameof(market));
-
-            var response = await this.PublicClient.GetLast24hOHLCVAsync(market.Main.ToString()).ConfigureAwait(true);
-
-            if (response.Success)
-            {
-                var resultToReturn = new OHLCV
-                {
-                    Exchange = ExchangeName.MercadoBitcoin,
-                    TimeFrame = TimeFrame.D1,
-                    DateTimeOffset = DateTimeUtils.TimestampToDateTimeOffset(response.Output.Ticker.TimeStamp, false),
-                    Market = market,
-                    Buy = Convert.ToDecimal(response.Output.Ticker.Buy, Information.Culture),
-                    Sell = Convert.ToDecimal(response.Output.Ticker.Sell, Information.Culture),
-                    High = Convert.ToDecimal(response.Output.Ticker.High, Information.Culture),
-                    Low = Convert.ToDecimal(response.Output.Ticker.Low, Information.Culture),
-                    Last = Convert.ToDecimal(response.Output.Ticker.Last, Information.Culture),
-                    Volume = Convert.ToDecimal(response.Output.Ticker.Volume, Information.Culture),
-                };
-
-                return ObjectResultFactory.CreateSuccessResult(resultToReturn);
-            }
-            else
-            {
-                _logger.LogError($"{_apiResponseUnsuccessfully}{response.ProblemDetails.Detail}");
-                return ObjectResultFactory.CreateFailResult<OHLCV>();
-            }
+            return $"{market.Base.DisplayName}{market.Main.DisplayName}";
         }
-
-        /// <summary>
-        /// Fetch list of trades for the specified market, return 1000 last.
-        /// </summary>
-        public async Task<ObjectResult<IEnumerable<Order>>> FetchTradesAsync(Market market)
-        {
-            market = market ?? throw new ArgumentNullException(nameof(market));
-
-            var response = await this.PublicClient.GetLastTradesAsync(market.Main.ToString()).ConfigureAwait(true);
-
-            if (response.Success)
-            {
-                IEnumerable<Order> resultToReturn
-                    = from trade in response.Output
-                      select new Order(market,
-                                       String.Parse<Order.Types>(trade.Type),
-                                       trade.Amount,
-                                       trade.Price,
-                                       new Guid(trade.Tid.GetHashCode().ToString(CultureInfo.InvariantCulture)),
-                                       DateTimeUtils.TimestampToDateTimeOffset(trade.TimeStamp, false),
-                                       Order.Statuses.Closed);
-
-                return ObjectResultFactory.CreateSuccessResult(resultToReturn);
-            }
-            else
-            {
-                _logger.LogError($"{_apiResponseUnsuccessfully} {response.ProblemDetails.Detail}");
-                return ObjectResultFactory.CreateFailResult<IEnumerable<Order>>();
-            }
-        }
+        #endregion
     }
 }

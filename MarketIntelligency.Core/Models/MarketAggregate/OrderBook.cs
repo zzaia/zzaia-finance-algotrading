@@ -28,12 +28,12 @@ namespace MarketIntelligency.Core.Models.MarketAgregate
         /// <summary>
         /// List of bids orders.
         /// </summary>
-        public IEnumerable<Order> Bids { get; set; }
+        public IEnumerable<Tuple<decimal, decimal>> Bids { get; set; }
 
         /// <summary>
         /// List of asks orders.
         /// </summary>
-        public IEnumerable<Order> Asks { get; set; }
+        public IEnumerable<Tuple<decimal, decimal>> Asks { get; set; }
 
     }
 }

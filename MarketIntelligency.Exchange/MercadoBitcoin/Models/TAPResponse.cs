@@ -19,9 +19,6 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Models
 
         [JsonPropertyName("response_data")]
         public T Data { get; set; }
-        public bool IsSuccess()
-        {
-            return TapStatusCodeEnum.Success == System.Enum.Parse<TapStatusCodeEnum>(Code.ToString(CultureInfo.InvariantCulture));
-        }
+        public bool Success => TapStatusCodeEnum.Success == System.Enum.Parse<TapStatusCodeEnum>(Code.ToString(CultureInfo.InvariantCulture));
     }
 }

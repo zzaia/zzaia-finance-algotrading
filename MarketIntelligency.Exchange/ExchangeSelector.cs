@@ -26,11 +26,12 @@ namespace MarketIntelligency.Exchange
 
         private Ttype GetExchangeByNamespace<Ttype>(ExchangeName exchangeName)
         {
-
-            Type type = Type.GetType(String.Format(CultureInfo.InvariantCulture,
+            var completeNamespace = String.Format(CultureInfo.InvariantCulture,
                                                           "{0}.{1}.{1}Exchange",
                                                        this.GetType().Namespace,
-                                                       exchangeName.ToString()));
+                                                       exchangeName.ToString())
+                                                    .Replace(" ", string.Empty);
+            Type type = Type.GetType(completeNamespace);
             if (type == null)
             {
                 var errorMessage = $"'{type}' {_notValidTypeMessage}";
