@@ -35,5 +35,11 @@ namespace MarketIntelligency.Connector
         /// This is the time resolution, the bigger the more precise will be the connector;
         /// </summary>
         public int Resolution { get; set; } = 2000;
+
+        /// <summary>
+        ///     Gets or sets the maximum number of concurrent tasks enabled by this System.Threading.Tasks.ParallelOptions
+        ///     instance, default is the maximum int value.
+        /// </summary>
+        public int MaxDegreeOfParallelism { get; set; } = int.MaxValue;
     }
 }

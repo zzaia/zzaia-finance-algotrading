@@ -1,5 +1,5 @@
 ﻿using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
-using MediatR;
+using MarketIntelligency.EventManager;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -26,11 +26,11 @@ namespace MarketIntelligency.Connector
             }
             services.AddHostedService((s) =>
                     {
-                        var mediator = (IMediator)s.GetService(typeof(IMediator));
+                        var source = (IStreamSource)s.GetService(typeof(IStreamSource));
                         var exchangeSelector = (IExchangeSelector)s.GetService(typeof(IExchangeSelector));
                         var logger = (ILogger<ConnectorProcessor>)s.GetService(typeof(ILogger<ConnectorProcessor>));
                         var telemetry = (TelemetryClient)s.GetService(typeof(TelemetryClient));
-                        return new ConnectorProcessor(connectorOptions, exchangeSelector, mediator, logger, telemetry);
+                        return new ConnectorProcessor(connectorOptions, exchangeSelector, source, logger, telemetry);
                     });
             return services;
         }

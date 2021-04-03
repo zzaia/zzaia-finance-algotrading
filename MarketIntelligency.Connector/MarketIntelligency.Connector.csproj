@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MarketIntelligency.Core\MarketIntelligency.Core.csproj" />
+    <ProjectReference Include="..\MarketIntelligency.EventManager\MarketIntelligency.EventManager.csproj" />
   </ItemGroup>
 
 </Project>

@@ -2,8 +2,9 @@
 using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
+using MarketIntelligency.Core.Models.OrderBookAgregate;
 using MarketIntelligency.Core.Utils;
-using MediatR;
+using MarketIntelligency.EventManager;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -15,30 +16,30 @@ using System.Threading.Tasks;
 
 namespace MarketIntelligency.Connector
 {
-    public partial class ConnectorProcessor : IHostedService
+    public partial class ConnectorProcessor : BackgroundService
     {
         private readonly ConnectorOptions _options;
         private readonly ILogger<ConnectorProcessor> _logger;
         private readonly IExchangeSelector _exchangeSelector;
-        private readonly IMediator _mediator;
+        private readonly IStreamSource _streamSource;
         private readonly TelemetryClient _telemetryClient;
         private delegate ObjectResult<TResult> MethodHandler<T, CancellationToken, TResult>(T arg, CancellationToken cancellationToken) where TResult : class;
         private List<(dynamic, Delegate)> _delegateCollection { get; set; }
 
 
-        public ConnectorProcessor(Action<ConnectorOptions> connectorOptions, IExchangeSelector exchangeSelector, IMediator mediator, ILogger<ConnectorProcessor> logger, TelemetryClient telemetryClient)
+        public ConnectorProcessor(Action<ConnectorOptions> connectorOptions, IExchangeSelector exchangeSelector, IStreamSource streamSource, ILogger<ConnectorProcessor> logger, TelemetryClient telemetryClient)
         {
             connectorOptions = connectorOptions ?? throw new ArgumentNullException(nameof(connectorOptions));
             var connectorOptionsModel = new ConnectorOptions();
             connectorOptions.Invoke(connectorOptionsModel);
             _options = connectorOptionsModel;
             _exchangeSelector = exchangeSelector ?? throw new ArgumentNullException(nameof(exchangeSelector));
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
+            _streamSource = streamSource ?? throw new ArgumentNullException(nameof(streamSource));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
         }
 
-        public async Task StartAsync(CancellationToken cancellationToken)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             TimeSpan minTimeFrame = new();
             if (ExchangeName.IsValid(_options.Name))
@@ -80,12 +81,13 @@ namespace MarketIntelligency.Connector
 
                 var paralletOptions = new ParallelOptions()
                 {
-                    CancellationToken = cancellationToken
+                    CancellationToken = cancellationToken,
+                    MaxDegreeOfParallelism = _options.MaxDegreeOfParallelism
                 };
 
-                var parallelLoop = Parallel.ForEach(_delegateCollection, paralletOptions, async (item) =>
+                var parallelLoop = Parallel.ForEach(_delegateCollection, paralletOptions, (item) =>
                 {
-                    Log.CallToRest.Received(_logger);
+                    Log.CallToRest.Received(_logger, DateTimeUtils.CurrentUtcTimestamp().ToString());
                     Log.CallToRest.ReceivedAction(_telemetryClient);
                     try
                     {
@@ -95,7 +97,7 @@ namespace MarketIntelligency.Connector
                         var result = item.Item2.DynamicInvoke(item.Item1, timeOutCancellationToken);
                         if (result.Succeed)
                         {
-                            await PublishEvent(result.Output);
+                            PublishEvent(result.Output);
                         }
                         else
                         {
@@ -111,15 +113,11 @@ namespace MarketIntelligency.Connector
             }
         }
 
-        private async Task PublishEvent<T>(T content) where T : class
+        private void PublishEvent<T>(T content) where T : class
         {
             var eventToPublish = new EventSource<T>(content);
-            await _mediator.Publish(eventToPublish);
-        }
-
-        public async Task StopAsync(CancellationToken cancellationToken)
-        {
-            await Task.CompletedTask;
+            _logger.LogInformation($"### Publishing event in {DateTimeUtils.CurrentUtcTimestamp()}");
+            _streamSource.Publish(eventToPublish);
         }
     }
 }
