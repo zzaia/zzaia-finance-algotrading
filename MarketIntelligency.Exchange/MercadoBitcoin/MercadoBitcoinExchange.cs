@@ -3,6 +3,7 @@ using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
+using MarketIntelligency.Core.Models.OrderBookAgregate;
 using MarketIntelligency.Core.Utils;
 using MarketIntelligency.Exchange.MercadoBitcoin.Private;
 using MarketIntelligency.Exchange.MercadoBitcoin.Public;

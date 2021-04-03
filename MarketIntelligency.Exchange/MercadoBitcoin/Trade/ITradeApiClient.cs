@@ -21,6 +21,5 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Trade
                                                                                                                                        bool isAggregate = false,
                                                                                                                                        bool inBlockchain = false);
         Task<Response<TAPResponse<WithdrawalDTO>>> PlaceWithdrawalAsync(ClientCredential clientCredential, string accountRef, string quantity, CancellationToken cancellationToken);
-        Task<Response<TAPResponse<T>>> PostSuppreme<T>(ClientCredential clientCredential, IEnumerable<KeyValuePair<string, string>> parameters, CancellationToken cancellationToken);
     }
 }

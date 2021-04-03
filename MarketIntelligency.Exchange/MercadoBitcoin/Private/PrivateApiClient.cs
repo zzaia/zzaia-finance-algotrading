@@ -90,13 +90,13 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.Private
             return await PostSuppreme<OrderbookInformationDTO>(clientCredential, parameters, cancellationToken).ConfigureAwait(_continueOnCapturedContext);
         }
 
-        public async Task<Response<TAPResponse<T>>> PostSuppreme<T>(ClientCredential clientCredential, IEnumerable<KeyValuePair<string, string>> parameters, CancellationToken cancellationToken)
+        private async Task<Response<TAPResponse<T>>> PostSuppreme<T>(ClientCredential clientCredential, IEnumerable<KeyValuePair<string, string>> parameters, CancellationToken cancellationToken)
         {
             using var requestBody = new FormUrlEncodedContent(parameters);
-            string paramString = await requestBody.ReadAsStringAsync().ConfigureAwait(_continueOnCapturedContext);
+            string paramString = await requestBody.ReadAsStringAsync(cancellationToken).ConfigureAwait(_continueOnCapturedContext);
             string requestBodyParams = $"{_requestPath}?{paramString}";
-            string hmac = CryptographyUtils.SignMessage(clientCredential.Secret, requestBodyParams);
-            Uri requestUri = new Uri(_requestPath, UriKind.Relative);
+            string hmac = AuthenticationUtils.SignMessage(clientCredential.Secret, requestBodyParams);
+            Uri requestUri = new(_requestPath, UriKind.Relative);
             using var request = new HttpRequestMessage(HttpMethod.Post, requestUri) { Content = requestBody };
             request.Content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
             request.Content.Headers.Add("TAPI-ID", clientCredential.Id);
