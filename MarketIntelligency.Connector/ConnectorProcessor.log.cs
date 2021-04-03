@@ -20,7 +20,7 @@ namespace MarketIntelligency.Connector
                 #region Logging Messages
                 private static readonly Action<ILogger, string, Exception> _receivedMessage =
                     LoggerMessage.Define<string>(LogLevel.Information, new EventId(1101, "ConnectToRestReceived")
-                    , "Call to connect to rest api received at {timestamp} milliseconds");
+                    , "Call to connect to rest api received at {timestamp}");
                 private static readonly Action<ILogger, string, Exception> _withFailedResponse =
                     LoggerMessage.Define<string>(LogLevel.Error, new EventId(1102, "ConnectToRestFailedResponse")
                     , "Was not possible to connect to a rest api due to a failed response without a description. Payload = {payLoad}");
