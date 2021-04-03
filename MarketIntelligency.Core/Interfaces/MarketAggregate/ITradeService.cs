@@ -1,4 +1,5 @@
 using MarketIntelligency.Core.Models.MarketAgregate;
+using MarketIntelligency.Core.Models.OrderAgregate;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

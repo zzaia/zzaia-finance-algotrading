@@ -71,7 +71,7 @@ namespace MarketIntelligency.Core.Models
 
     public static class ApplicationErrors
     {
-        public static readonly ApplicationError InternalServerError = new ApplicationError(
+        public static readonly ApplicationError InternalServerError = new(
             new Uri("https://tools.ietf.org/html/rfc7231#section-6.6.1"),
             StatusCodes.Status500InternalServerError,
             "InternalServerError",
@@ -79,7 +79,7 @@ namespace MarketIntelligency.Core.Models
             "An unexpected error occurred in our server"
             );
 
-        public static readonly ApplicationError BadRequestError = new ApplicationError(
+        public static readonly ApplicationError BadRequestError = new(
             new Uri("https://tools.ietf.org/html/rfc7231#section-6.5.1"),
             StatusCodes.Status400BadRequest,
             "BadRequestError",

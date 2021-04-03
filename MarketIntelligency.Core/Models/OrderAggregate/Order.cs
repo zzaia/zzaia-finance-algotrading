@@ -1,7 +1,8 @@
+using MarketIntelligency.Core.Models.MarketAgregate;
 using MarketIntelligency.Core.Utils;
 using System;
 
-namespace MarketIntelligency.Core.Models.MarketAgregate
+namespace MarketIntelligency.Core.Models.OrderAgregate
 {
     /// <summary>
     /// Represents a financial order, that can be partially or completely fulfilled.

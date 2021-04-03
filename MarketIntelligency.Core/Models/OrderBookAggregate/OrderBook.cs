@@ -1,8 +1,9 @@
 ﻿using MarketIntelligency.Core.Models.EnumerationAggregate;
+using MarketIntelligency.Core.Models.MarketAgregate;
 using System;
 using System.Collections.Generic;
 
-namespace MarketIntelligency.Core.Models.MarketAgregate
+namespace MarketIntelligency.Core.Models.OrderBookAgregate
 {
     /// <summary>
     /// Order book for market main asset, from OHLCV date time.

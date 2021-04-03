@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MarketIntelligency.Core.Utils
 {
-    public static class CryptographyUtils
+    public static class AuthenticationUtils
     {
         /// <summary>
         /// Computes the HMACSHA512 keyed hash for a given message;
