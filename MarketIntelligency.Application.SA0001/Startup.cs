@@ -1,7 +1,8 @@
+using MarketIntelligency.Application.SA0001.Strategies;
 using MarketIntelligency.Connector;
 using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
-using MarketIntelligency.Core.Models.MarketAgregate;
+using MarketIntelligency.Core.Models.OrderBookAgregate;
 using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
 using MarketIntelligency.Exchange;
@@ -39,6 +40,7 @@ namespace MarketIntelligency.Application.SA0001
                 tradeCredential => Configuration.Bind("Exchange:MercadoBitcoin:Trade", tradeCredential));
 
             services.AddSingleton<IExchangeSelector, ExchangeSelector>();
+            services.AddSingleton<IStreamSource, StreamSource>();
 
             //----------- Data Event Connectors -------------------
             services.AddConnector(options =>
@@ -55,6 +57,9 @@ namespace MarketIntelligency.Application.SA0001
             {
                 options.EnableAdaptiveSampling = false;
             });
+
+            //----------- Strategies -------------------
+            services.AddHostedService<MarketMakerHandler>();
 
             services.AddEventManager(options =>
             {
