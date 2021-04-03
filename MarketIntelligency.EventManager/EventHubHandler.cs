@@ -1,9 +1,9 @@
 ﻿using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.MarketAgregate;
+using MarketIntelligency.Core.Models.OrderBookAgregate;
+using MarketIntelligency.Core.Utils;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,14 +11,14 @@ namespace MarketIntelligency.EventManager
 {
     public class EventHubHandler : INotificationHandler<INotification>
     {
+        private readonly IStreamSource _streamSource;
         private readonly IMediator _mediator;
         private readonly ILogger<EventHubHandler> _logger;
-        private readonly Guid _id;
-        public EventHubHandler(IMediator mediator, ILogger<EventHubHandler> logger)
+        public EventHubHandler(IMediator mediator, IStreamSource streamSource, ILogger<EventHubHandler> logger)
         {
+            _streamSource = streamSource ?? throw new ArgumentNullException(nameof(streamSource));
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _id = Guid.NewGuid();
         }
         /// <summary>
         /// Handle all notifications, to notify handlers that need specific commands.
@@ -27,14 +27,15 @@ namespace MarketIntelligency.EventManager
         {
             if (eventSource.GetType() == typeof(EventSource<OrderBook>))
             {
+                _logger.LogInformation($"### Consuming event at {DateTimeUtils.CurrentUtcTimestamp()}");
                 var source = (EventSource<OrderBook>)eventSource;
-                Console.WriteLine($"### Received, {_id} {source.Content.Asks.FirstOrDefault().Item1} and {source.Content.Asks.FirstOrDefault().Item2} at time {DateTimeOffset.UtcNow}");
+                _streamSource.Publish(source);
             }
             else
             {
-                Console.WriteLine("Notification without stream");
+                _logger.LogInformation("Notification without stream");
             }
-            await Task.Delay(1000);
+            await Task.Delay(1000, cancellationToken);
         }
     }
 }
