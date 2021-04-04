@@ -267,7 +267,12 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                     }
                 }
             }
-            catch (Exception ex)
+            catch (OperationCanceledException ex)
+            {
+                Log.FetchOrderBook.WithOperationCanceled(_logger);
+                return ObjectResultFactory.CreateFailResult<OrderBook>(ex);
+            }
+            catch(Exception ex)
             {
                 Log.FetchOrderBook.WithException(_logger, ex);
                 return ObjectResultFactory.CreateFailResult<OrderBook>(ex);
