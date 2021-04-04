@@ -2,7 +2,7 @@
 import "Protos/CustomTypes.proto";
 import "google/protobuf/empty.proto";
 
-option csharp_namespace = "MarketIntelligency.WebApi.Grpc.Protos";
+option csharp_namespace = "MarketIntelligency.WebGrpc.Protos";
 
 service ControlGrpc {
 	rpc Activate (ControlMetadata) returns (google.protobuf.Empty);

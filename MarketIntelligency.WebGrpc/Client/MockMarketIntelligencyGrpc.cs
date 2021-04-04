@@ -1,9 +1,9 @@
-﻿using MarketIntelligency.WebApi.Grpc.Models;
-using MarketIntelligency.WebApi.Grpc.Protos;
+﻿using MarketIntelligency.WebGrpc.Models;
+using MarketIntelligency.WebGrpc.Protos;
 using System;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.WebApi.Grpc
+namespace MarketIntelligency.WebGrpc
 {
     public class MockMarketIntelligencyGrpc : IMarketIntelligencyGrpc
     {

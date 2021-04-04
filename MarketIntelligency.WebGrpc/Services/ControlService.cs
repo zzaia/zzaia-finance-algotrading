@@ -1,6 +1,6 @@
 ﻿using Grpc.Core;
 using MarketIntelligency.Connector;
-using MarketIntelligency.WebApi.Grpc.Protos;
+using MarketIntelligency.WebGrpc.Protos;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;

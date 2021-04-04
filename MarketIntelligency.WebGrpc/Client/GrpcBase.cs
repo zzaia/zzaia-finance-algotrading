@@ -1,10 +1,10 @@
 ﻿using Grpc.Core;
-using MarketIntelligency.WebApi.Grpc.Models;
+using MarketIntelligency.WebGrpc.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.WebApi.Grpc
+namespace MarketIntelligency.WebGrpc
 {
     public class GrpcBase
     {

@@ -1,7 +1,7 @@
-﻿using MarketIntelligency.WebApi.Grpc.Models;
+﻿using MarketIntelligency.WebGrpc.Models;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.WebApi.Grpc
+namespace MarketIntelligency.WebGrpc
 {
     public interface IMarketIntelligencyGrpc
     {

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace MarketIntelligency.WebApi.Grpc.Authentication
+namespace MarketIntelligency.WebGrpc.Authentication
 {
     public interface IAuthentication
     {

@@ -1,4 +1,4 @@
-﻿namespace MarketIntelligency.WebApi.Grpc.Protos
+﻿namespace MarketIntelligency.WebGrpc.Protos
 {
     public partial class DecimalValue
     {

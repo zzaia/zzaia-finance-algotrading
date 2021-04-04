@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MarketIntelligency.WebApi.Grpc.Authentication
+namespace MarketIntelligency.WebGrpc.Authentication
 {
     public class OAuth2Options
     {

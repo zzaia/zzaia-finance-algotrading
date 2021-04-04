@@ -2,14 +2,13 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Grpc.Core.Testing;
 using Grpc.Net.Client;
-using MarketIntelligency.WebApi.Grpc.Protos;
+using MarketIntelligency.WebGrpc.Protos;
 using Moq;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MarketIntelligency.Api.Test
+namespace MarketIntelligency.WebGrpc.Test
 {
     public class ControlGrpcShould
     {

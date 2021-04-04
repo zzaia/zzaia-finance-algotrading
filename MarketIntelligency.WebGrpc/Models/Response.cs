@@ -1,6 +1,6 @@
 ﻿using Grpc.Core;
 
-namespace MarketIntelligency.WebApi.Grpc.Models
+namespace MarketIntelligency.WebGrpc.Models
 {
     public class Response<T> where T: class
     {

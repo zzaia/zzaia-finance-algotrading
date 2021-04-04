@@ -1,11 +1,11 @@
 ﻿using Grpc.Net.ClientFactory;
-using MarketIntelligency.WebApi.Grpc.Authentication;
+using MarketIntelligency.WebGrpc.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Net.Http;
 
-namespace MarketIntelligency.WebApi.Grpc
+namespace MarketIntelligency.WebGrpc
 {
     /// <summary>
     /// Extension methods for the BankOtcExchange Grpc client.

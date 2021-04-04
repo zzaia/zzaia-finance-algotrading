@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "MarketIntelligency.WebApi.Grpc.Protos";
+option csharp_namespace = "MarketIntelligency.WebGrpc.Protos";
 
 // Example: 12345.6789 -> { units = 12345, nanos = 678900000 }
 message DecimalValue {

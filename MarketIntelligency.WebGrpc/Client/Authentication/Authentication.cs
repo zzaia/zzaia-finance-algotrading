@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 
-namespace MarketIntelligency.WebApi.Grpc.Authentication
+namespace MarketIntelligency.WebGrpc.Authentication
 {
     public class Authentication : IAuthentication
     {
