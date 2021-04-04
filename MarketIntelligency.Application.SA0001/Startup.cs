@@ -5,8 +5,7 @@ using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.OrderBookAgregate;
 using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
-using MarketIntelligency.Exchange;
-using MarketIntelligency.Exchange.MercadoBitcoin;
+using MarketIntelligency.Exchange.MercadoBitcoin.WebApi;
 using MarketIntelligency.WebApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -47,6 +46,7 @@ namespace MarketIntelligency.Application.SA0001
             //----------- Data Event Connectors -------------------
             services.AddConnector(options =>
                 {
+
                     options.Name = ExchangeName.MercadoBitcoin.DisplayName;
                     options.TimeFrame = TimeFrame.s1;
                     options.DataIn = MercadoBitcoinExchange.Information.Markets;

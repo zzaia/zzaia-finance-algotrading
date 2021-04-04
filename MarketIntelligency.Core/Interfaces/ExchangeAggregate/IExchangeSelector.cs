@@ -4,6 +4,6 @@ namespace MarketIntelligency.Core.Interfaces.ExchangeAggregate
 {
     public interface IExchangeSelector
     {
-        IExchange GetByName(ExchangeName exchangeName);
+        IExchange SelectByName(ExchangeName exchangeName);
     }
 }
