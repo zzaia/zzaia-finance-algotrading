@@ -1,7 +1,6 @@
 ﻿using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.OrderAgregate;
 using MarketIntelligency.Core.Models.OrderBookAgregate;
-using MarketIntelligency.Core.Utils;
 using MarketIntelligency.EventManager;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -39,7 +38,7 @@ namespace MarketIntelligency.Application.SA0001.Strategies
         /// </summary>
         public async void HandleStrategy(OrderBook orderBook)
         {
-            _logger.LogInformation($"### Consuming event at {DateTimeUtils.CurrentUtcTimestamp()}");
+            _logger.LogInformation($"### Consuming event ###");
             await Task.Delay(1000);
             var response = new EventSource<Order>(new Order());
             _streamSource.Publish(response);

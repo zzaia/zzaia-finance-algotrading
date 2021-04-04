@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Configuration.AzureKeyVault;
-using Microsoft.Azure.KeyVault;
-using Microsoft.Azure.Services.AppAuthentication;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 
 namespace MarketIntelligency.Application.SA0001
 {
@@ -16,25 +14,19 @@ namespace MarketIntelligency.Application.SA0001
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-            /*   // Key Vaoult Configuration 
-                .ConfigureAppConfiguration((hostContext, configBuilder) =>
+
+                .ConfigureLogging(logging =>
                 {
-                    var env = hostContext.HostingEnvironment;
-                    if (env.IsProduction() || env.IsStaging() || env.IsDevelopment())
+                    logging.ClearProviders();
+                    logging.AddSimpleConsole(options =>
                     {
-                        IConfigurationRoot configRoot = configBuilder.Build();
-
-                        var azureServiceTokenProvider = new AzureServiceTokenProvider();
-                        KeyVaultClient keyVaultClient = new KeyVaultClient(
-                            new KeyVaultClient.AuthenticationCallback(
-                                azureServiceTokenProvider.KeyVaultTokenCallback));
-
-                        string keyVaultConnectionString = $@"https://{configRoot["AzureKeyVaultName"]}.vault.azure.net";
-                        configBuilder.AddAzureKeyVault(
-                            keyVaultConnectionString, keyVaultClient, new DefaultKeyVaultSecretManager());
-                    }
+                        options.ColorBehavior = LoggerColorBehavior.Enabled;
+                        options.SingleLine = true;
+                        options.TimestampFormat = " hh:mm:ss.ffffff | ";
+                    });
+                    logging.AddFilter("System.Net.Http.HttpClient.Default.LogicalHandler", LogLevel.None);
+                    logging.AddFilter("System.Net.Http.HttpClient.Default.ClientHandler", LogLevel.None);
                 })
-            */
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

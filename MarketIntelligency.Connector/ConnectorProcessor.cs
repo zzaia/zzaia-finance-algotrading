@@ -87,7 +87,7 @@ namespace MarketIntelligency.Connector
 
                 var parallelLoop = Parallel.ForEach(_delegateCollection, paralletOptions, (item) =>
                 {
-                    Log.CallToRest.Received(_logger, DateTimeUtils.CurrentUtcTimestamp().ToString());
+                    Log.CallToRest.Received(_logger);
                     Log.CallToRest.ReceivedAction(_telemetryClient);
                     try
                     {
@@ -116,7 +116,7 @@ namespace MarketIntelligency.Connector
         private void PublishEvent<T>(T content) where T : class
         {
             var eventToPublish = new EventSource<T>(content);
-            _logger.LogInformation($"### Publishing event in {DateTimeUtils.CurrentUtcTimestamp()}");
+            _logger.LogInformation($"### Publishing event ###");
             _streamSource.Publish(eventToPublish);
         }
     }
