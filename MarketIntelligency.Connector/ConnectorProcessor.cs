@@ -48,7 +48,7 @@ namespace MarketIntelligency.Connector
             if (ExchangeName.IsValid(_options.Name))
             {
                 var exchangeName = Enumeration.FromDisplayName<ExchangeName>(_options.Name);
-                var exchange = _exchangeSelector.GetByName(exchangeName);
+                var exchange = _exchangeSelector.SelectByName(exchangeName);
                 minTimeFrame = exchange.Info.LimitRate.Period;
                 _delegateCollection = new List<(dynamic, Delegate)>();
                 foreach (var market in _options.DataIn)

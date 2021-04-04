@@ -9,11 +9,12 @@
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="5.0.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.17.0" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.17.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MarketIntelligency.Core\MarketIntelligency.Core.csproj" />
     <ProjectReference Include="..\MarketIntelligency.EventManager\MarketIntelligency.EventManager.csproj" />
+    <ProjectReference Include="..\MarketIntelligency.Exchange.MercadoBitcoin\MarketIntelligency.Exchange.MercadoBitcoin.csproj" />
   </ItemGroup>
 
 </Project>
