@@ -5,6 +5,7 @@ using MarketIntelligency.Core.Models.MarketAgregate;
 using MarketIntelligency.Core.Utils;
 using MarketIntelligency.Exchange.MercadoBitcoin;
 using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System;
@@ -24,12 +25,19 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
 
             var privateClientCredential = new Mock<Action<ClientCredential>>();
             var tradeClientCredential = new Mock<Action<ClientCredential>>();
-            var telemetryClient = new Mock<TelemetryClient>();
+            var config = TelemetryConfiguration.CreateDefault();
+            var telemetryClient = new TelemetryClient(config);
             var httpFactory = new Mock<IHttpClientFactory>();
+            httpFactory.Setup(x => x.CreateClient(It.IsAny<string>()))
+                       .Returns(() =>
+                       {
+                           var client = new HttpClient();
+                           return client;
+                       });
             _exchange = new MercadoBitcoinExchange(privateClientCredential.Object,
                                                    tradeClientCredential.Object,
                                                    logger.Object,
-                                                   telemetryClient.Object,
+                                                   telemetryClient,
                                                    httpFactory.Object);
         }
 
@@ -53,12 +61,12 @@ namespace MarketIntelligency.Test.Exchange.MercadoBitcoin
             Assert.Equal(market, response.Output.Market);
             Assert.NotNull(response.Output.Asks);
             Assert.Equal(1000, response.Output.Asks.Count());
-            Assert.InRange<decimal>(response.Output.Asks.First().Item1, 10000, decimal.MaxValue);
-            Assert.InRange<decimal>(response.Output.Asks.First().Item2, 0, 50);
+            Assert.InRange<decimal>(response.Output.Asks.First().Item2, 10000, decimal.MaxValue);
+            Assert.InRange<decimal>(response.Output.Asks.First().Item1, 0, 50);
             Assert.NotNull(response.Output.Bids);
             Assert.Equal(1000, response.Output.Bids.Count());
-            Assert.InRange<decimal>(response.Output.Bids.First().Item1, 10000, decimal.MaxValue);
-            Assert.InRange<decimal>(response.Output.Bids.First().Item2, 0, 50);
+            Assert.InRange<decimal>(response.Output.Bids.First().Item2, 10000, decimal.MaxValue);
+            Assert.InRange<decimal>(response.Output.Bids.First().Item1, 0, 50);
         }
     }
 }

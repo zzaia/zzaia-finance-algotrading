@@ -195,8 +195,9 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
         public ExchangeInfo Info { get { return Information; } }
 
         #region Public Methods
+
         /// <summary>
-        /// Fetch orderbook for the specified market, returns a simplified orderbook by price.
+        /// Fetch orderbook L1 for the specified market, returns a simplified orderbook by price aggregation.
         /// </summary>
         public async Task<ObjectResult<OrderBook>> FetchOrderBookAsync(Market market, CancellationToken cancellationToken)
         {
@@ -205,77 +206,93 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
             market = market ?? throw new ArgumentNullException(nameof(market));
             try
             {
-                if (_privateClientCredential is not null)
+                var response = await this.PublicClient.GetOrderBookAsync(market.Main.DisplayName, cancellationToken).ConfigureAwait(false);
+
+                if (response.Success)
                 {
-                    var ticker = ToDataDomain(market);
-                    var response = await this.PrivateClient.GetCompleteOrderBookByTickerPairAsync(_privateClientCredential, ticker, true, cancellationToken).ConfigureAwait(false);
+                    var resultToReturn = new OrderBook
+                    {
+                        Exchange = ExchangeName.MercadoBitcoin,
+                        DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
+                        Market = market,
+                        Bids = from order in response.Output.Bids.ToList()
+                               select new Tuple<decimal, decimal>(order[1], order[0]),
+                        Asks = from order in response.Output.Asks.ToList()
+                               select new Tuple<decimal, decimal>(order[1], order[0]),
+                    };
 
-                    if (response.Success && response.Output.Success)
-                    {
-                        var resultToReturn = new OrderBook
-                        {
-                            Exchange = ExchangeName.MercadoBitcoin,
-                            DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
-                            Market = market,
-                            Bids = from order in response.Output.Data.Orderbook.Bids.ToList()
-                                   select new Tuple<decimal, decimal>(decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
-                                                                      decimal.Parse(order.Quantity, Information.Culture.NumberFormat)),
-                            Asks = from order in response.Output.Data.Orderbook.Asks.ToList()
-                                   select new Tuple<decimal, decimal>(decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
-                                                                      decimal.Parse(order.Quantity, Information.Culture.NumberFormat)),
-                        };
-
-                        return ObjectResultFactory.CreateSuccessResult(resultToReturn);
-                    }
-                    else if (!response.Output.Success)
-                    {
-                        var errorMessage = $"{response.Output.Code} - {response.Output.Message}";
-                        Log.FetchOrderBook.WithFailedResponse(_logger, errorMessage);
-                        return ObjectResultFactory.CreateFailResult<OrderBook>();
-                    }
-                    else
-                    {
-                        var errorMessage = JsonSerializer.Serialize(response.ProblemDetails);
-                        Log.FetchOrderBook.WithFailedResponse(_logger, errorMessage);
-                        return ObjectResultFactory.CreateFailResult<OrderBook>();
-                    }
+                    return ObjectResultFactory.CreateSuccessResult(resultToReturn);
                 }
                 else
                 {
-                    var response = await this.PublicClient.GetOrderBookAsync(market.Ticker, cancellationToken).ConfigureAwait(false);
-
-                    if (response.Success)
-                    {
-                        var resultToReturn = new OrderBook
-                        {
-                            Exchange = ExchangeName.MercadoBitcoin,
-                            DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
-                            Market = market,
-                            Bids = from order in response.Output.Bids.ToList()
-                                   select new Tuple<decimal, decimal>(order[1], order[0]),
-                            Asks = from order in response.Output.Asks.ToList()
-                                   select new Tuple<decimal, decimal>(order[1], order[0]),
-                        };
-
-                        return ObjectResultFactory.CreateSuccessResult(resultToReturn);
-                    }
-                    else
-                    {
-                        var errorMessage = JsonSerializer.Serialize(response.ProblemDetails);
-                        Log.FetchOrderBook.WithFailedResponse(_logger, errorMessage);
-                        return ObjectResultFactory.CreateFailResult<OrderBook>();
-                    }
+                    var errorMessage = JsonSerializer.Serialize(response.ProblemDetails);
+                    Log.FetchOrderBook.WithFailedResponse(_logger, errorMessage);
+                    return ObjectResultFactory.CreateFailResult<OrderBook>();
                 }
             }
-            catch (OperationCanceledException ex)
+            catch (OperationCanceledException)
             {
                 Log.FetchOrderBook.WithOperationCanceled(_logger);
-                return ObjectResultFactory.CreateFailResult<OrderBook>(ex);
+                return ObjectResultFactory.CreateFailResult<OrderBook>();
             }
-            catch(Exception ex)
+            catch (Exception)
             {
-                Log.FetchOrderBook.WithException(_logger, ex);
-                return ObjectResultFactory.CreateFailResult<OrderBook>(ex);
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// Fetch orderbook L3 for the specified market, returns a simplified orderbook by price aggregation.
+        /// </summary>
+        public async Task<ObjectResult<OrderBook>> FetchL3OrderBookAsync(Market market, CancellationToken cancellationToken)
+        {
+            Log.FetchOrderBook.Received(_logger);
+            Log.FetchOrderBook.ReceivedAction(_telemetryClient);
+            market = market ?? throw new ArgumentNullException(nameof(market));
+
+            try
+            {
+                var ticker = ToDataDomain(market);
+                var response = await this.PrivateClient.GetCompleteOrderBookByTickerPairAsync(_privateClientCredential, ticker, true, cancellationToken).ConfigureAwait(false);
+
+                if (response.Success && response.Output.Success)
+                {
+                    var resultToReturn = new OrderBook
+                    {
+                        Exchange = ExchangeName.MercadoBitcoin,
+                        DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
+                        Market = market,
+                        Bids = from order in response.Output.Data.Orderbook.Bids.ToList()
+                               select new Tuple<decimal, decimal>(decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
+                                                                  decimal.Parse(order.Quantity, Information.Culture.NumberFormat)),
+                        Asks = from order in response.Output.Data.Orderbook.Asks.ToList()
+                               select new Tuple<decimal, decimal>(decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
+                                                                  decimal.Parse(order.Quantity, Information.Culture.NumberFormat)),
+                    };
+
+                    return ObjectResultFactory.CreateSuccessResult(resultToReturn);
+                }
+                else if (!response.Output.Success)
+                {
+                    var errorMessage = $"{response.Output.Code} - {response.Output.Message}";
+                    Log.FetchOrderBook.WithFailedResponse(_logger, errorMessage);
+                    return ObjectResultFactory.CreateFailResult<OrderBook>();
+                }
+                else
+                {
+                    var errorMessage = JsonSerializer.Serialize(response.ProblemDetails);
+                    Log.FetchOrderBook.WithFailedResponse(_logger, errorMessage);
+                    return ObjectResultFactory.CreateFailResult<OrderBook>();
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                Log.FetchOrderBook.WithOperationCanceled(_logger);
+                return ObjectResultFactory.CreateFailResult<OrderBook>();
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
         #endregion

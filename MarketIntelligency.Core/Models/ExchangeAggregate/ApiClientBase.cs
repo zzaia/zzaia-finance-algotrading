@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -17,6 +18,17 @@ namespace MarketIntelligency.Core.Models.ExchangeAggregate
                 var customerFromApi = await JsonSerializer.DeserializeAsync<T>(responseStream).ConfigureAwait(false);
                 return new Response<T>(customerFromApi);
             }
+            else if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                using var problemStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                var problemDetails = await JsonSerializer.DeserializeAsync<ProblemDetails>(problemStream).ConfigureAwait(false);
+                return new Response<T>(problemDetails);
+            }
+            else if (response.StatusCode == HttpStatusCode.NotFound)
+            {
+                var problemDetails = new ProblemDetails { Status = (int)HttpStatusCode.NotFound };
+                return new Response<T>(problemDetails);
+            }
             else
             {
                 using var problemStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
@@ -32,6 +44,12 @@ namespace MarketIntelligency.Core.Models.ExchangeAggregate
             if (response.IsSuccessStatusCode)
             {
                 return new Response(true);
+            }
+            else if (response.StatusCode == HttpStatusCode.BadRequest)
+            {
+                using var problemStream = await response.Content.ReadAsStreamAsync().ConfigureAwait(false);
+                var problemDetails = await JsonSerializer.DeserializeAsync<ProblemDetails>(problemStream).ConfigureAwait(false);
+                return new Response(problemDetails);
             }
             else
             {
