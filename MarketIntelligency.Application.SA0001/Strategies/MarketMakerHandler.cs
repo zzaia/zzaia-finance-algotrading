@@ -1,4 +1,5 @@
-﻿using MarketIntelligency.Core.Models;
+﻿using MarketIntelligency.Connector;
+using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.OrderAgregate;
 using MarketIntelligency.Core.Models.OrderBookAgregate;
 using MarketIntelligency.EventManager;
@@ -14,11 +15,11 @@ namespace MarketIntelligency.Application.SA0001.Strategies
 {
     public class MarketMakerHandler : BackgroundService
     {
-        private readonly IStreamSource _streamSource;
+        private readonly IDataStreamSource _streamSource;
         private readonly ILogger<MarketMakerHandler> _logger;
         private IObservable<OrderBook> _observable;
 
-        public MarketMakerHandler(IStreamSource streamSource, ILogger<MarketMakerHandler> logger)
+        public MarketMakerHandler(IDataStreamSource streamSource, ILogger<MarketMakerHandler> logger)
         {
             _streamSource = streamSource ?? throw new ArgumentNullException(nameof(streamSource));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

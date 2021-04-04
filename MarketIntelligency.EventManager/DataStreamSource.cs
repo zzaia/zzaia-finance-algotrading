@@ -6,7 +6,7 @@ using System.Reactive.Subjects;
 
 namespace MarketIntelligency.EventManager
 {
-    public class StreamSource : IStreamSource, IDisposable
+    public class DataStreamSource : IDataStreamSource
     {
         /// <summary>
         /// Use this subject to stream order book snapshot data
@@ -23,7 +23,6 @@ namespace MarketIntelligency.EventManager
 
         /// <inheritdoc />
         public IObservable<EventSource<OrderBook>> OrderBookStream => _orderBookSubject.AsObservable();
-
 
         public void Publish<T>(EventSource<T> eventSource) where T : class
         {

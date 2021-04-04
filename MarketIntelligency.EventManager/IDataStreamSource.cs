@@ -4,7 +4,7 @@ using System;
 
 namespace MarketIntelligency.EventManager
 {
-    public interface IStreamSource
+    public interface IDataStreamSource
     {
         /// <summary>
         /// Streams initial snapshot of the order book

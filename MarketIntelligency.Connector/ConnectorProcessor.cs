@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,20 +22,22 @@ namespace MarketIntelligency.Connector
         private readonly ConnectorOptions _options;
         private readonly ILogger<ConnectorProcessor> _logger;
         private readonly IExchangeSelector _exchangeSelector;
-        private readonly IStreamSource _streamSource;
+        private readonly IDataStreamSource _dataStreamSource;
         private readonly TelemetryClient _telemetryClient;
         private delegate ObjectResult<TResult> MethodHandler<T, CancellationToken, TResult>(T arg, CancellationToken cancellationToken) where TResult : class;
         private List<(dynamic, Delegate)> _delegateCollection { get; set; }
 
-
-        public ConnectorProcessor(Action<ConnectorOptions> connectorOptions, IExchangeSelector exchangeSelector, IStreamSource streamSource, ILogger<ConnectorProcessor> logger, TelemetryClient telemetryClient)
+        /// <summary>
+        /// Provided data streams
+        /// </summary>
+        public ConnectorProcessor(Action<ConnectorOptions> connectorOptions, IExchangeSelector exchangeSelector, IDataStreamSource dataStreamSource, ILogger<ConnectorProcessor> logger, TelemetryClient telemetryClient)
         {
             connectorOptions = connectorOptions ?? throw new ArgumentNullException(nameof(connectorOptions));
             var connectorOptionsModel = new ConnectorOptions();
             connectorOptions.Invoke(connectorOptionsModel);
             _options = connectorOptionsModel;
             _exchangeSelector = exchangeSelector ?? throw new ArgumentNullException(nameof(exchangeSelector));
-            _streamSource = streamSource ?? throw new ArgumentNullException(nameof(streamSource));
+            _dataStreamSource = dataStreamSource ?? throw new ArgumentNullException(nameof(dataStreamSource));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
         }
@@ -117,7 +120,7 @@ namespace MarketIntelligency.Connector
         {
             var eventToPublish = new EventSource<T>(content);
             _logger.LogInformation($"### Publishing event ###");
-            _streamSource.Publish(eventToPublish);
+            _dataStreamSource.Publish(eventToPublish);
         }
     }
 }

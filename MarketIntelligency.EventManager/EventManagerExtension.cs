@@ -34,6 +34,7 @@ namespace MarketIntelligency.EventManager
             managerOptions.Invoke(eventManagerOptionsModel);
 
             services.AddSingleton<ServiceFactory>(p => p.GetService);
+            services.AddSingleton<IDataStreamSource, DataStreamSource>();
 
             services.AddTransient<IMediator, CustomMediator>((s) =>
             {

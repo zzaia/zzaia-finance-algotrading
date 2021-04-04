@@ -26,7 +26,7 @@ namespace MarketIntelligency.Connector
             }
             services.AddHostedService((s) =>
                     {
-                        var source = (IStreamSource)s.GetService(typeof(IStreamSource));
+                        var source = (IDataStreamSource)s.GetService(typeof(IDataStreamSource));
                         var exchangeSelector = (IExchangeSelector)s.GetService(typeof(IExchangeSelector));
                         var logger = (ILogger<ConnectorProcessor>)s.GetService(typeof(ILogger<ConnectorProcessor>));
                         var telemetry = (TelemetryClient)s.GetService(typeof(TelemetryClient));

@@ -33,6 +33,9 @@ namespace MarketIntelligency.Application.SA0001
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            //----------- Strategies -------------------
+            services.AddHostedService<MarketMakerHandler>();
+
             //----------- Exchange API Clients -------------------
             services.AddHttpClient();
             services.AddExchange(ExchangeName.MercadoBitcoin,
@@ -40,16 +43,15 @@ namespace MarketIntelligency.Application.SA0001
                 tradeCredential => Configuration.Bind("Exchange:MercadoBitcoin:Trade", tradeCredential));
 
             services.AddSingleton<IExchangeSelector, ExchangeSelector>();
-            services.AddSingleton<IStreamSource, StreamSource>();
 
             //----------- Data Event Connectors -------------------
             services.AddConnector(options =>
                 {
                     options.Name = ExchangeName.MercadoBitcoin.DisplayName;
-                    options.TimeFrame = TimeFrame.s15;
+                    options.TimeFrame = TimeFrame.s1;
                     options.DataIn = MercadoBitcoinExchange.Information.Markets;
                     options.DataOut = new List<Type> { typeof(OrderBook) };
-                    options.Resolution = 2000;
+                    options.Resolution = 2000000;
                     options.Tolerance = 2;
                 });
 
@@ -57,9 +59,6 @@ namespace MarketIntelligency.Application.SA0001
             {
                 options.EnableAdaptiveSampling = false;
             });
-
-            //----------- Strategies -------------------
-            services.AddHostedService<MarketMakerHandler>();
 
             services.AddEventManager(options =>
             {
