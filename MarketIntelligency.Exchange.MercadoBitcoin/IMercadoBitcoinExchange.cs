@@ -2,7 +2,7 @@
 using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Public;
 using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Trade;
 
-namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi
+namespace MarketIntelligency.Exchange.MercadoBitcoin
 {
     public interface IMercadoBitcoinExchange
     {

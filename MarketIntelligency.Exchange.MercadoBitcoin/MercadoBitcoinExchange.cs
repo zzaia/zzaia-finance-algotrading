@@ -1,4 +1,5 @@
-﻿using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
+﻿using Crypto.Websocket.Extensions.Core.OrderBooks.Models;
+using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
 using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.ExchangeAggregate;
@@ -19,7 +20,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi
+namespace MarketIntelligency.Exchange.MercadoBitcoin
 {
     public partial class MercadoBitcoinExchange : IMercadoBitcoinExchange, IExchange
     {
@@ -54,9 +55,9 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi
             _publicApiClient = new PublicApiClient(clientFactory.CreateClient());
             _privateApiClient = new PrivateApiClient(clientFactory.CreateClient());
             _tradeApiClient = new TradeApiClient(clientFactory.CreateClient());
-            _publicApiClient.SetBaseAddress(Information.Uris.Api.Public);
-            _privateApiClient.SetBaseAddress(Information.Uris.Api.Private);
-            _tradeApiClient.SetBaseAddress(Information.Uris.Api.Trade);
+            _publicApiClient.SetBaseAddress(Information.Uris.WebApi.Public);
+            _privateApiClient.SetBaseAddress(Information.Uris.WebApi.Private);
+            _tradeApiClient.SetBaseAddress(Information.Uris.WebApi.Trade);
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
 
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
@@ -165,7 +166,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi
                         {
                             new Uri("https://www.mercadobitcoin.com.br/comissoes-prazos-limites")
                         },
-                        Api = new ApiUris
+                        WebApi = new WebApiUris
                         {
                             Public = new Uri("https://www.mercadobitcoin.net/api/"),
                             Private = new Uri("https://www.mercadobitcoin.net"),
@@ -183,6 +184,11 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi
                     LimitRate = new ExchangeLimitRate
                     {
                         Rate = 1
+                    },
+                    Options = new ExchangeOptions
+                    {
+                        HasWebApi = true,
+                        HasWebSocket = false
                     }
                 };
                 return exchangeInfo;
@@ -301,6 +307,16 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi
         private static string ToDataDomain(Market market)
         {
             return $"{market.Base.DisplayName}{market.Main.DisplayName}";
+        }
+
+        public void SetOrderBookSubscription(Market market)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void SubscribeToOrderBook(Action<IList<IOrderBookChangeInfo>> onNext)
+        {
+            throw new NotImplementedException();
         }
         #endregion
     }
