@@ -1,5 +1,4 @@
-﻿using MarketIntelligency.Connector;
-using MarketIntelligency.Core.Models;
+﻿using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.OrderAgregate;
 using MarketIntelligency.Core.Models.OrderBookAgregate;
 using MarketIntelligency.EventManager;
@@ -39,7 +38,7 @@ namespace MarketIntelligency.Application.SA0001.Strategies
         /// </summary>
         public async void HandleStrategy(OrderBook orderBook)
         {
-            _logger.LogInformation($"### Consuming event ###");
+            _logger.LogDebug($"### Consuming event ###");
             await Task.Delay(1000);
             var response = new EventSource<Order>(new Order());
             _streamSource.Publish(response);
@@ -58,7 +57,7 @@ namespace MarketIntelligency.Application.SA0001.Strategies
         /// </summary>
         public void HandleCompletion()
         {
-            _logger.LogInformation("Strategy completed");
+            _logger.LogDebug("Strategy completed");
         }
     }
 }

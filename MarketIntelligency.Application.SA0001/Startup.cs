@@ -5,7 +5,8 @@ using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.OrderBookAgregate;
 using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi;
+using MarketIntelligency.Exchange.Binance;
+using MarketIntelligency.Exchange.MercadoBitcoin;
 using MarketIntelligency.WebApi.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -41,19 +42,31 @@ namespace MarketIntelligency.Application.SA0001
                 privateCredential => Configuration.Bind("Exchange:MercadoBitcoin:Private", privateCredential),
                 tradeCredential => Configuration.Bind("Exchange:MercadoBitcoin:Trade", tradeCredential));
 
+            services.AddExchange(ExchangeName.Binance,
+                privateCredential => Configuration.Bind("Exchange:Binance:Private", privateCredential),
+                tradeCredential => Configuration.Bind("Exchange:Binance:Trade", tradeCredential));
+
+
             services.AddSingleton<IExchangeSelector, ExchangeSelector>();
 
             //----------- Data Event Connectors -------------------
-            services.AddConnector(options =>
-                {
 
-                    options.Name = ExchangeName.MercadoBitcoin.DisplayName;
-                    options.TimeFrame = TimeFrame.s1;
-                    options.DataIn = MercadoBitcoinExchange.Information.Markets;
-                    options.DataOut = new List<Type> { typeof(OrderBook) };
-                    options.Resolution = 2000000;
-                    options.Tolerance = 2;
-                });
+            services.AddWebSocketConnector(options =>
+                 {
+                     options.ExchangeName = ExchangeName.Binance;
+                     options.DataIn = BinanceExchange.Information.Markets;
+                     options.DataOut = new List<Type> { typeof(OrderBook) };
+                 });
+
+            services.AddWebApiConnector(options =>
+                 {
+                     options.ExchangeName = ExchangeName.MercadoBitcoin;
+                     options.TimeFrame = TimeFrame.s1;
+                     options.DataIn = MercadoBitcoinExchange.Information.Markets;
+                     options.DataOut = new List<Type> { typeof(OrderBook) };
+                     options.Resolution = 2000000;
+                     options.Tolerance = 2;
+                 });
 
             services.AddApplicationInsightsTelemetry(options =>
             {
