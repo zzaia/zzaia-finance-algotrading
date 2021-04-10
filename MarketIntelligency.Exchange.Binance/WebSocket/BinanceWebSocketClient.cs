@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MarketIntelligency.WebSocket;
 
 namespace MarketIntelligency.Exchange.Binance.WebSocket
 {
-    public class BinanceWebSocketClient
+    public class BinanceWebSocketClient : IWebSocketClient
     {
-        
+
     }
 }

@@ -5,11 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Crypto.Websocket.Extensions" Version="2.5.37" />
+    <PackageReference Include="Binance.Client.Websocket" Version="2.0.24" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="System.Reactive" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MarketIntelligency.Core\MarketIntelligency.Core.csproj" />
     <ProjectReference Include="..\MarketIntelligency.WebSocket\MarketIntelligency.WebSocket.csproj" />
   </ItemGroup>
 
