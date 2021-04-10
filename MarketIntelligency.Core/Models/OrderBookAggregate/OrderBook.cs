@@ -27,12 +27,12 @@ namespace MarketIntelligency.Core.Models.OrderBookAgregate
         public DateTimeOffset DateTimeOffset { get; set; }
 
         /// <summary>
-        /// List of bids orders.
+        /// List of bids orders, price and volume.
         /// </summary>
         public IEnumerable<Tuple<decimal, decimal>> Bids { get; set; }
 
         /// <summary>
-        /// List of asks orders.
+        /// List of asks orders, price and volume.
         /// </summary>
         public IEnumerable<Tuple<decimal, decimal>> Asks { get; set; }
 

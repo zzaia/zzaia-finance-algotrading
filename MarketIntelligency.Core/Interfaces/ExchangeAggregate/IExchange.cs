@@ -1,8 +1,10 @@
-﻿
+﻿using Crypto.Websocket.Extensions.Core.OrderBooks.Models;
 using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
 using MarketIntelligency.Core.Models.OrderBookAgregate;
+using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,5 +19,7 @@ namespace MarketIntelligency.Core.Interfaces.ExchangeAggregate
         ExchangeInfo Info { get; }
 
         Task<ObjectResult<OrderBook>> FetchOrderBookAsync(Market market, CancellationToken cancellationToken);
+        void SetOrderBookSubscription(Market market);
+        void SubscribeToOrderBook(Action<IList<IOrderBookChangeInfo>> onNext);
     }
 }

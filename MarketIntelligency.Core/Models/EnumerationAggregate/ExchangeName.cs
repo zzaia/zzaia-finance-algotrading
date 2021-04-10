@@ -8,6 +8,8 @@ namespace MarketIntelligency.Core.Models.EnumerationAggregate
     public class ExchangeName : Enumeration
     {
         public static readonly ExchangeName MercadoBitcoin = new(1, "Mercado Bitcoin");
+        public static readonly ExchangeName Binance = new(2, "Binance");
+        public static readonly ExchangeName Coinbase = new(3, "Coinbase");
         public ExchangeName() { }
 
         private ExchangeName(int value, string displayName) : base(value, displayName) { }

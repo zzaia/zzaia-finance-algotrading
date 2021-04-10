@@ -20,6 +20,7 @@ namespace MarketIntelligency.Core.Models.EnumerationAggregate
         public static readonly Asset CHZ = new Asset(11, "CHZ", "Chiliz", Types.UtilityToken);
         public static readonly Asset WBX = new Asset(12, "WBX", "Wibx", Types.UtilityToken);
         public static readonly Asset PAXG = new Asset(13, "PAXG", "Pax Gold", Types.StableCoin);
+        public static readonly Asset USDT = new Asset(14, "USDT", "Dollar Tether", Types.StableCoin);
         public Asset() { }
 
         private Asset(int value, string displayName, string name, string type) : base(value, displayName)
