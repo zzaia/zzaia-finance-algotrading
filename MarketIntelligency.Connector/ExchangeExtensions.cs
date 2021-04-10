@@ -1,6 +1,7 @@
 ﻿using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.ExchangeAggregate;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi;
+using MarketIntelligency.Exchange.Binance;
+using MarketIntelligency.Exchange.MercadoBitcoin;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -41,6 +42,10 @@ namespace MarketIntelligency.Connector
                     var clientFactory = (IHttpClientFactory)s.GetService(typeof(IHttpClientFactory));
                     return new MercadoBitcoinExchange(privateCredential, tradeCredential, logger, telemetry, clientFactory);
                 });
+            }
+            else if (exchangeName.Equals(ExchangeName.Binance))
+            {
+                services.AddSingleton<BinanceExchange>();
             }
 
             return services;

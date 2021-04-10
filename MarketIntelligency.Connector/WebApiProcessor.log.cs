@@ -4,7 +4,7 @@ using System;
 
 namespace MarketIntelligency.Connector
 {
-    public partial class ConnectorProcessor
+    public partial class WebApiProcessor
     {
         private static class Log
         {
@@ -19,7 +19,7 @@ namespace MarketIntelligency.Connector
 
                 #region Logging Messages
                 private static readonly Action<ILogger, Exception> _receivedMessage =
-                    LoggerMessage.Define(LogLevel.Information, new EventId(1101, "ConnectToRestReceived")
+                    LoggerMessage.Define(LogLevel.Trace, new EventId(1101, "ConnectToRestReceived")
                     , "Call to connect to rest api received");
                 private static readonly Action<ILogger, string, Exception> _withFailedResponse =
                     LoggerMessage.Define<string>(LogLevel.Error, new EventId(1102, "ConnectToRestFailedResponse")

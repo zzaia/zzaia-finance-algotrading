@@ -17,23 +17,27 @@ using System.Threading.Tasks;
 
 namespace MarketIntelligency.Connector
 {
-    public partial class ConnectorProcessor : BackgroundService
+    public partial class WebApiProcessor : BackgroundService
     {
-        private readonly ConnectorOptions _options;
-        private readonly ILogger<ConnectorProcessor> _logger;
+        private readonly WebApiConnectorOptions _options;
         private readonly IExchangeSelector _exchangeSelector;
         private readonly IDataStreamSource _dataStreamSource;
+        private readonly ILogger<WebApiProcessor> _logger;
         private readonly TelemetryClient _telemetryClient;
         private delegate ObjectResult<TResult> MethodHandler<T, CancellationToken, TResult>(T arg, CancellationToken cancellationToken) where TResult : class;
         private List<(dynamic, Delegate)> _delegateCollection { get; set; }
 
         /// <summary>
-        /// Provided data streams
+        /// Provide data streams from web api clients
         /// </summary>
-        public ConnectorProcessor(Action<ConnectorOptions> connectorOptions, IExchangeSelector exchangeSelector, IDataStreamSource dataStreamSource, ILogger<ConnectorProcessor> logger, TelemetryClient telemetryClient)
+        public WebApiProcessor(Action<WebApiConnectorOptions> connectorOptions,
+            IExchangeSelector exchangeSelector,
+            IDataStreamSource dataStreamSource,
+            ILogger<WebApiProcessor> logger,
+            TelemetryClient telemetryClient)
         {
             connectorOptions = connectorOptions ?? throw new ArgumentNullException(nameof(connectorOptions));
-            var connectorOptionsModel = new ConnectorOptions();
+            var connectorOptionsModel = new WebApiConnectorOptions();
             connectorOptions.Invoke(connectorOptionsModel);
             _options = connectorOptionsModel;
             _exchangeSelector = exchangeSelector ?? throw new ArgumentNullException(nameof(exchangeSelector));
@@ -45,27 +49,27 @@ namespace MarketIntelligency.Connector
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             TimeSpan minTimeFrame = new();
-            if (ExchangeName.IsValid(_options.Name))
+            var exchange = _exchangeSelector.SelectByName(_options.ExchangeName);
+            if (!exchange.Info.Options.HasWebApi)
             {
-                var exchangeName = Enumeration.FromDisplayName<ExchangeName>(_options.Name);
-                var exchange = _exchangeSelector.SelectByName(exchangeName);
-                minTimeFrame = exchange.Info.LimitRate.Period;
-                _delegateCollection = new List<(dynamic, Delegate)>();
-                foreach (var market in _options.DataIn)
+                throw new ArgumentException("Exchange does not support web api.", nameof(ExchangeName));
+            }
+
+            minTimeFrame = exchange.Info.LimitRate.Period;
+            _delegateCollection = new List<(dynamic, Delegate)>();
+            foreach (var item in _options.DataIn)
+            {
+                if (item.GetType() == typeof(Market))
                 {
                     if (_options.DataOut.Any(each => each.Equals(typeof(OrderBook))))
                     {
                         var del = new MethodHandler<Market, CancellationToken, OrderBook>((a, c) => exchange.FetchOrderBookAsync(a, c).Result);
-                        _delegateCollection.Add((market, del));
+                        _delegateCollection.Add((item, del));
                     }
                 }
             }
-            else
-            {
-                // TODO: Section reserved for non exchange connectors activation;
-            }
 
-            while (!cancellationToken.IsCancellationRequested)
+            while (!cancellationToken.IsCancellationRequested && _delegateCollection.Any())
             {
                 var timeNow = DateTimeUtils.CurrentUtcTimestamp();
                 var timeFrame = _options.TimeFrame.TimeSpan > minTimeFrame ? _options.TimeFrame.TimeSpan : minTimeFrame;
@@ -119,8 +123,7 @@ namespace MarketIntelligency.Connector
         private void PublishEvent<T>(T content) where T : class
         {
             var eventToPublish = new EventSource<T>(content);
-            _logger.LogInformation($"### Publishing event ###");
-            _dataStreamSource.Publish(eventToPublish);
+            _dataStreamSource.Publish(eventToPublish, _logger);
         }
     }
 }

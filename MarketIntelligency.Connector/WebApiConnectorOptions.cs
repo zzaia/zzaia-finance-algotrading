@@ -4,17 +4,22 @@ using System.Collections.Generic;
 
 namespace MarketIntelligency.Connector
 {
-    public class ConnectorOptions
+    public class WebApiConnectorOptions
     {
         /// <summary>
         /// Exchange or vendors reference name;
         /// </summary>
-        public string Name { get; set; }
+        public ExchangeName ExchangeName { get; set; }
 
         /// <summary>
         /// This is the period between requests;
         /// </summary>
         public TimeFrame TimeFrame { get; set; }
+
+        /// <summary>
+        /// The dictionary of data to be used as argument;
+        /// </summary>
+        public Dictionary<dynamic, dynamic> DataProfile { get; set; }
 
         /// <summary>
         /// The collection of data to be used as argument;

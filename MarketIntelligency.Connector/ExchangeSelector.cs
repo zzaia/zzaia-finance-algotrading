@@ -33,7 +33,11 @@ namespace MarketIntelligency.Connector
             Type type;
             if (exchangeName.Equals(ExchangeName.MercadoBitcoin))
             {
-                type = typeof(MarketIntelligency.Exchange.MercadoBitcoin.WebApi.MercadoBitcoinExchange);
+                type = typeof(MarketIntelligency.Exchange.MercadoBitcoin.MercadoBitcoinExchange);
+            }
+            else if (exchangeName.Equals(ExchangeName.Binance))
+            {
+                type = typeof(MarketIntelligency.Exchange.Binance.BinanceExchange);
             }
             else
             {
