@@ -38,7 +38,7 @@ namespace MarketIntelligency.Application.SA0001.Strategies
         /// </summary>
         public async void HandleStrategy(OrderBook orderBook)
         {
-            _logger.LogDebug($"### Consuming event ###");
+            _logger.LogInformation("### Consuming event for strategy ###");
             await Task.Delay(1000);
             var response = new EventSource<Order>(new Order());
             _streamSource.Publish(response);
@@ -57,7 +57,7 @@ namespace MarketIntelligency.Application.SA0001.Strategies
         /// </summary>
         public void HandleCompletion()
         {
-            _logger.LogDebug("Strategy completed");
+            _logger.LogInformation("### Strategy completed ### ");
         }
     }
 }
