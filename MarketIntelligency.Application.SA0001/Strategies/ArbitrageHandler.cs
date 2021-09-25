@@ -12,13 +12,13 @@ using System.Threading.Tasks;
 
 namespace MarketIntelligency.Application.SA0001.Strategies
 {
-    public class MarketMakerHandler : BackgroundService
+    public class ArbitrageHandler : BackgroundService
     {
         private readonly IDataStreamSource _streamSource;
         private readonly ILogger<MarketMakerHandler> _logger;
         private IObservable<OrderBook> _observable;
 
-        public MarketMakerHandler(IDataStreamSource streamSource, ILogger<MarketMakerHandler> logger)
+        public ArbitrageHandler(IDataStreamSource streamSource, ILogger<MarketMakerHandler> logger)
         {
             _streamSource = streamSource ?? throw new ArgumentNullException(nameof(streamSource));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -38,7 +38,7 @@ namespace MarketIntelligency.Application.SA0001.Strategies
         /// </summary>
         public async void HandleStrategy(OrderBook orderBook)
         {
-            _logger.LogInformation("### Consuming event for market making strategy ###");
+            _logger.LogInformation("### Consuming event for Arbitrage strategy  ###");
             await Task.Delay(1000);
             var response = new EventSource<Order>(new Order());
             _streamSource.Publish(response);
@@ -57,7 +57,7 @@ namespace MarketIntelligency.Application.SA0001.Strategies
         /// </summary>
         public void HandleCompletion()
         {
-            _logger.LogInformation("### Market Making Strategy completed ### ");
+            _logger.LogInformation("### Arbitrage Strategy completed ### ");
         }
     }
 }

@@ -33,6 +33,7 @@ namespace MarketIntelligency.Application.SA0001
         {
             //----------- Strategies -------------------
             services.AddHostedService<MarketMakerHandler>();
+            services.AddHostedService<ArbitrageHandler>();
 
             //----------- Exchange API Clients -------------------
             services.AddHttpClient();
