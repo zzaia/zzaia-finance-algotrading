@@ -16,7 +16,7 @@ namespace MarketIntelligency.WebGrpc.Test
         public void ActivateAGivenExchange()
         {
             // Arrange
-            var mockClient = new Mock<ControlGrpc.ControlGrpcClient>();
+            var mockClient = new Mock<Protos.ControlGrpc.ControlGrpcClient>();
             var controlArgs = new ControlMetadata() { Name = "connectors" };
             // Use a factory method provided by Grpc.Core.Testing.TestCalls to create an instance of a call.
             var fakeCall = TestCalls.AsyncUnaryCall(Task.FromResult(new Empty()), Task.FromResult(new Metadata()), () => Status.DefaultSuccess, () => new Metadata(), () => { });
@@ -34,7 +34,7 @@ namespace MarketIntelligency.WebGrpc.Test
         {
             var options = new GrpcChannelOptions();
             var channel = GrpcChannel.ForAddress("https://localhost:5001", options);
-            var client = new ControlGrpc.ControlGrpcClient(channel);
+            var client = new Protos.ControlGrpc.ControlGrpcClient(channel);
 
             // Asynchronous unary RPC
             var foosRequest = new ControlMetadata { Name = "connectors" };

@@ -1,11 +1,11 @@
 ﻿using Grpc.Net.ClientFactory;
-using MarketIntelligency.WebGrpc.Authentication;
+using MarketIntelligency.WebGrpc.Clients.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Net.Http;
 
-namespace MarketIntelligency.WebGrpc
+namespace MarketIntelligency.WebGrpc.Clients
 {
     /// <summary>
     /// Extension methods for the BankOtcExchange Grpc client.
@@ -19,7 +19,7 @@ namespace MarketIntelligency.WebGrpc
         /// <param name="authOptions">A delegate to configure the <see cref="OAuth2Options"/>.</param>
         /// <param name="grpcOptions">A delegate to configure the <see cref="GrpcClientFactoryOptions"/>.</param>
         /// <returns></returns>
-        public static IServiceCollection AddBankOtcExchangeGrpcClient(this IServiceCollection services, IHostEnvironment env, Action<OAuth2Options> authOptions, Action<GrpcClientFactoryOptions> grpcOptions)
+        public static IServiceCollection AddControlGrpcClient(this IServiceCollection services, IHostEnvironment env, Action<OAuth2Options> authOptions, Action<GrpcClientFactoryOptions> grpcOptions)
         {
             if (services is null)
             {
@@ -41,7 +41,7 @@ namespace MarketIntelligency.WebGrpc
 
             if (env.IsEnvironment("Test"))
             {
-                services.AddScoped<IMarketIntelligencyGrpc, MockMarketIntelligencyGrpc>();
+                services.AddScoped<IControlGrpc, MockControlGrpc>();
             }
             else
             {
@@ -53,7 +53,7 @@ namespace MarketIntelligency.WebGrpc
                 });
 
                 services.AddGrpcClient<Protos.ControlGrpc.ControlGrpcClient>(grpcOptions);
-                services.AddScoped<IMarketIntelligencyGrpc, MarketIntelligencyGrpc>();
+                services.AddScoped<IControlGrpc, ControlGrpc>();
             }
             return services;
         }

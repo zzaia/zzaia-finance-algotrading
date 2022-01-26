@@ -1,4 +1,5 @@
-﻿using Grpc.Core;
+﻿using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
 using MarketIntelligency.Connector;
 using MarketIntelligency.WebGrpc.Protos;
 using Microsoft.ApplicationInsights;
@@ -20,7 +21,8 @@ namespace MarketIntelligency.WebApi.Services
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
         }
-        public override async Task<Google.Protobuf.WellKnownTypes.Empty> Activate(ControlMetadata request, ServerCallContext context)
+
+        public override async Task<Empty> Activate(ControlMetadata request, ServerCallContext context)
         {
             Log.Activate.Received(_logger);
             Log.Activate.ReceivedAction(_telemetryClient);

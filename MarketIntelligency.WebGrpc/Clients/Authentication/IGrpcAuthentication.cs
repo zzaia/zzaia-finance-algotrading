@@ -1,4 +1,4 @@
-﻿namespace MarketIntelligency.WebGrpc.Authentication
+﻿namespace MarketIntelligency.WebGrpc.Clients.Authentication
 {
     public interface IGrpcAuthentication : IAuthentication
     {

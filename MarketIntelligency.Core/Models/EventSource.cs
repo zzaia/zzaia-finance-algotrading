@@ -10,6 +10,12 @@ namespace MarketIntelligency.Core.Models
             Content = content;
             OcurredAt = DateTimeOffset.UtcNow;
         }
+        public EventSource(T content, DateTimeOffset ocurredAt, DateTimeOffset recordedAt)
+        {
+            Content = content;
+            OcurredAt = ocurredAt;
+            RecordedAt = recordedAt;
+        }
         public DateTimeOffset OcurredAt { get; set; }
         public DateTimeOffset RecordedAt { get; set; }
         public T Content { get; set; }

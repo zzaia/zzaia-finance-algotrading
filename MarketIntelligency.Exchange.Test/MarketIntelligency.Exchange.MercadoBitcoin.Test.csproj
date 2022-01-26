@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MarketIntelligency.Exchange.MercadoBitcoin\MarketIntelligency.Exchange.MercadoBitcoin.csproj" />
-    <ProjectReference Include="..\MarketIntelligency.Application.SA0001\MarketIntelligency.Application.Adapter.MercadoBitcoin.csproj" />
+    <ProjectReference Include="..\MarketIntelligency.Application.Adapter.MercadoBitcoin\MarketIntelligency.Application.Adapter.MercadoBitcoin.csproj" />
   </ItemGroup>
   
   <ItemGroup>

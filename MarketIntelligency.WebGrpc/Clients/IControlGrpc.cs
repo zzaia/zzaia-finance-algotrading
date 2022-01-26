@@ -1,9 +1,9 @@
 ﻿using MarketIntelligency.WebGrpc.Models;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.WebGrpc
+namespace MarketIntelligency.WebGrpc.Clients
 {
-    public interface IMarketIntelligencyGrpc
+    public interface IControlGrpc
     {
         Task<Response> ActivateAsync(string exchangeName);
         Task<Response> DeactivateAsync(string exchangeName);

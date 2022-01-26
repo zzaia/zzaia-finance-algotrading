@@ -45,7 +45,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Exchange
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Application.Strategies", "MarketIntelligency.Application.Strategies\MarketIntelligency.Application.Strategies.csproj", "{318F6BF9-31BC-48B9-A7C4-7D6B81A28F74}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketIntelligency.Application.Adapter.Binance", "MarketIntelligency.Application.Adapter.Binance\MarketIntelligency.Application.Adapter.Binance.csproj", "{8D1C061D-0CA8-47E7-8075-FE1D141785E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Application.Adapter.Binance", "MarketIntelligency.Application.Adapter.Binance\MarketIntelligency.Application.Adapter.Binance.csproj", "{8D1C061D-0CA8-47E7-8075-FE1D141785E4}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "MarketIntelligency.Application.MachineLearning", "MarketIntelligency.Application.MachineLearning\MarketIntelligency.Application.MachineLearning.pyproj", "{E7314792-CBE9-462F-8E30-95D3EBA5E8A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -321,6 +323,12 @@ Global
 		{8D1C061D-0CA8-47E7-8075-FE1D141785E4}.Release|x64.Build.0 = Release|Any CPU
 		{8D1C061D-0CA8-47E7-8075-FE1D141785E4}.Release|x86.ActiveCfg = Release|Any CPU
 		{8D1C061D-0CA8-47E7-8075-FE1D141785E4}.Release|x86.Build.0 = Release|Any CPU
+		{E7314792-CBE9-462F-8E30-95D3EBA5E8A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7314792-CBE9-462F-8E30-95D3EBA5E8A8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E7314792-CBE9-462F-8E30-95D3EBA5E8A8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E7314792-CBE9-462F-8E30-95D3EBA5E8A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7314792-CBE9-462F-8E30-95D3EBA5E8A8}.Release|x64.ActiveCfg = Release|Any CPU
+		{E7314792-CBE9-462F-8E30-95D3EBA5E8A8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

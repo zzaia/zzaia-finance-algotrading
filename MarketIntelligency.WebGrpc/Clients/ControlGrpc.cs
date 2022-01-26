@@ -1,19 +1,19 @@
 ﻿using Grpc.Core;
-using MarketIntelligency.WebGrpc.Authentication;
+using MarketIntelligency.WebGrpc.Clients.Authentication;
 using MarketIntelligency.WebGrpc.Models;
 using MarketIntelligency.WebGrpc.Protos;
 using System;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.WebGrpc
+namespace MarketIntelligency.WebGrpc.Clients
 {
-    public class MarketIntelligencyGrpc : GrpcBase, IMarketIntelligencyGrpc
+    public class ControlGrpc : GrpcBase, IControlGrpc
     {
-        private readonly ControlGrpc.ControlGrpcClient _controlGrpcClient;
+        private readonly Protos.ControlGrpc.ControlGrpcClient _controlGrpcClient;
         private readonly IGrpcAuthentication _authentication;
 
-        public MarketIntelligencyGrpc(
-            ControlGrpc.ControlGrpcClient controlGgrpcClient,
+        public ControlGrpc(
+            Protos.ControlGrpc.ControlGrpcClient controlGgrpcClient,
             IGrpcAuthentication authentication)
         {
             _authentication = authentication ?? throw new ArgumentNullException(nameof(authentication));

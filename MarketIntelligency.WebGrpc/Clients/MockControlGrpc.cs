@@ -1,11 +1,10 @@
 ﻿using MarketIntelligency.WebGrpc.Models;
-using MarketIntelligency.WebGrpc.Protos;
 using System;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.WebGrpc
+namespace MarketIntelligency.WebGrpc.Clients
 {
-    public class MockMarketIntelligencyGrpc : IMarketIntelligencyGrpc
+    public class MockControlGrpc : IControlGrpc
     {
         public Task<Response> ActivateAsync(string exchangeName)
         {

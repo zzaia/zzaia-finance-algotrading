@@ -4,11 +4,12 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.WebGrpc
+namespace MarketIntelligency.WebGrpc.Clients
 {
     public class GrpcBase
     {
         protected ILogger _logger;
+
         public async Task<Response<TResponse>> GetResponseAsync<TResponse>(AsyncUnaryCall<TResponse> response)
             where TResponse : class
         {

@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace MarketIntelligency.WebGrpc.Authentication
+namespace MarketIntelligency.WebGrpc.Clients.Authentication
 {
     public class GrpcAuthentication : Authentication, IGrpcAuthentication
     {

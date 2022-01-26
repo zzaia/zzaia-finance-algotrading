@@ -6,6 +6,7 @@ using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
 using MarketIntelligency.Exchange.Binance;
 using MarketIntelligency.WebApi.Services;
+using MarketIntelligency.WebGrpc.Protos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -60,6 +61,8 @@ namespace MarketIntelligency.Application.Adapter.Binance
             {
                 opt.EnableDetailedErrors = true;
             });
+
+            services.AddGrpcClient<StreamEventGrpc.StreamEventGrpcClient>("DataEventManager", opt => opt.Address = new Uri("https://localhost:5003"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
