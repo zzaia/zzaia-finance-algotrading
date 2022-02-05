@@ -11,6 +11,7 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
+using MarketIntelligency.Web.Grpc.Clients;
 
 namespace MarketIntelligency.Application.Adapter.Binance
 {

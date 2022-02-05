@@ -7,5 +7,12 @@
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.42.0" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Connector\src\MarketIntelligency.Connector.csproj" />
+    <ProjectReference Include="..\..\..\..\Core\src\MarketIntelligency.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\EventManager\src\MarketIntelligency.EventManager.csproj" />
+    <ProjectReference Include="..\..\..\..\Web\Grpc\src\MarketIntelligency.Web.Grpc.csproj" />
+  </ItemGroup>
 
 </Project>

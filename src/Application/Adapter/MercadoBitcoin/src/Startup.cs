@@ -5,7 +5,7 @@ using MarketIntelligency.Core.Models.OrderBookAgregate;
 using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
 using MarketIntelligency.Exchange.MercadoBitcoin;
-using MarketIntelligency.WebApi.Services;
+using MarketIntelligency.Web.Grpc.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

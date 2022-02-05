@@ -1,4 +1,4 @@
-﻿using MarketIntelligency.Application.SA0001;
+﻿using MarketIntelligency.Application.Adapter.MercadoBitcoin;
 using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Trade;
 using Microsoft.Extensions.Configuration;

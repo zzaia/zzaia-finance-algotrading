@@ -1,6 +1,6 @@
 using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
-using MarketIntelligency.WebGrpc.Services;
+using MarketIntelligency.Web.Grpc.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;

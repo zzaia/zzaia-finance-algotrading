@@ -5,6 +5,7 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.20.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="6.0.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageReference Include="Moq" Version="4.16.1" />
@@ -17,6 +18,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Application\Adapter\MercadoBitcoin\src\MarketIntelligency.Application.Adapter.MercadoBitcoin.csproj" />
+    <ProjectReference Include="..\..\..\Core\src\MarketIntelligency.Core.csproj" />
+    <ProjectReference Include="..\src\MarketIntelligency.Exchange.MercadoBitcoin.csproj" />
   </ItemGroup>
 
 </Project>

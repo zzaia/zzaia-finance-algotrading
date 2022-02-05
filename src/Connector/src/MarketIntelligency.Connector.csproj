@@ -12,4 +12,10 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\EventManager\src\MarketIntelligency.EventManager.csproj" />
+    <ProjectReference Include="..\..\Exchange\Binance\src\MarketIntelligency.Exchange.Binance.csproj" />
+    <ProjectReference Include="..\..\Exchange\MercadoBitcoin\src\MarketIntelligency.Exchange.MercadoBitcoin.csproj" />
+  </ItemGroup>
+
 </Project>

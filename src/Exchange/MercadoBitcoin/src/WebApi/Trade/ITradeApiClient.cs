@@ -1,7 +1,6 @@
 ﻿using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Models;
 using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Models.DTO;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
