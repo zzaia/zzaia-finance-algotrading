@@ -1,9 +1,0 @@
-﻿syntax = "proto3";
-import "Protos/CustomTypes.proto";
-import "google/protobuf/empty.proto";
-
-option crharp_namespace = "MarketIntelligency.WebGrpc.Protos";
-
-service StreamEventGrpc {
-	rpc ReceiveEvent (stream EventMessage) returns (google.protobuf.Empty);
-}
