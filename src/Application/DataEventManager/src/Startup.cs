@@ -1,12 +1,12 @@
+using MarketIntelligency.Application.DataEventManager.Services;
 using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
-using MarketIntelligency.Web.Grpc.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace MarketIntelligency.Application.NA0001
+namespace MarketIntelligency.Application.DataEventManager
 {
     public class Startup
     {
@@ -20,10 +20,8 @@ namespace MarketIntelligency.Application.NA0001
             }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
 
             // Grpc
-            services.AddGrpc(opt =>
-            {
-                opt.EnableDetailedErrors = true;
-            });
+            services.AddGrpc();
+            services.AddDaprClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,7 +36,7 @@ namespace MarketIntelligency.Application.NA0001
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<StreamEventService>();
+                endpoints.MapGrpcService<DataEventManagerService>();
 
                 if (env.IsDevelopment())
                 {

@@ -1,4 +1,7 @@
-﻿namespace MarketIntelligency.Core.Models.ExchangeAggregate
+﻿using Google.Protobuf;
+using Google.Protobuf.Reflection;
+
+namespace MarketIntelligency.Core.Models.ExchangeAggregate
 {
     public class Response<T> where T : class
     {
@@ -15,7 +18,7 @@
         public ProblemDetails ProblemDetails { get; set; }
         public bool Success => Output != null;
     }
-    public class Response
+    public class Response : IMessage
     {
         public Response() { }
         public Response(bool success)
@@ -29,5 +32,22 @@
         public bool Output => Success;
         public ProblemDetails ProblemDetails { get; set; }
         public bool Success { get; set; }
+
+        public MessageDescriptor Descriptor => throw new System.NotImplementedException();
+
+        public int CalculateSize()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void MergeFrom(CodedInputStream input)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void WriteTo(CodedOutputStream output)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

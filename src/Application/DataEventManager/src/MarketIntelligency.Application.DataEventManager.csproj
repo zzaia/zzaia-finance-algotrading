@@ -12,7 +12,6 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\EventManager\src\MarketIntelligency.EventManager.csproj" />
-	  <ProjectReference Include="..\..\..\Web\Grpc\src\MarketIntelligency.Web.Grpc.csproj" />
 	</ItemGroup>
 
 </Project>

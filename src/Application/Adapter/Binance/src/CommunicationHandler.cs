@@ -1,6 +1,7 @@
 ﻿using Dapr.Client;
 using Google.Protobuf.WellKnownTypes;
 using MarketIntelligency.Core.Models;
+using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Core.Models.OrderBookAgregate;
 using MarketIntelligency.EventManager;
 using Microsoft.Extensions.Hosting;
@@ -48,7 +49,8 @@ namespace MarketIntelligency.Application.Adapter.Binance
             _logger.LogInformation("### Consuming event for communication ###");
             var eventSource = new EventSource<OrderBook>(orderBook);
             var eventMessage = Any.Pack(eventSource);
-            await _client.InvokeMethodGrpcAsync<Any>("data-event-manager", "orderbook", eventMessage);
+            var response = await _client.InvokeMethodGrpcAsync<Any, Any>("data-event-manager", "orderbook", eventMessage);
+            var input = response.Unpack<Response>();
         }
 
         /// <summary>
