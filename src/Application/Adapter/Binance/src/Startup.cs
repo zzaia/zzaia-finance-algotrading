@@ -5,8 +5,6 @@ using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
 using MarketIntelligency.Exchange.Binance;
-using MarketIntelligency.Web.Grpc.Services;
-using MarketIntelligency.Web.Grpc.Protos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -56,13 +54,7 @@ namespace MarketIntelligency.Application.Adapter.Binance
                 options.PublishStrategy = PublishStrategy.ParallelNoWait;
             }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
 
-            // Grpc
-            services.AddGrpc(opt =>
-            {
-                opt.EnableDetailedErrors = true;
-            });
-
-            services.AddGrpcClient<StreamEventGrpc.StreamEventGrpcClient>("DataEventManager", opt => opt.Address = new Uri("https://localhost:5003"));
+            services.AddDaprClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -85,7 +77,7 @@ namespace MarketIntelligency.Application.Adapter.Binance
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<ControlService>();
+                //endpoints.MapGrpcService<ControlService>();
 
                 if (env.IsDevelopment())
                 {

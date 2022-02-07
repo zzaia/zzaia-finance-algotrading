@@ -1,8 +1,8 @@
-﻿using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.OrderAgregate;
+﻿using Dapr.Client;
+using Google.Protobuf.WellKnownTypes;
+using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.OrderBookAgregate;
 using MarketIntelligency.EventManager;
-using MarketIntelligency.Web.Grpc.Protos;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,8 +10,6 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Google.Protobuf.WellKnownTypes;
-using MarketIntelligency.Web.Grpc.Clients;
 
 namespace MarketIntelligency.Application.Adapter.Binance
 {
@@ -19,12 +17,12 @@ namespace MarketIntelligency.Application.Adapter.Binance
     {
         private readonly IDataStreamSource _streamSource;
         private readonly ILogger<CommunicationHandler> _logger;
-        private readonly StreamEventGrpc.StreamEventGrpcClient _client;
+        private readonly DaprClient _client;
         private IObservable<OrderBook> _observable;
 
         public CommunicationHandler(IDataStreamSource streamSource,
                                     ILogger<CommunicationHandler> logger,
-                                    StreamEventGrpc.StreamEventGrpcClient client)
+                                    DaprClient client)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _streamSource = streamSource ?? throw new ArgumentNullException(nameof(streamSource));
@@ -48,8 +46,9 @@ namespace MarketIntelligency.Application.Adapter.Binance
         public async void SendEvent(OrderBook orderBook)
         {
             _logger.LogInformation("### Consuming event for communication ###");
-            var eventMessage = new EventMessage() { Content = Any.Pack(orderBook) };
-            await _client.ReceiveEvent(eventMessage);
+            var eventSource = new EventSource<OrderBook>(orderBook);
+            var eventMessage = Any.Pack(eventSource);
+            await _client.InvokeMethodGrpcAsync<Any>("data-event-manager", "orderbook", eventMessage);
         }
 
         /// <summary>
