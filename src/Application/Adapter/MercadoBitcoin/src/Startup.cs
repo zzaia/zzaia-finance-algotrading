@@ -5,7 +5,6 @@ using MarketIntelligency.Core.Models.OrderBookAgregate;
 using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
 using MarketIntelligency.Exchange.MercadoBitcoin;
-using MarketIntelligency.Web.Grpc.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -86,8 +85,6 @@ namespace MarketIntelligency.Application.Adapter.MercadoBitcoin
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<ControlService>();
-
                 if (env.IsDevelopment())
                 {
                     endpoints.MapGrpcReflectionService();
