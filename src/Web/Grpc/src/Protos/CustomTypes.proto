@@ -16,5 +16,4 @@ message DecimalValue {
 
 message EventMessage{
     google.protobuf.Any Content = 1;
-
 }
