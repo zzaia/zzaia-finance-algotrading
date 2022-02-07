@@ -2,7 +2,7 @@
 using MarketIntelligency.Core.Models.OrderAgregate;
 using MarketIntelligency.Core.Models.OrderBookAgregate;
 using MarketIntelligency.EventManager;
-using MarketIntelligency.WebGrpc.Protos;
+using MarketIntelligency.Web.Grpc.Protos;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
