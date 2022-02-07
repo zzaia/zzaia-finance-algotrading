@@ -1,0 +1,8 @@
+﻿syntax = "proto3";
+import "google/protobuf/any.proto";
+
+option csharp_namespace = "MarketIntelligency.Core.Protos";
+
+message EventMessage{
+    google.protobuf.Any Content = 1;
+}
