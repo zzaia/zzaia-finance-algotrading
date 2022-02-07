@@ -5,6 +5,8 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <PackageReference Include="Dapr.AspNetCore" Version="1.6.0" />
+    <PackageReference Include="Dapr.Client" Version="1.6.0" />
     <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.42.0" />
   </ItemGroup>
   
