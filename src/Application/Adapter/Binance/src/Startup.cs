@@ -54,6 +54,7 @@ namespace MarketIntelligency.Application.Adapter.Binance
                 options.PublishStrategy = PublishStrategy.ParallelNoWait;
             }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
 
+            services.AddHostedService<CommunicationHandler>();
             services.AddDaprClient();
         }
 
@@ -75,15 +76,6 @@ namespace MarketIntelligency.Application.Adapter.Binance
 
             app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
-            {
-                //endpoints.MapGrpcService<ControlService>();
-
-                if (env.IsDevelopment())
-                {
-                    endpoints.MapGrpcReflectionService();
-                }
-            });
         }
     }
 }

@@ -47,6 +47,8 @@ namespace MarketIntelligency.Connector
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
+            if (!_options.DataIn.Any()) new ArgumentException("No subscriptions data in type provided", nameof(_options.DataIn));
+            if (!_options.DataOut.Any()) new ArgumentException("No subscriptions data out type provided", nameof(_options.DataOut));
             var exchange = _exchangeSelector.SelectByName(_options.ExchangeName);
             if (exchange.Info.Options.HasWebSocket)
             {
@@ -54,13 +56,12 @@ namespace MarketIntelligency.Connector
                 {
                     if (item.GetType() == typeof(Market))
                     {
-                        if (_options.DataOut.Any(each => each.Equals(typeof(OrderBook))))
+                        if (_options.DataOut.Any(each => each.Name.Equals(nameof(OrderBook))))
                         {
                             exchange.SetOrderBookSubscription(item);
                         }
                     }
                 }
-
                 exchange.SubscribeToOrderBook(ConvertToOrderBook);
                 return Task.CompletedTask;
             }
