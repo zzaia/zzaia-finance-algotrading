@@ -212,7 +212,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
             market = market ?? throw new ArgumentNullException(nameof(market));
             try
             {
-                var response = await this.PublicClient.GetOrderBookAsync(market.Main.DisplayName, cancellationToken).ConfigureAwait(false);
+                var response = await this.PublicClient.GetOrderBookAsync(market.Base.DisplayName, cancellationToken).ConfigureAwait(false);
 
                 if (response.Success)
                 {
@@ -306,7 +306,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
         #region Private Methods
         private static string ToDataDomain(Market market)
         {
-            return $"{market.Base.DisplayName}{market.Main.DisplayName}";
+            return $"{market.Quote.DisplayName}{market.Base.DisplayName}";
         }
 
         public void SetOrderBookSubscription(Market market)

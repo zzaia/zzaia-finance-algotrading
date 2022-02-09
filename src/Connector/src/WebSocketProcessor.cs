@@ -80,7 +80,8 @@ namespace MarketIntelligency.Connector
                 {
                     var orderBookToReturn = new OrderBook()
                     {
-
+                        DateTimeOffset = DateTimeOffset.UtcNow,
+                        Market = new Market(orderbookChange.Pair),
                         Exchange = Enumeration.FromDisplayName<ExchangeName>(orderbookChange.ExchangeName),
                         Asks = orderbookChange.Sources.Where(each => each.OrderBookType == CryptoOrderBookType.L2)
                                                       .Where(each => each.Action == OrderBookAction.Insert)

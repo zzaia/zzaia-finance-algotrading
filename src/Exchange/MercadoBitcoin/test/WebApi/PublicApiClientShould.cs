@@ -29,7 +29,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Test
             var cancellationToken = new CancellationToken();
 
             //Act:
-            var response = await _client.GetDaySummaryOHLCVAsync(market.Main.ToString(), dt.Year, dt.Month, dt.Day, cancellationToken).ConfigureAwait(true);
+            var response = await _client.GetDaySummaryOHLCVAsync(market.Base.ToString(), dt.Year, dt.Month, dt.Day, cancellationToken).ConfigureAwait(true);
 
             //Assert:
             Assert.True(response.Success);
@@ -57,7 +57,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Test
             var cancellationToken = new CancellationToken();
 
             //Act:
-            var response = await _client.GetLast24hOHLCVAsync(market.Main.ToString(), cancellationToken).ConfigureAwait(true);
+            var response = await _client.GetLast24hOHLCVAsync(market.Base.ToString(), cancellationToken).ConfigureAwait(true);
 
             //Assert:
             Assert.True(response.Success);
@@ -79,7 +79,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Test
             var cancellationToken = new CancellationToken();
 
             //Act:
-            var response = await _client.GetOrderBookAsync(market.Main.ToString(), cancellationToken).ConfigureAwait(true);
+            var response = await _client.GetOrderBookAsync(market.Base.ToString(), cancellationToken).ConfigureAwait(true);
 
             //Assert:
             Assert.True(response.Success);
@@ -103,7 +103,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Test
             var cancellationToken = new CancellationToken();
 
             //Act:
-            var response = await _client.GetTradesSinceTIDAsync(market.Main.ToString(), tid, cancellationToken).ConfigureAwait(true);
+            var response = await _client.GetTradesSinceTIDAsync(market.Base.ToString(), tid, cancellationToken).ConfigureAwait(true);
 
             //Assert:
             Assert.True(response.Success);

@@ -179,7 +179,7 @@ namespace MarketIntelligency.Exchange.Binance
 
         private static string ToDataDomain(Market market)
         {
-            return $"{market.Main.DisplayName}{market.Base.DisplayName}";
+            return $"{market.Base.DisplayName}{market.Quote.DisplayName}";
         }
 
         #endregion
