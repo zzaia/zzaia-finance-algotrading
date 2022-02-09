@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Google.Protobuf" Version="3.19.4" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.42.0" />
     <PackageReference Include="MediatR" Version="10.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.0" />
     <PackageReference Include="System.ComponentModel.Annotations" Version="5.0.0" />
@@ -15,9 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Protos\EventSourceDTO.proto">
-      <GrpcServices>None</GrpcServices>
-    </None>
-  </ItemGroup>
-
+	<Protobuf Include="Protos\EventSourceDTO.proto" GrpcServices="Both" />
+	<Protobuf Include="Protos\OrderbookDTO.proto" GrpcServices="Both" />
+	<Protobuf Include="Protos\ControlDTO.proto" GrpcServices="Both" />
+	<Protobuf Include="Protos\DecimalValue.proto" GrpcServices="Both" />
+   </ItemGroup>
+	
 </Project>

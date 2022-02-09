@@ -4,6 +4,6 @@ import "google/protobuf/empty.proto";
 
 option csharp_namespace = "MarketIntelligency.Core.Protos";
 
-message ControlMetadata {
+message ControlDTO {
 	string Name = 1;
 }       

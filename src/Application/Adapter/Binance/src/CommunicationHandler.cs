@@ -3,6 +3,7 @@ using Google.Protobuf.WellKnownTypes;
 using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Core.Models.OrderBookAgregate;
+using MarketIntelligency.Core.Protos;
 using MarketIntelligency.EventManager;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -47,11 +48,11 @@ namespace MarketIntelligency.Application.Adapter.Binance
         public async void SendEvent(OrderBook orderBook)
         {
             _logger.LogInformation("### Consuming event for communication ###");
-            var orderBookDTO = new OrderBookDTO() { }
-            var eventSource = new EventSource<OrderBook>(orderBook);
+            var orderBookDTO = new OrderbookDTO() { ExchangeName = orderBook.Exchange.DisplayName, Market = orderBook.Market.Ticker };
+            var eventSource = new EventSourceDTO() { Content = Any.Pack(orderBookDTO) };
             //var eventMessage = Any.Pack(eventSource);
-            var response = await _client.InvokeMethodGrpcAsync<Any, Any>("data-event-manager", "orderbook", eventSource);
-            var input = response.Unpack<Response>();
+            var response = await _client.InvokeMethodGrpcAsync<EventSourceDTO, Response>("data-event-manager", "orderbook", eventSource);
+            //var input = response.Unpack<Response>();
         }
 
         /// <summary>
