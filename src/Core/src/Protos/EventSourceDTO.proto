@@ -3,6 +3,8 @@ import "google/protobuf/any.proto";
 
 option csharp_namespace = "MarketIntelligency.Core.Protos";
 
-message EventMessage{
+message EventSourceDTO{
     google.protobuf.Any Content = 1;
+	string OcurredAt = 2;
+	string RecordedAt = 3;
 }

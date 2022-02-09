@@ -1,0 +1,9 @@
+﻿syntax = "proto3";
+import "google/protobuf/any.proto";
+
+option csharp_namespace = "MarketIntelligency.Core.Protos";
+
+message OrderbookDTO{
+	string ExchangeName = 1;
+	string Market = 2;
+}

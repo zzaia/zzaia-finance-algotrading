@@ -47,9 +47,10 @@ namespace MarketIntelligency.Application.Adapter.Binance
         public async void SendEvent(OrderBook orderBook)
         {
             _logger.LogInformation("### Consuming event for communication ###");
+            var orderBookDTO = new OrderBookDTO() { }
             var eventSource = new EventSource<OrderBook>(orderBook);
-            var eventMessage = Any.Pack(eventSource);
-            var response = await _client.InvokeMethodGrpcAsync<Any, Any>("data-event-manager", "orderbook", eventMessage);
+            //var eventMessage = Any.Pack(eventSource);
+            var response = await _client.InvokeMethodGrpcAsync<Any, Any>("data-event-manager", "orderbook", eventSource);
             var input = response.Unpack<Response>();
         }
 
