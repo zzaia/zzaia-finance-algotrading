@@ -89,7 +89,7 @@ namespace MarketIntelligency.Core.Models.EnumerationAggregate
 
         public static T FromDisplayName<T>(string displayName) where T : Enumeration, new()
         {
-            var matchingItem = Parse<T, string>(displayName, "display name", item => item.DisplayName == displayName);
+            var matchingItem = Parse<T, string>(displayName, "display name", item => item.DisplayName.Equals(displayName, StringComparison.InvariantCultureIgnoreCase));
             return matchingItem;
         }
 

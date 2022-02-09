@@ -1,4 +1,5 @@
 ﻿using Crypto.Websocket.Extensions.Core.Models;
+using Crypto.Websocket.Extensions.Core.OrderBooks;
 using Crypto.Websocket.Extensions.Core.OrderBooks.Models;
 using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
 using MarketIntelligency.Core.Models;
@@ -75,16 +76,27 @@ namespace MarketIntelligency.Connector
         {
             foreach (var orderbookChange in orderbookChangeCollection)
             {
-                var orderBookToReturn = new OrderBook()
+                if (orderbookChange.IsSnapshot)
                 {
+                    var orderBookToReturn = new OrderBook()
+                    {
 
-                    //Exchange = Enumeration.FromDisplayName<ExchangeName>(orderbookChange.ExchangeName),
-                    Asks = orderbookChange.Levels.Where(each => each.Side == CryptoOrderSide.Ask)
-                                                 .Select(each => new Tuple<decimal, decimal>((decimal)each.Price, (decimal)each.Amount)),
-                    Bids = orderbookChange.Levels.Where(each => each.Side == CryptoOrderSide.Bid)
-                                                 .Select(each => new Tuple<decimal, decimal>((decimal)each.Price, (decimal)each.Amount))
-                };
-                PublishEvent(orderBookToReturn);
+                        Exchange = Enumeration.FromDisplayName<ExchangeName>(orderbookChange.ExchangeName),
+                        Asks = orderbookChange.Sources.Where(each => each.OrderBookType == CryptoOrderBookType.L2)
+                                                      .Where(each => each.Action == OrderBookAction.Insert)
+                                                      .Single()
+                                                      .Levels
+                                                      .Where(each => each.Side == CryptoOrderSide.Ask)
+                                                     .Select(each => new Tuple<decimal, decimal>((decimal)each.Price, (decimal)each.Amount)),
+                        Bids = orderbookChange.Sources.Where(each => each.OrderBookType == CryptoOrderBookType.L2)
+                                                      .Where(each => each.Action == OrderBookAction.Insert)
+                                                      .Single()
+                                                      .Levels
+                                                      .Where(each => each.Side == CryptoOrderSide.Bid)
+                                                     .Select(each => new Tuple<decimal, decimal>((decimal)each.Price, (decimal)each.Amount)),
+                    };
+                    PublishEvent(orderBookToReturn);
+                }
             }
         }
 
