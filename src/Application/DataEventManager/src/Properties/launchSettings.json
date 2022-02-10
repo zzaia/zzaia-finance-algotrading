@@ -15,10 +15,11 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "MarketIntelligency.Application.NA0001": {
+    "MarketIntelligency.Application.DataEventManager": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "applicationUrl": "https://localhost:5003;",
+      "dotnetRunMessages": "true",
+      "launchBrowser": false,
+      "applicationUrl": "https://localhost:5002",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
