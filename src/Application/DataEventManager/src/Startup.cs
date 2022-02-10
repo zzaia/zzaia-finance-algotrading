@@ -19,6 +19,7 @@ namespace MarketIntelligency.Application.DataEventManager
                 options.PublishStrategy = PublishStrategy.ParallelNoWait;
             }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
 
+            services.AddHostedService<CommunicationHandler>();
             // Grpc
             services.AddGrpc();
             services.AddDaprClient();
