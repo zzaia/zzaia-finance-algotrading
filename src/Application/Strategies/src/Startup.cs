@@ -1,5 +1,8 @@
 using MarketIntelligency.Application.Strategies.Arbitrage;
 using MarketIntelligency.Application.Strategies.MarketMaker;
+using MarketIntelligency.Application.Strategies.Services;
+using MarketIntelligency.EventManager;
+using MarketIntelligency.EventManager.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +23,11 @@ namespace MarketIntelligency.Application.Strategies
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddEventManager(options =>
+            {
+                options.PublishStrategy = PublishStrategy.ParallelNoWait;
+            }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
+
             //----------- Strategies -------------------
             services.AddHostedService<MarketMakerHandler>();
             services.AddHostedService<ArbitrageHandler>();
@@ -37,6 +45,7 @@ namespace MarketIntelligency.Application.Strategies
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGrpcService<StrategiesService>();
             });
         }
     }
