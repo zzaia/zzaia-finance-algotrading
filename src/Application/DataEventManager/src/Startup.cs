@@ -20,6 +20,7 @@ namespace MarketIntelligency.Application.DataEventManager
             }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
 
             services.AddHostedService<CommunicationHandler>();
+
             // Grpc
             services.AddGrpc();
             services.AddDaprClient();
@@ -38,11 +39,6 @@ namespace MarketIntelligency.Application.DataEventManager
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<DataEventManagerService>();
-
-                if (env.IsDevelopment())
-                {
-                    endpoints.MapGrpcReflectionService();
-                }
             });
         }
     }
