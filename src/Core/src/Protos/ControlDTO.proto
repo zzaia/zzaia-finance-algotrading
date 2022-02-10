@@ -1,6 +1,4 @@
 ﻿syntax = "proto3";
-import "Protos/CustomTypes.proto";
-import "google/protobuf/empty.proto";
 
 option csharp_namespace = "MarketIntelligency.Core.Protos";
 
