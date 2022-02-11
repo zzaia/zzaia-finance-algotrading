@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/MarketIntelligency.Application.Adapter.MercadoBitcoin/MarketIntelligency.Application.Adapter.MercadoBitcoin.csproj",
+                "${workspaceFolder}/src/Application/Adapter/Binance/src/MarketIntelligency.Application.Adapter.Binance.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -36,6 +36,23 @@
                 "${workspaceFolder}/MarketIntelligency.Application.Adapter.MercadoBitcoin/MarketIntelligency.Application.Adapter.MercadoBitcoin.csproj"
             ],
             "problemMatcher": "$msCompile"
+        },
+        {
+            "appId": "app",
+            "appPort": 5000,
+            "label": "daprd-debug",
+            "type": "daprd"
+        },
+        {
+            "appId": "app",
+            "label": "daprd-down",
+            "type": "daprd-down"
         }
+    ],
+    "compounds": [
+      {
+        "name": "MarketIntelligency",
+        "configurations": ["ASP.NET Binance Adapter[Dapr]","ASP.NET Data Event Manager[Dapr]","ASP.NET Strategies[Dapr]"]
+      }
     ]
 }
