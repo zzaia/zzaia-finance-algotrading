@@ -38,21 +38,50 @@
             "problemMatcher": "$msCompile"
         },
         {
-            "appId": "app",
+            "appId": "binance-adapter",
             "appPort": 5000,
-            "label": "daprd-debug",
+            "appProtocol": "grpc",
+            "grpcPort": 50001,
+            "httpPort":3500,
+            "metricsPort": 9090,
+            "label": "daprd-debug-binance-adapter",
             "type": "daprd"
         },
         {
-            "appId": "app",
-            "label": "daprd-down",
+            "appId": "binance-adapter",
+            "label": "daprd-down-binance-adapter",
+            "type": "daprd-down"
+        },
+        {
+            "appId": "data-event-manager",
+            "appPort": 5001,
+            "appProtocol": "grpc",
+            "grpcPort": 50002,
+            "httpPort":3501,
+            "metricsPort": 9091,
+            "label": "daprd-debug-data-event-manager",
+            "type": "daprd"
+        },
+        {
+            "appId": "data-event-manager",
+            "label": "daprd-down-data-event-manager",
+            "type": "daprd-down"
+        },
+        {
+            "appId": "strategies",
+            "appPort": 5002,
+            "appProtocol": "grpc",
+            "grpcPort": 50003,
+            "httpPort":3502,
+            "metricsPort": 9092,
+            "label": "daprd-debug-strategies",
+            "type": "daprd"
+        },
+        {
+            "appId": "strategies",
+            "label": "daprd-down-strategies",
             "type": "daprd-down"
         }
-    ],
-    "compounds": [
-      {
-        "name": "MarketIntelligency",
-        "configurations": ["ASP.NET Binance Adapter[Dapr]","ASP.NET Data Event Manager[Dapr]","ASP.NET Strategies[Dapr]"]
-      }
+        
     ]
 }
