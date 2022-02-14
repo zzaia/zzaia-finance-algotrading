@@ -1,14 +1,10 @@
 ﻿syntax = "proto3";
-import "Protos/CustomTypes.proto";
 import "google/protobuf/empty.proto";
+import "Protos/ControlMetadataDTO.proto";
 
 option csharp_namespace = "MarketIntelligency.Web.Grpc.Protos";
 
 service ControlGrpc {
-	rpc Activate (ControlMetadata) returns (google.protobuf.Empty);
-	rpc Deactivate (ControlMetadata) returns (google.protobuf.Empty);
+	rpc Activate (ControlMetadataDTO) returns (google.protobuf.Empty);
+	rpc Deactivate (ControlMetadataDTO) returns (google.protobuf.Empty);
 }
-
-message ControlMetadata {
-	string Name = 1;
-}       

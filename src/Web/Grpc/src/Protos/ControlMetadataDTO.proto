@@ -1,0 +1,7 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "MarketIntelligency.Web.Grpc.Protos";
+
+message ControlMetadataDTO {
+	string Name = 1;
+}       

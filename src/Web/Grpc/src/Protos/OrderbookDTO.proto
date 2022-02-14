@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "MarketIntelligency.Core.Protos";
+option csharp_namespace = "MarketIntelligency.Web.Grpc.Protos";
 
 message OrderbookDTO{
 	string ExchangeName = 1;

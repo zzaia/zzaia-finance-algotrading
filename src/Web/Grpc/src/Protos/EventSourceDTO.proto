@@ -1,10 +1,11 @@
 ﻿syntax = "proto3";
 import "google/protobuf/any.proto";
 
-option csharp_namespace = "MarketIntelligency.Core.Protos";
+option csharp_namespace = "MarketIntelligency.Web.Grpc.Protos";
 
 message EventSourceDTO{
     google.protobuf.Any Content = 1;
 	string OcurredAt = 2;
 	string RecordedAt = 3;
+	string Type = 4;
 }

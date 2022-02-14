@@ -5,16 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Protos\ControlGrpc.proto" />
-    <None Remove="Protos\StreamEventGrpc.proto" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Protobuf Include="Protos\ControlGrpc.proto" />
-    <Protobuf Include="Protos\CustomTypes.proto">
-      <GrpcServices>None</GrpcServices>
-    </Protobuf>
-    <Protobuf Include="Protos\StreamEventGrpc.proto" />
+    <Protobuf Include="Protos\ControlMetadataDTO.proto" GrpcServices="Both" />
+    <Protobuf Include="Protos\ControlGrpc.proto" GrpcServices="Both" />
+    <Protobuf Include="Protos\DecimalValue.proto" GrpcServices="Both" />
+    <Protobuf Include="Protos\EventSourceDTO.proto" GrpcServices="Both" />
+    <Protobuf Include="Protos\OrderbookDTO.proto" GrpcServices="Both" />
+    <Protobuf Include="Protos\StreamEventGrpc.proto" GrpcServices="Both" />
     <PackageReference Include="Grpc.AspNetCore" Version="2.42.0" />
     <PackageReference Include="Grpc.Tools" Version="2.43.0">
       <PrivateAssets>all</PrivateAssets>
@@ -23,6 +19,10 @@
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.20.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Connector\src\MarketIntelligency.Connector.csproj" />
   </ItemGroup>
 
 </Project>

@@ -14,16 +14,5 @@
     <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
     <PackageReference Include="Crypto.Websocket.Extensions" Version="2.6.40" />
   </ItemGroup>
-
-  <ItemGroup>
-	<Protobuf Include="Protos\EventSourceDTO.proto" GrpcServices="Both" />
-	<Protobuf Include="Protos\OrderbookDTO.proto" GrpcServices="Both" />
-	<Protobuf Include="Protos\ControlDTO.proto" GrpcServices="Both" />
-	<Protobuf Include="Protos\DecimalValue.proto" GrpcServices="Both" />
-   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Protos\Models\" />
-  </ItemGroup>
 	
 </Project>

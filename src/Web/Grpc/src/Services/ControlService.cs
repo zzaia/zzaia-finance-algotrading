@@ -22,7 +22,7 @@ namespace MarketIntelligency.Web.Grpc.Services
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
         }
 
-        public override async Task<Empty> Activate(ControlMetadata request, ServerCallContext context)
+        public override async Task<Empty> Activate(ControlMetadataDTO request, ServerCallContext context)
         {
             Log.Activate.Received(_logger);
             Log.Activate.ReceivedAction(_telemetryClient);
@@ -54,7 +54,7 @@ namespace MarketIntelligency.Web.Grpc.Services
             }
         }
 
-        public override Task<Google.Protobuf.WellKnownTypes.Empty> Deactivate(ControlMetadata request, ServerCallContext context)
+        public override Task<Google.Protobuf.WellKnownTypes.Empty> Deactivate(ControlMetadataDTO request, ServerCallContext context)
         {
             return base.Deactivate(request, context);
         }
