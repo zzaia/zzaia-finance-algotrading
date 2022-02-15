@@ -31,7 +31,7 @@ namespace MarketIntelligency.Application.DataEventManager
             }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
 
             services.AddHostedService<CommunicationHandler>();
-            services.AddGrpcClient<StreamEventGrpc.StreamEventGrpcClient>(opt => opt.Address = new Uri(Configuration["DataEventManagerService"]));
+            services.AddGrpcClient<StreamEventGrpc.StreamEventGrpcClient>(opt => opt.Address = new Uri(Configuration["StrategiesService"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
