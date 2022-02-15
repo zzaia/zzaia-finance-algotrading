@@ -32,6 +32,7 @@ namespace MarketIntelligency.Application.Strategies
             services.AddHostedService<MarketMakerHandler>();
             services.AddHostedService<ArbitrageHandler>();
 
+            services.AddGrpc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -20,11 +20,11 @@ namespace MarketIntelligency.Web.Grpc.Services
         }
         public override async Task<Empty> RunStreamEvent(IAsyncStreamReader<EventSourceDTO> requestStream, ServerCallContext context)
         {
-            switch (requestStream.Current.Type)
+            await foreach (var message in requestStream.ReadAllAsync())
             {
-                case nameof(OrderBook):
-                    await foreach (var message in requestStream.ReadAllAsync())
-                    {
+                switch (message.Type)
+                {
+                    case nameof(OrderBook):
                         var orderbookDTO = message.Content.Unpack<OrderbookDTO>();
                         var orderbook = new OrderBook()
                         {
@@ -32,10 +32,10 @@ namespace MarketIntelligency.Web.Grpc.Services
                         };
                         var eventSource = new EventSource<OrderBook>(orderbook);
                         _streamSource.Publish(eventSource);
-                    }
-                    break;
-                default:
-                    break;
+                        break;
+                    default:
+                        break;
+                }
             }
 
             return new Empty();
