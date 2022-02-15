@@ -1,4 +1,4 @@
-﻿using MarketIntelligency.WebGrpc.Models;
+﻿using MarketIntelligency.Web.Grpc.Models;
 using System.Threading.Tasks;
 
 namespace MarketIntelligency.Web.Grpc.Clients

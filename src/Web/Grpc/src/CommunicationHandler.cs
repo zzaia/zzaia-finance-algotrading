@@ -1,9 +1,7 @@
-﻿using Dapr.Client;
-using Google.Protobuf.WellKnownTypes;
-using MarketIntelligency.Core.Models.ExchangeAggregate;
+﻿using Google.Protobuf.WellKnownTypes;
 using MarketIntelligency.Core.Models.OrderBookAgregate;
-using MarketIntelligency.Core.Protos;
 using MarketIntelligency.EventManager;
+using MarketIntelligency.Web.Grpc.Protos;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,46 +10,48 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Application.DataEventManager
+namespace MarketIntelligency.Web.Grpc
 {
     public class CommunicationHandler : BackgroundService
     {
         private readonly IDataStreamSource _streamSource;
         private readonly ILogger<CommunicationHandler> _logger;
-        private readonly DaprClient _client;
+        private readonly StreamEventGrpc.StreamEventGrpcClient _client;
         private IObservable<OrderBook> _observable;
 
         public CommunicationHandler(IDataStreamSource streamSource,
                                     ILogger<CommunicationHandler> logger,
-                                    DaprClient client)
+                                    StreamEventGrpc.StreamEventGrpcClient client)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
             _streamSource = streamSource ?? throw new ArgumentNullException(nameof(streamSource));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             _observable = _streamSource.OrderBookSnapshotStream
                                        .Select(each => each.Content)
                                        .DistinctUntilChanged();
-            _observable.Subscribe(SendEvent, HandleError, HandleCompletion, stoppingToken);
 
-            return Task.CompletedTask;
+            //_observable.Subscribe(SendEvent, HandleError, HandleCompletion, stoppingToken);
+            await SendStream();
         }
 
         /// <summary>
         /// Handler responsable to execute the strategy logic.
         /// </summary>
         /// 
-        public async void SendEvent(OrderBook orderBook)
+        public async Task SendStream()
         {
             _logger.LogInformation("### Consuming event for communication ###");
-            var orderBookDTO = new OrderbookDTO() { ExchangeName = orderBook.Exchange.DisplayName, Market = orderBook.Market.Ticker };
-            var eventSource = new EventSourceDTO() { Content = Any.Pack(orderBookDTO) };
-            //var eventMessage = Any.Pack(eventSource);
-            var response = await _client.InvokeMethodGrpcAsync<EventSourceDTO, Response>("strategies-services", "orderbook", eventSource);
-            //var input = response.Unpack<Response>();
+            var call = _client.RunStreamEvent();
+            foreach (var item in _observable)
+            {
+                var orderBookDTO = new OrderbookDTO() { ExchangeName = item.Exchange.DisplayName, Market = item.Market.Ticker };
+                var eventSource = new EventSourceDTO() { Content = Any.Pack(orderBookDTO), Type = nameof(OrderBook) };
+                await call.RequestStream.WriteAsync(eventSource);
+            }
         }
 
         /// <summary>

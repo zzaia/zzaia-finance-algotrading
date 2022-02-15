@@ -5,5 +5,5 @@ import "google/protobuf/empty.proto";
 option csharp_namespace = "MarketIntelligency.Web.Grpc.Protos";
 
 service StreamEventGrpc {
-	rpc RunStreamEvent (google.protobuf.Empty) returns (stream EventSourceDTO);
+	rpc RunStreamEvent (stream EventSourceDTO) returns (google.protobuf.Empty);
 }

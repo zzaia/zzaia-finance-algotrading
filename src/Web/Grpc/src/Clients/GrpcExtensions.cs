@@ -1,5 +1,5 @@
 ﻿using Grpc.Net.ClientFactory;
-using MarketIntelligency.WebGrpc.Clients.Authentication;
+using MarketIntelligency.Web.Grpc.Clients.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;

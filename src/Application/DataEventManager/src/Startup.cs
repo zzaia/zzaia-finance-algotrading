@@ -1,15 +1,26 @@
-using MarketIntelligency.Application.DataEventManager.Services;
 using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
+using MarketIntelligency.Web.Grpc;
+using MarketIntelligency.Web.Grpc.Protos;
+using MarketIntelligency.Web.Grpc.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace MarketIntelligency.Application.DataEventManager
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+       
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -20,10 +31,7 @@ namespace MarketIntelligency.Application.DataEventManager
             }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
 
             services.AddHostedService<CommunicationHandler>();
-
-            // Grpc
-            services.AddGrpc();
-            services.AddDaprClient();
+            services.AddGrpcClient<StreamEventGrpc.StreamEventGrpcClient>(opt => opt.Address = new Uri(Configuration["DataEventManagerService"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,7 +46,7 @@ namespace MarketIntelligency.Application.DataEventManager
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<DataEventManagerService>();
+                endpoints.MapGrpcService<StreamEventService>();
             });
         }
     }

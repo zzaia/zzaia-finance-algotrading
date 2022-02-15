@@ -1,7 +1,7 @@
 ﻿using Grpc.Core;
-using MarketIntelligency.WebGrpc.Clients.Authentication;
-using MarketIntelligency.WebGrpc.Models;
-using MarketIntelligency.WebGrpc.Protos;
+using MarketIntelligency.Web.Grpc.Clients.Authentication;
+using MarketIntelligency.Web.Grpc.Models;
+using MarketIntelligency.Web.Grpc.Protos;
 using System;
 using System.Threading.Tasks;
 
@@ -28,7 +28,7 @@ namespace MarketIntelligency.Web.Grpc.Clients
             {
                 { "Authorization", $"Bearer {accessToken}" }
             };
-            var metadataToRequest = new ControlMetadata()
+            var metadataToRequest = new ControlMetadataDTO()
             {
 
             };
@@ -44,7 +44,7 @@ namespace MarketIntelligency.Web.Grpc.Clients
             {
                 { "Authorization", $"Bearer {accessToken}" }
             };
-            var metadataToRequest = new ControlMetadata()
+            var metadataToRequest = new ControlMetadataDTO()
             {
 
             };

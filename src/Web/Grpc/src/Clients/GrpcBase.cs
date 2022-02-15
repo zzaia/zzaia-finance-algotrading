@@ -1,5 +1,5 @@
 ﻿using Grpc.Core;
-using MarketIntelligency.WebGrpc.Models;
+using MarketIntelligency.Web.Grpc.Models;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
