@@ -36,7 +36,7 @@ namespace MarketIntelligency.Web.Grpc
             _observable = _streamSource.OrderBookSnapshotStream
                                        .Select(each => each.Content)
                                        .DistinctUntilChanged();
-            var call = _client.RunStreamEvent();
+            var call = _client.RunStreamEvent(cancellationToken: stoppingToken);
             _streamWriter = call.RequestStream;
             _observable.Subscribe(SendEvent, HandleError, HandleCompletion, stoppingToken);
             await stoppingToken.WaitUntilCancelled();

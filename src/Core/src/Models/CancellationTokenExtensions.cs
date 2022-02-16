@@ -15,7 +15,7 @@ namespace MarketIntelligency.Core.Models
                    taskCompletionSource,
                    false))
             {
-                await taskCompletionSource.Task.ConfigureAwait(false);
+                await taskCompletionSource.Task;
             }
         }
     }
