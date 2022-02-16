@@ -1,4 +1,6 @@
 ﻿using Google.Protobuf.WellKnownTypes;
+using Grpc.Core;
+using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.OrderBookAgregate;
 using MarketIntelligency.EventManager;
 using MarketIntelligency.Web.Grpc.Protos;
@@ -14,10 +16,11 @@ namespace MarketIntelligency.Web.Grpc
 {
     public class CommunicationHandler : BackgroundService
     {
+        private IObservable<OrderBook> _observable;
         private readonly IDataStreamSource _streamSource;
         private readonly ILogger<CommunicationHandler> _logger;
         private readonly StreamEventGrpc.StreamEventGrpcClient _client;
-        private IObservable<OrderBook> _observable;
+        private IClientStreamWriter<EventSourceDTO> _streamWriter;
 
         public CommunicationHandler(IDataStreamSource streamSource,
                                     ILogger<CommunicationHandler> logger,
@@ -33,24 +36,27 @@ namespace MarketIntelligency.Web.Grpc
             _observable = _streamSource.OrderBookSnapshotStream
                                        .Select(each => each.Content)
                                        .DistinctUntilChanged();
-
-            //_observable.Subscribe(SendEvent, HandleError, HandleCompletion, stoppingToken);
-            await SendStream();
+            var call = _client.RunStreamEvent();
+            _streamWriter = call.RequestStream;
+            _observable.Subscribe(SendEvent, HandleError, HandleCompletion, stoppingToken);
+            await stoppingToken.WaitUntilCancelled();
         }
 
         /// <summary>
         /// Handler responsable to execute the strategy logic.
         /// </summary>
-        /// 
-        public async Task SendStream()
+        public async void SendEvent(OrderBook orderBook)
         {
-            _logger.LogInformation("### Consuming event for communication ###");
-            var call = _client.RunStreamEvent();
-            foreach (var item in _observable)
+            _logger.LogInformation("### Sending event for communication ###");
+            try
             {
-                var orderBookDTO = new OrderbookDTO() { ExchangeName = item.Exchange.DisplayName, Market = item.Market.Ticker };
+                var orderBookDTO = new OrderbookDTO() { ExchangeName = orderBook.Exchange.DisplayName, Market = orderBook.Market.Ticker };
                 var eventSource = new EventSourceDTO() { Content = Any.Pack(orderBookDTO), Type = nameof(OrderBook) };
-                await call.RequestStream.WriteAsync(eventSource);
+                await _streamWriter.WriteAsync(eventSource);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, ex.Message);
             }
         }
 
