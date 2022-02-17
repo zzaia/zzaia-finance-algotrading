@@ -50,7 +50,11 @@ namespace MarketIntelligency.Web.Grpc
             _logger.LogInformation("### Sending event for communication ###");
             try
             {
-                var orderBookDTO = new OrderbookDTO() { ExchangeName = orderBook.Exchange.DisplayName, Market = orderBook.Market.Ticker };
+                var orderBookDTO = new OrderbookDTO()
+                {
+                    ExchangeName = orderBook.Exchange.DisplayName,
+                    //Market = orderBook.Market.Ticker
+                };
                 var eventSource = new EventSourceDTO() { Content = Any.Pack(orderBookDTO), Type = nameof(OrderBook) };
                 await _streamWriter.WriteAsync(eventSource);
             }
