@@ -195,9 +195,9 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
         }
 
         /// <summary>
-        /// Exhange instance information information
+        /// Exhange instance information
         /// </summary>
-        public ExchangeInfo Info { get { return Information; } }
+        public ExchangeInfo Info => Information;
 
         #region Public Methods
 

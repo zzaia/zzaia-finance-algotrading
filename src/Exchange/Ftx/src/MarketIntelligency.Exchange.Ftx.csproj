@@ -8,4 +8,8 @@
     <ProjectReference Include="..\..\..\Core\src\MarketIntelligency.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.20.0" />
+  </ItemGroup>
+
 </Project>
