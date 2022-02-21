@@ -1,5 +1,5 @@
 ﻿using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.OrderBookAgregate;
+using MarketIntelligency.Core.Models.OrderBookAggregate;
 using Microsoft.Extensions.Logging;
 using System;
 

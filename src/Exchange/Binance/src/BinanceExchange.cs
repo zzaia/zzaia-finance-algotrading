@@ -9,7 +9,7 @@ using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
-using MarketIntelligency.Core.Models.OrderBookAgregate;
+using MarketIntelligency.Core.Models.OrderBookAggregate;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -170,7 +170,7 @@ namespace MarketIntelligency.Exchange.Binance
         {
             BinanceWebsocketClient.SetSubscriptions(Subscriptions.ToArray());
             _ = BinanceWebsocketCommunicator.Start();
-            Observable.CombineLatest(CryptoOrderBooks.Select(each => each.BidAskUpdatedStream).ToArray()).Subscribe(onNext);
+            Observable.CombineLatest(CryptoOrderBooks.Select(each => each.OrderBookUpdatedStream).ToArray()).Subscribe(onNext);
         }
 
         #endregion

@@ -1,10 +1,9 @@
-﻿using Crypto.Websocket.Extensions.Core.OrderBooks.Models;
-using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
+﻿using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
 using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
-using MarketIntelligency.Core.Models.OrderBookAgregate;
+using MarketIntelligency.Core.Models.OrderBookAggregate;
 using MarketIntelligency.Core.Utils;
 using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Private;
 using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Public;
@@ -222,9 +221,9 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                         DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
                         Market = market,
                         Bids = from order in response.Output.Bids.ToList()
-                               select new Tuple<decimal, decimal>(order[1], order[0]),
+                               select new OrderBookLevel(Guid.NewGuid().ToString(), order[1], order[0]),
                         Asks = from order in response.Output.Asks.ToList()
-                               select new Tuple<decimal, decimal>(order[1], order[0]),
+                               select new OrderBookLevel(Guid.NewGuid().ToString(), order[1], order[0]),
                     };
 
                     return ObjectResultFactory.CreateSuccessResult(resultToReturn);
@@ -269,10 +268,10 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                         DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
                         Market = market,
                         Bids = from order in response.Output.Data.Orderbook.Bids.ToList()
-                               select new Tuple<decimal, decimal>(decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
+                               select new OrderBookLevel(Guid.NewGuid().ToString(), decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
                                                                   decimal.Parse(order.Quantity, Information.Culture.NumberFormat)),
                         Asks = from order in response.Output.Data.Orderbook.Asks.ToList()
-                               select new Tuple<decimal, decimal>(decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
+                               select new OrderBookLevel(Guid.NewGuid().ToString(), decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
                                                                   decimal.Parse(order.Quantity, Information.Culture.NumberFormat)),
                     };
 
@@ -314,7 +313,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
             throw new NotImplementedException();
         }
 
-        public void SubscribeToOrderBook(Action<IList<IOrderBookChangeInfo>> onNext)
+        public void SubscribeToOrderBook(Action<IList<Crypto.Websocket.Extensions.Core.OrderBooks.Models.IOrderBookChangeInfo>> onNext)
         {
             throw new NotImplementedException();
         }

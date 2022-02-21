@@ -5,7 +5,7 @@ using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
 using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
-using MarketIntelligency.Core.Models.OrderBookAgregate;
+using MarketIntelligency.Core.Models.OrderBookAggregate;
 using MarketIntelligency.EventManager;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Hosting;
@@ -16,6 +16,7 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using OrderBookLevelModel = MarketIntelligency.Core.Models.OrderBookAggregate.OrderBookLevel;
 
 namespace MarketIntelligency.Connector
 {
@@ -26,6 +27,7 @@ namespace MarketIntelligency.Connector
         private readonly IDataStreamSource _dataStreamSource;
         private readonly ILogger<WebSocketProcessor> _logger;
         private readonly TelemetryClient _telemetryClient;
+        public IOrderBookChangeInfo SnapShot { get; set; }
 
         /// <summary>
         /// Provide data streams from web socket clients
@@ -76,28 +78,111 @@ namespace MarketIntelligency.Connector
         {
             foreach (var orderbookChange in orderbookChangeCollection)
             {
-                if (orderbookChange.IsSnapshot)
-                {
-                    var orderBookToReturn = new OrderBook()
-                    {
-                        DateTimeOffset = orderbookChange.ServerTimestamp ?? DateTimeOffset.UtcNow,
-                        Market = new Market(orderbookChange.Pair),
-                        Exchange = Enumeration.FromDisplayName<ExchangeName>(orderbookChange.ExchangeName),
-                        Asks = orderbookChange.Sources.Where(each => each.OrderBookType == CryptoOrderBookType.L2)
-                                                      .Where(each => each.Action == OrderBookAction.Insert)
-                                                      .Single()
-                                                      .Levels
-                                                      .Where(each => each.Side == CryptoOrderSide.Ask)
-                                                     .Select(each => new Tuple<decimal, decimal>((decimal)each.Price, (decimal)each.Amount)),
-                        Bids = orderbookChange.Sources.Where(each => each.OrderBookType == CryptoOrderBookType.L2)
-                                                      .Where(each => each.Action == OrderBookAction.Insert)
-                                                      .Single()
-                                                      .Levels
-                                                      .Where(each => each.Side == CryptoOrderSide.Bid)
-                                                     .Select(each => new Tuple<decimal, decimal>((decimal)each.Price, (decimal)each.Amount)),
-                    };
-                    PublishEvent(orderBookToReturn);
-                }
+                PublishEvent(orderbookChange);
+
+                //try
+                //{
+                //    var asks = new List<OrderBookLevelModel>();
+                //    var bids = new List<OrderBookLevelModel>();
+                //    if (orderbookChange.IsSnapshot)
+                //    {
+                //        SnapShot = orderbookChange;
+                //        asks = SnapShot.Sources.Where(each => each.OrderBookType == CryptoOrderBookType.L2)
+                //                               .Where(each => each.Action == OrderBookAction.Insert)
+                //                               .Single()
+                //                               .Levels
+                //                               .Where(each => each.Side == CryptoOrderSide.Ask)
+                //                               .Select(each => new OrderBookLevelModel(each.Id, (decimal)each.Price, (decimal)each.Amount))
+                //                               .ToList();
+                //        bids = SnapShot.Sources.Where(each => each.OrderBookType == CryptoOrderBookType.L2)
+                //                               .Where(each => each.Action == OrderBookAction.Insert)
+                //                               .Single()
+                //                               .Levels
+                //                               .Where(each => each.Side == CryptoOrderSide.Bid)
+                //                               .Select(each => new OrderBookLevelModel(each.Id, (decimal)each.Price, (decimal)each.Amount))
+                //                               .ToList();
+                //        var orderBookToReturn = new OrderBook()
+                //        {
+                //            DateTimeOffset = orderbookChange.ServerTimestamp ?? DateTimeOffset.UtcNow,
+                //            Market = new Market(orderbookChange.Pair),
+                //            Exchange = Enumeration.FromDisplayName<ExchangeName>(orderbookChange.ExchangeName),
+                //            Asks = asks,
+                //            Bids = bids,
+                //        };
+                //        PublishEvent(orderBookToReturn);
+                //    }
+                //    else if (SnapShot != null)
+                //    {
+                //        var asksDiff = orderbookChange.Sources.Where(each => each.OrderBookType == CryptoOrderBookType.L2)
+                //                                      .Where(each => each.Action == OrderBookAction.Update)
+                //                                      .Single()
+                //                                      .Levels
+                //                                      .Where(each => each.Side == CryptoOrderSide.Ask)
+                //                                      .Select(each => new Tuple<string, double?, double>(each.Id, each.Price, each.AmountDifference));
+                //        var asksLevels = SnapShot.Sources.Where(each => each.OrderBookType == CryptoOrderBookType.L2)
+                //                                          .Where(each => each.Action == OrderBookAction.Insert)
+                //                                          .Single()
+                //                                          .Levels
+                //                                          .Where(each => each.Side == CryptoOrderSide.Ask);
+                //        foreach (var diff in asksDiff)
+                //        {
+                //            var amount = asksLevels.Single(one => one.Id == diff.Item1).Amount + diff.Item2;
+                //            asks.Add(new OrderBookLevelModel(diff.Item1, (decimal)diff.Item2, (decimal)amount));
+                //        }
+                //        var bidsDiff = orderbookChange.Sources.Where(each => each.OrderBookType == CryptoOrderBookType.L2)
+                //                                      .Where(each => each.Action == OrderBookAction.Update)
+                //                                      .Single()
+                //                                      .Levels
+                //                                      .Where(each => each.Side == CryptoOrderSide.Bid)
+                //                                      .Select(each => new Tuple<string, double?, double>(each.Id, each.Price, each.AmountDifference));
+                //        var bidsLevels = SnapShot.Sources.Where(each => each.OrderBookType == CryptoOrderBookType.L2)
+                //                                          .Where(each => each.Action == OrderBookAction.Insert)
+                //                                          .Single()
+                //                                          .Levels
+                //                                          .Where(each => each.Side == CryptoOrderSide.Bid);
+                //        foreach (var diff in bidsDiff)
+                //        {
+                //            var amount = asksLevels.Single(one => one.Id == diff.Item1).Amount + diff.Item2;
+                //            asks.Add(new OrderBookLevelModel(diff.Item1, (decimal)diff.Item2, (decimal)amount));
+                //        }
+
+                //        var asksRemoval = orderbookChange.Sources.Where(each => each.OrderBookType == CryptoOrderBookType.L2)
+                //                                         .Where(each => each.Action == OrderBookAction.Delete)
+                //                                         .Single()
+                //                                         .Levels
+                //                                         .Where(each => each.Side == CryptoOrderSide.Ask)
+                //                                         .Select(each => new Tuple<string, double?, double>(each.Id, each.Price, each.AmountDifference));
+                //        foreach (var itemToRemove in asksRemoval)
+                //        {
+                //            asks.Remove(new OrderBookLevelModel(itemToRemove.Item1, (decimal)itemToRemove.Item2, (decimal)itemToRemove.Item3));
+                //        }
+
+                //        var bidsRemoval = orderbookChange.Sources.Where(each => each.OrderBookType == CryptoOrderBookType.L2)
+                //                                         .Where(each => each.Action == OrderBookAction.Delete)
+                //                                         .Single()
+                //                                         .Levels
+                //                                         .Where(each => each.Side == CryptoOrderSide.Bid)
+                //                                         .Select(each => new Tuple<string, double?, double>(each.Id, each.Price, each.AmountDifference));
+                //        foreach (var itemToRemove in asksRemoval)
+                //        {
+                //            bids.Remove(new OrderBookLevelModel(itemToRemove.Item1, (decimal)itemToRemove.Item2, (decimal)itemToRemove.Item3));
+                //        }
+
+                //        var orderBookToReturn = new OrderBook()
+                //        {
+                //            DateTimeOffset = orderbookChange.ServerTimestamp ?? DateTimeOffset.UtcNow,
+                //            Market = new Market(orderbookChange.Pair),
+                //            Exchange = Enumeration.FromDisplayName<ExchangeName>(orderbookChange.ExchangeName),
+                //            Asks = asks,
+                //            Bids = bids,
+                //        };
+                //        PublishEvent(orderBookToReturn);
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    continue;
+                //}
             }
         }
 

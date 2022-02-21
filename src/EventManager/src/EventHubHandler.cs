@@ -1,6 +1,5 @@
 ﻿using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.OrderBookAgregate;
-using MarketIntelligency.Core.Utils;
+using MarketIntelligency.Core.Models.OrderBookAggregate;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;

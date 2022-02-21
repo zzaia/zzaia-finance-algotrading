@@ -3,7 +3,6 @@ using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
 using MarketIntelligency.Core.Utils;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Logging;
@@ -61,12 +60,12 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Test
             Assert.Equal(market, response.Output.Market);
             Assert.NotNull(response.Output.Asks);
             Assert.Equal(1000, response.Output.Asks.Count());
-            Assert.InRange<decimal>(response.Output.Asks.First().Item2, 10000, decimal.MaxValue);
-            Assert.InRange<decimal>(response.Output.Asks.First().Item1, 0, 50);
+            Assert.InRange(response.Output.Asks.First().Price, 10000, decimal.MaxValue);
+            Assert.InRange(response.Output.Asks.First().Amount, 0, 50);
             Assert.NotNull(response.Output.Bids);
             Assert.Equal(1000, response.Output.Bids.Count());
-            Assert.InRange<decimal>(response.Output.Bids.First().Item2, 10000, decimal.MaxValue);
-            Assert.InRange<decimal>(response.Output.Bids.First().Item1, 0, 50);
+            Assert.InRange(response.Output.Bids.First().Price, 10000, decimal.MaxValue);
+            Assert.InRange(response.Output.Bids.First().Amount, 0, 50);
         }
     }
 }

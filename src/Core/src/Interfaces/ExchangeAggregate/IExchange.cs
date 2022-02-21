@@ -2,7 +2,7 @@
 using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
-using MarketIntelligency.Core.Models.OrderBookAgregate;
+using MarketIntelligency.Core.Models.OrderBookAggregate;
 using System;
 using System.Collections.Generic;
 using System.Threading;

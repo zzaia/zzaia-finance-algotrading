@@ -3,7 +3,7 @@ using MarketIntelligency.Core.Models.MarketAgregate;
 using System;
 using System.Collections.Generic;
 
-namespace MarketIntelligency.Core.Models.OrderBookAgregate
+namespace MarketIntelligency.Core.Models.OrderBookAggregate
 {
     /// <summary>
     /// Order book for market main asset, from OHLCV date time.
@@ -29,12 +29,12 @@ namespace MarketIntelligency.Core.Models.OrderBookAgregate
         /// <summary>
         /// List of bids orders, price and volume.
         /// </summary>
-        public IEnumerable<Tuple<decimal, decimal>> Bids { get; set; }
+        public IEnumerable<OrderBookLevel> Bids { get; set; }
 
         /// <summary>
         /// List of asks orders, price and volume.
         /// </summary>
-        public IEnumerable<Tuple<decimal, decimal>> Asks { get; set; }
+        public IEnumerable<OrderBookLevel> Asks { get; set; }
 
     }
 }

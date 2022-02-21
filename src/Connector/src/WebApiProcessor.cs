@@ -2,7 +2,7 @@
 using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
-using MarketIntelligency.Core.Models.OrderBookAgregate;
+using MarketIntelligency.Core.Models.OrderBookAggregate;
 using MarketIntelligency.Core.Utils;
 using MarketIntelligency.EventManager;
 using Microsoft.ApplicationInsights;

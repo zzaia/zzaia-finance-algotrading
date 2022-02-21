@@ -81,6 +81,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Web.Grpc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Web.Grpc.Test", "src\Web\Grpc\test\MarketIntelligency.Web.Grpc.Test.csproj", "{09A04230-B95D-42CC-9A05-3B76B43D03AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketIntelligency.Application.Adapter.Ftx", "src\Application\Adapter\Ftx\src\MarketIntelligency.Application.Adapter.Ftx.csproj", "{80D04002-8587-4488-B6C5-984D5A464923}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -161,6 +163,10 @@ Global
 		{09A04230-B95D-42CC-9A05-3B76B43D03AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09A04230-B95D-42CC-9A05-3B76B43D03AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09A04230-B95D-42CC-9A05-3B76B43D03AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80D04002-8587-4488-B6C5-984D5A464923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80D04002-8587-4488-B6C5-984D5A464923}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80D04002-8587-4488-B6C5-984D5A464923}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80D04002-8587-4488-B6C5-984D5A464923}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -204,6 +210,7 @@ Global
 		{E838702E-D8C8-442C-8FCA-74381F01336B} = {0B367ACD-C5C8-475F-9B35-55602D80E4C0}
 		{E3B2E38C-160F-48B4-AF36-E98693F321A4} = {E838702E-D8C8-442C-8FCA-74381F01336B}
 		{09A04230-B95D-42CC-9A05-3B76B43D03AF} = {E838702E-D8C8-442C-8FCA-74381F01336B}
+		{80D04002-8587-4488-B6C5-984D5A464923} = {27B075B9-5210-4E9B-885C-C91A8E3B8CFE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {12C405CE-6B21-435F-9B7E-E5B4EDBBE0D4}

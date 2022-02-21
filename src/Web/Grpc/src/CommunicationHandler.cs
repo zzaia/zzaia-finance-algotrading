@@ -1,7 +1,7 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.OrderBookAgregate;
+using MarketIntelligency.Core.Models.OrderBookAggregate;
 using MarketIntelligency.EventManager;
 using MarketIntelligency.Web.Grpc.Protos;
 using Microsoft.Extensions.Hosting;
