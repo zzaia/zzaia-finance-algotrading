@@ -51,7 +51,7 @@ namespace MarketIntelligency.WebSocket
         {
             LastMessageReceivedTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
-            byte[] finalResultBytes = new byte[0];
+            byte[] finalResultBytes = Array.Empty<byte>();
             byte[] buffer = new byte[2048];
 
             WebSocketReceiveResult receivedData = null;

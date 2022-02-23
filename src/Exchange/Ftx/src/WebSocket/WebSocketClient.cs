@@ -48,7 +48,7 @@ namespace MarketIntelligency.Exchange.Ftx.WebSockets
         {
             _lastMessageReceivedTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
-            byte[] finalResultBytes = new byte[0];
+            byte[] finalResultBytes = Array.Empty<byte>();
             byte[] buffer = new byte[2048];
 
             WebSocketReceiveResult receivedData = null;
@@ -89,7 +89,7 @@ namespace MarketIntelligency.Exchange.Ftx.WebSockets
             return;
         }
 
-        private byte[] AddResultBytes(byte[] first, byte[] second, WebSocketReceiveResult result)
+        private static byte[] AddResultBytes(byte[] first, byte[] second, WebSocketReceiveResult result)
         {
             byte[] ret = new byte[first.Length + result.Count];
             Buffer.BlockCopy(first, 0, ret, 0, first.Length);

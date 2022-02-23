@@ -1,5 +1,4 @@
-﻿using Crypto.Websocket.Extensions.Core.OrderBooks.Models;
-using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
+﻿using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
 using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.ExchangeAggregate;
@@ -12,6 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
+using System.Net.WebSockets;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -151,14 +152,21 @@ namespace MarketIntelligency.Exchange.Ftx
             throw new NotImplementedException();
         }
 
-        public void SetOrderBookSubscription(Market market)
+        public async Task SetOrderBookSubscription(Market market, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _websocketClient.SubscribeOrderbook(market.Ticker, cancellationToken);
         }
 
-        public void SubscribeToOrderBook(Action<IList<IOrderBookChangeInfo>> onNext)
+        public async Task SubscribeToOrderBook(Action<OrderBook> onNext, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _websocketClient.ConnectAsync(cancellationToken);
+            var response = await _websocketClient.ReceiveAsync(cancellationToken);
+            if (response.MessageType == WebSocketMessageType.Text)
+            {
+                string responseMessage = Encoding.UTF8.GetString(response.Message, 0, response.Lenght);
+                //await ProcessMessage(responseMessage, cancellationToken);
+                _logger.LogDebug(responseMessage);
+            }
         }
     }
 }

@@ -16,6 +16,7 @@
     <ProjectReference Include="..\..\EventManager\src\MarketIntelligency.EventManager.csproj" />
     <ProjectReference Include="..\..\Exchange\Binance\src\MarketIntelligency.Exchange.Binance.csproj" />
     <ProjectReference Include="..\..\Exchange\MercadoBitcoin\src\MarketIntelligency.Exchange.MercadoBitcoin.csproj" />
+    <ProjectReference Include="..\..\Exchange\Ftx\src\MarketIntelligency.Exchange.Ftx.csproj" />
   </ItemGroup>
 
 </Project>

@@ -182,6 +182,16 @@ namespace MarketIntelligency.Exchange.Binance
             return $"{market.Base.DisplayName}{market.Quote.DisplayName}";
         }
 
+        public Task SetOrderBookSubscription(Market market, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SubscribeToOrderBook(Action<OrderBook> onNext, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

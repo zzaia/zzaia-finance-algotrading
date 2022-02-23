@@ -308,15 +308,17 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
             return $"{market.Quote.DisplayName}{market.Base.DisplayName}";
         }
 
-        public void SetOrderBookSubscription(Market market)
+        public Task SetOrderBookSubscription(Market market, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public void SubscribeToOrderBook(Action<IList<Crypto.Websocket.Extensions.Core.OrderBooks.Models.IOrderBookChangeInfo>> onNext)
+        public Task SubscribeToOrderBook(Action<OrderBook> onNext, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
+
+
         #endregion
     }
 }
