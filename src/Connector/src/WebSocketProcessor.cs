@@ -1,5 +1,4 @@
-﻿using Crypto.Websocket.Extensions.Core.OrderBooks.Models;
-using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
+﻿using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
 using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
@@ -23,7 +22,7 @@ namespace MarketIntelligency.Connector
         private readonly IDataStreamSource _dataStreamSource;
         private readonly ILogger<WebSocketProcessor> _logger;
         private readonly TelemetryClient _telemetryClient;
-        public IOrderBookChangeInfo SnapShot { get; set; }
+        private long _lastStartTime;
 
         /// <summary>
         /// Provide data streams from web socket clients
@@ -51,18 +50,40 @@ namespace MarketIntelligency.Connector
             var exchange = _exchangeSelector.SelectByName(_options.ExchangeName);
             if (exchange.Info.Options.HasWebSocket)
             {
+                await exchange.InitializeAsync(stoppingToken);
                 foreach (var item in _options.DataIn)
                 {
                     if (item.GetType() == typeof(Market))
                     {
                         if (_options.DataOut.Any(each => each.Name.Equals(nameof(OrderBook))))
                         {
-                            await exchange.SetOrderBookSubscription(item, stoppingToken);
+                            await exchange.SubscribeOrderbookAsync(item, stoppingToken);
                         }
                     }
                 }
-                await exchange.SubscribeToOrderBook(PublishEvent, stoppingToken);
-                await stoppingToken.WaitUntilCancelled();
+                _lastStartTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                while (!stoppingToken.IsCancellationRequested)
+                {
+                    try
+                    {
+                        if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - _lastStartTime > 1800000)
+                        {
+                            await exchange.RestartAsync(stoppingToken);
+                        }
+
+                        var response = await exchange.ReceiveAsync(stoppingToken);
+                        if (response.Succeded)
+                        {
+                            PublishEvent(response.Output);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex.Message, ex);
+                        await Task.Delay(5000, stoppingToken);
+                        await exchange.RestartAsync(stoppingToken);
+                    }
+                }
             }
             else
             {

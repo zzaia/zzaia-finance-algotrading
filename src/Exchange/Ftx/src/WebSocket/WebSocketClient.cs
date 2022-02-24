@@ -13,7 +13,8 @@ namespace MarketIntelligency.Exchange.Ftx.WebSockets
         private ClientWebSocket _internalWs { get; set; }
         public long? _lastMessageReceivedTime { get; set; } // In milliseconds.
         public WebSocketState _state { get; private set; }
-
+        public WebSocketState GetState() => _state;
+        public bool IsOpen() => _state == WebSocketState.Open;
         public WebSocketClient(string address)
         {
             _internalWs = new ClientWebSocket();

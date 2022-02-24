@@ -5,14 +5,14 @@ using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
 using MarketIntelligency.Core.Models.OrderBookAggregate;
 using MarketIntelligency.Exchange.Ftx.WebSockets;
+using MarketIntelligency.Exchange.Ftx.WebSockets.Models;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
-using System.Net.WebSockets;
-using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -24,8 +24,9 @@ namespace MarketIntelligency.Exchange.Ftx
         private readonly TelemetryClient _telemetryClient;
         private readonly ClientCredential _tradeClientCredential;
         private readonly ClientCredential _privateClientCredential;
-        private readonly FtxWebSocketClient _websocketClient;
 
+        private readonly WebSocketClient _websocketClient;
+        private List<WebSocketRequest> _subscriptions;
         public FtxExchange(Action<ClientCredential> privateClientCredentials,
                            Action<ClientCredential> tradeClientCredentials,
                            ILogger<FtxExchange> logger,
@@ -43,9 +44,10 @@ namespace MarketIntelligency.Exchange.Ftx
             _privateClientCredential = tradeClientCredentialsModel;
 
             clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
-            _websocketClient = new FtxWebSocketClient(Information.Uris.WebSocket.Main);
+            _websocketClient = new WebSocketClient(Information.Uris.WebSocket.Main.AbsoluteUri);
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
+            _subscriptions = new List<WebSocketRequest>();
         }
 
         /// <summary>
@@ -98,22 +100,6 @@ namespace MarketIntelligency.Exchange.Ftx
                     },
                     Uris = new ExchangeUris
                     {
-                        WWW = new Uri(""),
-                        Doc = new List<Uri>
-                        {
-                            new Uri(""),
-                            new Uri("")
-                        },
-                        Fees = new List<Uri>
-                        {
-                            new Uri("")
-                        },
-                        WebApi = new WebApiUris
-                        {
-                            Public = new Uri(""),
-                            Private = new Uri(""),
-                            Trade = new Uri("")
-                        },
                         WebSocket = new WebSocketUris
                         {
                             Main = new Uri("wss://ftx.com/ws/")
@@ -147,26 +133,80 @@ namespace MarketIntelligency.Exchange.Ftx
         public ExchangeInfo Info => Information;
 
 
+        #region Public Methods
+
         public Task<ObjectResult<OrderBook>> FetchOrderBookAsync(Market market, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
 
-        public async Task SetOrderBookSubscription(Market market, CancellationToken cancellationToken)
+        public async Task SubscribeOrderbookAsync(Market market, CancellationToken stoppingToken)
         {
-            await _websocketClient.SubscribeOrderbook(market.Ticker, cancellationToken);
-        }
-
-        public async Task SubscribeToOrderBook(Action<OrderBook> onNext, CancellationToken cancellationToken)
-        {
-            await _websocketClient.ConnectAsync(cancellationToken);
-            var response = await _websocketClient.ReceiveAsync(cancellationToken);
-            if (response.MessageType == WebSocketMessageType.Text)
+            try
             {
-                string responseMessage = Encoding.UTF8.GetString(response.Message, 0, response.Lenght);
-                //await ProcessMessage(responseMessage, cancellationToken);
-                _logger.LogDebug(responseMessage);
+                var subscribeRequest = new WebSocketRequest("orderbook", market.Ticker, "subscribe");
+                var subscribeRequestMessage = JsonSerializer.Serialize(subscribeRequest);
+                await _websocketClient.SendTextAsync(subscribeRequestMessage, stoppingToken);
+                _subscriptions.Add(subscribeRequest);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
             }
         }
+
+        public async Task UnsubscribeOrderbookAsync(Market market, CancellationToken stoppingToken)
+        {
+            try
+            {
+                var unsubscribeRequest = new WebSocketRequest("orderbook", market.Ticker, "unsubscribe");
+                var unsubscribeRequestMessage = JsonSerializer.Serialize(unsubscribeRequest);
+                await _websocketClient.SendTextAsync(unsubscribeRequestMessage, stoppingToken);
+                _subscriptions.Remove(unsubscribeRequest);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public Task AuthenticateAsync(ClientCredential clientCredentials)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task InitializeAsync(CancellationToken cancellationtoken)
+        {
+            try
+            {
+                await _websocketClient.ConnectAsync(cancellationtoken);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
+        public async Task RestartAsync(CancellationToken cancellationToken)
+        {
+            try
+            {
+                await _websocketClient.ReconnectAsync(cancellationToken);
+                foreach (var subscription in _subscriptions)
+                {
+                    var unsubscribeRequestMessage = JsonSerializer.Serialize(subscription);
+                    await _websocketClient.SendTextAsync(unsubscribeRequestMessage, cancellationToken);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        #endregion
     }
 }
