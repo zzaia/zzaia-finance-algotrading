@@ -2,6 +2,7 @@
 using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
 using MarketIntelligency.Core.Models.OrderBookAggregate;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,7 +20,7 @@ namespace MarketIntelligency.Core.Interfaces.ExchangeAggregate
         Task<ObjectResult<OrderBook>> FetchOrderBookAsync(Market market, CancellationToken cancellationToken);
         Task SubscribeOrderbookAsync(Market market, CancellationToken cancellationToken);
         Task UnsubscribeOrderbookAsync(Market market, CancellationToken cancellationToken);
-        Task<ObjectResult<Ttype>> ReceiveAsync<Ttype>(CancellationToken cancellationToken) where Ttype : class;
+        Task ReceiveAsync(Action<OrderBook> action, CancellationToken cancellationToken);
         Task InitializeAsync(CancellationToken cancellationtoken);
         Task RestartAsync(CancellationToken cancellationToken);
     }

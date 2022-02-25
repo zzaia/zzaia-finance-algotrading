@@ -71,11 +71,7 @@ namespace MarketIntelligency.Connector
                             await exchange.RestartAsync(stoppingToken);
                         }
 
-                        var response = await exchange.ReceiveAsync(stoppingToken);
-                        if (response.Succeded)
-                        {
-                            PublishEvent(response.Output);
-                        }
+                        await exchange.ReceiveAsync(PublishEvent, stoppingToken);
                     }
                     catch (Exception ex)
                     {

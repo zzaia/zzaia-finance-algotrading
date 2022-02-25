@@ -173,15 +173,6 @@ namespace MarketIntelligency.Exchange.Binance
             Observable.CombineLatest(CryptoOrderBooks.Select(each => each.OrderBookUpdatedStream).ToArray()).Subscribe(onNext);
         }
 
-        #endregion
-
-        #region Private Methods
-
-        private static string ToDataDomain(Market market)
-        {
-            return $"{market.Base.DisplayName}{market.Quote.DisplayName}";
-        }
-
         public Task SetOrderBookSubscription(List<Market> markets, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
@@ -190,6 +181,45 @@ namespace MarketIntelligency.Exchange.Binance
         public Task Subscribe(Action<OrderBook> onNext, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
+        }
+
+        public Task AuthenticateAsync(ClientCredential clientCredentials)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SubscribeOrderbookAsync(Market market, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UnsubscribeOrderbookAsync(Market market, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReceiveAsync(Action<OrderBook> action, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task InitializeAsync(CancellationToken cancellationtoken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RestartAsync(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private static string ToDataDomain(Market market)
+        {
+            return $"{market.Base.DisplayName}{market.Quote.DisplayName}";
         }
 
         #endregion

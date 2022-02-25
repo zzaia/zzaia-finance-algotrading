@@ -12,6 +12,8 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Net.Http;
+using System.Net.WebSockets;
+using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
@@ -198,6 +200,28 @@ namespace MarketIntelligency.Exchange.Ftx
                 {
                     var unsubscribeRequestMessage = JsonSerializer.Serialize(subscription);
                     await _websocketClient.SendTextAsync(unsubscribeRequestMessage, cancellationToken);
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task ReceiveAsync(Action<OrderBook> action, CancellationToken cancellationToken)
+        {
+            try
+            {
+                var response = await _websocketClient.ReceiveAsync(cancellationToken);
+                if (response.MessageType == WebSocketMessageType.Text)
+                {
+                    string responseMessage = Encoding.UTF8.GetString(response.Message, 0, response.Lenght);
+                    if (responseMessage == "ping")
+                    {
+                        await _websocketClient.SendTextAsync("pong", cancellationToken);
+                        return;
+                    }
                 }
             }
             catch (Exception ex)

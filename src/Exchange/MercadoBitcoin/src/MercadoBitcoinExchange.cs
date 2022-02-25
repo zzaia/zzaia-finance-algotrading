@@ -300,6 +300,35 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                 throw;
             }
         }
+        public Task AuthenticateAsync(ClientCredential clientCredentials)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task SubscribeOrderbookAsync(Market market, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UnsubscribeOrderbookAsync(Market market, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReceiveAsync(Action<OrderBook> action, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task InitializeAsync(CancellationToken cancellationtoken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RestartAsync(CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
         #endregion
 
         #region Private Methods
