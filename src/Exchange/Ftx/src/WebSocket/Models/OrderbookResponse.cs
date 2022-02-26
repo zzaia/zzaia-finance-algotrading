@@ -1,18 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace MarketIntelligency.Exchange.Ftx.WebSocket.Models
 {
     public class OrderbookResponse
     {
-
+        [JsonPropertyName("data")]
         public OrderbookData Data { get; set; }
     }
     public class OrderbookData
     {
+        [JsonPropertyName("action")]
         public string Action { get; set; }
+        [JsonPropertyName("checksum")]
+        public Int64 Checksum { get; set; }
+        [JsonPropertyName("time")]
+        public double Time { get; set; }
+        [JsonPropertyName("bids")]
+        public IEnumerable<IEnumerable<decimal>> Bids { get; set; }
+        [JsonPropertyName("asks")]
+        public IEnumerable<IEnumerable<decimal>> Asks { get; set; }
     }
 }

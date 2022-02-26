@@ -6,6 +6,6 @@ namespace MarketIntelligency.Core.Models.ExchangeAggregate
     {
         public bool HasWebSocket { get; set; }
         public bool HasWebApi { get; set; }
-        public TimeSpan ReconnectTimeSpan { get; set; }
+        public TimeSpan CheckForLivenessTimeSpan { get; set; }
     }
 }

@@ -124,7 +124,7 @@ namespace MarketIntelligency.Exchange.Ftx
                     {
                         HasWebApi = true,
                         HasWebSocket = true,
-                        ReconnectTimeSpan = TimeSpan.FromSeconds(15),
+                        CheckForLivenessTimeSpan = TimeSpan.FromSeconds(15),
                     }
                 };
                 return exchangeInfo;
@@ -235,22 +235,28 @@ namespace MarketIntelligency.Exchange.Ftx
                 {
                     string responseMessage = Encoding.UTF8.GetString(response.Message, 0, response.Lenght);
                     var payloadResponse = JsonSerializer.Deserialize<WebSocketResponse>(responseMessage);
-                    if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Orderbook))
+                    if (payloadResponse != null && payloadResponse.Channel != null && payloadResponse.Type != null)
                     {
-                        var orderbookResponse = JsonSerializer.Deserialize<OrderbookResponse>(responseMessage);
-
-                        if (payloadResponse.Type.Equals(WebSocketResponse.Types.Partial))
+                        if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Orderbook))
                         {
+                            if (payloadResponse.Type.Equals(WebSocketResponse.Types.Partial))
+                            {
+                                var orderbookResponse = JsonSerializer.Deserialize<OrderbookResponse>(responseMessage);
+                            }
+                            else if (payloadResponse.Type.Equals(WebSocketResponse.Types.Update))
+                            {
+                                var orderbookResponse = JsonSerializer.Deserialize<OrderbookResponse>(responseMessage);
+                            }
+
                         }
+                        else if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Trades))
+                        {
 
-                    }
-                    else if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Trades))
-                    {
+                        }
+                        else if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Ticker))
+                        {
 
-                    }
-                    else if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Ticker))
-                    {
-
+                        }
                     }
                 }
             }

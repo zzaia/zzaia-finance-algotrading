@@ -66,9 +66,11 @@ namespace MarketIntelligency.Connector
                 {
                     try
                     {
-                        if (DateTimeOffset.UtcNow - _lastStartTime > exchange.Info.Options.ReconnectTimeSpan)
+                        var utcNow = DateTimeOffset.UtcNow;
+                        if (utcNow - _lastStartTime > exchange.Info.Options.CheckForLivenessTimeSpan)
                         {
                             await exchange.ConfirmLivenessAsync(stoppingToken);
+                            _lastStartTime = utcNow;
                         }
 
                         await exchange.ReceiveAsync(PublishEvent, stoppingToken);
