@@ -23,5 +23,6 @@ namespace MarketIntelligency.Core.Interfaces.ExchangeAggregate
         Task ReceiveAsync(Action<OrderBook> action, CancellationToken cancellationToken);
         Task InitializeAsync(CancellationToken cancellationtoken);
         Task RestartAsync(CancellationToken cancellationToken);
+        Task ConfirmLivenessAsync(CancellationToken stoppingToken);
     }
 }

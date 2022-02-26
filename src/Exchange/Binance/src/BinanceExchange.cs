@@ -222,6 +222,11 @@ namespace MarketIntelligency.Exchange.Binance
             return $"{market.Base.DisplayName}{market.Quote.DisplayName}";
         }
 
+        public Task ConfirmLivenessAsync(CancellationToken stoppingToken)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

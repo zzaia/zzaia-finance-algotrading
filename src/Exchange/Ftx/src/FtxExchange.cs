@@ -4,6 +4,7 @@ using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
 using MarketIntelligency.Core.Models.OrderBookAggregate;
+using MarketIntelligency.Exchange.Ftx.WebSocket.Models;
 using MarketIntelligency.Exchange.Ftx.WebSockets;
 using MarketIntelligency.Exchange.Ftx.WebSockets.Models;
 using Microsoft.ApplicationInsights;
@@ -122,7 +123,8 @@ namespace MarketIntelligency.Exchange.Ftx
                     Options = new ExchangeOptions
                     {
                         HasWebApi = true,
-                        HasWebSocket = true
+                        HasWebSocket = true,
+                        ReconnectTimeSpan = TimeSpan.FromSeconds(15),
                     }
                 };
                 return exchangeInfo;
@@ -146,7 +148,7 @@ namespace MarketIntelligency.Exchange.Ftx
         {
             try
             {
-                var subscribeRequest = new WebSocketRequest("orderbook", market.Ticker, "subscribe");
+                var subscribeRequest = new WebSocketRequest(WebSocketRequest.ChannelTypes.Orderbook, market.Ticker, WebSocketRequest.OperationTypes.Subscribe);
                 var subscribeRequestMessage = JsonSerializer.Serialize(subscribeRequest);
                 await _websocketClient.SendTextAsync(subscribeRequestMessage, stoppingToken);
                 _subscriptions.Add(subscribeRequest);
@@ -162,10 +164,25 @@ namespace MarketIntelligency.Exchange.Ftx
         {
             try
             {
-                var unsubscribeRequest = new WebSocketRequest("orderbook", market.Ticker, "unsubscribe");
+                var unsubscribeRequest = new WebSocketRequest(WebSocketRequest.ChannelTypes.Orderbook, market.Ticker, WebSocketRequest.OperationTypes.Unsubscribe);
                 var unsubscribeRequestMessage = JsonSerializer.Serialize(unsubscribeRequest);
                 await _websocketClient.SendTextAsync(unsubscribeRequestMessage, stoppingToken);
                 _subscriptions.Remove(unsubscribeRequest);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task ConfirmLivenessAsync(CancellationToken stoppingToken)
+        {
+            try
+            {
+                var unsubscribeRequest = new WebSocketRequest(WebSocketRequest.ChannelTypes.Orderbook, string.Empty, WebSocketRequest.OperationTypes.Ping);
+                var unsubscribeRequestMessage = JsonSerializer.Serialize(unsubscribeRequest);
+                await _websocketClient.SendTextAsync(unsubscribeRequestMessage, stoppingToken);
             }
             catch (Exception ex)
             {
@@ -217,10 +234,23 @@ namespace MarketIntelligency.Exchange.Ftx
                 if (response.MessageType == WebSocketMessageType.Text)
                 {
                     string responseMessage = Encoding.UTF8.GetString(response.Message, 0, response.Lenght);
-                    if (responseMessage == "ping")
+                    var payloadResponse = JsonSerializer.Deserialize<WebSocketResponse>(responseMessage);
+                    if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Orderbook))
                     {
-                        await _websocketClient.SendTextAsync("pong", cancellationToken);
-                        return;
+                        var orderbookResponse = JsonSerializer.Deserialize<OrderbookResponse>(responseMessage);
+
+                        if (payloadResponse.Type.Equals(WebSocketResponse.Types.Partial))
+                        {
+                        }
+
+                    }
+                    else if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Trades))
+                    {
+
+                    }
+                    else if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Ticker))
+                    {
+
                     }
                 }
             }

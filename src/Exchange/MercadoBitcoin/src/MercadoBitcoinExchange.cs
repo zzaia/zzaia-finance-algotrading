@@ -337,6 +337,11 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
             return $"{market.Quote.DisplayName}{market.Base.DisplayName}";
         }
 
+        public Task ConfirmLivenessAsync(CancellationToken stoppingToken)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
     }
 }

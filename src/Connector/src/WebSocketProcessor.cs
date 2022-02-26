@@ -22,7 +22,7 @@ namespace MarketIntelligency.Connector
         private readonly IDataStreamSource _dataStreamSource;
         private readonly ILogger<WebSocketProcessor> _logger;
         private readonly TelemetryClient _telemetryClient;
-        private long _lastStartTime;
+        private DateTimeOffset _lastStartTime;
 
         /// <summary>
         /// Provide data streams from web socket clients
@@ -61,14 +61,14 @@ namespace MarketIntelligency.Connector
                         }
                     }
                 }
-                _lastStartTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                _lastStartTime = DateTimeOffset.UtcNow;
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     try
                     {
-                        if (DateTimeOffset.Now.ToUnixTimeMilliseconds() - _lastStartTime > 1800000)
+                        if (DateTimeOffset.UtcNow - _lastStartTime > exchange.Info.Options.ReconnectTimeSpan)
                         {
-                            await exchange.RestartAsync(stoppingToken);
+                            await exchange.ConfirmLivenessAsync(stoppingToken);
                         }
 
                         await exchange.ReceiveAsync(PublishEvent, stoppingToken);
