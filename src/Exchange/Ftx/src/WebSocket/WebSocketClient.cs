@@ -11,7 +11,6 @@ namespace MarketIntelligency.Exchange.Ftx.WebSockets
     {
         public readonly Uri _address;
         private ClientWebSocket _internalWs { get; set; }
-        public long? _lastMessageReceivedTime { get; set; } // In milliseconds.
         public WebSocketState _state { get; private set; }
         public WebSocketState GetState() => _state;
         public bool IsOpen() => _state == WebSocketState.Open;
@@ -47,8 +46,6 @@ namespace MarketIntelligency.Exchange.Ftx.WebSockets
 
         public async Task<WebSocketClientResponse> ReceiveAsync(CancellationToken cToken)
         {
-            _lastMessageReceivedTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-
             byte[] finalResultBytes = Array.Empty<byte>();
             byte[] buffer = new byte[2048];
 

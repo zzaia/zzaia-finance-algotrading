@@ -229,7 +229,7 @@ namespace MarketIntelligency.Exchange.Ftx
             }
         }
 
-        public async Task ReceiveAsync(Action<OrderBook> action, CancellationToken cancellationToken)
+        public async Task ReceiveAsync(Action<dynamic> action, CancellationToken cancellationToken)
         {
             try
             {
@@ -253,19 +253,70 @@ namespace MarketIntelligency.Exchange.Ftx
                                     Exchange = Info.Name,
                                     DateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(seconds).AddTicks(ticks),
                                     Market = new Market(payloadResponse.Market),
-                                    Asks = orderbookResponse.Data.Asks.Select(each => new OrderBookLevel(Guid.NewGuid().ToString(), each[0], each[1])),
-                                    Bids = orderbookResponse.Data.Bids.Select(each => new OrderBookLevel(Guid.NewGuid().ToString(), each[0], each[1])),
+                                    Asks = orderbookResponse.Data.Asks.Select(each => new OrderBookLevel(each[0], each[1])),
+                                    Bids = orderbookResponse.Data.Bids.Select(each => new OrderBookLevel(each[0], each[1])),
                                 };
-                                var oldSnapshot = _snapShots.SingleOrDefault(one => one.Market.Equals(snapShot.Market));
+                                var oldSnapshot = _snapShots.SingleOrDefault(one => one.Market.Ticker.Equals(snapShot.Market.Ticker));
                                 if (oldSnapshot != null) _snapShots.Remove(oldSnapshot);
                                 _snapShots.Add(snapShot);
-
+                                action.Invoke(snapShot);
                             }
                             else if (payloadResponse.Type.Equals(WebSocketResponse.Types.Update))
                             {
                                 var orderbookResponse = JsonSerializer.Deserialize<OrderbookResponse>(responseMessage);
+                                var milliseconds = orderbookResponse.Data.Time % 10;
+                                var ticks = (long)(milliseconds * TimeSpan.TicksPerMillisecond);
+                                var seconds = (long)(orderbookResponse.Data.Time - milliseconds);
+                                var oldSnapshot = _snapShots.Single(one => one.Market.Ticker.Equals(new Market(payloadResponse.Market).Ticker));
+                                oldSnapshot.DateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(seconds).AddTicks(ticks);
+                                foreach (var item in orderbookResponse.Data.Asks)
+                                {
+                                    var orderbookLevelToUpdate = oldSnapshot.Asks.Where(one => one.Price.Equals(item[0])).SingleOrDefault();
+                                    if (orderbookLevelToUpdate != null)
+                                    {
+                                        if (item[1] == decimal.Zero)
+                                        {
+                                            oldSnapshot.Asks = oldSnapshot.Asks.Where((one) => !one.Price.Equals(item[0])).ToList();
+                                        }
+                                        else
+                                        {
+                                            orderbookLevelToUpdate.Amount = item[1];
+                                        }
+                                    }
+                                    else
+                                    {
+                                        var firstCollection = oldSnapshot.Asks.Where(one => one.Price < item[0]).ToList();
+                                        firstCollection.Add(new OrderBookLevel(item[0], item[1]));
+                                        var secondCollection = oldSnapshot.Asks.Where(one => one.Price > item[0]).ToList();
+                                        firstCollection.AddRange(secondCollection);
+                                        oldSnapshot.Asks = firstCollection;
+                                    }
+                                }
+                                foreach (var item in orderbookResponse.Data.Bids)
+                                {
+                                    var orderbookLevelToUpdate = oldSnapshot.Bids.Where(one => one.Price.Equals(item[0])).SingleOrDefault();
+                                    if (orderbookLevelToUpdate != null)
+                                    {
+                                        if (item[1] == decimal.Zero)
+                                        {
+                                            oldSnapshot.Bids = oldSnapshot.Bids.Where((one) => !one.Price.Equals(item[0])).ToList();
+                                        }
+                                        else
+                                        {
+                                            orderbookLevelToUpdate.Amount = item[1];
+                                        }
+                                    }
+                                    else
+                                    {
+                                        var firstCollection = oldSnapshot.Bids.Where(one => one.Price > item[0]).ToList();
+                                        firstCollection.Add(new OrderBookLevel(item[0], item[1]));
+                                        var secondCollection = oldSnapshot.Bids.Where(one => one.Price < item[0]).ToList();
+                                        firstCollection.AddRange(secondCollection);
+                                        oldSnapshot.Bids = firstCollection;
+                                    }
+                                }
+                                action.Invoke(oldSnapshot);
                             }
-
                         }
                         else if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Trades))
                         {

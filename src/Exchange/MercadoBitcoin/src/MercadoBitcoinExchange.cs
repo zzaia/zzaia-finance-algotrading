@@ -221,9 +221,9 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                         DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
                         Market = market,
                         Bids = from order in response.Output.Bids.ToList()
-                               select new OrderBookLevel(Guid.NewGuid().ToString(), order[1], order[0]),
+                               select new OrderBookLevel(order[1], order[0]),
                         Asks = from order in response.Output.Asks.ToList()
-                               select new OrderBookLevel(Guid.NewGuid().ToString(), order[1], order[0]),
+                               select new OrderBookLevel(order[1], order[0]),
                     };
 
                     return ObjectResultFactory.CreateSuccessResult(resultToReturn);
@@ -268,10 +268,10 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                         DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
                         Market = market,
                         Bids = from order in response.Output.Data.Orderbook.Bids.ToList()
-                               select new OrderBookLevel(Guid.NewGuid().ToString(), decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
+                               select new OrderBookLevel(decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
                                                                   decimal.Parse(order.Quantity, Information.Culture.NumberFormat)),
                         Asks = from order in response.Output.Data.Orderbook.Asks.ToList()
-                               select new OrderBookLevel(Guid.NewGuid().ToString(), decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
+                               select new OrderBookLevel(decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
                                                                   decimal.Parse(order.Quantity, Information.Culture.NumberFormat)),
                     };
 
@@ -315,7 +315,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
             throw new NotImplementedException();
         }
 
-        public Task ReceiveAsync(Action<OrderBook> action, CancellationToken cancellationToken)
+        public Task ReceiveAsync(Action<dynamic> action, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

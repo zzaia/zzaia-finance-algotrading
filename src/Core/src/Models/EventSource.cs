@@ -1,11 +1,9 @@
-﻿using Google.Protobuf;
-using Google.Protobuf.Reflection;
-using MediatR;
+﻿using MediatR;
 using System;
 
 namespace MarketIntelligency.Core.Models
 {
-    public class EventSource<T> : IMessage, INotification where T : class
+    public class EventSource<T> : INotification where T : class
     {
         public EventSource() { }
         public EventSource(T content)
@@ -22,22 +20,5 @@ namespace MarketIntelligency.Core.Models
         public DateTimeOffset OcurredAt { get; set; }
         public DateTimeOffset RecordedAt { get; set; }
         public T Content { get; set; }
-
-        public MessageDescriptor Descriptor => throw new NotImplementedException();
-
-        public int CalculateSize()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void MergeFrom(CodedInputStream input)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void WriteTo(CodedOutputStream output)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

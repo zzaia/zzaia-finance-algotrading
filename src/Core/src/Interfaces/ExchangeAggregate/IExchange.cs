@@ -20,7 +20,7 @@ namespace MarketIntelligency.Core.Interfaces.ExchangeAggregate
         Task<ObjectResult<OrderBook>> FetchOrderBookAsync(Market market, CancellationToken cancellationToken);
         Task SubscribeOrderbookAsync(Market market, CancellationToken cancellationToken);
         Task UnsubscribeOrderbookAsync(Market market, CancellationToken cancellationToken);
-        Task ReceiveAsync(Action<OrderBook> action, CancellationToken cancellationToken);
+        Task ReceiveAsync(Action<dynamic> action, CancellationToken cancellationToken);
         Task InitializeAsync(CancellationToken cancellationtoken);
         Task RestartAsync(CancellationToken cancellationToken);
         Task ConfirmLivenessAsync(CancellationToken stoppingToken);

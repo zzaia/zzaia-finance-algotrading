@@ -198,7 +198,7 @@ namespace MarketIntelligency.Exchange.Binance
             throw new NotImplementedException();
         }
 
-        public Task ReceiveAsync(Action<OrderBook> action, CancellationToken cancellationToken)
+        public Task ReceiveAsync(Action<dynamic> action, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

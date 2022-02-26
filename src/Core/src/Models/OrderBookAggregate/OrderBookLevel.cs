@@ -1,10 +1,12 @@
-﻿namespace MarketIntelligency.Core.Models.OrderBookAggregate
+﻿using System;
+
+namespace MarketIntelligency.Core.Models.OrderBookAggregate
 {
     public class OrderBookLevel
     {
-        public OrderBookLevel(string id, decimal price, decimal amount)
+        public OrderBookLevel(decimal price, decimal amount)
         {
-            Id = id;
+            Id = Guid.NewGuid().ToString();
             Price = price;
             Amount = amount;
         }
