@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Net.WebSockets;
 using System.Text;
@@ -30,6 +31,7 @@ namespace MarketIntelligency.Exchange.Ftx
 
         private readonly WebSocketClient _websocketClient;
         private List<WebSocketRequest> _subscriptions;
+        private List<OrderBook> _snapShots;
         public FtxExchange(Action<ClientCredential> privateClientCredentials,
                            Action<ClientCredential> tradeClientCredentials,
                            ILogger<FtxExchange> logger,
@@ -51,6 +53,7 @@ namespace MarketIntelligency.Exchange.Ftx
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _subscriptions = new List<WebSocketRequest>();
+            _snapShots = new List<OrderBook>();
         }
 
         /// <summary>
@@ -242,6 +245,21 @@ namespace MarketIntelligency.Exchange.Ftx
                             if (payloadResponse.Type.Equals(WebSocketResponse.Types.Partial))
                             {
                                 var orderbookResponse = JsonSerializer.Deserialize<OrderbookResponse>(responseMessage);
+                                var milliseconds = orderbookResponse.Data.Time % 10;
+                                var ticks = (long)(milliseconds * TimeSpan.TicksPerMillisecond);
+                                var seconds = (long)(orderbookResponse.Data.Time - milliseconds);
+                                var snapShot = new OrderBook()
+                                {
+                                    Exchange = Info.Name,
+                                    DateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(seconds).AddTicks(ticks),
+                                    Market = new Market(payloadResponse.Market),
+                                    Asks = orderbookResponse.Data.Asks.Select(each => new OrderBookLevel(Guid.NewGuid().ToString(), each[0], each[1])),
+                                    Bids = orderbookResponse.Data.Bids.Select(each => new OrderBookLevel(Guid.NewGuid().ToString(), each[0], each[1])),
+                                };
+                                var oldSnapshot = _snapShots.SingleOrDefault(one => one.Market.Equals(snapShot.Market));
+                                if (oldSnapshot != null) _snapShots.Remove(oldSnapshot);
+                                _snapShots.Add(snapShot);
+
                             }
                             else if (payloadResponse.Type.Equals(WebSocketResponse.Types.Update))
                             {

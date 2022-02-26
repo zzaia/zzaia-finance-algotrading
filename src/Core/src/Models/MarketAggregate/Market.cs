@@ -19,32 +19,43 @@ namespace MarketIntelligency.Core.Models.MarketAgregate
 
         public Market(string pair)
         {
-            var assets = Enumeration.GetAll<Asset>().ToList();
-            List<Asset> startAssets = new();
-            List<Asset> endAssets = new();
-            foreach (var currency in assets)
+            if (pair.Contains("/"))
             {
-                if (pair.StartsWith(currency.DisplayName, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    startAssets.Add(currency);
-                }
-                if (pair.EndsWith(currency.DisplayName, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    endAssets.Add(currency);
-                }
+                var tickers = pair.Split('/');
+                Base = Enumeration.FromDisplayName<Asset>(tickers[0]);
+                Quote = Enumeration.FromDisplayName<Asset>(tickers[1]);
+                Ticker = $"{Base.DisplayName}/{Quote.DisplayName}";
             }
-
-            foreach (var startCurrency in startAssets)
+            else
             {
-                foreach (var endCurrency in endAssets)
+                var assets = Enumeration.GetAll<Asset>().ToList();
+                List<Asset> startAssets = new();
+                List<Asset> endAssets = new();
+                foreach (var currency in assets)
                 {
-                    if (pair.Equals(startCurrency.DisplayName + endCurrency.DisplayName, StringComparison.InvariantCultureIgnoreCase))
+                    if (pair.StartsWith(currency.DisplayName, StringComparison.InvariantCultureIgnoreCase))
                     {
-                        Base = startCurrency;
-                        Quote = endCurrency;
-                        Ticker = startCurrency.DisplayName + "/" + endCurrency.DisplayName;
+                        startAssets.Add(currency);
+                    }
+                    if (pair.EndsWith(currency.DisplayName, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        endAssets.Add(currency);
                     }
                 }
+
+                foreach (var startCurrency in startAssets)
+                {
+                    foreach (var endCurrency in endAssets)
+                    {
+                        if (pair.Equals(startCurrency.DisplayName + endCurrency.DisplayName, StringComparison.InvariantCultureIgnoreCase))
+                        {
+                            Base = startCurrency;
+                            Quote = endCurrency;
+                            Ticker = startCurrency.DisplayName + "/" + endCurrency.DisplayName;
+                        }
+                    }
+                }
+
             }
         }
     }

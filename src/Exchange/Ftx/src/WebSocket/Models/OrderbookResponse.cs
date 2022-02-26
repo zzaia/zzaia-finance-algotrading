@@ -18,8 +18,8 @@ namespace MarketIntelligency.Exchange.Ftx.WebSocket.Models
         [JsonPropertyName("time")]
         public double Time { get; set; }
         [JsonPropertyName("bids")]
-        public IEnumerable<IEnumerable<decimal>> Bids { get; set; }
+        public IEnumerable<decimal[]> Bids { get; set; }
         [JsonPropertyName("asks")]
-        public IEnumerable<IEnumerable<decimal>> Asks { get; set; }
+        public IEnumerable<decimal[]> Asks { get; set; }
     }
 }
