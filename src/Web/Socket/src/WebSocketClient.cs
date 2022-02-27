@@ -9,16 +9,20 @@ namespace MarketIntelligency.WebSocket
 {
     public class WebSocketClient : IDisposable, IWebSocketClient
     {
-        public readonly Uri _address;
+        private Uri _address;
         private ClientWebSocket _internalWs { get; set; }
         public WebSocketState _state { get; private set; }
         public WebSocketState GetState() => _state;
         public bool IsOpen() => _state == WebSocketState.Open;
-        public WebSocketClient(string address)
+        public WebSocketClient()
         {
             _internalWs = new ClientWebSocket();
-            _address = new Uri(address);
             _state = WebSocketState.None;
+        }
+
+        public void SetBaseAddress(string address)
+        {
+            _address = new Uri(address);
         }
 
         public async Task ConnectAsync(CancellationToken cToken)

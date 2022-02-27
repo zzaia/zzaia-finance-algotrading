@@ -3,6 +3,7 @@ using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Exchange.Binance;
 using MarketIntelligency.Exchange.Ftx;
 using MarketIntelligency.Exchange.MercadoBitcoin;
+using MarketIntelligency.WebSocket;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -50,12 +51,14 @@ namespace MarketIntelligency.Connector
             }
             else if (exchangeName.Equals(ExchangeName.Ftx))
             {
+                services.AddSingleton<IWebSocketClient, WebSocketClient>();
                 services.AddSingleton((s) =>
                 {
                     var logger = (ILogger<FtxExchange>)s.GetService(typeof(ILogger<FtxExchange>));
                     var telemetry = (TelemetryClient)s.GetService(typeof(TelemetryClient));
                     var clientFactory = (IHttpClientFactory)s.GetService(typeof(IHttpClientFactory));
-                    return new FtxExchange(privateCredential, tradeCredential, logger, telemetry, clientFactory);
+                    var webSocketClient = (IWebSocketClient)s.GetService(typeof(IWebSocketClient));
+                    return new FtxExchange(privateCredential, tradeCredential, logger, telemetry, clientFactory, webSocketClient);
                 });
             }
 

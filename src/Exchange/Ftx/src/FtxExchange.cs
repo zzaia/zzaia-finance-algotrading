@@ -26,18 +26,19 @@ namespace MarketIntelligency.Exchange.Ftx
     public class FtxExchange : IFtxExchange, IExchange
     {
         private readonly ILogger<FtxExchange> _logger;
+        private readonly IWebSocketClient _websocketClient;
         private readonly TelemetryClient _telemetryClient;
         private readonly ClientCredential _tradeClientCredential;
         private readonly ClientCredential _privateClientCredential;
 
-        private readonly WebSocketClient _websocketClient;
         private List<WebSocketRequest> _subscriptions;
         private List<OrderBook> _snapShots;
         public FtxExchange(Action<ClientCredential> privateClientCredentials,
                            Action<ClientCredential> tradeClientCredentials,
                            ILogger<FtxExchange> logger,
                            TelemetryClient telemetryClient,
-                           IHttpClientFactory clientFactory)
+                           IHttpClientFactory clientFactory,
+                           IWebSocketClient webSocketClient)
         {
             privateClientCredentials = privateClientCredentials ?? throw new ArgumentNullException(nameof(privateClientCredentials));
             var privateClientCredentialsModel = new ClientCredential();
@@ -50,7 +51,8 @@ namespace MarketIntelligency.Exchange.Ftx
             _privateClientCredential = tradeClientCredentialsModel;
 
             clientFactory = clientFactory ?? throw new ArgumentNullException(nameof(clientFactory));
-            _websocketClient = new WebSocketClient(Information.Uris.WebSocket.Main.AbsoluteUri);
+            _websocketClient = webSocketClient ?? throw new ArgumentNullException(nameof(webSocketClient));
+            _websocketClient.SetBaseAddress(Information.Uris.WebSocket.Main.AbsoluteUri);
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _telemetryClient = telemetryClient ?? throw new ArgumentNullException(nameof(telemetryClient));
             _subscriptions = new List<WebSocketRequest>();

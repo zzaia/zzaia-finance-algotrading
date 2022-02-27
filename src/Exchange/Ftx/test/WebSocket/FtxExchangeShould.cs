@@ -1,5 +1,6 @@
 using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
 using MarketIntelligency.Core.Models.ExchangeAggregate;
+using MarketIntelligency.WebSocket;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Logging;
@@ -22,6 +23,7 @@ namespace MarketIntelligency.Exchange.Ftx.Test
             var config = TelemetryConfiguration.CreateDefault();
             var telemetryClient = new TelemetryClient(config);
             var httpFactory = new Mock<IHttpClientFactory>();
+            var webSocketClient = new Mock<IWebSocketClient>();
             httpFactory.Setup(x => x.CreateClient(It.IsAny<string>()))
                        .Returns(() =>
                        {
@@ -29,10 +31,11 @@ namespace MarketIntelligency.Exchange.Ftx.Test
                            return client;
                        });
             _exchange = new FtxExchange(privateClientCredential.Object,
-                                                   tradeClientCredential.Object,
-                                                   logger.Object,
-                                                   telemetryClient,
-                                                   httpFactory.Object);
+                                        tradeClientCredential.Object,
+                                        logger.Object,
+                                        telemetryClient,
+                                        httpFactory.Object,
+                                        webSocketClient.Object);
         }
 
         [Fact]

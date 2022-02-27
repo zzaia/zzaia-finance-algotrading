@@ -1,7 +1,7 @@
-using Bitstamp.Client.Websocket.Responses.Books;
 using MarketIntelligency.Connector;
 using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
+using MarketIntelligency.Core.Models.OrderBookAggregate;
 using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
 using MarketIntelligency.Exchange.Binance;

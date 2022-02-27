@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\src\MarketIntelligency.Core.csproj" />
+    <ProjectReference Include="..\..\..\Web\Socket\src\MarketIntelligency.WebSocket.csproj" />
     <ProjectReference Include="..\src\MarketIntelligency.Exchange.Ftx.csproj" />
   </ItemGroup>
 

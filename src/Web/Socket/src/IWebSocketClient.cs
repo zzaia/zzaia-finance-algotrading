@@ -11,5 +11,6 @@ namespace MarketIntelligency.WebSocket
         Task<WebSocketClientResponse> ReceiveAsync(CancellationToken cToken);
         Task ReconnectAsync(CancellationToken cToken);
         Task SendTextAsync(string message, CancellationToken cToken);
+        void SetBaseAddress(string address);
     }
 }
