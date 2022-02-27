@@ -240,6 +240,8 @@ namespace MarketIntelligency.Exchange.Ftx
                 if (response.MessageType == WebSocketMessageType.Text)
                 {
                     string responseMessage = Encoding.UTF8.GetString(response.Message, 0, response.Lenght);
+                    Console.WriteLine(responseMessage);
+                    Console.WriteLine(responseMessage.Length);
                     var payloadResponse = JsonSerializer.Deserialize<WebSocketResponse>(responseMessage);
                     if (payloadResponse != null && payloadResponse.Channel != null && payloadResponse.Type != null)
                     {
@@ -262,7 +264,7 @@ namespace MarketIntelligency.Exchange.Ftx
                                 var oldSnapshot = _snapShots.SingleOrDefault(one => one.Market.Ticker.Equals(snapShot.Market.Ticker));
                                 if (oldSnapshot != null) _snapShots.Remove(oldSnapshot);
                                 _snapShots.Add(snapShot);
-                                action.Invoke(snapShot);
+                                //action.Invoke(snapShot);
                             }
                             else if (payloadResponse.Type.Equals(WebSocketResponse.Types.Update))
                             {
@@ -348,11 +350,11 @@ namespace MarketIntelligency.Exchange.Ftx
                                 var checkSumToConfirm = BitConverter.ToInt32(crc32, 0);
                                 if (checkSumToConfirm == orderbookResponse.Data.Checksum)
                                 {
-                                    action.Invoke(oldSnapshot);
+                                    //action.Invoke(oldSnapshot);
                                 }
                                 else
                                 {
-                                    await RestartAsync(cancellationToken);
+                                    //await RestartAsync(cancellationToken);
                                 }
                             }
                         }

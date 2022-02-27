@@ -9,6 +9,7 @@ namespace MarketIntelligency.WebSocket.Models
         public WebSocketMessageType? MessageType { get; set; }
         public byte[] Message { get; set; }
 
+        public WebSocketClientResponse() { }
         public WebSocketClientResponse(WebSocketReceiveResult receiveResult, byte[] receiveBytes)
         {
             MessageType = receiveResult.MessageType;
