@@ -4,7 +4,7 @@ using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.OrderBookAggregate;
 using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
-using MarketIntelligency.Exchange.Binance;
+using MarketIntelligency.Exchange.Ftx;
 using MarketIntelligency.Web.Grpc;
 using MarketIntelligency.Web.Grpc.Protos;
 using Microsoft.Extensions.Logging.Console;
@@ -24,7 +24,7 @@ builder.Services.AddSingleton<IExchangeSelector, ExchangeSelector>();
 builder.Services.AddWebSocketConnector(options =>
 {
     options.ExchangeName = ExchangeName.Ftx;
-    options.DataIn = BinanceExchange.Information.Markets;
+    options.DataIn = FtxExchange.Information.Markets;
     options.DataOut = new List<Type> { typeof(OrderBook) };
 });
 

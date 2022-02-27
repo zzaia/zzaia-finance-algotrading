@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace MarketIntelligency.Exchange.Ftx.WebSocket.Models
 {
@@ -11,10 +10,8 @@ namespace MarketIntelligency.Exchange.Ftx.WebSocket.Models
         public string Channel { get; set; }
         [JsonPropertyName("market")]
         public string Market { get; set; }
-        //[JsonPropertyName("data")]
-        //public Dictionary<string, string> Data { get; set; }
         [JsonPropertyName("code")]
-        public string Code { get; set; }
+        public int Code { get; set; }
         [JsonPropertyName("msg")]
         public string Message { get; set; }
 
