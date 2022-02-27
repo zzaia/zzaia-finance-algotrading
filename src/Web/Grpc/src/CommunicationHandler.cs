@@ -7,7 +7,6 @@ using MarketIntelligency.Web.Grpc.Protos;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Linq;
 using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +15,7 @@ namespace MarketIntelligency.Web.Grpc
 {
     public class CommunicationHandler : BackgroundService
     {
-        private IObservable<OrderBook> _observable;
+        private IObservable<EventSource<OrderBook>> _observable;
         private readonly IDataStreamSource _streamSource;
         private readonly ILogger<CommunicationHandler> _logger;
         private readonly StreamEventGrpc.StreamEventGrpcClient _client;
@@ -33,9 +32,7 @@ namespace MarketIntelligency.Web.Grpc
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _observable = _streamSource.OrderBookSnapshotStream
-                                       .Select(each => each.Content)
-                                       .DistinctUntilChanged();
+            _observable = _streamSource.OrderBookStream.DistinctUntilChanged();
             var call = _client.RunStreamEvent(cancellationToken: stoppingToken);
             _streamWriter = call.RequestStream;
             _observable.Subscribe(SendEvent, HandleError, HandleCompletion, stoppingToken);
@@ -45,14 +42,14 @@ namespace MarketIntelligency.Web.Grpc
         /// <summary>
         /// Handler responsable to execute the strategy logic.
         /// </summary>
-        public async void SendEvent(OrderBook orderBook)
+        public async void SendEvent(EventSource<OrderBook> orderBook)
         {
             _logger.LogInformation("### Sending event for communication ###");
             try
             {
                 var orderBookDTO = new OrderbookDTO()
                 {
-                    ExchangeName = orderBook.Exchange.DisplayName,
+                    ExchangeName = orderBook.Content.Exchange.DisplayName,
                     //Market = orderBook.Market.Ticker
                 };
                 var eventSource = new EventSourceDTO() { Content = Any.Pack(orderBookDTO), Type = nameof(OrderBook) };

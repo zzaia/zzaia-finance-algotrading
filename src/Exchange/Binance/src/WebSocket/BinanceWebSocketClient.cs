@@ -1,4 +1,4 @@
-﻿using MarketIntelligency.Web.Socket;
+﻿using MarketIntelligency.WebSocket;
 
 namespace MarketIntelligency.Exchange.Binance.WebSocket
 {

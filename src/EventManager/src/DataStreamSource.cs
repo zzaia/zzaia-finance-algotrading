@@ -12,16 +12,7 @@ namespace MarketIntelligency.EventManager
         /// <summary>
         /// Use this subject to stream order book snapshot data
         /// </summary>
-        private readonly Subject<EventSource<OrderBook>> _orderBookSnapshotSubject = new();
-
-        /// <summary>
-        /// Use this subject to stream order book data (level difference)
-        /// </summary>
         private readonly Subject<EventSource<OrderBook>> _orderBookSubject = new();
-
-
-        /// <inheritdoc />
-        public IObservable<EventSource<OrderBook>> OrderBookSnapshotStream => _orderBookSnapshotSubject.AsObservable();
 
         /// <inheritdoc />
         public IObservable<EventSource<OrderBook>> OrderBookStream => _orderBookSubject.AsObservable();
@@ -36,13 +27,12 @@ namespace MarketIntelligency.EventManager
         {
             if (eventSource.Content.GetType() == typeof(OrderBook))
             {
-                _orderBookSnapshotSubject.OnNext(eventSource as EventSource<OrderBook>);
+                _orderBookSubject.OnNext(eventSource as EventSource<OrderBook>);
             }
         }
 
         public void Dispose()
         {
-            _orderBookSnapshotSubject.Dispose();
             _orderBookSubject.Dispose();
         }
     }

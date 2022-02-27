@@ -1,5 +1,4 @@
-﻿using MarketIntelligency.Web.Socket;
-using MarketIntelligency.WebSocket.Models;
+﻿using MarketIntelligency.WebSocket.Models;
 using System;
 using System.Net.WebSockets;
 using System.Text;
@@ -10,28 +9,26 @@ namespace MarketIntelligency.WebSocket
 {
     public class WebSocketClient : IDisposable, IWebSocketClient
     {
-
-        public readonly Uri Address;
-
+        public readonly Uri _address;
         private ClientWebSocket _internalWs { get; set; }
-        public WebSocketState State { get; private set; }
-        public long? LastMessageReceivedTime { get; set; } // In milliseconds.
-
+        public WebSocketState _state { get; private set; }
+        public WebSocketState GetState() => _state;
+        public bool IsOpen() => _state == WebSocketState.Open;
         public WebSocketClient(string address)
         {
             _internalWs = new ClientWebSocket();
-            Address = new Uri(address);
-            State = WebSocketState.None;
+            _address = new Uri(address);
+            _state = WebSocketState.None;
         }
 
         public async Task ConnectAsync(CancellationToken cToken)
         {
-            if (State != WebSocketState.None)
+            if (_state != WebSocketState.None)
                 throw new InvalidOperationException("Websocket has already been used (state is not None). Please use reconnect instead.");
 
-            State = WebSocketState.Connecting;
-            await _internalWs.ConnectAsync(Address, cToken);
-            State = WebSocketState.Open;
+            _state = WebSocketState.Connecting;
+            await _internalWs.ConnectAsync(_address, cToken);
+            _state = WebSocketState.Open;
         }
 
         public async Task ReconnectAsync(CancellationToken cToken)
@@ -42,15 +39,13 @@ namespace MarketIntelligency.WebSocket
             _internalWs.Dispose();
             _internalWs = new ClientWebSocket();
 
-            State = WebSocketState.None;
+            _state = WebSocketState.None;
             await ConnectAsync(cToken);
         }
 
 
         public async Task<WebSocketClientResponse> ReceiveAsync(CancellationToken cToken)
         {
-            LastMessageReceivedTime = DateTimeOffset.Now.ToUnixTimeMilliseconds();
-
             byte[] finalResultBytes = Array.Empty<byte>();
             byte[] buffer = new byte[2048];
 
@@ -70,7 +65,7 @@ namespace MarketIntelligency.WebSocket
                     else if (receivedData.MessageType == WebSocketMessageType.Close)
                     {
                         // Close bubble up.
-                        State = WebSocketState.Closed;
+                        _state = WebSocketState.Closed;
                     }
                 }
             }
@@ -86,13 +81,13 @@ namespace MarketIntelligency.WebSocket
 
         public async Task CloseGracefullyAsync(CancellationToken cToken)
         {
-            State = WebSocketState.CloseSent;
+            _state = WebSocketState.CloseSent;
             await _internalWs.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closed gracefully", cToken);
-            State = WebSocketState.Closed;
+            _state = WebSocketState.Closed;
             return;
         }
 
-        private byte[] AddResultBytes(byte[] first, byte[] second, WebSocketReceiveResult result)
+        private static byte[] AddResultBytes(byte[] first, byte[] second, WebSocketReceiveResult result)
         {
             byte[] ret = new byte[first.Length + result.Count];
             Buffer.BlockCopy(first, 0, ret, 0, first.Length);
@@ -102,7 +97,7 @@ namespace MarketIntelligency.WebSocket
 
         public void Dispose()
         {
-            _internalWs.Abort(); // isso ta errado
+            _internalWs.Abort();
             _internalWs.Dispose();
         }
     }

@@ -10,11 +10,6 @@ namespace MarketIntelligency.EventManager
         /// <summary>
         /// Streams initial snapshot of the order book
         /// </summary>
-        IObservable<EventSource<OrderBook>> OrderBookSnapshotStream { get; }
-
-        /// <summary>
-        /// Streams every update to the order book
-        /// </summary>
         IObservable<EventSource<OrderBook>> OrderBookStream { get; }
 
         void Publish<T>(EventSource<T> eventSource, ILogger logger) where T : class;

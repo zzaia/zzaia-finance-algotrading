@@ -27,7 +27,7 @@ namespace MarketIntelligency.Application.Strategies.MarketMaker
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _observable = _streamSource.OrderBookSnapshotStream
+            _observable = _streamSource.OrderBookStream
                                        .Select(each => each.Content)
                                        .DistinctUntilChanged();
             _observable.Subscribe(HandleStrategy, HandleError, HandleCompletion, stoppingToken);

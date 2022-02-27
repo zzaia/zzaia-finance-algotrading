@@ -1,12 +1,13 @@
-﻿using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
+﻿using Force.Crc32;
+using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
 using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.ExchangeAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
 using MarketIntelligency.Core.Models.OrderBookAggregate;
 using MarketIntelligency.Exchange.Ftx.WebSocket.Models;
-using MarketIntelligency.Exchange.Ftx.WebSockets;
 using MarketIntelligency.Exchange.Ftx.WebSockets.Models;
+using MarketIntelligency.WebSocket;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
 using System;
@@ -315,7 +316,42 @@ namespace MarketIntelligency.Exchange.Ftx
                                         oldSnapshot.Bids = firstCollection;
                                     }
                                 }
-                                action.Invoke(oldSnapshot);
+
+                                var checksumString = string.Empty;
+                                var asksCount = oldSnapshot.Asks.Count();
+                                var bidsCount = oldSnapshot.Bids.Count();
+                                var maxIteration = asksCount > bidsCount ? asksCount : bidsCount;
+                                var bidsArray = oldSnapshot.Bids.ToArray();
+                                var asksArray = oldSnapshot.Asks.ToArray();
+                                for (int i = 0; i < maxIteration; i++)
+                                {
+                                    if (i != 0)
+                                    {
+                                        checksumString += ":";
+                                    }
+
+                                    if (i < bidsCount)
+                                    {
+                                        checksumString += $"{bidsArray[i].Price}:{bidsArray[i].Amount}";
+                                    }
+
+                                    if (i < asksCount)
+                                    {
+                                        if (checksumString.Last() != ':') checksumString += ":";
+                                        checksumString += $"{asksArray[i].Price}:{asksArray[i].Amount}";
+                                    }
+                                }
+                                var bytes = Encoding.ASCII.GetBytes(checksumString);
+                                var crc32 = new Crc32Algorithm().ComputeHash(bytes);
+                                var checkSumToConfirm = BitConverter.ToInt32(crc32, 0);
+                                if (checkSumToConfirm == orderbookResponse.Data.Checksum)
+                                {
+                                    action.Invoke(oldSnapshot);
+                                }
+                                else
+                                {
+                                    await RestartAsync(cancellationToken);
+                                }
                             }
                         }
                         else if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Trades))

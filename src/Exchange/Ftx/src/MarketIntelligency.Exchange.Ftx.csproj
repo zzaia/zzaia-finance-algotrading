@@ -6,9 +6,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\src\MarketIntelligency.Core.csproj" />
+    <ProjectReference Include="..\..\..\Web\Socket\src\MarketIntelligency.WebSocket.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Crc32.NET" Version="1.2.0" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.20.0" />
   </ItemGroup>
 
