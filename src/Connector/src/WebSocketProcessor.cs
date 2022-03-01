@@ -1,6 +1,5 @@
 ﻿using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
 using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.MarketAgregate;
 using MarketIntelligency.Core.Models.OrderBookAggregate;
 using MarketIntelligency.EventManager;
@@ -15,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace MarketIntelligency.Connector
 {
-    public class WebSocketProcessor : BackgroundService
+    public partial class WebSocketProcessor : BackgroundService
     {
         private readonly WebSocketConnectorOptions _options;
         private readonly IExchangeSelector _exchangeSelector;
@@ -66,6 +65,9 @@ namespace MarketIntelligency.Connector
                 {
                     try
                     {
+                        Log.CalltoWebsocket.Received(_logger);
+                        Log.CalltoWebsocket.ReceivedAction(_telemetryClient);
+
                         var utcNow = DateTimeOffset.UtcNow;
                         if (utcNow - _lastStartTime > exchange.Info.Options.CheckForLivenessTimeSpan)
                         {
@@ -77,15 +79,14 @@ namespace MarketIntelligency.Connector
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex.Message, ex);
-                        await Task.Delay(5000, stoppingToken);
+                        Log.CalltoWebsocket.WithException(_logger, ex);
                         await exchange.RestartAsync(stoppingToken);
                     }
                 }
             }
             else
             {
-                throw new ArgumentException("Exchange does not support web socket.", nameof(ExchangeName));
+                Log.CalltoWebsocket.WithOutWebsocketSupport(_logger);
             }
         }
 

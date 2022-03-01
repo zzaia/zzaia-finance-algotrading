@@ -89,7 +89,7 @@ namespace MarketIntelligency.Exchange.Ftx
                     {
                         new Market(Asset.BTC, Asset.BRZ),
                         new Market(Asset.ETH, Asset.BRZ),
-                        //new Market(Asset.USDC, Asset.BRZ),
+                        new Market(Asset.USDC, Asset.BRZ),
                     },
                     Country = Country.USA,
                     Culture = new CultureInfo("en-us"),
@@ -244,7 +244,7 @@ namespace MarketIntelligency.Exchange.Ftx
                     var payloadResponse = JsonSerializer.Deserialize<WebSocketResponse>(responseMessage);
                     if (payloadResponse != null && payloadResponse.Channel != null && payloadResponse.Type != null)
                     {
-                        if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Orderbook))
+                       if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Orderbook))
                         {
                             if (payloadResponse.Type.Equals(WebSocketResponse.Types.Partial))
                             {
@@ -337,6 +337,13 @@ namespace MarketIntelligency.Exchange.Ftx
                         else if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Ticker))
                         {
                             throw new NotImplementedException();
+                        }
+                    }
+                    else if(payloadResponse != null && payloadResponse.Message != null && payloadResponse.Type != null)
+                    {
+                        if (payloadResponse.Type.Equals(WebSocketResponse.Types.Error))
+                        {
+
                         }
                     }
                 }
