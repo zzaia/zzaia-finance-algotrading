@@ -17,12 +17,6 @@ namespace MarketIntelligency.EventManager
         /// <inheritdoc />
         public IObservable<EventSource<OrderBook>> OrderBookStream => _orderBookSubject.AsObservable();
 
-        public void Publish<T>(EventSource<T> eventSource, ILogger logger) where T : class
-        {
-            logger.LogInformation($"### Publishing event with a {eventSource.Content.GetType().Name} ###");
-            Publish(eventSource);
-        }
-
         public void Publish<T>(EventSource<T> eventSource) where T : class
         {
             if (eventSource.Content.GetType() == typeof(OrderBook))

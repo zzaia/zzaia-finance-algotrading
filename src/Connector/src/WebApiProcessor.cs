@@ -123,7 +123,7 @@ namespace MarketIntelligency.Connector
         private void PublishEvent<T>(T content) where T : class
         {
             var eventToPublish = new EventSource<T>(content);
-            _dataStreamSource.Publish(eventToPublish, _logger);
+            _dataStreamSource.Publish(eventToPublish);
         }
     }
 }

@@ -1,6 +1,5 @@
 ﻿using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.OrderBookAggregate;
-using Microsoft.Extensions.Logging;
 using System;
 
 namespace MarketIntelligency.EventManager
@@ -12,7 +11,6 @@ namespace MarketIntelligency.EventManager
         /// </summary>
         IObservable<EventSource<OrderBook>> OrderBookStream { get; }
 
-        void Publish<T>(EventSource<T> eventSource, ILogger logger) where T : class;
         void Publish<T>(EventSource<T> eventSource) where T : class;
     }
 }
