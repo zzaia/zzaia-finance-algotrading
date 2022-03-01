@@ -24,7 +24,7 @@ using System.Threading.Tasks;
 
 namespace MarketIntelligency.Exchange.Ftx
 {
-    public class FtxExchange : IFtxExchange, IExchange
+    public partial class FtxExchange : IFtxExchange, IExchange
     {
         private readonly ILogger<FtxExchange> _logger;
         private readonly IWebSocketClient _websocketClient;
@@ -332,7 +332,6 @@ namespace MarketIntelligency.Exchange.Ftx
                         else if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Trades))
                         {
                             throw new NotImplementedException();
-
                         }
                         else if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Ticker))
                         {
