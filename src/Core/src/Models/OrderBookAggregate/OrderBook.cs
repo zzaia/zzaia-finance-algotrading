@@ -24,7 +24,7 @@ namespace MarketIntelligency.Core.Models.OrderBookAggregate
         /// <summary>
         /// Represents the candlestick time of measurement.
         /// </summary>
-        public DateTimeOffset DateTimeOffset { get; set; }
+        public DateTimeOffset ServerTimeStamp { get; set; }
 
         /// <summary>
         /// List of bids orders, price and volume.

@@ -56,7 +56,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Test
             Assert.True(response.Succeed);
             Assert.NotNull(response.Output);
             Assert.Equal(ExchangeName.MercadoBitcoin, response.Output.Exchange);
-            Assert.Equal(currentTime.DateTime, response.Output.DateTimeOffset.DateTime, tolerance);
+            Assert.Equal(currentTime.DateTime, response.Output.ServerTimeStamp.DateTime, tolerance);
             Assert.Equal(market, response.Output.Market);
             Assert.NotNull(response.Output.Asks);
             Assert.Equal(1000, response.Output.Asks.Count());

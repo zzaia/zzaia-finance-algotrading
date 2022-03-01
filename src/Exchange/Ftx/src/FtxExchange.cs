@@ -88,7 +88,7 @@ namespace MarketIntelligency.Exchange.Ftx
                     Markets = new List<Market>
                     {
                         new Market(Asset.BTC, Asset.BRZ),
-                        //new Market(Asset.ETH, Asset.BRZ),
+                        new Market(Asset.ETH, Asset.BRZ),
                         //new Market(Asset.USDC, Asset.BRZ),
                     },
                     Country = Country.USA,
@@ -241,9 +241,6 @@ namespace MarketIntelligency.Exchange.Ftx
                 if (response.MessageType == WebSocketMessageType.Text)
                 {
                     string responseMessage = Encoding.UTF8.GetString(response.Message, 0, response.Lenght);
-                    //using StreamWriter file = new("WebhookPayload.txt", append: true);
-                    //await file.WriteLineAsync(responseMessage);
-                    //await file.WriteLineAsync(responseMessage.Length.ToString());
                     var payloadResponse = JsonSerializer.Deserialize<WebSocketResponse>(responseMessage);
                     if (payloadResponse != null && payloadResponse.Channel != null && payloadResponse.Type != null)
                     {
@@ -258,7 +255,7 @@ namespace MarketIntelligency.Exchange.Ftx
                                 var snapShot = new OrderBook()
                                 {
                                     Exchange = Info.Name,
-                                    DateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(seconds).AddTicks(ticks),
+                                    ServerTimeStamp = DateTimeOffset.FromUnixTimeSeconds(seconds).AddTicks(ticks),
                                     Market = new Market(payloadResponse.Market),
                                     Asks = orderbookResponse.Data.Asks.Select(each => new OrderBookLevel(each[0], each[1])),
                                     Bids = orderbookResponse.Data.Bids.Select(each => new OrderBookLevel(each[0], each[1])),
@@ -283,7 +280,7 @@ namespace MarketIntelligency.Exchange.Ftx
                                 var ticks = (long)(milliseconds * TimeSpan.TicksPerMillisecond);
                                 var seconds = (long)(orderbookResponse.Data.Time - milliseconds);
                                 var oldSnapshot = _snapShots.Single(one => one.Market.Ticker.Equals(new Market(payloadResponse.Market).Ticker));
-                                oldSnapshot.DateTimeOffset = DateTimeOffset.FromUnixTimeSeconds(seconds).AddTicks(ticks);
+                                oldSnapshot.ServerTimeStamp = DateTimeOffset.FromUnixTimeSeconds(seconds).AddTicks(ticks);
                                 foreach (var item in orderbookResponse.Data.Asks)
                                 {
                                     var orderbookLevelToUpdate = oldSnapshot.Asks.Where(one => one.Price.Equals(item[0])).SingleOrDefault();
@@ -362,58 +359,32 @@ namespace MarketIntelligency.Exchange.Ftx
         private bool ValidateCheckSum(OrderBook orderBook, long checksum)
         {
             var checksumString = string.Empty;
-            //var asksCount = orderBook.Asks.Count();
-            //var bidsCount = orderBook.Bids.Count();
-            //var maxIteration = asksCount > bidsCount ? asksCount : bidsCount;
-            //var bidsArray = orderBook.Bids.ToArray();
-            //var asksArray = orderBook.Asks.ToArray();
-            //for (int i = 0; i < maxIteration; i++)
-            //{
-            //    if (i != 0)
-            //    {
-            //        checksumString += ":";
-            //    }
+            var asksCount = orderBook.Asks.Count();
+            var bidsCount = orderBook.Bids.Count();
+            var maxIteration = asksCount > bidsCount ? asksCount : bidsCount;
+            var bidsArray = orderBook.Bids.ToArray();
+            var asksArray = orderBook.Asks.ToArray();
+            for (int i = 0; i < maxIteration; i++)
+            {
+                if (i != 0)
+                {
+                    checksumString += ":";
+                }
 
-            //    if (i < bidsCount)
-            //    {
-            //        checksumString += $"{bidsArray[i].Price}:{bidsArray[i].Amount}";
-            //    }
+                if (i < bidsCount)
+                {
+                    checksumString += $"{bidsArray[i].Price}:{bidsArray[i].Amount}";
+                }
 
-            //    if (i < asksCount)
-            //    {
-            //        if (checksumString.Last() != ':') checksumString += ":";
-            //        checksumString += $"{asksArray[i].Price}:{asksArray[i].Amount}";
-            //    }
-            //}
-            //var teste = orderBook.Bids.Take(100).ZipLongest(orderBook.Asks.Take(100), (a, b) =>
-            //{
-            //    if (a != null && b != null)
-            //    {
-            //        return $"{a.Price}:{a.Amount}:{b.Price}:{b.Amount}";
-            //    }
-            //    else if (a != null)
-            //    {
-            //        return $"{a.Price}:{a.Amount}";
-            //    }
-            //    else if (b != null)
-            //    {
-            //        return $"{b.Price}:{b.Amount}";
-            //    }
-            //    else
-            //    {
-            //        return string.Empty;
-            //    }
-
-            //}).ToList();
-            //teste.ForEach(one =>
-            //{
-            //    if (checksumString != string.Empty) checksumString += ":";
-            //    checksumString += one;
-            //});
+                if (i < asksCount)
+                {
+                    if (checksumString.Last() != ':') checksumString += ":";
+                    checksumString += $"{asksArray[i].Price}:{asksArray[i].Amount}";
+                }
+            }
             var bytes = Encoding.ASCII.GetBytes(checksumString);
-            var crc32 = new Crc32Algorithm().ComputeHash(bytes);
-            var checkSumToConfirm = BitConverter.ToInt32(crc32, 0);
-            return checkSumToConfirm == checksum;
+            var crc32 = Crc32Algorithm.Compute(bytes);
+            return crc32 == checksum;
         }
 
 

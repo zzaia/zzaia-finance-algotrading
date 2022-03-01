@@ -218,7 +218,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                     var resultToReturn = new OrderBook
                     {
                         Exchange = ExchangeName.MercadoBitcoin,
-                        DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
+                        ServerTimeStamp = DateTimeUtils.CurrentUtcDateTimeOffset(),
                         Market = market,
                         Bids = from order in response.Output.Bids.ToList()
                                select new OrderBookLevel(order[1], order[0]),
@@ -265,7 +265,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
                     var resultToReturn = new OrderBook
                     {
                         Exchange = ExchangeName.MercadoBitcoin,
-                        DateTimeOffset = DateTimeUtils.CurrentUtcDateTimeOffset(),
+                        ServerTimeStamp = DateTimeUtils.CurrentUtcDateTimeOffset(),
                         Market = market,
                         Bids = from order in response.Output.Data.Orderbook.Bids.ToList()
                                select new OrderBookLevel(decimal.Parse(order.PriceLimit, Information.Culture.NumberFormat),
