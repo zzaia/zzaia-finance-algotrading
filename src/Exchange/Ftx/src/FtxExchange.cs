@@ -156,8 +156,8 @@ namespace MarketIntelligency.Exchange.Ftx
             try
             {
                 var subscribeRequest = new WebSocketRequest(WebSocketRequest.ChannelTypes.Orderbook, market.Ticker, WebSocketRequest.OperationTypes.Subscribe);
-                var subscribeRequestMessage = JsonSerializer.Serialize(subscribeRequest);
-                await _websocketClient.SendTextAsync(subscribeRequestMessage, stoppingToken);
+                var requestMessage = JsonSerializer.Serialize(subscribeRequest);
+                await _websocketClient.SendTextAsync(requestMessage, stoppingToken);
                 _subscriptions.Add(subscribeRequest);
             }
             catch (Exception ex)
@@ -172,8 +172,8 @@ namespace MarketIntelligency.Exchange.Ftx
             try
             {
                 var unsubscribeRequest = new WebSocketRequest(WebSocketRequest.ChannelTypes.Orderbook, market.Ticker, WebSocketRequest.OperationTypes.Unsubscribe);
-                var unsubscribeRequestMessage = JsonSerializer.Serialize(unsubscribeRequest);
-                await _websocketClient.SendTextAsync(unsubscribeRequestMessage, stoppingToken);
+                var requestMessage = JsonSerializer.Serialize(unsubscribeRequest);
+                await _websocketClient.SendTextAsync(requestMessage, stoppingToken);
                 _subscriptions.Remove(unsubscribeRequest);
             }
             catch (Exception ex)
@@ -188,8 +188,8 @@ namespace MarketIntelligency.Exchange.Ftx
             try
             {
                 var unsubscribeRequest = new WebSocketRequest(WebSocketRequest.ChannelTypes.Orderbook, string.Empty, WebSocketRequest.OperationTypes.Ping);
-                var unsubscribeRequestMessage = JsonSerializer.Serialize(unsubscribeRequest);
-                await _websocketClient.SendTextAsync(unsubscribeRequestMessage, stoppingToken);
+                var requestMessage = JsonSerializer.Serialize(unsubscribeRequest);
+                await _websocketClient.SendTextAsync(requestMessage, stoppingToken);
             }
             catch (Exception ex)
             {
@@ -222,8 +222,8 @@ namespace MarketIntelligency.Exchange.Ftx
                 await _websocketClient.ReconnectAsync(cancellationToken);
                 foreach (var subscription in _subscriptions)
                 {
-                    var unsubscribeRequestMessage = JsonSerializer.Serialize(subscription);
-                    await _websocketClient.SendTextAsync(unsubscribeRequestMessage, cancellationToken);
+                    var requestMessage = JsonSerializer.Serialize(subscription);
+                    await _websocketClient.SendTextAsync(requestMessage, cancellationToken);
                 }
             }
             catch (Exception ex)
@@ -263,15 +263,7 @@ namespace MarketIntelligency.Exchange.Ftx
                                 var oldSnapshot = _snapShots.SingleOrDefault(one => one.Market.Ticker.Equals(snapShot.Market.Ticker));
                                 if (oldSnapshot != null) _snapShots.Remove(oldSnapshot);
                                 _snapShots.Add(snapShot);
-                                if (ValidateCheckSum(snapShot, orderbookResponse.Data.Checksum))
-                                {
-                                    action.Invoke(snapShot);
-                                }
-                                else
-                                {
-                                    await RestartAsync(cancellationToken);
-                                }
-
+                                action.Invoke(snapShot);
                             }
                             else if (payloadResponse.Type.Equals(WebSocketResponse.Types.Update))
                             {
@@ -327,7 +319,6 @@ namespace MarketIntelligency.Exchange.Ftx
                                         oldSnapshot.Bids = firstCollection;
                                     }
                                 }
-
                                 if (ValidateCheckSum(oldSnapshot, orderbookResponse.Data.Checksum))
                                 {
                                     action.Invoke(oldSnapshot);
@@ -340,11 +331,12 @@ namespace MarketIntelligency.Exchange.Ftx
                         }
                         else if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Trades))
                         {
+                            throw new NotImplementedException();
 
                         }
                         else if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Ticker))
                         {
-
+                            throw new NotImplementedException();
                         }
                     }
                 }
