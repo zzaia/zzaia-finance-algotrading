@@ -10,6 +10,7 @@ using MarketIntelligency.Exchange.Ftx.WebSockets.Models;
 using MarketIntelligency.WebSocket;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
+using MoreLinq;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -87,8 +88,8 @@ namespace MarketIntelligency.Exchange.Ftx
                     Markets = new List<Market>
                     {
                         new Market(Asset.BTC, Asset.BRZ),
-                        new Market(Asset.ETH, Asset.BRZ),
-                        new Market(Asset.USDC, Asset.BRZ),
+                        //new Market(Asset.ETH, Asset.BRZ),
+                        //new Market(Asset.USDC, Asset.BRZ),
                     },
                     Country = Country.USA,
                     Culture = new CultureInfo("en-us"),
@@ -240,8 +241,9 @@ namespace MarketIntelligency.Exchange.Ftx
                 if (response.MessageType == WebSocketMessageType.Text)
                 {
                     string responseMessage = Encoding.UTF8.GetString(response.Message, 0, response.Lenght);
-                    Console.WriteLine(responseMessage);
-                    Console.WriteLine(responseMessage.Length);
+                    //using StreamWriter file = new("WebhookPayload.txt", append: true);
+                    //await file.WriteLineAsync(responseMessage);
+                    //await file.WriteLineAsync(responseMessage.Length.ToString());
                     var payloadResponse = JsonSerializer.Deserialize<WebSocketResponse>(responseMessage);
                     if (payloadResponse != null && payloadResponse.Channel != null && payloadResponse.Type != null)
                     {
@@ -264,7 +266,15 @@ namespace MarketIntelligency.Exchange.Ftx
                                 var oldSnapshot = _snapShots.SingleOrDefault(one => one.Market.Ticker.Equals(snapShot.Market.Ticker));
                                 if (oldSnapshot != null) _snapShots.Remove(oldSnapshot);
                                 _snapShots.Add(snapShot);
-                                //action.Invoke(snapShot);
+                                if (ValidateCheckSum(snapShot, orderbookResponse.Data.Checksum))
+                                {
+                                    action.Invoke(snapShot);
+                                }
+                                else
+                                {
+                                    await RestartAsync(cancellationToken);
+                                }
+
                             }
                             else if (payloadResponse.Type.Equals(WebSocketResponse.Types.Update))
                             {
@@ -321,40 +331,13 @@ namespace MarketIntelligency.Exchange.Ftx
                                     }
                                 }
 
-                                var checksumString = string.Empty;
-                                var asksCount = oldSnapshot.Asks.Count();
-                                var bidsCount = oldSnapshot.Bids.Count();
-                                var maxIteration = asksCount > bidsCount ? asksCount : bidsCount;
-                                var bidsArray = oldSnapshot.Bids.ToArray();
-                                var asksArray = oldSnapshot.Asks.ToArray();
-                                for (int i = 0; i < maxIteration; i++)
+                                if (ValidateCheckSum(oldSnapshot, orderbookResponse.Data.Checksum))
                                 {
-                                    if (i != 0)
-                                    {
-                                        checksumString += ":";
-                                    }
-
-                                    if (i < bidsCount)
-                                    {
-                                        checksumString += $"{bidsArray[i].Price}:{bidsArray[i].Amount}";
-                                    }
-
-                                    if (i < asksCount)
-                                    {
-                                        if (checksumString.Last() != ':') checksumString += ":";
-                                        checksumString += $"{asksArray[i].Price}:{asksArray[i].Amount}";
-                                    }
-                                }
-                                var bytes = Encoding.ASCII.GetBytes(checksumString);
-                                var crc32 = new Crc32Algorithm().ComputeHash(bytes);
-                                var checkSumToConfirm = BitConverter.ToInt32(crc32, 0);
-                                if (checkSumToConfirm == orderbookResponse.Data.Checksum)
-                                {
-                                    //action.Invoke(oldSnapshot);
+                                    action.Invoke(oldSnapshot);
                                 }
                                 else
                                 {
-                                    //await RestartAsync(cancellationToken);
+                                    await RestartAsync(cancellationToken);
                                 }
                             }
                         }
@@ -375,6 +358,64 @@ namespace MarketIntelligency.Exchange.Ftx
                 throw;
             }
         }
+
+        private bool ValidateCheckSum(OrderBook orderBook, long checksum)
+        {
+            var checksumString = string.Empty;
+            //var asksCount = orderBook.Asks.Count();
+            //var bidsCount = orderBook.Bids.Count();
+            //var maxIteration = asksCount > bidsCount ? asksCount : bidsCount;
+            //var bidsArray = orderBook.Bids.ToArray();
+            //var asksArray = orderBook.Asks.ToArray();
+            //for (int i = 0; i < maxIteration; i++)
+            //{
+            //    if (i != 0)
+            //    {
+            //        checksumString += ":";
+            //    }
+
+            //    if (i < bidsCount)
+            //    {
+            //        checksumString += $"{bidsArray[i].Price}:{bidsArray[i].Amount}";
+            //    }
+
+            //    if (i < asksCount)
+            //    {
+            //        if (checksumString.Last() != ':') checksumString += ":";
+            //        checksumString += $"{asksArray[i].Price}:{asksArray[i].Amount}";
+            //    }
+            //}
+            //var teste = orderBook.Bids.Take(100).ZipLongest(orderBook.Asks.Take(100), (a, b) =>
+            //{
+            //    if (a != null && b != null)
+            //    {
+            //        return $"{a.Price}:{a.Amount}:{b.Price}:{b.Amount}";
+            //    }
+            //    else if (a != null)
+            //    {
+            //        return $"{a.Price}:{a.Amount}";
+            //    }
+            //    else if (b != null)
+            //    {
+            //        return $"{b.Price}:{b.Amount}";
+            //    }
+            //    else
+            //    {
+            //        return string.Empty;
+            //    }
+
+            //}).ToList();
+            //teste.ForEach(one =>
+            //{
+            //    if (checksumString != string.Empty) checksumString += ":";
+            //    checksumString += one;
+            //});
+            var bytes = Encoding.ASCII.GetBytes(checksumString);
+            var crc32 = new Crc32Algorithm().ComputeHash(bytes);
+            var checkSumToConfirm = BitConverter.ToInt32(crc32, 0);
+            return checkSumToConfirm == checksum;
+        }
+
 
         #endregion
     }

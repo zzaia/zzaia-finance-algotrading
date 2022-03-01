@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="Crc32.NET" Version="1.2.0" />
     <PackageReference Include="Microsoft.ApplicationInsights" Version="2.20.0" />
+    <PackageReference Include="morelinq" Version="3.3.2" />
   </ItemGroup>
 
 </Project>
