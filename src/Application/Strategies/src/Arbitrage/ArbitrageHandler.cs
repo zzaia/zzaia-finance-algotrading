@@ -40,8 +40,7 @@ namespace MarketIntelligency.Application.Strategies.Arbitrage
         {
             _logger.LogInformation("### Consuming event for Arbitrage strategy  ###");
             await Task.Delay(1000);
-            var response = new EventSource<Order>(new Order());
-            _streamSource.Publish(response);
+            _streamSource.Publish(new EventSource<Order>(new Order()));
         }
 
         /// <summary>

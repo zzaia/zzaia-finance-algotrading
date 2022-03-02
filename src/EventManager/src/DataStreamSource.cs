@@ -1,6 +1,5 @@
 ﻿using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.OrderBookAggregate;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -17,11 +16,18 @@ namespace MarketIntelligency.EventManager
         /// <inheritdoc />
         public IObservable<EventSource<OrderBook>> OrderBookStream => _orderBookSubject.AsObservable();
 
-        public void Publish<T>(EventSource<T> eventSource) where T : class
+        public void Publish<T>(EventSource<T> eventContent) where T : class
         {
-            if (eventSource.Content.GetType() == typeof(OrderBook))
+            if (eventContent.Content.GetType() == typeof(OrderBook))
             {
-                _orderBookSubject.OnNext(eventSource as EventSource<OrderBook>);
+                var orderbook = eventContent.Content as OrderBook;
+                var eventToPublish = new EventSource<OrderBook>()
+                {
+                    Content = orderbook,
+                    OcurredAt = eventContent.OcurredAt,
+                    RecordedAt = eventContent.RecordedAt,
+                };
+                _orderBookSubject.OnNext(eventToPublish);
             }
         }
 

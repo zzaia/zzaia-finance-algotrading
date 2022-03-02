@@ -40,9 +40,8 @@ namespace MarketIntelligency.Application.Strategies.MarketMaker
         public async void HandleStrategy(OrderBook orderBook)
         {
             _logger.LogInformation("### Consuming event for market making strategy ###");
-            await Task.Delay(1000);
-            var response = new EventSource<Order>(new Order());
-            _streamSource.Publish(response);
+            await Task.Delay(10000);
+            _streamSource.Publish(new EventSource<Order>(new Order()));
         }
 
         /// <summary>

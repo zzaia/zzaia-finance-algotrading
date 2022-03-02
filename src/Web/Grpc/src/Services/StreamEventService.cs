@@ -34,8 +34,7 @@ namespace MarketIntelligency.Web.Grpc.Services
                         {
                             Exchange = Enumeration.FromDisplayName<ExchangeName>(orderbookDTO.ExchangeName),
                         };
-                        var eventSource = new EventSource<OrderBook>(orderbook);
-                        _streamSource.Publish(eventSource);
+                        _streamSource.Publish(new EventSource<OrderBook>(orderbook));
                         _logger.LogInformation("### Receiveing event ###");
                         break;
                     default:
