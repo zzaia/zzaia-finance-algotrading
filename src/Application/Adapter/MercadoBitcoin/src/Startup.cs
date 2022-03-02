@@ -5,6 +5,8 @@ using MarketIntelligency.Core.Models.OrderBookAggregate;
 using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
 using MarketIntelligency.Exchange.MercadoBitcoin;
+using MarketIntelligency.Web.Grpc;
+using MarketIntelligency.Web.Grpc.Protos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -46,6 +48,7 @@ namespace MarketIntelligency.Application.Adapter.MercadoBitcoin
                      options.DataOut = new List<Type> { typeof(OrderBook) };
                      options.Resolution = 2000000;
                      options.Tolerance = 2;
+                     options.MaxDegreeOfParallelism = 1;
                  });
 
             services.AddApplicationInsightsTelemetry(options =>
@@ -59,10 +62,8 @@ namespace MarketIntelligency.Application.Adapter.MercadoBitcoin
             }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
 
             // Grpc
-            services.AddGrpc(opt =>
-            {
-                opt.EnableDetailedErrors = true;
-            });
+            services.AddHostedService<CommunicationHandler>();
+            services.AddGrpcClient<StreamEventGrpc.StreamEventGrpcClient>(opt => opt.Address = new Uri(Configuration["DataEventManagerService"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -82,14 +83,6 @@ namespace MarketIntelligency.Application.Adapter.MercadoBitcoin
             app.UseStaticFiles();
 
             app.UseRouting();
-
-            app.UseEndpoints(endpoints =>
-            {
-                if (env.IsDevelopment())
-                {
-                    endpoints.MapGrpcReflectionService();
-                }
-            });
         }
     }
 }
