@@ -21,7 +21,7 @@ namespace MarketIntelligency.Exchange.MercadoBitcoin
 
                 #region Logging Messages
                 private static readonly Action<ILogger, Exception> _receivedMessage =
-                    LoggerMessage.Define(LogLevel.Trace, new EventId(10101, "FetchOrderBookReceived")
+                    LoggerMessage.Define(LogLevel.Information, new EventId(10101, "FetchOrderBookReceived")
                     , "Call to fetch orderbook received");
                 private static readonly Action<ILogger, string, Exception> _withFailedResponse =
                     LoggerMessage.Define<string>(LogLevel.Error, new EventId(102102, "FetchOrderBookWithFailedResponse")

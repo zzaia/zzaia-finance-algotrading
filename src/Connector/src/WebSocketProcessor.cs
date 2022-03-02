@@ -61,13 +61,12 @@ namespace MarketIntelligency.Connector
                     }
                 }
                 _lastStartTime = DateTimeOffset.UtcNow;
+                Log.CalltoWebsocket.Received(_logger);
+                Log.CalltoWebsocket.ReceivedAction(_telemetryClient);
                 while (!stoppingToken.IsCancellationRequested)
                 {
                     try
                     {
-                        Log.CalltoWebsocket.Received(_logger);
-                        Log.CalltoWebsocket.ReceivedAction(_telemetryClient);
-
                         var utcNow = DateTimeOffset.UtcNow;
                         if (utcNow - _lastStartTime > exchange.Info.Options.CheckForLivenessTimeSpan)
                         {

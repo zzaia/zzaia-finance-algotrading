@@ -69,6 +69,8 @@ namespace MarketIntelligency.Connector
                 }
             }
 
+            Log.CallToRest.Received(_logger);
+            Log.CallToRest.ReceivedAction(_telemetryClient);
             while (!cancellationToken.IsCancellationRequested && _delegateCollection.Any())
             {
                 var timeNow = DateTimeUtils.CurrentUtcTimestamp();
@@ -94,8 +96,6 @@ namespace MarketIntelligency.Connector
 
                 var parallelLoop = Parallel.ForEach(_delegateCollection, paralletOptions, (item) =>
                 {
-                    Log.CallToRest.Received(_logger);
-                    Log.CallToRest.ReceivedAction(_telemetryClient);
                     try
                     {
                         var timeOutCancellationTokenSource = new CancellationTokenSource();

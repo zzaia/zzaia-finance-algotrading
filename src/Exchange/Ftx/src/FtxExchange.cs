@@ -162,8 +162,7 @@ namespace MarketIntelligency.Exchange.Ftx
             }
             catch (Exception ex)
             {
-
-                throw;
+                Log.Websocket.WithException(_logger, ex);
             }
         }
 
@@ -178,8 +177,7 @@ namespace MarketIntelligency.Exchange.Ftx
             }
             catch (Exception ex)
             {
-
-                throw;
+                Log.Websocket.WithException(_logger, ex);
             }
         }
 
@@ -193,8 +191,7 @@ namespace MarketIntelligency.Exchange.Ftx
             }
             catch (Exception ex)
             {
-
-                throw;
+                Log.Websocket.WithException(_logger, ex);
             }
         }
 
@@ -211,7 +208,7 @@ namespace MarketIntelligency.Exchange.Ftx
             }
             catch (Exception ex)
             {
-                throw;
+                Log.Websocket.WithException(_logger, ex);
             }
         }
 
@@ -228,13 +225,14 @@ namespace MarketIntelligency.Exchange.Ftx
             }
             catch (Exception ex)
             {
-
-                throw;
+                Log.Websocket.WithException(_logger, ex);
             }
         }
 
         public async Task ReceiveAsync(Action<dynamic> action, CancellationToken cancellationToken)
         {
+            Log.Websocket.Received(_logger);
+            Log.Websocket.ReceivedAction(_telemetryClient);
             try
             {
                 var response = await _websocketClient.ReceiveAsync(cancellationToken);
@@ -244,7 +242,7 @@ namespace MarketIntelligency.Exchange.Ftx
                     var payloadResponse = JsonSerializer.Deserialize<WebSocketResponse>(responseMessage);
                     if (payloadResponse != null && payloadResponse.Channel != null && payloadResponse.Type != null)
                     {
-                       if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Orderbook))
+                        if (payloadResponse.Channel.Equals(WebSocketRequest.ChannelTypes.Orderbook))
                         {
                             if (payloadResponse.Type.Equals(WebSocketResponse.Types.Partial))
                             {
@@ -338,23 +336,26 @@ namespace MarketIntelligency.Exchange.Ftx
                             throw new NotImplementedException();
                         }
                     }
-                    else if(payloadResponse != null && payloadResponse.Message != null && payloadResponse.Type != null)
+                    else if (payloadResponse != null && payloadResponse.Message != null && payloadResponse.Type != null)
                     {
                         if (payloadResponse.Type.Equals(WebSocketResponse.Types.Error))
                         {
-
+                            Log.Websocket.WithFailedResponse(_logger, payloadResponse.Code.ToString(), payloadResponse.Message);
                         }
                     }
                 }
             }
-            catch (Exception ex)
+            catch (OperationCanceledException)
             {
-
+                Log.Websocket.WithOperationCanceled(_logger);
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }
 
-        private bool ValidateCheckSum(OrderBook orderBook, long checksum)
+        private static bool ValidateCheckSum(OrderBook orderBook, long checksum)
         {
             var checksumString = string.Empty;
             var asksCount = orderBook.Asks.Count();

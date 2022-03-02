@@ -8,12 +8,12 @@ namespace MarketIntelligency.Exchange.Ftx
     {
         private static class Log
         {
-            public static class FetchOrderBook
+            public static class Websocket
             {
                 public static void Received(ILogger logger)
                     => _receivedMessage(logger, null);
-                public static void WithFailedResponse(ILogger logger, string response)
-                    => _withFailedResponse(logger, response, null);
+                public static void WithFailedResponse(ILogger logger, string code, string message)
+                    => _withFailedResponse(logger, code, message, null);
                 public static void WithOperationCanceled(ILogger logger)
                     => _withOperationCanceled(logger, null);
                 public static void WithException(ILogger logger, Exception exception)
@@ -21,17 +21,17 @@ namespace MarketIntelligency.Exchange.Ftx
 
                 #region Logging Messages
                 private static readonly Action<ILogger, Exception> _receivedMessage =
-                    LoggerMessage.Define(LogLevel.Trace, new EventId(20101, "FetchOrderBookReceived")
-                    , "Call to fetch orderbook received");
-                private static readonly Action<ILogger, string, Exception> _withFailedResponse =
-                    LoggerMessage.Define<string>(LogLevel.Error, new EventId(202102, "FetchOrderBookWithFailedResponse")
-                    , "Was not possible to fetch orderbook due to a failed response. Message = {response}");
+                    LoggerMessage.Define(LogLevel.Information, new EventId(20101, "WebsocketCallReceived")
+                    , "Websocket call received");
+                private static readonly Action<ILogger, string, string, Exception> _withFailedResponse =
+                    LoggerMessage.Define<string, string>(LogLevel.Error, new EventId(202102, "WebsocketCallReceivedWithError")
+                    , "Websocket call received came with a error response.Code = {code} Message = {message}");
                 private static readonly Action<ILogger, Exception> _withOperationCanceled =
-                    LoggerMessage.Define(LogLevel.Error, new EventId(20103, "FetchOrderBookWithOperationCanceled")
-                    , "Was not possible to fetch orderbook due to an operation cancelation.");
+                    LoggerMessage.Define(LogLevel.Error, new EventId(20103, "WebsocketCallReceivedCanceled")
+                    , "Was not possible to receive a websocket call due to an operation cancelation.");
                 private static readonly Action<ILogger, Exception> _withException =
-                    LoggerMessage.Define(LogLevel.Critical, new EventId(20104, "FetchOrderBookWithException")
-                    , "Was not possible to fetch orderbook due to an exception.");
+                    LoggerMessage.Define(LogLevel.Critical, new EventId(20104, "WebsocketCallReceivedWithException")
+                    , "Was not possible to receive websocket due to an exception.");
 
                 #endregion
 

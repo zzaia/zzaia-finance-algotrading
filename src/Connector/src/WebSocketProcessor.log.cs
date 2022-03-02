@@ -20,7 +20,7 @@ namespace MarketIntelligency.Connector
 
                 #region Logging Messages
                 private static readonly Action<ILogger, Exception> _receivedMessage =
-                    LoggerMessage.Define(LogLevel.Trace, new EventId(3101, "ConnectToWebSocketReceived")
+                    LoggerMessage.Define(LogLevel.Information, new EventId(3101, "ConnectToWebSocketReceived")
                     , "Call to connect to websocket received");
                 private static readonly Action<ILogger, Exception> _withException =
                     LoggerMessage.Define(LogLevel.Critical, new EventId(3102, "ConnectToWebSocketWithException")
