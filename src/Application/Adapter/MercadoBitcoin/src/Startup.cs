@@ -38,19 +38,6 @@ namespace MarketIntelligency.Application.Adapter.MercadoBitcoin
 
             services.AddSingleton<IExchangeSelector, ExchangeSelector>();
 
-            //----------- Data Event Connectors -------------------
-
-            services.AddWebApiConnector(options =>
-                 {
-                     options.ExchangeName = ExchangeName.MercadoBitcoin;
-                     options.TimeFrame = TimeFrame.s1;
-                     options.DataIn = MercadoBitcoinExchange.Information.Markets;
-                     options.DataOut = new List<Type> { typeof(OrderBook) };
-                     options.Resolution = 2000000;
-                     options.Tolerance = 2;
-                     options.MaxDegreeOfParallelism = 1;
-                 });
-
             services.AddApplicationInsightsTelemetry(options =>
             {
                 options.EnableAdaptiveSampling = false;
@@ -61,9 +48,20 @@ namespace MarketIntelligency.Application.Adapter.MercadoBitcoin
                 options.PublishStrategy = PublishStrategy.ParallelNoWait;
             }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
 
-            // Grpc
+            //------------------- Grpc ----------------------------
             services.AddHostedService<CommunicationHandler>();
             services.AddGrpcClient<StreamEventGrpc.StreamEventGrpcClient>(opt => opt.Address = new Uri(Configuration["DataEventManagerService"]));
+
+            //----------- Data Event Connectors -------------------
+            services.AddWebApiConnector(options =>
+                 {
+                     options.ExchangeName = ExchangeName.MercadoBitcoin;
+                     options.TimeFrame = TimeFrame.s1;
+                     options.DataIn = MercadoBitcoinExchange.Information.Markets;
+                     options.DataOut = new List<Type> { typeof(OrderBook) };
+                     options.Resolution = 2000000;
+                     options.Tolerance = 2;
+                 });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
