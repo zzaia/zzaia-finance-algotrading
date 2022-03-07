@@ -1,12 +1,13 @@
 ﻿syntax = "proto3";
 import "Protos/DecimalValue.proto";
+import "google/protobuf/timestamp.proto";
 
 option csharp_namespace = "MarketIntelligency.Web.Grpc.Protos";
 
 message OrderBookDTO{
 	string ExchangeName = 1;
 	string Market = 2;
-	string ServerTimeStamp = 3;
+	google.protobuf.Timestamp ServerTimeStamp = 3;
 	string Bids = 4;
 	string Asks = 5;
 }
