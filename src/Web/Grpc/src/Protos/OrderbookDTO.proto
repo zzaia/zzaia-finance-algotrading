@@ -8,8 +8,8 @@ message OrderBookDTO{
 	string ExchangeName = 1;
 	string Market = 2;
 	google.protobuf.Timestamp ServerTimeStamp = 3;
-	string Bids = 4;
-	string Asks = 5;
+	repeated OrderBookLevelDTO Bids = 4;
+	repeated OrderBookLevelDTO Asks = 5;
 }
 
 message OrderBookLevelDTO{
