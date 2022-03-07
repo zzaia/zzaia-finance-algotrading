@@ -1,7 +1,7 @@
-﻿using Google.Protobuf.WellKnownTypes;
+﻿using AutoMapper;
+using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.EnumerationAggregate;
 using MarketIntelligency.Core.Models.OrderBookAggregate;
 using MarketIntelligency.EventManager;
 using MarketIntelligency.Web.Grpc.Protos;
@@ -13,32 +13,39 @@ namespace MarketIntelligency.Web.Grpc.Services
 {
     public partial class StreamEventService : StreamEventGrpc.StreamEventGrpcBase
     {
+        private readonly IMapper _mapper;
         private readonly IDataStreamSource _streamSource;
         private readonly ILogger<StreamEventService> _logger;
 
-        public StreamEventService(IDataStreamSource streamSource, ILogger<StreamEventService> logger)
+        public StreamEventService(IMapper mapper,
+                                  IDataStreamSource streamSource,
+                                  ILogger<StreamEventService> logger)
         {
-            _streamSource = streamSource ?? throw new ArgumentNullException(nameof(streamSource));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _streamSource = streamSource ?? throw new ArgumentNullException(nameof(streamSource));
         }
         public override async Task<Empty> RunStreamEvent(IAsyncStreamReader<EventSourceDTO> requestStream, ServerCallContext context)
         {
             Log.RunStream.Received(_logger);
             await foreach (var message in requestStream.ReadAllAsync())
             {
-                switch (message.Type)
+                try
                 {
-                    case nameof(OrderBook):
-                        var orderbookDTO = message.Content.Unpack<OrderbookDTO>();
-                        var orderbook = new OrderBook()
-                        {
-                            Exchange = Enumeration.FromDisplayName<ExchangeName>(orderbookDTO.ExchangeName),
-                        };
-                        _streamSource.Publish(new EventSource<OrderBook>(orderbook));
-                        _logger.LogInformation("### Receiveing event ###");
-                        break;
-                    default:
-                        break;
+                    switch (message.Content.TypeUrl)
+                    {
+                        case "type.googleapis.com/OrderBookDTO":
+                            var eventSource = _mapper.Map<EventSource<OrderBook>>(message);
+                            _streamSource.Publish(eventSource);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Log.RunStream.WithException(_logger, ex);
+                    continue;
                 }
             }
 

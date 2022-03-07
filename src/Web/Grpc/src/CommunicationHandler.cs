@@ -1,4 +1,4 @@
-﻿using Google.Protobuf.WellKnownTypes;
+﻿using AutoMapper;
 using Grpc.Core;
 using MarketIntelligency.Core.Models;
 using MarketIntelligency.Core.Models.OrderBookAggregate;
@@ -15,19 +15,22 @@ namespace MarketIntelligency.Web.Grpc
 {
     public class CommunicationHandler : BackgroundService
     {
-        private IObservable<EventSource<OrderBook>> _observable;
+        private readonly IMapper _mapper;
         private readonly IDataStreamSource _streamSource;
         private readonly ILogger<CommunicationHandler> _logger;
         private readonly StreamEventGrpc.StreamEventGrpcClient _client;
         private IClientStreamWriter<EventSourceDTO> _streamWriter;
+        private IObservable<EventSource<OrderBook>> _observable;
 
-        public CommunicationHandler(IDataStreamSource streamSource,
+        public CommunicationHandler(IMapper mapper,
+                                    IDataStreamSource streamSource,
                                     ILogger<CommunicationHandler> logger,
                                     StreamEventGrpc.StreamEventGrpcClient client)
         {
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _client = client ?? throw new ArgumentNullException(nameof(client));
-            _streamSource = streamSource ?? throw new ArgumentNullException(nameof(streamSource));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _streamSource = streamSource ?? throw new ArgumentNullException(nameof(streamSource));
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -42,18 +45,13 @@ namespace MarketIntelligency.Web.Grpc
         /// <summary>
         /// Handler responsable to execute the strategy logic.
         /// </summary>
-        public async void SendEvent(EventSource<OrderBook> orderBook)
+        public async void SendEvent(EventSource<OrderBook> eventSource)
         {
             _logger.LogInformation("### Sending event for communication ###");
             try
             {
-                var orderBookDTO = new OrderbookDTO()
-                {
-                    ExchangeName = orderBook.Content.Exchange.DisplayName,
-                    //Market = orderBook.Market.Ticker
-                };
-                var eventSource = new EventSourceDTO() { Content = Any.Pack(orderBookDTO), Type = nameof(OrderBook) };
-                await _streamWriter.WriteAsync(eventSource);
+                var eventSourceDTO = _mapper.Map<EventSourceDTO>(eventSource);
+                await _streamWriter.WriteAsync(eventSourceDTO);
             }
             catch (Exception ex)
             {

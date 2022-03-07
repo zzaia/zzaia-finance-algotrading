@@ -2,6 +2,7 @@ using MarketIntelligency.Application.Strategies.Arbitrage;
 using MarketIntelligency.Application.Strategies.MarketMaker;
 using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
+using MarketIntelligency.Web.Grpc;
 using MarketIntelligency.Web.Grpc.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,10 +30,10 @@ namespace MarketIntelligency.Application.Strategies
             }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
 
             //----------- Strategies -------------------
+            services.AddGrpcCommunication();
+
             services.AddHostedService<MarketMakerHandler>();
             services.AddHostedService<ArbitrageHandler>();
-
-            services.AddGrpc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

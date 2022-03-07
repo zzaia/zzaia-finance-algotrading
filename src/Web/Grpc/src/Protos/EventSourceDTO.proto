@@ -7,5 +7,4 @@ message EventSourceDTO{
     google.protobuf.Any Content = 1;
 	string OcurredAt = 2;
 	string RecordedAt = 3;
-	string Type = 4;
 }

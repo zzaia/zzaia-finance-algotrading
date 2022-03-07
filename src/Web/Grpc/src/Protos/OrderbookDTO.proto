@@ -1,8 +1,18 @@
 ﻿syntax = "proto3";
+import "Protos/DecimalValue.proto";
 
 option csharp_namespace = "MarketIntelligency.Web.Grpc.Protos";
 
-message OrderbookDTO{
+message OrderBookDTO{
 	string ExchangeName = 1;
 	string Market = 2;
+	string ServerTimeStamp = 3;
+	string Bids = 4;
+	string Asks = 5;
+}
+
+message OrderBookLevelDTO{
+	string Id = 1;
+	DecimalValue Price = 2;
+	DecimalValue Amount = 3;
 }

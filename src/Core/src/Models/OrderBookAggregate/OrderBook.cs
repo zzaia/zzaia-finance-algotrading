@@ -10,7 +10,7 @@ namespace MarketIntelligency.Core.Models.OrderBookAggregate
     /// </summary>
     public class OrderBook
     {
-
+        public OrderBook() { }
         /// <summary>
         /// Represents exchange where the data was taken.
         /// </summary>

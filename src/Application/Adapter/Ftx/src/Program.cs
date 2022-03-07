@@ -6,7 +6,6 @@ using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
 using MarketIntelligency.Exchange.Ftx;
 using MarketIntelligency.Web.Grpc;
-using MarketIntelligency.Web.Grpc.Protos;
 using Microsoft.Extensions.Logging.Console;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -38,8 +37,8 @@ builder.Services.AddEventManager(options =>
     options.PublishStrategy = PublishStrategy.ParallelNoWait;
 }, typeof(Program).Assembly, typeof(EventManagerExtension).Assembly);
 
-builder.Services.AddHostedService<CommunicationHandler>();
-builder.Services.AddGrpcClient<StreamEventGrpc.StreamEventGrpcClient>(opt => opt.Address = new Uri(builder.Configuration["DataEventManagerService"]));
+builder.Services.AddGrpcCommunication(builder.Configuration["DataEventManagerService"]);
+
 builder.Host.ConfigureLogging(
     logging =>
     {

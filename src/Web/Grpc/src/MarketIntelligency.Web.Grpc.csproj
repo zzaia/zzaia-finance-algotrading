@@ -1,28 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Protobuf Include="Protos\ControlMetadataDTO.proto" GrpcServices="Both" />
-    <Protobuf Include="Protos\ControlGrpc.proto" GrpcServices="Both" />
-    <Protobuf Include="Protos\DecimalValue.proto" GrpcServices="Both" />
-    <Protobuf Include="Protos\EventSourceDTO.proto" GrpcServices="Both" />
-    <Protobuf Include="Protos\OrderbookDTO.proto" GrpcServices="Both" />
-    <Protobuf Include="Protos\StreamEventGrpc.proto" GrpcServices="Both" />
-    <PackageReference Include="Grpc.AspNetCore" Version="2.42.0" />
-    <PackageReference Include="Grpc.Tools" Version="2.43.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.ApplicationInsights" Version="2.20.0" />
-    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<Protobuf Include="Protos\ControlMetadataDTO.proto" GrpcServices="Both" />
+		<Protobuf Include="Protos\ControlGrpc.proto" GrpcServices="Both" />
+		<Protobuf Include="Protos\DecimalValue.proto" GrpcServices="Both" />
+		<Protobuf Include="Protos\EventSourceDTO.proto" GrpcServices="Both" />
+		<Protobuf Include="Protos\OrderBookDTO.proto" GrpcServices="Both" />
+		<Protobuf Include="Protos\StreamEventGrpc.proto" GrpcServices="Both" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\Connector\src\MarketIntelligency.Connector.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="11.0.1" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.42.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.43.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.ApplicationInsights" Version="2.20.0" />
+		<PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="6.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\..\..\Connector\src\MarketIntelligency.Connector.csproj" />
+	</ItemGroup>
 
 </Project>

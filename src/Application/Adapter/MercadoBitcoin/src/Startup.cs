@@ -6,7 +6,6 @@ using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
 using MarketIntelligency.Exchange.MercadoBitcoin;
 using MarketIntelligency.Web.Grpc;
-using MarketIntelligency.Web.Grpc.Protos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -49,8 +48,7 @@ namespace MarketIntelligency.Application.Adapter.MercadoBitcoin
             }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
 
             //------------------- Grpc ----------------------------
-            services.AddHostedService<CommunicationHandler>();
-            services.AddGrpcClient<StreamEventGrpc.StreamEventGrpcClient>(opt => opt.Address = new Uri(Configuration["DataEventManagerService"]));
+            services.AddGrpcCommunication(Configuration["DataEventManagerService"]);
 
             //----------- Data Event Connectors -------------------
             services.AddWebApiConnector(options =>
