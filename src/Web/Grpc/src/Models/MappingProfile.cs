@@ -28,14 +28,34 @@ namespace MarketIntelligency.Web.Grpc.Models
                 .ForMember(dst => dst.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dst => dst.Price, opt => opt.MapFrom(src => (DecimalValue)src.Price))
                 .ForMember(dst => dst.Amount, opt => opt.MapFrom(src => (DecimalValue)src.Amount));
-            CreateMap<EventSourceDTO, EventSource<OrderBook>>()
-                .ForMember(dst => dst.Content, opt => opt.MapFrom((a, b, c, d) => d.Mapper.Map<OrderBook>(a.Content.Unpack<OrderBookDTO>())))
-                .ForMember(dst => dst.RecordedAt, opt => opt.MapFrom(src => src.RecordedAt.ToDateTimeOffset()))
-                .ForMember(dst => dst.OcurredAt, opt => opt.MapFrom(src => src.OcurredAt.ToDateTimeOffset()));
-            CreateMap<EventSource<OrderBook>, EventSourceDTO>()
-                .ForMember(dst => dst.Content, opt => opt.MapFrom((a, b, c, d) => Any.Pack(d.Mapper.Map<OrderBookDTO>(a.Content))))
-                .ForMember(dst => dst.RecordedAt, opt => opt.MapFrom(src => Timestamp.FromDateTimeOffset(src.RecordedAt)))
-                .ForMember(dst => dst.OcurredAt, opt => opt.MapFrom(src => Timestamp.FromDateTimeOffset(src.OcurredAt)));
+            CreateMap<EventSourceDTO, EventSource<OrderBook>>().ConvertUsing(new EventSourceRightConverter());
+            CreateMap<EventSource<OrderBook>, EventSourceDTO>().ConvertUsing(new EventSourceLeftConverter());
+        }
+
+        public class EventSourceRightConverter : ITypeConverter<EventSourceDTO, EventSource<OrderBook>>
+        {
+            public EventSource<OrderBook> Convert(EventSourceDTO source, EventSource<OrderBook> destination, ResolutionContext context)
+            {
+                return new EventSource<OrderBook>()
+                {
+                    Content = context.Mapper.Map<OrderBook>(source.Content.Unpack<OrderBookDTO>()),
+                    OcurredAt = source.OcurredAt.ToDateTimeOffset(),
+                    RecordedAt = source.RecordedAt.ToDateTimeOffset()
+                };
+            }
+        }
+
+        public class EventSourceLeftConverter : ITypeConverter<EventSource<OrderBook>, EventSourceDTO>
+        {
+            public EventSourceDTO Convert(EventSource<OrderBook> source, EventSourceDTO destination, ResolutionContext context)
+            {
+                return new EventSourceDTO()
+                {
+                    Content = Any.Pack(context.Mapper.Map<OrderBookDTO>(source.Content)),
+                    OcurredAt = source.OcurredAt.ToTimestamp(),
+                    RecordedAt = source.RecordedAt.ToTimestamp()
+                };
+            }
         }
     }
 }
