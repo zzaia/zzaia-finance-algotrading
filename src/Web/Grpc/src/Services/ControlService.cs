@@ -1,6 +1,5 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using MarketIntelligency.Connector;
 using MarketIntelligency.Web.Grpc.Protos;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,24 +36,24 @@ namespace MarketIntelligency.Web.Grpc.Services
                         service.Activate();
                     }
                     context.Status = Status.DefaultSuccess;
-                    return null;
+                    return await Task.FromResult(new Empty());
                 }
                 else
                 {
                     Log.Activate.WithBadRequest(_logger, request.Name);
                     context.Status = new Status(StatusCode.InvalidArgument, "Invalid Argument Name");
-                    return null;
+                    return await Task.FromResult(new Empty());
                 }
             }
             catch (Exception ex)
             {
                 Log.Activate.WithException(_logger, ex);
                 context.Status = new Status(StatusCode.Internal, ex.Message);
-                return null;
+                return await Task.FromResult(new Empty());
             }
         }
 
-        public override Task<Google.Protobuf.WellKnownTypes.Empty> Deactivate(ControlMetadataDTO request, ServerCallContext context)
+        public override Task<Empty> Deactivate(ControlMetadataDTO request, ServerCallContext context)
         {
             return base.Deactivate(request, context);
         }
