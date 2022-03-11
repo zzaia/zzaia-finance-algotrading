@@ -30,7 +30,7 @@ namespace MarketIntelligency.Application.Strategies
             }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
 
             //----------- Strategies -------------------
-            services.AddGrpcCommunication();
+            services.AddGrpcEventCommunication();
 
             services.AddHostedService<MarketMakerHandler>();
             services.AddHostedService<ArbitrageHandler>();

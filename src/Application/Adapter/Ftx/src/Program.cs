@@ -37,7 +37,7 @@ builder.Services.AddEventManager(options =>
     options.PublishStrategy = PublishStrategy.ParallelNoWait;
 }, typeof(Program).Assembly, typeof(EventManagerExtension).Assembly);
 
-builder.Services.AddGrpcCommunication(builder.Configuration["DataEventManagerService"]);
+builder.Services.AddGrpcEventCommunication(builder.Configuration["DataEventManagerService"]);
 
 builder.Host.ConfigureLogging(
     logging =>

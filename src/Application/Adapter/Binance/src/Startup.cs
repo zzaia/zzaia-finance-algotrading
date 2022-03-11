@@ -6,7 +6,6 @@ using MarketIntelligency.EventManager;
 using MarketIntelligency.EventManager.Models;
 using MarketIntelligency.Exchange.Binance;
 using MarketIntelligency.Web.Grpc;
-using MarketIntelligency.Web.Grpc.Protos;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -56,8 +55,7 @@ namespace MarketIntelligency.Application.Adapter.Binance
                 options.PublishStrategy = PublishStrategy.ParallelNoWait;
             }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
 
-            services.AddHostedService<CommunicationHandler>();
-            services.AddGrpcClient<StreamEventGrpc.StreamEventGrpcClient>(opt => opt.Address = new Uri(Configuration["DataEventManagerService"]));
+            services.AddGrpcEventCommunication(Configuration["DataEventManagerService"]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

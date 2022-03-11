@@ -48,7 +48,7 @@ namespace MarketIntelligency.Application.Adapter.MercadoBitcoin
             }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
 
             //------------------- Grpc ----------------------------
-            services.AddGrpcCommunication(Configuration["DataEventManagerService"]);
+            services.AddGrpcEventCommunication(Configuration["DataEventManagerService"]);
 
             //----------- Data Event Connectors -------------------
             services.AddWebApiConnector(options =>

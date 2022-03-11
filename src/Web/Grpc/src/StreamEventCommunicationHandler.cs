@@ -13,18 +13,18 @@ using System.Threading.Tasks;
 
 namespace MarketIntelligency.Web.Grpc
 {
-    public class CommunicationHandler : BackgroundService
+    public class StreamEventCommunicationHandler : BackgroundService
     {
         private readonly IMapper _mapper;
         private readonly IDataStreamSource _streamSource;
-        private readonly ILogger<CommunicationHandler> _logger;
+        private readonly ILogger<StreamEventCommunicationHandler> _logger;
         private readonly StreamEventGrpc.StreamEventGrpcClient _client;
         private IClientStreamWriter<EventSourceDTO> _streamWriter;
         private IObservable<EventSource<OrderBook>> _observable;
 
-        public CommunicationHandler(IMapper mapper,
+        public StreamEventCommunicationHandler(IMapper mapper,
                                     IDataStreamSource streamSource,
-                                    ILogger<CommunicationHandler> logger,
+                                    ILogger<StreamEventCommunicationHandler> logger,
                                     StreamEventGrpc.StreamEventGrpcClient client)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
@@ -35,7 +35,7 @@ namespace MarketIntelligency.Web.Grpc
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _observable = _streamSource.OrderBookStream.DistinctUntilChanged();
+            _observable = _streamSource.OrderBookStream.DistinctUntilChanged().Do(SendEvent);
             var call = _client.RunStreamEvent(cancellationToken: stoppingToken);
             _streamWriter = call.RequestStream;
             _observable.Subscribe(SendEvent, HandleError, HandleCompletion, stoppingToken);

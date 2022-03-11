@@ -28,7 +28,7 @@ namespace MarketIntelligency.Application.DataEventManager
                 options.PublishStrategy = PublishStrategy.ParallelNoWait;
             }, typeof(Startup).Assembly, typeof(EventManagerExtension).Assembly);
 
-            services.AddGrpcCommunication(Configuration["StrategiesService"]);
+            services.AddGrpcStreamCommunication(Configuration["StrategiesService"]);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,7 +43,7 @@ namespace MarketIntelligency.Application.DataEventManager
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<StreamEventService>();
+                endpoints.MapGrpcService<EventService>();
             });
         }
     }
