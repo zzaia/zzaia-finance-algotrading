@@ -33,7 +33,7 @@ namespace MarketIntelligency.Web.Grpc
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _observable = _streamSource.OrderBookStream.DistinctUntilChanged().Do(SendEvent);
+            _observable = _streamSource.OrderBookStream.DistinctUntilChanged();
             _observable.Subscribe(SendEvent, HandleError, HandleCompletion, stoppingToken);
             await stoppingToken.WaitUntilCancelled();
         }
