@@ -23,6 +23,11 @@ namespace MarketIntelligency.Application.DataEventManager
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddApplicationInsightsTelemetry(options =>
+            {
+                options.EnableAdaptiveSampling = false;
+            });
+
             services.AddEventManager(options =>
             {
                 options.PublishStrategy = PublishStrategy.ParallelNoWait;

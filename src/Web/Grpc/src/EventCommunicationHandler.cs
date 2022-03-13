@@ -43,7 +43,6 @@ namespace MarketIntelligency.Web.Grpc
         /// </summary>
         public async void SendEvent(EventSource<OrderBook> eventSource)
         {
-            _logger.LogInformation("### Sending event for communication ###");
             try
             {
                 var eventSourceDTO = _mapper.Map<EventSourceDTO>(eventSource);
