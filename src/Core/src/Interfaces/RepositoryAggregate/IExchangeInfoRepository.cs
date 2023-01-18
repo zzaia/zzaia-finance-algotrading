@@ -1,8 +1,8 @@
-using MarketIntelligency.Core.Models.ExchangeAggregate;
+using Zzaia.Finance.Core.Models.ExchangeAggregate;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Core.Interfaces.RepositoryAggregate
+namespace Zzaia.Finance.Core.Interfaces.RepositoryAggregate
 {
     public interface IExchangeInfoRepository : IRepository<ExchangeInfo>
     {

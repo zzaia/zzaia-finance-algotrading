@@ -1,8 +1,8 @@
-using MarketIntelligency.Core.Models.MarketAgregate;
-using MarketIntelligency.Core.Utils;
+using Zzaia.Finance.Core.Models.MarketAgregate;
+using Zzaia.Finance.Core.Utils;
 using System;
 
-namespace MarketIntelligency.Core.Models.OrderAgregate
+namespace Zzaia.Finance.Core.Models.OrderAgregate
 {
     /// <summary>
     /// Represents a financial order, that can be partially or completely fulfilled.

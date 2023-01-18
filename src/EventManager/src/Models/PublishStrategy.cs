@@ -1,4 +1,4 @@
-﻿namespace MarketIntelligency.EventManager.Models
+﻿namespace Zzaia.Finance.EventManager.Models
 {
     /// <summary>
     /// Strategy to use when publishing notifications

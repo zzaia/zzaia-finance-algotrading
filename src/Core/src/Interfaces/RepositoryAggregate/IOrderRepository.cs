@@ -1,8 +1,8 @@
-using MarketIntelligency.Core.Models.MarketAgregate;
+using Zzaia.Finance.Core.Models.MarketAgregate;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Core.Interfaces.RepositoryAggregate
+namespace Zzaia.Finance.Core.Interfaces.RepositoryAggregate
 {
     public interface IOrderRepository : IRepository<OHLCV>
     {

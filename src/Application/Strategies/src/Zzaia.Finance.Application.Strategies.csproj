@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\EventManager\src\Zzaia.Finance.EventManager.csproj" />
+    <ProjectReference Include="..\..\..\Web\Grpc\src\Zzaia.Finance.Web.Grpc.csproj" />
+  </ItemGroup>
+
+</Project>

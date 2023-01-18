@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MarketIntelligency.Core.Models.EnumerationAggregate
+namespace Zzaia.Finance.Core.Models.EnumerationAggregate
 {
     /*  ========================================================================================================
         System Default TimeFrames

@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Connector\src\Zzaia.Finance.Connector.csproj" />
+    <ProjectReference Include="..\..\..\..\Core\src\Zzaia.Finance.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\Web\Grpc\src\Zzaia.Finance.Web.Grpc.csproj" />
+  </ItemGroup>
+
+</Project>

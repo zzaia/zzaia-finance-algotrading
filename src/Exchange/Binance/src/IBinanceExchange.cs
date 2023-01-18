@@ -1,4 +1,4 @@
-﻿namespace MarketIntelligency.Exchange.Binance
+﻿namespace Zzaia.Finance.Exchange.Binance
 {
     public interface IBinanceExchange
     {

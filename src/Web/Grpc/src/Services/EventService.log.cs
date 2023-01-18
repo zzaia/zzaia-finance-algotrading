@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace MarketIntelligency.Web.Grpc.Services
+namespace Zzaia.Finance.Web.Grpc.Services
 {
     public partial class EventService
     {

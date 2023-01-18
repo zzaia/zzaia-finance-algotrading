@@ -1,8 +1,8 @@
-﻿using MarketIntelligency.WebSocket.Models;
+﻿using Zzaia.Finance.WebSocket.Models;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.WebSocket
+namespace Zzaia.Finance.WebSocket
 {
     public interface IWebSocketClient
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MarketIntelligency.Core.Models
+namespace Zzaia.Finance.Core.Models
 {
     public class ObjectResult<T> where T : class
     {

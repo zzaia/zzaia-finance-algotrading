@@ -1,4 +1,4 @@
-﻿using MarketIntelligency.EventManager.Models;
+﻿using Zzaia.Finance.EventManager.Models;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.EventManager
+namespace Zzaia.Finance.EventManager
 {
     public class CustomMediator : Mediator
     {

@@ -1,12 +1,12 @@
-﻿using MarketIntelligency.Core.Models.ExchangeAggregate;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Models.DTO;
+﻿using Zzaia.Finance.Core.Models.ExchangeAggregate;
+using Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Models.DTO;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Public
+namespace Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Public
 {
     public class PublicApiClient : ApiClientBase, IPublicApiClient
     {

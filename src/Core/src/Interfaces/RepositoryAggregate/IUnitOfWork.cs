@@ -1,7 +1,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Core.Interfaces.RepositoryAggregate
+namespace Zzaia.Finance.Core.Interfaces.RepositoryAggregate
 {
     public interface IUnitOfWork : IDisposable
     {

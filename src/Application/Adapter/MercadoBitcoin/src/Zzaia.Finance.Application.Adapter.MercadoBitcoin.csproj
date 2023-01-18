@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <UserSecretsId>8236cc82-0f44-4771-90a4-6ba673907b42</UserSecretsId>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.42.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Connector\src\Zzaia.Finance.Connector.csproj" />
+    <ProjectReference Include="..\..\..\..\Core\src\Zzaia.Finance.Core.csproj" />
+    <ProjectReference Include="..\..\..\..\EventManager\src\Zzaia.Finance.EventManager.csproj" />
+    <ProjectReference Include="..\..\..\..\Web\Grpc\src\Zzaia.Finance.Web.Grpc.csproj" />
+  </ItemGroup>
+
+</Project>

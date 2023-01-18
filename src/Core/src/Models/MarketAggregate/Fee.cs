@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MarketIntelligency.Core.Models.MarketAgregate
+namespace Zzaia.Finance.Core.Models.MarketAgregate
 {
     public class Fee
     {

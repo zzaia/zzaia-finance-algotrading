@@ -1,4 +1,4 @@
-﻿namespace MarketIntelligency.Core.Models.ExchangeAggregate
+﻿namespace Zzaia.Finance.Core.Models.ExchangeAggregate
 {
     public class RequiredCredentials
     {

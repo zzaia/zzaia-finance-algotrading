@@ -1,11 +1,11 @@
-using MarketIntelligency.Connector;
-using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
-using MarketIntelligency.Core.Models.EnumerationAggregate;
-using MarketIntelligency.Core.Models.OrderBookAggregate;
-using MarketIntelligency.EventManager;
-using MarketIntelligency.EventManager.Models;
-using MarketIntelligency.Exchange.Ftx;
-using MarketIntelligency.Web.Grpc;
+using Zzaia.Finance.Connector;
+using Zzaia.Finance.Core.Interfaces.ExchangeAggregate;
+using Zzaia.Finance.Core.Models.EnumerationAggregate;
+using Zzaia.Finance.Core.Models.OrderBookAggregate;
+using Zzaia.Finance.EventManager;
+using Zzaia.Finance.EventManager.Models;
+using Zzaia.Finance.Exchange.Ftx;
+using Zzaia.Finance.Web.Grpc;
 using Microsoft.Extensions.Logging.Console;
 
 var builder = WebApplication.CreateBuilder(args);

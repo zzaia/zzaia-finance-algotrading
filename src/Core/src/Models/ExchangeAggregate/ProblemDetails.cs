@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace MarketIntelligency.Core.Models.ExchangeAggregate
+namespace Zzaia.Finance.Core.Models.ExchangeAggregate
 {
     /// <summary>
     /// A machine-readable format for specifying errors in HTTP API responses based on

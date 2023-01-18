@@ -1,6 +1,6 @@
-﻿using MarketIntelligency.Core.Models.EnumerationAggregate;
+﻿using Zzaia.Finance.Core.Models.EnumerationAggregate;
 
-namespace MarketIntelligency.Core.Interfaces.ExchangeAggregate
+namespace Zzaia.Finance.Core.Interfaces.ExchangeAggregate
 {
     public interface IExchangeSelector
     {

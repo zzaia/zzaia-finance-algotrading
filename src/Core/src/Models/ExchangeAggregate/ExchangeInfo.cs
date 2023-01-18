@@ -1,11 +1,11 @@
-using MarketIntelligency.Core.Models.EnumerationAggregate;
-using MarketIntelligency.Core.Models.MarketAgregate;
+using Zzaia.Finance.Core.Models.EnumerationAggregate;
+using Zzaia.Finance.Core.Models.MarketAgregate;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 
-namespace MarketIntelligency.Core.Models.ExchangeAggregate
+namespace Zzaia.Finance.Core.Models.ExchangeAggregate
 {
     public class ExchangeInfo
     {

@@ -2,13 +2,13 @@
 //using Grpc.Core;
 //using Grpc.Core.Testing;
 //using Grpc.Net.Client;
-//using MarketIntelligency.Web.Grpc.Protos;
+//using Zzaia.Finance.Web.Grpc.Protos;
 //using Moq;
 //using System.Threading;
 //using System.Threading.Tasks;
 //using Xunit;
 
-//namespace MarketIntelligency.Web.Grpc.Test
+//namespace Zzaia.Finance.Web.Grpc.Test
 //{
 //    public class ControlGrpcShould
 //    {

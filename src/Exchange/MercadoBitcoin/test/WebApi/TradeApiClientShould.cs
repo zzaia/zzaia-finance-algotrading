@@ -1,13 +1,13 @@
-﻿using MarketIntelligency.Application.Adapter.MercadoBitcoin;
-using MarketIntelligency.Core.Models.ExchangeAggregate;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Trade;
+﻿using Zzaia.Finance.Application.Adapter.MercadoBitcoin;
+using Zzaia.Finance.Core.Models.ExchangeAggregate;
+using Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Trade;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Net.Http;
 using System.Threading;
 using Xunit;
 
-namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Test
+namespace Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Test
 {
     /// <summary>
     /// ## Instructions for the test ## 

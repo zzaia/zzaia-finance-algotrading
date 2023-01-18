@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace MarketIntelligency.Exchange.MercadoBitcoin
+namespace Zzaia.Finance.Exchange.MercadoBitcoin
 {
     public partial class MercadoBitcoinExchange
     {

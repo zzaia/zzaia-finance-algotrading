@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 
-namespace MarketIntelligency.Application.Adapter.MercadoBitcoin
+namespace Zzaia.Finance.Application.Adapter.MercadoBitcoin
 {
     public class Program
     {

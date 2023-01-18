@@ -1,8 +1,8 @@
-﻿using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Private;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Public;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Trade;
+﻿using Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Private;
+using Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Public;
+using Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Trade;
 
-namespace MarketIntelligency.Exchange.MercadoBitcoin
+namespace Zzaia.Finance.Exchange.MercadoBitcoin
 {
     public interface IMercadoBitcoinExchange
     {

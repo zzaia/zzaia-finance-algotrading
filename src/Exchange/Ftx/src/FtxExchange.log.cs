@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace MarketIntelligency.Exchange.Ftx
+namespace Zzaia.Finance.Exchange.Ftx
 {
     public partial class FtxExchange
     {

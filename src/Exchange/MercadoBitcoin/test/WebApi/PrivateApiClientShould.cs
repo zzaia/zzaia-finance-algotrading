@@ -1,7 +1,7 @@
-﻿using MarketIntelligency.Application.Adapter.MercadoBitcoin;
-using MarketIntelligency.Core.Models.ExchangeAggregate;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Models;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Private;
+﻿using Zzaia.Finance.Application.Adapter.MercadoBitcoin;
+using Zzaia.Finance.Core.Models.ExchangeAggregate;
+using Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Models;
+using Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Private;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Linq;
@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Threading;
 using Xunit;
 
-namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Test
+namespace Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Test
 {
     public class PrivateApiClientShould
     {

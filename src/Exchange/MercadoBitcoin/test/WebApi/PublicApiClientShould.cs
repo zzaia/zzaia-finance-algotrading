@@ -1,14 +1,14 @@
-using MarketIntelligency.Core.Models.EnumerationAggregate;
-using MarketIntelligency.Core.Models.MarketAgregate;
-using MarketIntelligency.Core.Utils;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Public;
+using Zzaia.Finance.Core.Models.EnumerationAggregate;
+using Zzaia.Finance.Core.Models.MarketAgregate;
+using Zzaia.Finance.Core.Utils;
+using Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Public;
 using System;
 using System.Globalization;
 using System.Net.Http;
 using System.Threading;
 using Xunit;
 
-namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Test
+namespace Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Test
 {
     public class PublicApiClientShould
     {

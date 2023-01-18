@@ -1,11 +1,11 @@
-using MarketIntelligency.Connector;
-using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
-using MarketIntelligency.Core.Models.EnumerationAggregate;
-using MarketIntelligency.Core.Models.OrderBookAggregate;
-using MarketIntelligency.EventManager;
-using MarketIntelligency.EventManager.Models;
-using MarketIntelligency.Exchange.MercadoBitcoin;
-using MarketIntelligency.Web.Grpc;
+using Zzaia.Finance.Connector;
+using Zzaia.Finance.Core.Interfaces.ExchangeAggregate;
+using Zzaia.Finance.Core.Models.EnumerationAggregate;
+using Zzaia.Finance.Core.Models.OrderBookAggregate;
+using Zzaia.Finance.EventManager;
+using Zzaia.Finance.EventManager.Models;
+using Zzaia.Finance.Exchange.MercadoBitcoin;
+using Zzaia.Finance.Web.Grpc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +14,7 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 
-namespace MarketIntelligency.Application.Adapter.MercadoBitcoin
+namespace Zzaia.Finance.Application.Adapter.MercadoBitcoin
 {
     public class Startup
     {

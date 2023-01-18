@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Core.Models
+namespace Zzaia.Finance.Core.Models
 {
     public static class CancellationTokenExtensions
     {

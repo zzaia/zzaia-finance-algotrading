@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Models.DTO
+namespace Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Models.DTO
 {
     public class OperationsDTO
     {

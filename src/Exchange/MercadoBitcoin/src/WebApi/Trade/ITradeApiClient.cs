@@ -1,10 +1,10 @@
-﻿using MarketIntelligency.Core.Models.ExchangeAggregate;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Models;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Models.DTO;
+﻿using Zzaia.Finance.Core.Models.ExchangeAggregate;
+using Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Models;
+using Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Models.DTO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Trade
+namespace Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Trade
 {
     public interface ITradeApiClient
     {

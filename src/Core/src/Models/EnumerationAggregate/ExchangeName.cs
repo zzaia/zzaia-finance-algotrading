@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace MarketIntelligency.Core.Models.EnumerationAggregate
+namespace Zzaia.Finance.Core.Models.EnumerationAggregate
 {
     /*========================================================================================================
         Supported Exchanges by Name

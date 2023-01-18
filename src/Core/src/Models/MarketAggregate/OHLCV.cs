@@ -1,7 +1,7 @@
-﻿using MarketIntelligency.Core.Models.EnumerationAggregate;
+﻿using Zzaia.Finance.Core.Models.EnumerationAggregate;
 using System;
 
-namespace MarketIntelligency.Core.Models.MarketAgregate
+namespace Zzaia.Finance.Core.Models.MarketAgregate
 {
     /// <summary>
     /// Represents a financial market candlestick.

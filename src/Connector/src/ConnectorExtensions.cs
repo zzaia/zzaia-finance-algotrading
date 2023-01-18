@@ -1,11 +1,11 @@
-﻿using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
-using MarketIntelligency.EventManager;
+﻿using Zzaia.Finance.Core.Interfaces.ExchangeAggregate;
+using Zzaia.Finance.EventManager;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace MarketIntelligency.Connector
+namespace Zzaia.Finance.Connector
 {
     /// <summary>
     /// Extension methods for the Exchange clients.

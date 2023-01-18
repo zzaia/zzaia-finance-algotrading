@@ -1,9 +1,9 @@
-﻿using MarketIntelligency.Core.Models.EnumerationAggregate;
-using MarketIntelligency.Core.Models.MarketAgregate;
+﻿using Zzaia.Finance.Core.Models.EnumerationAggregate;
+using Zzaia.Finance.Core.Models.MarketAgregate;
 using System;
 using System.Collections.Generic;
 
-namespace MarketIntelligency.Core.Models.OrderBookAggregate
+namespace Zzaia.Finance.Core.Models.OrderBookAggregate
 {
     /// <summary>
     /// Order book for market main asset, from OHLCV date time.

@@ -1,11 +1,11 @@
-﻿using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.OrderBookAggregate;
+﻿using Zzaia.Finance.Core.Models;
+using Zzaia.Finance.Core.Models.OrderBookAggregate;
 using System;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
 
-namespace MarketIntelligency.EventManager
+namespace Zzaia.Finance.EventManager
 {
     public class DataStreamSource : IDataStreamSource
     {

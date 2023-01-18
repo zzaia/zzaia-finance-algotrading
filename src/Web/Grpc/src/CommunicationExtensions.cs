@@ -1,9 +1,9 @@
-﻿using MarketIntelligency.Web.Grpc.Models;
-using MarketIntelligency.Web.Grpc.Protos;
+﻿using Zzaia.Finance.Web.Grpc.Models;
+using Zzaia.Finance.Web.Grpc.Protos;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace MarketIntelligency.Web.Grpc
+namespace Zzaia.Finance.Web.Grpc
 {
     public static class CommunicationExtensions
     {

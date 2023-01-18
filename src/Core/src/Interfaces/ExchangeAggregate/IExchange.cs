@@ -1,15 +1,15 @@
-﻿using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.ExchangeAggregate;
-using MarketIntelligency.Core.Models.MarketAgregate;
-using MarketIntelligency.Core.Models.OrderBookAggregate;
+﻿using Zzaia.Finance.Core.Models;
+using Zzaia.Finance.Core.Models.ExchangeAggregate;
+using Zzaia.Finance.Core.Models.MarketAgregate;
+using Zzaia.Finance.Core.Models.OrderBookAggregate;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Core.Interfaces.ExchangeAggregate
+namespace Zzaia.Finance.Core.Interfaces.ExchangeAggregate
 {
     /// <summary>
-    /// Describes all common public methods for all implemented exchanges under MarketIntelligency.Exchange namespace.
+    /// Describes all common public methods for all implemented exchanges under Zzaia.Finance.Exchange namespace.
     /// </summary>
     public interface IExchange
     {

@@ -1,9 +1,9 @@
-﻿using MarketIntelligency.Core.Models.EnumerationAggregate;
-using MarketIntelligency.Core.Models.MarketAgregate;
+﻿using Zzaia.Finance.Core.Models.EnumerationAggregate;
+using Zzaia.Finance.Core.Models.MarketAgregate;
 using System;
 using System.Collections.Generic;
 
-namespace MarketIntelligency.Connector
+namespace Zzaia.Finance.Connector
 {
     public class WebSocketConnectorOptions
     {

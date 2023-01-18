@@ -1,8 +1,8 @@
-﻿using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
-using MarketIntelligency.Core.Models.EnumerationAggregate;
-using MarketIntelligency.Core.Models.ExchangeAggregate;
-using MarketIntelligency.Core.Models.MarketAgregate;
-using MarketIntelligency.Core.Utils;
+﻿using Zzaia.Finance.Core.Interfaces.ExchangeAggregate;
+using Zzaia.Finance.Core.Models.EnumerationAggregate;
+using Zzaia.Finance.Core.Models.ExchangeAggregate;
+using Zzaia.Finance.Core.Models.MarketAgregate;
+using Zzaia.Finance.Core.Utils;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Logging;
@@ -13,7 +13,7 @@ using System.Net.Http;
 using System.Threading;
 using Xunit;
 
-namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Test
+namespace Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Test
 {
     public class MercadoBitcoinExchangeShould
     {

@@ -1,16 +1,16 @@
-using MarketIntelligency.Application.Strategies.Arbitrage;
-using MarketIntelligency.Application.Strategies.MarketMaker;
-using MarketIntelligency.EventManager;
-using MarketIntelligency.EventManager.Models;
-using MarketIntelligency.Web.Grpc;
-using MarketIntelligency.Web.Grpc.Services;
+using Zzaia.Finance.Application.Strategies.Arbitrage;
+using Zzaia.Finance.Application.Strategies.MarketMaker;
+using Zzaia.Finance.EventManager;
+using Zzaia.Finance.EventManager.Models;
+using Zzaia.Finance.Web.Grpc;
+using Zzaia.Finance.Web.Grpc.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace MarketIntelligency.Application.Strategies
+namespace Zzaia.Finance.Application.Strategies
 {
     public class Startup
     {

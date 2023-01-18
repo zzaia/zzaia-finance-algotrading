@@ -1,4 +1,4 @@
-﻿namespace MarketIntelligency.EventManager.Models
+﻿namespace Zzaia.Finance.EventManager.Models
 {
     public class EventManagerOptions
     {

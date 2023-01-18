@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>", Scope = "member", Target = "~M:MarketIntelligency.Tests.Exchange.MercadoBitcoin.PrivateApiClientShould.PostSytemsMessages")]
+[assembly: SuppressMessage("Reliability", "CA2007:Consider calling ConfigureAwait on the awaited task", Justification = "<Pending>", Scope = "member", Target = "~M:Zzaia.Finance.Tests.Exchange.MercadoBitcoin.PrivateApiClientShould.PostSytemsMessages")]

@@ -1,9 +1,9 @@
-using MarketIntelligency.Core.Models.EnumerationAggregate;
+using Zzaia.Finance.Core.Models.EnumerationAggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace MarketIntelligency.Core.Models.MarketAgregate
+namespace Zzaia.Finance.Core.Models.MarketAgregate
 {
     public class Market
     {

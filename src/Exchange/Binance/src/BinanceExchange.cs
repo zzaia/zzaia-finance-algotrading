@@ -1,16 +1,16 @@
-﻿using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
-using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.EnumerationAggregate;
-using MarketIntelligency.Core.Models.ExchangeAggregate;
-using MarketIntelligency.Core.Models.MarketAgregate;
-using MarketIntelligency.Core.Models.OrderBookAggregate;
+﻿using Zzaia.Finance.Core.Interfaces.ExchangeAggregate;
+using Zzaia.Finance.Core.Models;
+using Zzaia.Finance.Core.Models.EnumerationAggregate;
+using Zzaia.Finance.Core.Models.ExchangeAggregate;
+using Zzaia.Finance.Core.Models.MarketAgregate;
+using Zzaia.Finance.Core.Models.OrderBookAggregate;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Exchange.Binance
+namespace Zzaia.Finance.Exchange.Binance
 {
     public class BinanceExchange : IBinanceExchange, IExchange
     {

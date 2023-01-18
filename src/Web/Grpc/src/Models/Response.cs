@@ -1,6 +1,6 @@
 ﻿using Grpc.Core;
 
-namespace MarketIntelligency.Web.Grpc.Models
+namespace Zzaia.Finance.Web.Grpc.Models
 {
     public class Response<T> where T: class
     {

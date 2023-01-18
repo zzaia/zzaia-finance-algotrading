@@ -1,4 +1,4 @@
-﻿namespace MarketIntelligency.Core.Models.EnumerationAggregate
+﻿namespace Zzaia.Finance.Core.Models.EnumerationAggregate
 {
     public class Country : Enumeration
     {

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using System;
 
-namespace MarketIntelligency.Core.Models
+namespace Zzaia.Finance.Core.Models
 {
     public class EventSource<T> : INotification where T : class
     {

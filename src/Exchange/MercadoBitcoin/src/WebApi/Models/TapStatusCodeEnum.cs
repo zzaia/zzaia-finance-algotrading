@@ -1,4 +1,4 @@
-﻿namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Models
+﻿namespace Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Models
 {
     public enum TapStatusCodeEnum
     {

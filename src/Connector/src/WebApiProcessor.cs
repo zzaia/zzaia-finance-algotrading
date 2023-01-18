@@ -1,10 +1,10 @@
-﻿using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
-using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.EnumerationAggregate;
-using MarketIntelligency.Core.Models.MarketAgregate;
-using MarketIntelligency.Core.Models.OrderBookAggregate;
-using MarketIntelligency.Core.Utils;
-using MarketIntelligency.EventManager;
+﻿using Zzaia.Finance.Core.Interfaces.ExchangeAggregate;
+using Zzaia.Finance.Core.Models;
+using Zzaia.Finance.Core.Models.EnumerationAggregate;
+using Zzaia.Finance.Core.Models.MarketAgregate;
+using Zzaia.Finance.Core.Models.OrderBookAggregate;
+using Zzaia.Finance.Core.Utils;
+using Zzaia.Finance.EventManager;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -15,7 +15,7 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Connector
+namespace Zzaia.Finance.Connector
 {
     public partial class WebApiProcessor : BackgroundService
     {

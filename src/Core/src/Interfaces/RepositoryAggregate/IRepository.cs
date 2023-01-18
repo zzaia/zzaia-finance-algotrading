@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Core.Interfaces.RepositoryAggregate
+namespace Zzaia.Finance.Core.Interfaces.RepositoryAggregate
 {
     public interface IRepository<TEntity> where TEntity : class
     {

@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Core\src\MarketIntelligency.Core.csproj" />
+    <ProjectReference Include="..\..\..\Core\src\Zzaia.Finance.Core.csproj" />
   </ItemGroup>
 
 </Project>

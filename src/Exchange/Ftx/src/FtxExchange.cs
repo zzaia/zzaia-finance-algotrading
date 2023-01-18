@@ -1,13 +1,13 @@
 ﻿using Force.Crc32;
-using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
-using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.EnumerationAggregate;
-using MarketIntelligency.Core.Models.ExchangeAggregate;
-using MarketIntelligency.Core.Models.MarketAgregate;
-using MarketIntelligency.Core.Models.OrderBookAggregate;
-using MarketIntelligency.Exchange.Ftx.WebSocket.Models;
-using MarketIntelligency.Exchange.Ftx.WebSockets.Models;
-using MarketIntelligency.WebSocket;
+using Zzaia.Finance.Core.Interfaces.ExchangeAggregate;
+using Zzaia.Finance.Core.Models;
+using Zzaia.Finance.Core.Models.EnumerationAggregate;
+using Zzaia.Finance.Core.Models.ExchangeAggregate;
+using Zzaia.Finance.Core.Models.MarketAgregate;
+using Zzaia.Finance.Core.Models.OrderBookAggregate;
+using Zzaia.Finance.Exchange.Ftx.WebSocket.Models;
+using Zzaia.Finance.Exchange.Ftx.WebSockets.Models;
+using Zzaia.Finance.WebSocket;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
 using MoreLinq;
@@ -22,7 +22,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Exchange.Ftx
+namespace Zzaia.Finance.Exchange.Ftx
 {
     public partial class FtxExchange : IFtxExchange, IExchange
     {

@@ -1,16 +1,16 @@
-﻿using MarketIntelligency.Core.Models.EnumerationAggregate;
-using MarketIntelligency.Core.Models.ExchangeAggregate;
-using MarketIntelligency.Exchange.Binance;
-using MarketIntelligency.Exchange.Ftx;
-using MarketIntelligency.Exchange.MercadoBitcoin;
-using MarketIntelligency.WebSocket;
+﻿using Zzaia.Finance.Core.Models.EnumerationAggregate;
+using Zzaia.Finance.Core.Models.ExchangeAggregate;
+using Zzaia.Finance.Exchange.Binance;
+using Zzaia.Finance.Exchange.Ftx;
+using Zzaia.Finance.Exchange.MercadoBitcoin;
+using Zzaia.Finance.WebSocket;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Net.Http;
 
-namespace MarketIntelligency.Connector
+namespace Zzaia.Finance.Connector
 {
     /// <summary>
     /// Extension methods for the Exchange clients.

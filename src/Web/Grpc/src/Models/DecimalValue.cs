@@ -1,4 +1,4 @@
-﻿namespace MarketIntelligency.Web.Grpc.Protos
+﻿namespace Zzaia.Finance.Web.Grpc.Protos
 {
     public partial class DecimalValue
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MarketIntelligency.DataEventManager
+namespace Zzaia.Finance.DataEventManager
 {
     public class NotificationProvider<T> : IObservable<T>
     {

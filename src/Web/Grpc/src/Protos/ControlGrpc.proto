@@ -2,7 +2,7 @@
 import "google/protobuf/empty.proto";
 import "Protos/ControlMetadataDTO.proto";
 
-option csharp_namespace = "MarketIntelligency.Web.Grpc.Protos";
+option csharp_namespace = "Zzaia.Finance.Web.Grpc.Protos";
 
 service ControlGrpc {
 	rpc Activate (ControlMetadataDTO) returns (google.protobuf.Empty);

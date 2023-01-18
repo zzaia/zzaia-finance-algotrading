@@ -1,13 +1,13 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using MarketIntelligency.Web.Grpc.Protos;
+using Zzaia.Finance.Web.Grpc.Protos;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Web.Grpc.Services
+namespace Zzaia.Finance.Web.Grpc.Services
 {
     public partial class ControlService : ControlGrpc.ControlGrpcBase
     {

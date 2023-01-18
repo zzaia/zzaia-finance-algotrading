@@ -41,47 +41,47 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MercadoBitcoin", "MercadoBi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Socket", "Socket", "{6B07C7AD-89D9-4D37-B9C8-80EBF5262947}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Application.Adapter.Binance", "src\Application\Adapter\Binance\src\MarketIntelligency.Application.Adapter.Binance.csproj", "{99CA3ACA-E406-4773-81B4-A90CF1D0FDF5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.Application.Adapter.Binance", "src\Application\Adapter\Binance\src\Zzaia.Finance.Application.Adapter.Binance.csproj", "{99CA3ACA-E406-4773-81B4-A90CF1D0FDF5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Application.Adapter.MercadoBitcoin", "src\Application\Adapter\MercadoBitcoin\src\MarketIntelligency.Application.Adapter.MercadoBitcoin.csproj", "{D66BE95D-08F4-4362-9E46-861879D24158}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.Application.Adapter.MercadoBitcoin", "src\Application\Adapter\MercadoBitcoin\src\Zzaia.Finance.Application.Adapter.MercadoBitcoin.csproj", "{D66BE95D-08F4-4362-9E46-861879D24158}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Application.DataEventManager", "src\Application\DataEventManager\src\MarketIntelligency.Application.DataEventManager.csproj", "{762B174A-4BC9-4FF4-8D58-21F8834A0D9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.Application.DataEventManager", "src\Application\DataEventManager\src\Zzaia.Finance.Application.DataEventManager.csproj", "{762B174A-4BC9-4FF4-8D58-21F8834A0D9C}"
 EndProject
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "MarketIntelligency.Application.MachineLearning", "src\Application\MachineLearning\src\MarketIntelligency.Application.MachineLearning.pyproj", "{E7314792-CBE9-462F-8E30-95D3EBA5E8A8}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Zzaia.Finance.Application.MachineLearning", "src\Application\MachineLearning\src\Zzaia.Finance.Application.MachineLearning.pyproj", "{E7314792-CBE9-462F-8E30-95D3EBA5E8A8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Application.OrderEventManager", "src\Application\OrderEventManager\src\MarketIntelligency.Application.OrderEventManager.csproj", "{04CB010C-BBF9-4AC2-B39C-491645F2FF22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.Application.OrderEventManager", "src\Application\OrderEventManager\src\Zzaia.Finance.Application.OrderEventManager.csproj", "{04CB010C-BBF9-4AC2-B39C-491645F2FF22}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Application.Strategies", "src\Application\Strategies\src\MarketIntelligency.Application.Strategies.csproj", "{EE6F47AE-95B3-4D5B-BA92-65B757E99EFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.Application.Strategies", "src\Application\Strategies\src\Zzaia.Finance.Application.Strategies.csproj", "{EE6F47AE-95B3-4D5B-BA92-65B757E99EFA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Connector", "src\Connector\src\MarketIntelligency.Connector.csproj", "{53E99B28-AFC9-424D-AC39-DFF30F2CCE67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.Connector", "src\Connector\src\Zzaia.Finance.Connector.csproj", "{53E99B28-AFC9-424D-AC39-DFF30F2CCE67}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Core", "src\Core\src\MarketIntelligency.Core.csproj", "{181AF946-58DF-47FB-AD4F-DD855FBC9D45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.Core", "src\Core\src\Zzaia.Finance.Core.csproj", "{181AF946-58DF-47FB-AD4F-DD855FBC9D45}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.EventManager", "src\EventManager\src\MarketIntelligency.EventManager.csproj", "{83CB4E5B-4237-46FF-A0D6-5520C74325F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.EventManager", "src\EventManager\src\Zzaia.Finance.EventManager.csproj", "{83CB4E5B-4237-46FF-A0D6-5520C74325F0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Exchange.Binance", "src\Exchange\Binance\src\MarketIntelligency.Exchange.Binance.csproj", "{C9C14D5A-328A-404B-AB0D-FCF4BEAAA85C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.Exchange.Binance", "src\Exchange\Binance\src\Zzaia.Finance.Exchange.Binance.csproj", "{C9C14D5A-328A-404B-AB0D-FCF4BEAAA85C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Exchange.Binance.Test", "src\Exchange\Binance\test\MarketIntelligency.Exchange.Binance.Test.csproj", "{800A8F5A-3AD0-4458-884F-4EF0F0C1CA3D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.Exchange.Binance.Test", "src\Exchange\Binance\test\Zzaia.Finance.Exchange.Binance.Test.csproj", "{800A8F5A-3AD0-4458-884F-4EF0F0C1CA3D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Exchange.Ftx", "src\Exchange\Ftx\src\MarketIntelligency.Exchange.Ftx.csproj", "{7C840CDB-7B89-45F0-AA7F-53BC89F8036C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.Exchange.Ftx", "src\Exchange\Ftx\src\Zzaia.Finance.Exchange.Ftx.csproj", "{7C840CDB-7B89-45F0-AA7F-53BC89F8036C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Exchange.Ftx.Test", "src\Exchange\Ftx\test\MarketIntelligency.Exchange.Ftx.Test.csproj", "{B40B82AA-3A40-4405-A1F2-FC388F86B042}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.Exchange.Ftx.Test", "src\Exchange\Ftx\test\Zzaia.Finance.Exchange.Ftx.Test.csproj", "{B40B82AA-3A40-4405-A1F2-FC388F86B042}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Exchange.MercadoBitcoin", "src\Exchange\MercadoBitcoin\src\MarketIntelligency.Exchange.MercadoBitcoin.csproj", "{4EA87134-29B0-40CA-A768-1CDB8B70B5ED}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.Exchange.MercadoBitcoin", "src\Exchange\MercadoBitcoin\src\Zzaia.Finance.Exchange.MercadoBitcoin.csproj", "{4EA87134-29B0-40CA-A768-1CDB8B70B5ED}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Exchange.MercadoBitcoin.Test", "src\Exchange\MercadoBitcoin\test\MarketIntelligency.Exchange.MercadoBitcoin.Test.csproj", "{2A88C3F0-4D7D-4B74-B8F6-F5613B8F4ADB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.Exchange.MercadoBitcoin.Test", "src\Exchange\MercadoBitcoin\test\Zzaia.Finance.Exchange.MercadoBitcoin.Test.csproj", "{2A88C3F0-4D7D-4B74-B8F6-F5613B8F4ADB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.WebSocket", "src\Web\Socket\src\MarketIntelligency.WebSocket.csproj", "{5099F9C4-C0C9-4368-A36A-AFAF93AC3A5D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.WebSocket", "src\Web\Socket\src\Zzaia.Finance.WebSocket.csproj", "{5099F9C4-C0C9-4368-A36A-AFAF93AC3A5D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.WebSocket.Test", "src\Web\Socket\test\MarketIntelligency.WebSocket.Test.csproj", "{7A346AEF-03C6-4988-9C74-45CCEB622FA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.WebSocket.Test", "src\Web\Socket\test\Zzaia.Finance.WebSocket.Test.csproj", "{7A346AEF-03C6-4988-9C74-45CCEB622FA0}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Grpc", "Grpc", "{E838702E-D8C8-442C-8FCA-74381F01336B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Web.Grpc", "src\Web\Grpc\src\MarketIntelligency.Web.Grpc.csproj", "{E3B2E38C-160F-48B4-AF36-E98693F321A4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.Web.Grpc", "src\Web\Grpc\src\Zzaia.Finance.Web.Grpc.csproj", "{E3B2E38C-160F-48B4-AF36-E98693F321A4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketIntelligency.Web.Grpc.Test", "src\Web\Grpc\test\MarketIntelligency.Web.Grpc.Test.csproj", "{09A04230-B95D-42CC-9A05-3B76B43D03AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.Web.Grpc.Test", "src\Web\Grpc\test\Zzaia.Finance.Web.Grpc.Test.csproj", "{09A04230-B95D-42CC-9A05-3B76B43D03AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketIntelligency.Application.Adapter.Ftx", "src\Application\Adapter\Ftx\src\MarketIntelligency.Application.Adapter.Ftx.csproj", "{80D04002-8587-4488-B6C5-984D5A464923}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Zzaia.Finance.Application.Adapter.Ftx", "src\Application\Adapter\Ftx\src\Zzaia.Finance.Application.Adapter.Ftx.csproj", "{80D04002-8587-4488-B6C5-984D5A464923}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

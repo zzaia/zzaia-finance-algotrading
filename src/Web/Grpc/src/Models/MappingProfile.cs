@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
 using Google.Protobuf.WellKnownTypes;
-using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.EnumerationAggregate;
-using MarketIntelligency.Core.Models.MarketAgregate;
-using MarketIntelligency.Core.Models.OrderBookAggregate;
-using MarketIntelligency.Web.Grpc.Protos;
+using Zzaia.Finance.Core.Models;
+using Zzaia.Finance.Core.Models.EnumerationAggregate;
+using Zzaia.Finance.Core.Models.MarketAgregate;
+using Zzaia.Finance.Core.Models.OrderBookAggregate;
+using Zzaia.Finance.Web.Grpc.Protos;
 
-namespace MarketIntelligency.Web.Grpc.Models
+namespace Zzaia.Finance.Web.Grpc.Models
 {
     public class MappingProfile : Profile
     {

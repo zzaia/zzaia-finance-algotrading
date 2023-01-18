@@ -1,8 +1,8 @@
-﻿using MarketIntelligency.Core.Models.EnumerationAggregate;
+﻿using Zzaia.Finance.Core.Models.EnumerationAggregate;
 using System;
 using System.Collections.Generic;
 
-namespace MarketIntelligency.Connector
+namespace Zzaia.Finance.Connector
 {
     public class WebApiConnectorOptions
     {

@@ -1,8 +1,8 @@
-﻿using MarketIntelligency.Core.Models.ExchangeAggregate;
-using MarketIntelligency.Core.Utils;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Models;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Models.DTO;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Private;
+﻿using Zzaia.Finance.Core.Models.ExchangeAggregate;
+using Zzaia.Finance.Core.Utils;
+using Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Models;
+using Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Models.DTO;
+using Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Private;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,7 +11,7 @@ using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Private
+namespace Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Private
 {
     public class PrivateApiClient : ApiClientBase, IPrivateApiClient
     {

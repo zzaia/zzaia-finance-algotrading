@@ -1,7 +1,7 @@
-﻿using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.OrderAgregate;
-using MarketIntelligency.Core.Models.OrderBookAggregate;
-using MarketIntelligency.EventManager;
+﻿using Zzaia.Finance.Core.Models;
+using Zzaia.Finance.Core.Models.OrderAgregate;
+using Zzaia.Finance.Core.Models.OrderBookAggregate;
+using Zzaia.Finance.EventManager;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +10,7 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Application.Strategies.Arbitrage
+namespace Zzaia.Finance.Application.Strategies.Arbitrage
 {
     public class ArbitrageHandler : BackgroundService
     {

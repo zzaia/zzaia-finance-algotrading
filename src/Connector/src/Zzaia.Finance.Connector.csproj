@@ -13,10 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\EventManager\src\MarketIntelligency.EventManager.csproj" />
-    <ProjectReference Include="..\..\Exchange\Binance\src\MarketIntelligency.Exchange.Binance.csproj" />
-    <ProjectReference Include="..\..\Exchange\MercadoBitcoin\src\MarketIntelligency.Exchange.MercadoBitcoin.csproj" />
-    <ProjectReference Include="..\..\Exchange\Ftx\src\MarketIntelligency.Exchange.Ftx.csproj" />
+    <ProjectReference Include="..\..\EventManager\src\Zzaia.Finance.EventManager.csproj" />
+    <ProjectReference Include="..\..\Exchange\Binance\src\Zzaia.Finance.Exchange.Binance.csproj" />
+    <ProjectReference Include="..\..\Exchange\MercadoBitcoin\src\Zzaia.Finance.Exchange.MercadoBitcoin.csproj" />
+    <ProjectReference Include="..\..\Exchange\Ftx\src\Zzaia.Finance.Exchange.Ftx.csproj" />
   </ItemGroup>
 
 </Project>

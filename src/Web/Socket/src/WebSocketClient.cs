@@ -1,11 +1,11 @@
-﻿using MarketIntelligency.WebSocket.Models;
+﻿using Zzaia.Finance.WebSocket.Models;
 using System;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.WebSocket
+namespace Zzaia.Finance.WebSocket
 {
     public class WebSocketClient : IDisposable, IWebSocketClient
     {

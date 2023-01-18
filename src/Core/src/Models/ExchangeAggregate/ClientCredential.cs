@@ -1,7 +1,7 @@
 ﻿
-using MarketIntelligency.Core.Models.EnumerationAggregate;
+using Zzaia.Finance.Core.Models.EnumerationAggregate;
 
-namespace MarketIntelligency.Core.Models.ExchangeAggregate
+namespace Zzaia.Finance.Core.Models.ExchangeAggregate
 {
     public class ClientCredential
     {

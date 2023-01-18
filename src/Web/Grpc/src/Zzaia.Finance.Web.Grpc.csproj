@@ -27,7 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\..\..\Connector\src\MarketIntelligency.Connector.csproj" />
+		<ProjectReference Include="..\..\..\Connector\src\Zzaia.Finance.Connector.csproj" />
 	</ItemGroup>
 
 </Project>

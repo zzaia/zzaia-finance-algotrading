@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.OrderBookAggregate;
-using MarketIntelligency.EventManager;
-using MarketIntelligency.Web.Grpc.Protos;
+using Zzaia.Finance.Core.Models;
+using Zzaia.Finance.Core.Models.OrderBookAggregate;
+using Zzaia.Finance.EventManager;
+using Zzaia.Finance.Web.Grpc.Protos;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +10,7 @@ using System.Reactive.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Web.Grpc
+namespace Zzaia.Finance.Web.Grpc
 {
     public class EventCommunicationHandler : BackgroundService
     {

@@ -1,16 +1,16 @@
 ﻿using AutoMapper;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.OrderBookAggregate;
-using MarketIntelligency.EventManager;
-using MarketIntelligency.Web.Grpc.Protos;
+using Zzaia.Finance.Core.Models;
+using Zzaia.Finance.Core.Models.OrderBookAggregate;
+using Zzaia.Finance.EventManager;
+using Zzaia.Finance.Web.Grpc.Protos;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Web.Grpc.Services
+namespace Zzaia.Finance.Web.Grpc.Services
 {
     public partial class EventService : EventGrpc.EventGrpcBase
     {

@@ -1,12 +1,12 @@
-﻿using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.OrderBookAggregate;
+﻿using Zzaia.Finance.Core.Models;
+using Zzaia.Finance.Core.Models.OrderBookAggregate;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.EventManager
+namespace Zzaia.Finance.EventManager
 {
     public class EventHubHandler : INotificationHandler<INotification>
     {

@@ -1,13 +1,13 @@
-﻿using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
-using MarketIntelligency.Core.Models;
-using MarketIntelligency.Core.Models.EnumerationAggregate;
-using MarketIntelligency.Core.Models.ExchangeAggregate;
-using MarketIntelligency.Core.Models.MarketAgregate;
-using MarketIntelligency.Core.Models.OrderBookAggregate;
-using MarketIntelligency.Core.Utils;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Private;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Public;
-using MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Trade;
+﻿using Zzaia.Finance.Core.Interfaces.ExchangeAggregate;
+using Zzaia.Finance.Core.Models;
+using Zzaia.Finance.Core.Models.EnumerationAggregate;
+using Zzaia.Finance.Core.Models.ExchangeAggregate;
+using Zzaia.Finance.Core.Models.MarketAgregate;
+using Zzaia.Finance.Core.Models.OrderBookAggregate;
+using Zzaia.Finance.Core.Utils;
+using Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Private;
+using Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Public;
+using Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Trade;
 using Microsoft.ApplicationInsights;
 using Microsoft.Extensions.Logging;
 using System;
@@ -19,7 +19,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Exchange.MercadoBitcoin
+namespace Zzaia.Finance.Exchange.MercadoBitcoin
 {
     public partial class MercadoBitcoinExchange : IMercadoBitcoinExchange, IExchange
     {

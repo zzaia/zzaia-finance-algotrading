@@ -1,7 +1,7 @@
 ﻿using System.Net.WebSockets;
 using System.Text;
 
-namespace MarketIntelligency.WebSocket.Models
+namespace Zzaia.Finance.WebSocket.Models
 {
     public class WebSocketClientResponse
     {

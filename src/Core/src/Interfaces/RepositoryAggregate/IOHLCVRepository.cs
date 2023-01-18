@@ -1,10 +1,10 @@
-using MarketIntelligency.Core.Models.EnumerationAggregate;
-using MarketIntelligency.Core.Models.MarketAgregate;
+using Zzaia.Finance.Core.Models.EnumerationAggregate;
+using Zzaia.Finance.Core.Models.MarketAgregate;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Core.Interfaces.RepositoryAggregate
+namespace Zzaia.Finance.Core.Interfaces.RepositoryAggregate
 {
     public interface IOHLCVRepository : IRepository<OHLCV>
     {

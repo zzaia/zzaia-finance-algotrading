@@ -2,7 +2,7 @@
 using System;
 
 
-namespace MarketIntelligency.Core.Models
+namespace Zzaia.Finance.Core.Models
 {
     /// <summary>
     /// A base error class in conformance to RFC 7807 about

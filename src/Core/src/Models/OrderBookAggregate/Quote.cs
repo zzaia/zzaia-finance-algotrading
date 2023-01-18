@@ -1,4 +1,4 @@
-﻿namespace MarketIntelligency.Core.Models.OrderBookAggregate
+﻿namespace Zzaia.Finance.Core.Models.OrderBookAggregate
 {
     public class Quote
     {

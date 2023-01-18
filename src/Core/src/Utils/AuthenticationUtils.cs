@@ -2,7 +2,7 @@
 using System.Security.Cryptography;
 using System.Text;
 
-namespace MarketIntelligency.Core.Utils
+namespace Zzaia.Finance.Core.Utils
 {
     public static class AuthenticationUtils
     {

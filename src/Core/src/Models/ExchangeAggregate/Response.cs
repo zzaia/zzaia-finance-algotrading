@@ -1,7 +1,7 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.Reflection;
 
-namespace MarketIntelligency.Core.Models.ExchangeAggregate
+namespace Zzaia.Finance.Core.Models.ExchangeAggregate
 {
     public class Response<T> where T : class
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MarketIntelligency.DataEventManager
+namespace Zzaia.Finance.DataEventManager
 {
     public class NotificationSubscriber<T> : IObserver<T>
     {

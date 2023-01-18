@@ -1,6 +1,6 @@
 ﻿syntax = "proto3";
 
-option csharp_namespace = "MarketIntelligency.Web.Grpc.Protos";
+option csharp_namespace = "Zzaia.Finance.Web.Grpc.Protos";
 
 // Example: 12345.6789 -> { units = 12345, nanos = 678900000 }
 message DecimalValue {

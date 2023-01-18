@@ -1,10 +1,10 @@
-﻿using MarketIntelligency.EventManager.Models;
+﻿using Zzaia.Finance.EventManager.Models;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Reflection;
 
-namespace MarketIntelligency.EventManager
+namespace Zzaia.Finance.EventManager
 {
     /// <summary>
     /// Extension methods for the Data Event Manager.

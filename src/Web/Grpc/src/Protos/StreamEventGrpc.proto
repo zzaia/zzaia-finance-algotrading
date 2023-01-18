@@ -2,7 +2,7 @@
 import "Protos/EventSourceDTO.proto";
 import "google/protobuf/empty.proto";
 
-option csharp_namespace = "MarketIntelligency.Web.Grpc.Protos";
+option csharp_namespace = "Zzaia.Finance.Web.Grpc.Protos";
 
 service StreamEventGrpc {
 	rpc RunStreamEvent (stream EventSourceDTO) returns (google.protobuf.Empty);

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MarketIntelligency.Application.Adapter.Ftx.Pages
+namespace Zzaia.Finance.Application.Adapter.Ftx.Pages
 {
     public class PrivacyModel : PageModel
     {

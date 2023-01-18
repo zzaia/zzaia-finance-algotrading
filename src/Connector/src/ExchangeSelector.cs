@@ -1,9 +1,9 @@
-﻿using MarketIntelligency.Core.Interfaces.ExchangeAggregate;
-using MarketIntelligency.Core.Models.EnumerationAggregate;
+﻿using Zzaia.Finance.Core.Interfaces.ExchangeAggregate;
+using Zzaia.Finance.Core.Models.EnumerationAggregate;
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace MarketIntelligency.Connector
+namespace Zzaia.Finance.Connector
 {
     public partial class ExchangeSelector : IExchangeSelector
     {

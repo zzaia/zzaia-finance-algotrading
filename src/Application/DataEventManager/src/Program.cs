@@ -3,7 +3,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 
-namespace MarketIntelligency.Application.DataEventManager
+namespace Zzaia.Finance.Application.DataEventManager
 {
     public class Program
     {

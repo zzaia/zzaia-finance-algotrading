@@ -2,7 +2,7 @@
 import "Protos/DecimalValue.proto";
 import "google/protobuf/timestamp.proto";
 
-option csharp_namespace = "MarketIntelligency.Web.Grpc.Protos";
+option csharp_namespace = "Zzaia.Finance.Web.Grpc.Protos";
 
 message OrderBookDTO{
 	string ExchangeName = 1;

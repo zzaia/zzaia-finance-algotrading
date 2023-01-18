@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 
-namespace MarketIntelligency.Connector
+namespace Zzaia.Finance.Connector
 {
     public partial class WebApiProcessor
     {

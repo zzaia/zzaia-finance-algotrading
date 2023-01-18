@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.Json.Serialization;
 
-namespace MarketIntelligency.Exchange.MercadoBitcoin.WebApi.Models
+namespace Zzaia.Finance.Exchange.MercadoBitcoin.WebApi.Models
 {
     /// <summary>
     /// Data Transfer Object to be used in json to model serialization

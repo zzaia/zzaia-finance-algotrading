@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MarketIntelligency.Application.AS0001
+namespace Zzaia.Finance.Application.AS0001
 {
     public class Startup
     {

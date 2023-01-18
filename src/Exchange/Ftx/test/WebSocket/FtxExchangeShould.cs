@@ -1,8 +1,8 @@
-using MarketIntelligency.Core.Models.ExchangeAggregate;
-using MarketIntelligency.Core.Models.OrderBookAggregate;
-using MarketIntelligency.Exchange.Ftx.WebSocket.Models;
-using MarketIntelligency.WebSocket;
-using MarketIntelligency.WebSocket.Models;
+using Zzaia.Finance.Core.Models.ExchangeAggregate;
+using Zzaia.Finance.Core.Models.OrderBookAggregate;
+using Zzaia.Finance.Exchange.Ftx.WebSocket.Models;
+using Zzaia.Finance.WebSocket;
+using Zzaia.Finance.WebSocket.Models;
 using Microsoft.ApplicationInsights;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.Extensions.Logging;
@@ -17,7 +17,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace MarketIntelligency.Exchange.Ftx.Test
+namespace Zzaia.Finance.Exchange.Ftx.Test
 {
     public class FtxExchangeShould
     {

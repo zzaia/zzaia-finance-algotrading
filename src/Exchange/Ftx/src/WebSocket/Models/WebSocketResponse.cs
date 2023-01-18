@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MarketIntelligency.Exchange.Ftx.WebSocket.Models
+namespace Zzaia.Finance.Exchange.Ftx.WebSocket.Models
 {
     public class WebSocketResponse
     {

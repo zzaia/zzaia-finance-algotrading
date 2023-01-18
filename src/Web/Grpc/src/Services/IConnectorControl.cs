@@ -1,4 +1,4 @@
-﻿namespace MarketIntelligency.Web.Grpc.Services
+﻿namespace Zzaia.Finance.Web.Grpc.Services
 {
     public interface IConnectorControl
     {

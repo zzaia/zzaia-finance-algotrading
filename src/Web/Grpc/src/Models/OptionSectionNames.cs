@@ -1,4 +1,4 @@
-﻿namespace MarketIntelligency.Web.Grpc.Models
+﻿namespace Zzaia.Finance.Web.Grpc.Models
 {
     public class OptionSectionNames
     {

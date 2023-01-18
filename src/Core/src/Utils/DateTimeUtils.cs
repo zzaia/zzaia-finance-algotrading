@@ -1,6 +1,6 @@
 using System;
 
-namespace MarketIntelligency.Core.Utils
+namespace Zzaia.Finance.Core.Utils
 {
     /// <summary>
     /// DateTime utils to support high resolution
