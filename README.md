@@ -1,6 +1,6 @@
 ﻿# Description
 
-This codebase was made in my free time as a side project in the field of Algo trading, 
+This codebase was made in my free time as a side project in the field of algorithmic trading, 
 the idea behind this was to try to develop a functional system able to have one or more strategies running in crypto markets, 
 and stress out some ideas of an ideal architectural system for that. As the project showed more complex and work-intensive I started 
 using it to develop some technics that were not developed in my regular job like Rest API polling and WebSocket connection with crypto exchanges and 
